@@ -99,11 +99,12 @@ jacocoTestReport {
     }
 
     reports {
-        xml.enabled false
+        xml.enabled true
         csv.enabled false
         html.enabled true
 
-        html.destination file("${buildDir}/jacoco/test_report.html")
+        html.destination file("${buildDir}/jacoco/test_report")
+        xml.destination file("${buildDir}/jacoco/test_report/test_report.xml")
     }
 }
 

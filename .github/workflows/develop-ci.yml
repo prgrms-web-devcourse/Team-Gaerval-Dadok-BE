@@ -26,6 +26,16 @@ jobs:
           echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
           echo "${{secrets.APPLICATION_TEST}}" >> .src/test/resources/application-test.yml
 
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
 
@@ -45,19 +55,9 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.3
         with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/build/jacoco/test_report/test_report.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 0
+          min-coverage-overall: 50
           min-coverage-changed-files: 0
           update-comment: true
-          title: "코드 커버리지"
-      - name: move JaCoCo report
-        run: |
-          echo "publishing jacoco report"
-          mkdir -p report
-          mv build/reports/jacoco/test/html/* report/
-      - name: Upload report
-        uses: actions/upload-artifact@v2
-        with:
-          name: jacoco-report
-          path: report
+          title: "Jacoco Test Coverage Reports"
