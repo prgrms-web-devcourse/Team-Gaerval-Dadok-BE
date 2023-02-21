@@ -1,0 +1,15 @@
+
+
+
+
+
+
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+
+  access-token-expiration-second : ${ACCESS_TOKEN_EXPIRE_SECONDS}
+
+  refresh-token-expiration-second : ${REFRESH_TOKEN_EXPIRE_SECONDS}
+
+  refresh-secret-key: ${REFRESH_TOKEN_SECRET_KEY}

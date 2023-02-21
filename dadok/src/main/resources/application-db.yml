@@ -1,0 +1,27 @@
+spring:
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: ${DRIVER_CLASS_NAME}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO}
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: ${HIBERNATE_DIALECT}
+        format_sql: ${HIBERNATE_FORMAT_SQL}
+        show-sql: ${HIBERNATE_SHOW_SQL}
+      hibernate.default_batch_fetch_size: ${HIBERNATE_DEFAULT_BATCH_FETCH_SIZE}
+    open-in-view: ${ENABLE_JPA_OPEN_IN_VIEW}
+    database: ${DATABASE_NAME}
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: ${ENABLE_P6SPY}
+
+
