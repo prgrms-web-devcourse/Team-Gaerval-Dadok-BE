@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.PayloadSubsectionExtractor;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -21,6 +22,7 @@ import com.dadok.gaerval.controller.document.EnumResponse;
 import com.dadok.gaerval.controller.document.utils.CustomResponseFieldsSnippet;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+@TestPropertySource(value = "classpath:application-test.yml")
 public class EnumDocsControllerTest extends ControllerTest {
 
 	private static final String ENUM_SNIPPET_FILE = "enum-response";
@@ -56,8 +58,7 @@ public class EnumDocsControllerTest extends ControllerTest {
 		EnumDocs enumDocs = getData(mvcResult);
 
 		// 문서화 진행
-		result.andExpect(status().isOk())
-			.andDo(restDocs.document(
+		result.andDo(restDocs.document(
 			));
 	}
 

@@ -77,6 +77,7 @@ dependencies {
 }
 
 jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
 
     def Qdomains = []
     for (qPattern in "**/QA".."**/QZ") {
@@ -86,11 +87,12 @@ jacocoTestReport {
     afterEvaluate {
 
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, excludes: [
+            fileTree(dir: it,
+                    exclude: [
                     "com/dadok/gaerval/global/*",
                     "**/request/*",
                     "**/response/*",
-                    "com.dadok.gaerval.DadokApplication"
+                    "com.dadok.gaerval.DadokApplication.class"
 
             ] + Qdomains) // 제외할 Qdomains 패턴 추가
         }))
@@ -127,7 +129,7 @@ jacocoTestCoverageVerification {
                     "com/dadok/gaerval/global/*",
                     "**/request/*",
                     "**/response/*",
-                    "com.dadok.gaerval.DadokApplication"
+                    "com.dadok.gaerval.DadokApplication.class"
             ] + Qdomains
         }
 
@@ -179,6 +181,18 @@ test {
     useJUnitPlatform()
     outputs.dir snippetsDir
     finalizedBy 'jacocoTestReport'
+
+    def Qdomains = []
+    for (qPattern in "*.QA".."*.QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
+    jacoco {
+        excludes += ["com/dadok/gaerval/global/*",
+                     "**/request/*",
+                     "**/response/*",
+                     "com.dadok.gaerval.DadokApplication.class"] + Qdomains
+    }
 }
 
 tasks.named('test') {

@@ -38,7 +38,9 @@ test.env
 
 
 ## test
-!**/test/resources/application-test.yml
+!**/src/test/resources/application-test.yml
+src/test/resources/application-test.yml
+src/test/**/*.yml
 
 ## AWS User-specific
 .idea/**/aws.xml
