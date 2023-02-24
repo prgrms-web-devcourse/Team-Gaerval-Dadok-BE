@@ -25,9 +25,13 @@ jobs:
         run: |
           echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
           echo "${{secrets.APPLICATION_TEST}}" >> ./src/test/resources/application-test.yml
-      - name: Gradle Wrap
-        run: gradle wrap
-        
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Setup Gradle permission
+        run: chmod +x ./gradlew
+
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -37,12 +41,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      - name: Setup Gradle permission
-        run: chmod +x ./gradlew
-
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
 
       - name: test with Gradle
         run: ./gradlew test
