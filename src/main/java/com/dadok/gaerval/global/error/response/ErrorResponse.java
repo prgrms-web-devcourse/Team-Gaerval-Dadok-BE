@@ -28,6 +28,10 @@ public record ErrorResponse(
 		}
 	}
 
+	public static ErrorResponse of(HttpStatus status, String message, String path) {
+		return new ErrorResponse(status.value(), message, LocalDateTime.now(), null, path);
+	}
+
 	public static ErrorResponse of(HttpStatus status, String message, String path,
 		List<FieldError> errors) {
 		return new ErrorResponse(status.value(), message, LocalDateTime.now(), errors, path);

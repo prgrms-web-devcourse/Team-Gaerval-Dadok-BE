@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AuthProvider implements EnumType {
 
-	N("naver"), K("kakao");
+	NAVER("naver"), KAKAO("kakao");
 
 	private final String registrationId;
 

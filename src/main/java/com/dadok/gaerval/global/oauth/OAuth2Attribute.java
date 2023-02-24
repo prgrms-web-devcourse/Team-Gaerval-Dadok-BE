@@ -52,7 +52,7 @@ public class OAuth2Attribute {
 			.picture((String)kakaoProfile.get("profile_image_url"))
 			.attributes(kakaoAccount)
 			.attributeKey(attributeKey)
-			.authProvider(AuthProvider.K)
+			.authProvider(AuthProvider.KAKAO)
 			.oauthId(attributes.get("id").toString())
 			.build();
 	}
@@ -67,7 +67,7 @@ public class OAuth2Attribute {
 			.picture((String) response.get("profile_image"))
 			.attributes(response)
 			.attributeKey(attributeKey)
-			.authProvider(AuthProvider.N)
+			.authProvider(AuthProvider.NAVER)
 			.oauthId(response.get("id").toString())
 			.build();
 	}

@@ -1,6 +1,17 @@
 package com.dadok.gaerval.global.error.exception;
 
-public class BusinessException extends RuntimeException{
+import com.dadok.gaerval.global.error.ErrorCode;
+
+import lombok.Getter;
+
+public class BusinessException extends RuntimeException {
+
+	@Getter
+	private ErrorCode errorCode;
+
+	public BusinessException(ErrorCode errorCode) {
+		this.errorCode = errorCode;
+	}
 
 	public BusinessException(String message) {
 		super(message);
@@ -9,4 +20,5 @@ public class BusinessException extends RuntimeException{
 	public BusinessException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
 }

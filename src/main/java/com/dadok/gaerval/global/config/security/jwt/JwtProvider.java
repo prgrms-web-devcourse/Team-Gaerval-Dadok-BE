@@ -1,5 +1,7 @@
 package com.dadok.gaerval.global.config.security.jwt;
 
+import static com.dadok.gaerval.global.error.ErrorCode.*;
+
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
@@ -59,7 +61,7 @@ public class JwtProvider {
 				 IllegalArgumentException e) {
 			//todo : 로깅 AOP
 			log.warn("error : {}", e);
-			throw e;
+			throw new JwtAuthenticationException(INVALID_ACCESS_TOKEN, e);
 		}
 	}
 

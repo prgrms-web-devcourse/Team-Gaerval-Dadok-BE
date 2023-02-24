@@ -69,7 +69,7 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		String accessToken = jwtService.createAccessToken(userPrincipal.getUserId(), userPrincipal.getAuthorities());
 		// String refreshToken = generateRefreshToken(user);
 		//todo : 리프레시 토큰 설계
-		response.setHeader(ACCESS_TOKEN_HEADER_NAME, ACCESS_TOKEN_BEARER + " " + accessToken);
+		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + accessToken);
 		try {
 			User user = userPrincipal.getUserEntity();
 			response.getWriter().write(

@@ -24,7 +24,7 @@ public class JwtService {
 
 	public static final String REFRESH_TOKEN_HEADER_NAME = "RefreshToken";
 
-	public static final String ACCESS_TOKEN_BEARER = "Bearer";
+	public static final String AUTHENTICATION_TYPE_BEARER = "Bearer";
 
 	private final JwtProvider jwtProvider;
 
