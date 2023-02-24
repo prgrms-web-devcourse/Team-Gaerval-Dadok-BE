@@ -28,12 +28,12 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+      
+      - name : ls -al
+        run: ls -al
 
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
-      
-      - name : Gradle Wrap
-        run: gradle wrap
       
       - name: Cache Gradle packages
         uses: actions/cache@v2
@@ -46,8 +46,9 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: test with Gradle
-        run: ./gradlew test
-
+#         run: ./gradlew test
+        run: ./gradlew clean build
+      
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
