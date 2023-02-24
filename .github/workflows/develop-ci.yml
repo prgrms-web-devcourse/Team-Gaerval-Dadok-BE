@@ -25,7 +25,9 @@ jobs:
         run: |
           echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
           echo "${{secrets.APPLICATION_TEST}}" >> ./src/test/resources/application-test.yml
-
+      - name: Gradle Wrap
+        run: gradle wrap
+        
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
