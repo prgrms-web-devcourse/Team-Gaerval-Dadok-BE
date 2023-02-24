@@ -31,7 +31,10 @@ jobs:
 
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
-
+      
+      - name : Gradle Wrap
+        run: gradle wrap
+      
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
