@@ -59,7 +59,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
+    testImplementation 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     annotationProcessor 'org.projectlombok:lombok'

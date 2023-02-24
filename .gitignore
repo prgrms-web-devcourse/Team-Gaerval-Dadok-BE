@@ -55,3 +55,6 @@ src/test/**/*.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+## tmp file
+/src/main/java/com/dadok/gaerval/domain/user/UserTestController.java

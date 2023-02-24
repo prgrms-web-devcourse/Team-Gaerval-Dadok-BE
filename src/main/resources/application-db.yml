@@ -18,6 +18,13 @@ spring:
       hibernate.default_batch_fetch_size: ${HIBERNATE_DEFAULT_BATCH_FETCH_SIZE}
     open-in-view: ${ENABLE_JPA_OPEN_IN_VIEW}
     database: ${DATABASE_NAME}
+  sql:
+    init:
+      schema-locations:
+        - classpath:sql/oauth2_authorized_client.sql
+#        - classpath:org/springframework/security/oauth2/client/oauth2-client-schema.sql
+      encoding: UTF-8
+      mode: always
 
 decorator:
   datasource:

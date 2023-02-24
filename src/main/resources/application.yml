@@ -12,3 +12,4 @@ spring:
 server:
   shutdown: graceful
   port : ${SERVER_PORT}
+  host:
