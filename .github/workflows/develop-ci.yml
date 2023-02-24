@@ -24,7 +24,7 @@ jobs:
       - name: set up environment Variable
         run: |
           echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
-          echo "${{secrets.APPLICATION_TEST}}" >> .src/test/resources/application-test.yml
+          echo "${{secrets.APPLICATION_TEST}}" >> ./src/test/resources/application-test.yml
 
       - name: Cache Gradle packages
         uses: actions/cache@v2
