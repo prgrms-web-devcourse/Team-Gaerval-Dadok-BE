@@ -16,11 +16,16 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.dadok.gaerval.global.config.security.filter.ExceptionHandlingFilter;
+import com.dadok.gaerval.global.config.security.filter.JwtAuthenticationFilter;
 import com.dadok.gaerval.global.config.security.jwt.JwtAuthenticationEntryPoint;
+import com.dadok.gaerval.global.config.security.jwt.JwtService;
 import com.dadok.gaerval.global.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.dadok.gaerval.global.oauth.OAuth2AuthenticationFailureHandler;
 import com.dadok.gaerval.global.oauth.OAuth2AuthenticationSuccessHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +40,8 @@ public class SecurityConfig {
 	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
 	private final CustomOAuth2UserService customOAuth2UserService;
+
+	private final ObjectMapper objectMapper;
 
 	private final String[] allowedApiUrls = {
 		"/docs", "/docs/index.html", "/docs/**",
@@ -55,7 +62,9 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain httpSecurity(
 		HttpSecurity http,
-		OAuth2AuthorizedClientRepository clientRepository) throws Exception {
+		OAuth2AuthorizedClientRepository clientRepository,
+		JwtService jwtService
+		) throws Exception {
 		http
 			.formLogin().disable()
 
@@ -99,6 +108,9 @@ public class SecurityConfig {
 			.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
 
 		;
+
+		http.addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(new ExceptionHandlingFilter(objectMapper), JwtAuthenticationFilter.class);
 
 		return http.build();
 	}
