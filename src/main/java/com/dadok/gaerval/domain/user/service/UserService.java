@@ -10,4 +10,5 @@ public interface UserService {
 	Optional<User> findByEmailWithAuthorities(String email);
 
 	User register(OAuth2Attribute attribute);
+
 }
