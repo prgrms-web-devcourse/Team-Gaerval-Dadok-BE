@@ -15,7 +15,6 @@ class BookTest {
 	void create_book_success() {
 
 		// Given
-		Long id = 1L;
 		String title = "미움받을 용기";
 		String author = "기시미 이치로, 고가 후미타케";
 		String isbn = "9788996991342";
@@ -23,10 +22,9 @@ class BookTest {
 		String url = "https://search.daum.net/search?w=bookpage&bookId=1467038&q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0";
 		String imageUrl = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038";
 		String apiProvider = "kakao";
-		Book book = new Book(id, title, author, isbn, contents, url, imageUrl, apiProvider);
+		Book book = Book.create(title, author, isbn, contents, url, imageUrl, apiProvider);
 
 		// When Then
-		assertEquals(id, book.getId());
 		assertEquals(title, book.getTitle());
 		assertEquals(author, book.getAuthor());
 		assertEquals(isbn, book.getIsbn());
@@ -66,7 +64,6 @@ class BookTest {
 	void create_book_failure() {
 
 		// Given
-		Long id = 1L;
 		String emptyTitle = "";
 		String author = "작가이름";
 		String exceededIsbn = "978123456789012345678901234567890";
@@ -76,7 +73,7 @@ class BookTest {
 		String apiProvider = "kakao";
 
 		// When Then
-		assertThrows(IllegalArgumentException.class, () -> new Book(id, emptyTitle, author, exceededIsbn, emptyContents, url, imageUrl, apiProvider));
+		assertThrows(IllegalArgumentException.class, () -> new Book( emptyTitle, author, exceededIsbn, emptyContents, url, imageUrl, apiProvider));
 	}
 
 
