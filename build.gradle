@@ -1,0 +1,240 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+    id 'jacoco'
+}
+
+group = 'com.dadok'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    asciidoctorExt
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+jacoco {
+    toolVersion = '0.8.8'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Apache Commons Lang
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    // p6spy
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+    // mapstruct
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    // jwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    //oauth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testImplementation 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    // lombok- mapstruct binding
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.9.0'
+
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+
+    def Qdomains = []
+    for (qPattern in "**/QA".."**/QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
+    afterEvaluate {
+
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: [
+                    "com/dadok/gaerval/global/*",
+                    "**/request/*",
+                    "**/response/*",
+                    "com.dadok.gaerval.DadokApplication.class"
+
+            ] + Qdomains) // 제외할 Qdomains 패턴 추가
+        }))
+    }
+
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+
+        html.destination file("${buildDir}/jacoco/test_report")
+        xml.destination file("${buildDir}/jacoco/test_report/test_report.xml")
+    }
+}
+
+jacocoTestCoverageVerification {
+
+    def Qdomains = []
+    for (qPattern in "*.QA".."*.QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+            // include = []
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+
+            excludes = [
+                    "com/dadok/gaerval/global/*",
+                    "**/request/*",
+                    "**/response/*",
+                    "com.dadok.gaerval.DadokApplication.class"
+            ] + Qdomains
+        }
+
+        rule { // 추가 규칙
+        }
+    }
+}
+
+// ---- querydsl 설정
+// querydsl 사용할 경로 지정. 현재 지정한 부분은 .gitignore 에 포함되므로 git 에 올라가지 않는다.
+def querydslDir = "$buildDir/generated/'querydsl'"
+
+querydsl { // JPA 사용여부 및 사용 경로 설정
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets { // build시 사용할 sourceSet 추가 설정
+    main.java.srcDir querydslDir
+}
+
+compileQuerydsl { // querydsl 컴파일 시 사용할 옵션 설정
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl이 compileClassPath를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl.doFirst {
+    if (file(querydslDir).exists()) delete(file(querydslDir))
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    delete file(querydslDir)
+}
+
+// ---- querydsl
+test {
+    useJUnitPlatform()
+    outputs.dir snippetsDir
+    finalizedBy 'jacocoTestReport'
+
+    def Qdomains = []
+    for (qPattern in "*.QA".."*.QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
+    jacoco {
+        excludes += ["com/dadok/gaerval/global/*",
+                     "**/request/*",
+                     "**/response/*",
+                     "com.dadok.gaerval.DadokApplication.class"] + Qdomains
+    }
+}
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+asciidoctor {
+    dependsOn test
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    sources{
+        include("**/index.adoc","**/common/*.adoc")
+    }
+    baseDirFollowsSourceFile()
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
+}
+
+bootJar {
+    dependsOn asciidoctor
+    copy {
+        from ("${asciidoctor.outputDir}/html5") {
+            into 'static/docs'
+        }
+    }
+}

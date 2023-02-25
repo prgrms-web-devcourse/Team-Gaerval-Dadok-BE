@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    include:
+      - db
+      - security
+      - aws
+    active: ${SPRING_PROFILES_ACTIVE}
+
+  config:
+    import: optional:file:.env[.properties]
+
+server:
+  shutdown: graceful
+  port : ${SERVER_PORT}
+  host:

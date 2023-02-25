@@ -1,3 +1,10 @@
+# build
+build/
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
 # Compiled class file
 *.class
 
@@ -21,3 +28,33 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+### Rest Docs ###
+BOOT-INF/
+
+
+## env
+.env
+*.env
+test.env
+
+
+## test
+!**/src/test/resources/application-test.yml
+src/test/resources/application-test.yml
+src/test/**/*.yml
+
+## AWS User-specific
+.idea/**/aws.xml
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+## tmp file
+/src/main/java/com/dadok/gaerval/domain/user/UserTestController.java

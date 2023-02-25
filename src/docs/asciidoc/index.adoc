@@ -1,0 +1,30 @@
+= API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:docinfo: shared-head
+
+
+== User
+
+=== Signup
+
+==== Request
+include::{snippets}/user-controller-test/signup_user/http-request.adoc[]
+
+==== Request fields
+include::{snippets}/user-controller-test/signup_user/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/user-controller-test/signup_user/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/user-controller-test/signup_user/response-fields.adoc[]
+
+
+

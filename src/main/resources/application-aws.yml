@@ -1,0 +1,16 @@
+cloud:
+  aws:
+    stack:
+      auto: false
+    region:
+      static: ${AWS_REGION_STATIC}
+    credentials:
+      access-key: ${AWS_CREDENTIALS_ACCESS_KEY}
+      secret-key: ${AWS_CREDENTIALS_SECRET_KEY}
+    s3:
+      bucket: ${S3_BUCKET_NAME}
+
+com:
+  amazonaws:
+    sdk:
+      disableEc2Metadata: true
