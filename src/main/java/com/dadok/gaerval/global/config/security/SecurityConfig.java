@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -62,7 +60,6 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain httpSecurity(
 		HttpSecurity http,
-		OAuth2AuthorizedClientRepository clientRepository,
 		JwtService jwtService
 		) throws Exception {
 		http
@@ -90,11 +87,6 @@ public class SecurityConfig {
 			.oauth2Login()
 			.authorizationEndpoint().baseUri("/oauth2/authorize") // 클라이언트에서 의 접근 uri
 			.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository())
-
-			.and()
-			.authorizedClientRepository(clientRepository)
-			.redirectionEndpoint()
-			.baseUri("/login/oauth2/code/**")
 
 			.and()
 			.userInfoEndpoint()
@@ -129,10 +121,4 @@ public class SecurityConfig {
 		return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
 	}
 
-	@Bean
-	public OAuth2AuthorizedClientRepository authorizedClientRepository(
-		OAuth2AuthorizedClientService authorizedClientService) {
-
-		return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
-	}
 }
