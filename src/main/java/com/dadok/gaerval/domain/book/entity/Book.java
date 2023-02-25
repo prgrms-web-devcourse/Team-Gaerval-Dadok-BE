@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 import com.mysema.commons.lang.Assert;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -43,7 +42,7 @@ public class Book {
 	private String contents;
 
 	@Column(nullable = false)
-	private boolean isDeleted = false;
+	private boolean isDeleted;
 
 	@Column(length = 2083)
 	private String url;
@@ -57,10 +56,9 @@ public class Book {
 	@Column(length = 20, nullable = false)
 	private String apiProvider;
 
-	@Builder(builderMethodName = "requiredBuilder")
-	public Book(Long id, String title, String author, String isbn, String contents, String url,
+	protected Book(String title, String author, String isbn, String contents, String url,
 		String imageUrl, String apiProvider) {
-		this.id = id;
+
 		this.title = title;
 		this.author = author;
 		this.isbn = isbn;
@@ -68,6 +66,7 @@ public class Book {
 		this.url = url;
 		this.imageUrl = imageUrl;
 		this.apiProvider = apiProvider;
+		this.isDeleted = false;
 
 		validateTitle(title);
 		validateAuthor(author);
@@ -78,35 +77,34 @@ public class Book {
 		validateApiProvider(apiProvider);
 	}
 
-	@Builder
-	public Book(Long id, String title, String author, String isbn, String contents, String url,
+	protected Book(String title, String author, String isbn, String contents, String url,
 		String imageUrl, String imageKey, String apiProvider) {
-		this.id = id;
-		this.title = title;
-		this.author = author;
-		this.isbn = isbn;
-		this.contents = contents;
-		this.url = url;
-		this.imageUrl = imageUrl;
+		this(title, author, isbn, contents, url, imageUrl, apiProvider);
 		this.imageKey = imageKey;
-		this.apiProvider = apiProvider;
 
-		validateTitle(title);
-		validateAuthor(author);
-		validateIsbn(isbn);
-		validateContents(contents);
-		validateUrl(url);
-		validateImageUrl(imageUrl);
 		validateImageKey(imageKey);
-		validateApiProvider(apiProvider);
+
+	}
+
+	public static Book create(String title, String author, String isbn, String contents, String url,
+		String imageUrl, String apiProvider) {
+		return new Book(title, author, isbn, contents, url,
+			imageUrl, apiProvider);
+	}
+
+
+	public static Book create(String title, String author, String isbn, String contents, String url,
+		String imageUrl, String imageKey, String apiProvider) {
+		return new Book(title, author, isbn, contents, url,
+			imageUrl, imageKey, apiProvider);
 	}
 
 	private void validateTitle(String title) {
-		Assert.isTrue(title!= null && title.length() >=1 && title.length() <= 500, "책 제목의 길이는 1이상 500 이하 입니다.");
+		Assert.isTrue(title != null && title.length() >= 1 && title.length() <= 500, "책 제목의 길이는 1이상 500 이하 입니다.");
 	}
 
 	private void validateAuthor(String author) {
-		Assert.isTrue(author!= null && author.length() >=1 && author.length() <= 500, "책 저자의 길이는 1이상 255 이하 입니다.");
+		Assert.isTrue(author != null && author.length() >= 1 && author.length() <= 500, "책 저자의 길이는 1이상 255 이하 입니다.");
 	}
 
 	private void validateIsbn(String isbn) {
@@ -131,5 +129,9 @@ public class Book {
 
 	private void validateApiProvider(String apiProvider) {
 		Assert.isTrue(apiProvider != null && apiProvider.length() <= 20, "API 제공자의 길이는 20 이하여야 합니다.");
+	}
+
+	public void setDeleted(boolean deleted) {
+		isDeleted = deleted;
 	}
 }
