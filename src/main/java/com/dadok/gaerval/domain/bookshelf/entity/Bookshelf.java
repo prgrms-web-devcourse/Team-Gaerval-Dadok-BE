@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.bookshelf.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.Table;
 
 import org.springframework.util.Assert;
 
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
+import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.user.entity.User;
 
 import lombok.AccessLevel;
@@ -46,33 +49,45 @@ public class Bookshelf {
 	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<BookshelfItem> bookshelfItems = new ArrayList<>();
 
-	private Bookshelf(String name, Boolean isPublic, User user) {
-		validationName(name);
+	private Bookshelf(Boolean isPublic, User user) {
 		Assert.notNull(isPublic, "Bookshelf의 isPublic null일 수 없습니다.");
 		Assert.notNull(user, "Bookshelf의 user는 null일 수 없습니다.");
 
-		this.name = name;
+		this.name = user.getNickname() + "님의 책장";
 		this.isPublic = isPublic;
 		this.user = user;
 	}
 
-	private void validationName(String name) {
+	private void validateName(String name) {
 		Assert.notNull(name, "Bookshelf의 name은 null일 수 없습니다.");
 		Assert.isTrue(name.length() <= 30, "Bookshelf의 name은 30자 이하여야합니다.");
 	}
 
-	public static Bookshelf create(String name, Boolean isPublic, User user) {
-		return new Bookshelf(name, isPublic, user);
-	}
-
-	public static Bookshelf create(String name, User user) {
-		return new Bookshelf(name, true, user);
+	public static Bookshelf create(User user) {
+		return new Bookshelf(true, user);
 	}
 
 	public void addBookShelfItem(BookshelfItem bookshelfItem) {
-		Assert.isTrue(!bookshelfItems.contains(bookshelfItem), "이미 책장에 포함딘 BookshelfItem입니다.");
 		Assert.notNull(bookshelfItem, "BookshelfItem 추가시 데이터가 null일 수 없습니다.");
+		if (bookshelfItems.contains(bookshelfItem)) {
+			throw new AlreadyContainBookshelfItemException();
+		}
 		bookshelfItems.add(bookshelfItem);
 	}
 
+	public void changeName(String name) {
+		validateName(name);
+		this.name = name;
+	}
+
+	public void changeIsPublic(Boolean isPublic) {
+		Assert.notNull(isPublic, "Bookshelf의 isPublic null일 수 없습니다.");
+		this.isPublic = isPublic;
+	}
+
+	public void validateOwner(Long userId) {
+		if (!Objects.equals(userId, user.getId())) {
+			throw new BookshelfUserNotMatchedException();
+		}
+	}
 }

@@ -14,7 +14,8 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 class BookshelfItemTest {
 
 	private final User user = createKakaoUser();
-	private final Bookshelf bookshelf = Bookshelf.create("영지의 책장", user);
+	private final Bookshelf bookshelf = Bookshelf.create(user);
+
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 	private final BookshelfItemType type = BookshelfItemType.WISH;
 
