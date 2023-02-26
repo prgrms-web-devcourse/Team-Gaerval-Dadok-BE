@@ -61,9 +61,10 @@ public class DefaultUserService implements UserService {
 		return null;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public UserDetailResponse getUserDetail(Long userId) {
-		return null;
+		return userRepository.findUserDetail(userId);
 	}
 
 }
