@@ -36,6 +36,9 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
 	private final JwtService jwtService;
 
+	public static final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
+
+
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws ServletException, IOException {
@@ -65,9 +68,9 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		// String refreshToken = generateRefreshToken(user);
 		//todo : 리프레시 토큰 설계
 		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + accessToken);
-		response.setHeader("Location", "http://localhost:8080");
-		response.setStatus(HttpServletResponse.SC_FOUND);
+		CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, accessToken, 180);
 		return UriComponentsBuilder.fromUriString(targetUri)
+			.queryParam("access_token", accessToken)
 			.build().toUriString();
 	}
 
