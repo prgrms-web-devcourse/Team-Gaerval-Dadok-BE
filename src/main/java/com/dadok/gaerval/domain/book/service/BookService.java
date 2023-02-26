@@ -1,17 +1,21 @@
 package com.dadok.gaerval.domain.book.service;
 
+import java.util.Optional;
+
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.entity.Book;
+
 public interface BookService {
-	// Bookshelf getById(Long bookId);
+
+	// BookResponses findAllByKeyword(String keyword, Pageable pageable, );
+
+	Book createBook(BookCreateRequest bookCreateRequest);
+
+	Book getById(Long bookId);
+
+	Optional<Book> findById(Long bookId);
+
+	// BookResponse findDetailById(Long bookId);
 	//
-	// Optional<Bookshelf> findById(Long bookId);
-	//
-	// DetailBookshelfResponse findDetailById(Long id);
-	//
-	// Long createBookshelf(User user);
-	//
-	// PopularBookshelfOfJobResponses findAllByJob(PopularBookshelfOfJobRequest request);
-	//
-	// Long insertBookSelfItem(User user, Long bookshelvesId, BookCreateRequest bookCreateRequest);
-	//
-	// Long removeBookSelfItem(User user, Long bookshelvesId, Long bookId);
+	// PopularBookOfJobResponses findAllPopularBook(String jobGroup, Pageable pageable);
 }
