@@ -17,7 +17,7 @@ public @interface WithMockCustomOAuth2LoginUser {
 
 	String username() default "username";
 
-	String name() default "name";
+	String name() default "name"; // Provider에서 제공해주는 nickname
 
 	String email() default "my@default.email";
 

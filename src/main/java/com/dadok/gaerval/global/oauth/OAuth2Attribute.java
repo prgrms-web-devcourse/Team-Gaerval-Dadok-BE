@@ -23,13 +23,12 @@ public class OAuth2Attribute {
 	private AuthProvider authProvider;
 	private String oauthId;
 
-	public static OAuth2Attribute of(String provider, String attributeKey,
+	public static OAuth2Attribute of(AuthProvider provider, String attributeKey,
 		Map<String, Object> attributes) {
 
 		return switch (provider) {
-			case "kakao" -> ofKakao("email", attributes);
-			case "naver" -> ofNaver("id", attributes);
-			default -> throw new RuntimeException();
+			case KAKAO -> ofKakao(attributeKey, attributes);
+			case NAVER -> ofNaver(attributeKey, attributes);
 		};
 	}
 

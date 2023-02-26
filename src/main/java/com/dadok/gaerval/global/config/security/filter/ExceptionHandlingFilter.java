@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.dadok.gaerval.global.error.ErrorCode;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.UnAuthenticationException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,15 +34,35 @@ public class ExceptionHandlingFilter extends OncePerRequestFilter {
 
 		try {
 			filterChain.doFilter(request, response);
+		} catch (InvalidArgumentException e) {
+			setErrorResponse(request, response, e);
 		} catch (UnAuthenticationException e) {
 			setErrorResponse(request, response, e);
 		}
+
+		System.out.println("hihi");
+	}
+
+	private void setErrorResponse(HttpServletRequest request,
+		HttpServletResponse response,
+		RuntimeException e) throws IOException {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		response.setStatus(status.value());
+		response.setContentType("application/json");
+		response.setCharacterEncoding(UTF_8);
+
+		ErrorResponse errorResponse = ErrorResponse.of(status, e.getMessage(), request.getRequestURI());
+
+		response.getWriter()
+			.print(objectMapper.writeValueAsString(
+				new ResponseEntity<>(errorResponse, status)));
 
 	}
 
 	private void setErrorResponse(HttpServletRequest request,
 		HttpServletResponse response,
-		UnAuthenticationException e) {
+		UnAuthenticationException e) throws IOException {
 		ErrorCode errorCode = e.getErrorCode();
 		HttpStatus status = errorCode.getStatus();
 
@@ -51,14 +72,8 @@ public class ExceptionHandlingFilter extends OncePerRequestFilter {
 
 		ErrorResponse errorResponse = ErrorResponse.of(status, e.getMessage(), request.getRequestURI());
 
-		try {
-			response.getWriter()
-				.print(objectMapper.writeValueAsString(
-					new ResponseEntity<>(errorResponse, status)));
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-
+		response.getWriter().print(objectMapper.writeValueAsString(
+				new ResponseEntity<>(errorResponse, status)));
 	}
 
 }
