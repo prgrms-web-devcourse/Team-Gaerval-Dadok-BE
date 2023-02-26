@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
@@ -56,7 +57,7 @@ class BookshelfTest {
 	void addItem_success() {
 		Bookshelf bookshelf = Bookshelf.create(name, isPublic, user);
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, BookObjectProvider.createRequiredFieldBook());
-		assertThrows(IllegalArgumentException.class, () -> bookshelf.addBookShelfItem(bookshelfItem));
+		assertThrows(AlreadyContainBookshelfItemException.class, () -> bookshelf.addBookShelfItem(bookshelfItem));
 	}
 
 	@DisplayName("addItem - item이 null일 경우 - 실패")

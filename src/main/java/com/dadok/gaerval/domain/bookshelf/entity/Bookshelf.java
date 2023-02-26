@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.springframework.util.Assert;
 
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.user.entity.User;
 
 import lombok.AccessLevel;
@@ -70,8 +71,10 @@ public class Bookshelf {
 	}
 
 	public void addBookShelfItem(BookshelfItem bookshelfItem) {
-		Assert.isTrue(!bookshelfItems.contains(bookshelfItem), "이미 책장에 포함딘 BookshelfItem입니다.");
 		Assert.notNull(bookshelfItem, "BookshelfItem 추가시 데이터가 null일 수 없습니다.");
+		if (bookshelfItems.contains(bookshelfItem)) {
+			throw new AlreadyContainBookshelfItemException();
+		}
 		bookshelfItems.add(bookshelfItem);
 	}
 
