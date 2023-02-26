@@ -43,6 +43,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // Apache Commons Lang
     implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'commons-validator:commons-validator:1.7'
+
     // p6spy
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
     // mapstruct
@@ -88,14 +90,18 @@ jacocoTestReport {
 
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it,
-                    exclude: [
-                    "com/dadok/gaerval/global/*",
-                    "**/request/*",
-                    "**/response/*",
-                    "com.dadok.gaerval.DadokApplication.class"
+                    excludes: [
+                            "**/*toString", "**/*equals",
+                            "*equals", "*hashCode",
+                            "**/*_equals.*", "**/*_hashCode.*",
+                            "com/dadok/gaerval/global/*",
+                            "**/request/*",
+                            "**/response/*",
+                            "com.dadok.gaerval.DadokApplication.class"
 
-            ] + Qdomains) // 제외할 Qdomains 패턴 추가
+                    ] + Qdomains) // 제외할 Qdomains 패턴 추가
         }))
+
     }
 
     reports {
@@ -134,8 +140,6 @@ jacocoTestCoverageVerification {
             ] + Qdomains
         }
 
-        rule { // 추가 규칙
-        }
     }
 }
 
@@ -189,10 +193,11 @@ test {
     }
 
     jacoco {
-        excludes += ["com/dadok/gaerval/global/*",
-                     "**/request/*",
-                     "**/response/*",
-                     "com.dadok.gaerval.DadokApplication.class"] + Qdomains
+        excludes += [
+                "com/dadok/gaerval/global/*",
+                "**/request/*",
+                "**/response/*",
+                "com.dadok.gaerval.DadokApplication.class"] + Qdomains
     }
 }
 
@@ -210,8 +215,8 @@ asciidoctor {
     dependsOn test
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
-    sources{
-        include("**/index.adoc","**/common/*.adoc")
+    sources {
+        include("**/index.adoc", "**/common/*.adoc")
     }
     baseDirFollowsSourceFile()
 }
@@ -233,7 +238,7 @@ build {
 bootJar {
     dependsOn asciidoctor
     copy {
-        from ("${asciidoctor.outputDir}/html5") {
+        from("${asciidoctor.outputDir}/html5") {
             into 'static/docs'
         }
     }

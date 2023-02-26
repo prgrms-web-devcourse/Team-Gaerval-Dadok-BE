@@ -7,11 +7,10 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
-import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +22,7 @@ class BookshelfItemRepositoryTest {
 
 	private final BookshelfItemRepository bookshelfItemRepository;
 
-	private final User user = User.builder().userAuthority(UserAuthority.of(Role.USER)).build();
+	private final User user = UserObjectProvider.createKakaoUser();
 	private final Bookshelf bookshelf = Bookshelf.create(user);
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 

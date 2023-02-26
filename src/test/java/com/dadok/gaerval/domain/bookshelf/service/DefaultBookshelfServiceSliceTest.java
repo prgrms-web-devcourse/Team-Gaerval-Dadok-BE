@@ -23,11 +23,10 @@ import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
-import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @DisplayName("bookshelf service 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +44,7 @@ class DefaultBookshelfServiceSliceTest {
 	@Mock
 	private BookService bookService;
 
-	private final User user = User.builder().userAuthority(UserAuthority.of(Role.USER)).build();
+	private final User user = UserObjectProvider.createKakaoUser();
 	private final Bookshelf bookshelf = Bookshelf.create(user);
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 
@@ -188,7 +187,7 @@ class DefaultBookshelfServiceSliceTest {
 	@Test
 	void insertBookSelfItem_bookshelfNotMatchedUser_fail() {
 		// Given
-		User otherUser = User.builder().name("티나").userAuthority(UserAuthority.of(Role.USER)).build();
+		User otherUser = UserObjectProvider.createKakaoUser();
 		ReflectionTestUtils.setField(otherUser, "id", 645L);
 		ReflectionTestUtils.setField(user, "id", 23L);
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);

@@ -1,21 +1,21 @@
 package com.dadok.gaerval.domain.bookshelf.entity;
 
+import static com.dadok.gaerval.testutil.UserObjectProvider.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.dadok.gaerval.domain.book.entity.Book;
-import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 
 @DisplayName("BookshelfItem 테스트")
 class BookshelfItemTest {
 
-	private final User user = User.builder().userAuthority(UserAuthority.of(Role.USER)).build();
+	private final User user = createKakaoUser();
 	private final Bookshelf bookshelf = Bookshelf.create(user);
+
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 	private final BookshelfItemType type = BookshelfItemType.WISH;
 

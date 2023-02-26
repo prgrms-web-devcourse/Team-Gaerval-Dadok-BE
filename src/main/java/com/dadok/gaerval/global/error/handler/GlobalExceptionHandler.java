@@ -1,7 +1,5 @@
 package com.dadok.gaerval.global.error.handler;
 
-import static org.springframework.http.HttpStatus.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
 import com.dadok.gaerval.global.error.response.ErrorResponse.FieldError;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -48,7 +47,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
-	protected ResponseEntity<ErrorResponse> handleConstraintViolationException(
+	public ResponseEntity<ErrorResponse> handleConstraintViolationException(
 		HttpServletRequest request, ConstraintViolationException e) {
 
 		return ResponseEntity.badRequest()
@@ -65,15 +64,23 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	protected ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+	public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
 		HttpServletRequest request, IllegalArgumentException e) {
 
 		return ResponseEntity.badRequest()
 			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
 	}
 
+	@ExceptionHandler(InvalidArgumentException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidArgumentException(
+		HttpServletRequest request, InvalidArgumentException e) {
+
+		return ResponseEntity.badRequest()
+			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
+	}
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
 		HttpServletRequest request, MethodArgumentNotValidException e) {
 
 		return ResponseEntity.badRequest().body(ErrorResponse.badRequest(
@@ -83,7 +90,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(InvalidFormatException.class)
-	protected ResponseEntity<ErrorResponse> handleInvalidFormatException(
+	public ResponseEntity<ErrorResponse> handleInvalidFormatException(
 		HttpServletRequest request, InvalidFormatException e) {
 
 		return ResponseEntity.badRequest()

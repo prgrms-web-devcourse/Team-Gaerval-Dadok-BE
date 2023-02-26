@@ -1,10 +1,12 @@
 package com.dadok.gaerval.domain.user.entity;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 
 import com.dadok.gaerval.global.common.EnumType;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,10 +40,12 @@ public enum Role implements GrantedAuthority, EnumType {
 	public static Role of(String roleName) {
 
 		return Arrays.stream(Role.values())
-			.filter(role -> role.getKey().equals(roleName))
+			.filter(role -> Objects.nonNull(roleName))
+			.filter(role -> Objects.equals(role.getKey(), roleName.toUpperCase())
+				|| Objects.equals(role.name(), roleName.toUpperCase())
+			)
 			.findFirst()
-			//todo : 예외 변경
-			.orElseThrow(() -> new IllegalArgumentException(roleName));
+			.orElseThrow(() -> new InvalidArgumentException(roleName, "roleName"));
 	}
 
 	@Override
