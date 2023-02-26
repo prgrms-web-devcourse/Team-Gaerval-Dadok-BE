@@ -9,7 +9,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ErrorCode {
 
-	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "D001", "%s 리소스가 존재하지 않습니다."),
+	// Common
+	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "C001", "%s 리소스가 존재하지 않습니다."),
+
+	// Auth
 	INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A002", "유효한 형식의 JWT 토큰이 아닙니다."),
 	UNAUTHORIZED_USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "유저가 존재하지 않습니다.");
 
@@ -18,6 +21,5 @@ public enum ErrorCode {
 	private final String code;
 
 	private final String message;
-
 
 }

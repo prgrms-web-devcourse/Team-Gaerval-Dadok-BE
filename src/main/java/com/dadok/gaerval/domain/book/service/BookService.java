@@ -6,7 +6,7 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 
 public interface BookService {
-
+	//
 	// BookResponses findAllByKeyword(String keyword, Pageable pageable, );
 
 	Book createBook(BookCreateRequest bookCreateRequest);
@@ -14,6 +14,8 @@ public interface BookService {
 	Book getById(Long bookId);
 
 	Optional<Book> findById(Long bookId);
+
+	Optional<Book> findByIsbn(String isbn);
 
 	// BookResponse findDetailById(Long bookId);
 	//

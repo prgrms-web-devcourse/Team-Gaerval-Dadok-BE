@@ -11,17 +11,17 @@ import com.dadok.gaerval.domain.user.entity.User;
 
 public interface BookshelfService {
 
-	Bookshelf getById(Long bookId);
+	Bookshelf getById(Long bookshelfId);
 
-	Optional<Bookshelf> findById(Long bookId);
+	Optional<Bookshelf> findById(Long bookshelfId);
 
-	DetailBookshelfResponse findDetailById(Long id);
+	DetailBookshelfResponse findDetailById(Long bookshelfId);
 
 	Long createBookshelf(User user);
 
 	PopularBookshelfOfJobResponses findAllByJob(PopularBookshelfOfJobRequest request);
 
-	Long insertBookSelfItem(User user, Long bookshelvesId, BookCreateRequest bookCreateRequest);
+	Long insertBookSelfItem(User user, Long bookshelfId, BookCreateRequest bookCreateRequest);
 
-	Long removeBookSelfItem(User user, Long bookshelvesId, Long bookId);
+	Long removeBookSelfItem(User user, Long bookshelfId, Long bookId);
 }
