@@ -43,6 +43,10 @@ public class CommonValidator {
 	}
 
 	public static void validateLengthLessThenWithNullable(String value, int length, String valueName) {
+		if (value == null) {
+			return;
+		}
+
 		if (value.length() > length) {
 			throw new InvalidArgumentException(
 				String.format("%s의 길이는 %s 이하여야 합니다. ", valueName, length));
