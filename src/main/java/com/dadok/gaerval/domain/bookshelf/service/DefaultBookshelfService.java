@@ -14,6 +14,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelfOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
+import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -35,7 +36,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Override
 	@Transactional(readOnly = true)
 	public Bookshelf getById(Long bookshelfId) {
-		return bookshelfRepository.findById(bookshelfId).orElseThrow(ResourceNotfoundException::new);
+		return bookshelfRepository.findById(bookshelfId)
+			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
 	@Override
@@ -77,17 +79,18 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Override
 	public Long removeBookSelfItem(User user, Long bookshelfId, Long bookId) {
 		Bookshelf bookshelf = validationBookshelfAuth(user, bookshelfId);
-		Book book = bookService.findById(bookId).orElseThrow();
+		Book book = bookService.findById(bookId).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 		BookshelfItem bookshelfItem = bookshelfItemRepository.findByBookshelfAndBook(bookshelf, book)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new ResourceNotfoundException(BookshelfItem.class));
 		bookshelfItemRepository.deleteById(bookshelfItem.getId());
 		return bookshelfId;
 	}
 
 	private Bookshelf validationBookshelfAuth(User user, Long bookshelfId) {
-		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId).orElseThrow();
+		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
+			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 		if (!Objects.equals(bookshelf.getUser(), user)) {
-			throw new ResourceNotfoundException();
+			throw new BookshelfUserNotMatchedException();
 		}
 		return bookshelf;
 	}
