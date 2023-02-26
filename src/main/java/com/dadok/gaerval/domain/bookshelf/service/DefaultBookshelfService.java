@@ -61,13 +61,14 @@ public class DefaultBookshelfService implements BookshelfService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public PopularBookshelfOfJobResponses findAllByJob(PopularBookshelfOfJobRequest request) {
 		return null;
 	}
 
 	@Override
 	public Long insertBookSelfItem(User user, Long bookshelfId, BookCreateRequest bookCreateRequest) {
-		Bookshelf bookshelf = validationBookshelfAuth(user, bookshelfId);
+		Bookshelf bookshelf = validationBookshelfUser(user, bookshelfId);
 		Book book = bookService.findByIsbn(bookCreateRequest.isbn())
 			.orElseGet(() -> bookService.createBook(bookCreateRequest));
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, book);
@@ -78,7 +79,7 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	public Long removeBookSelfItem(User user, Long bookshelfId, Long bookId) {
-		Bookshelf bookshelf = validationBookshelfAuth(user, bookshelfId);
+		Bookshelf bookshelf = validationBookshelfUser(user, bookshelfId);
 		Book book = bookService.findById(bookId).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 		BookshelfItem bookshelfItem = bookshelfItemRepository.findByBookshelfAndBook(bookshelf, book)
 			.orElseThrow(() -> new ResourceNotfoundException(BookshelfItem.class));
@@ -86,7 +87,7 @@ public class DefaultBookshelfService implements BookshelfService {
 		return bookshelfId;
 	}
 
-	private Bookshelf validationBookshelfAuth(User user, Long bookshelfId) {
+	private Bookshelf validationBookshelfUser(User user, Long bookshelfId) {
 		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 		if (!Objects.equals(bookshelf.getUser(), user)) {

@@ -15,6 +15,7 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
+@DisplayName("bookshelf repository 쿼리 테스트")
 @CustomDataJpaTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @RequiredArgsConstructor

@@ -17,7 +17,7 @@ public enum ErrorCode {
 	UNAUTHORIZED_USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "유저가 존재하지 않습니다."),
 
 	// Bookshelf
-	ALREADY_CONTAIN_BOOKSHELF(HttpStatus.BAD_REQUEST, "S001", "이미 책장에 포함된 아아템입니다."),
+	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "S001", "이미 책장에 포함된 아아템입니다."),
 	BOOKSHELF_USER_NOT_MATCHED(HttpStatus.BAD_REQUEST, "S002", "해당 책장에 올바르지 않은 사용자 접근입니다.");
 
 	private final HttpStatus status;

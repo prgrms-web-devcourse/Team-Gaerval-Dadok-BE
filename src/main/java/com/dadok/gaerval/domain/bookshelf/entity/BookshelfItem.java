@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"bookshelf", "book"})
 public class BookshelfItem {
 
 	@Id
