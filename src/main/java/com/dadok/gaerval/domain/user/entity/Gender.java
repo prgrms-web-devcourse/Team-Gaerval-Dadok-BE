@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Gender implements EnumType {
+
 	MALE("남자"),
 	FEMALE("여자"),
 	NONE("미설정");
@@ -32,8 +33,10 @@ public enum Gender implements EnumType {
 	@JsonCreator
 	public static Gender of(String gender) {
 		return Arrays.stream(values())
-			.filter(g -> Objects.equals(g.name(), gender.toUpperCase()) ||
-				Objects.equals(g.name().charAt(0), gender.charAt(0)))
+			.filter(g -> Objects.nonNull(gender))
+			.filter(g -> Objects.equals(g.name(), gender.toUpperCase())
+				|| (gender.length() == 1 && Objects.equals(g.name().charAt(0), Character.toUpperCase(gender.charAt(0))))
+			)
 			.findFirst()
 			.orElseThrow(() -> new InvalidArgumentException(gender, "gender"));
 	}

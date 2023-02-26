@@ -1,8 +1,10 @@
 package com.dadok.gaerval.domain.user.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -19,10 +21,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.dadok.gaerval.global.oauth.OAuth2Attribute;
+import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.global.oauth.OAuth2Attribute;
+import com.dadok.gaerval.global.util.CommonValidator;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
@@ -34,28 +37,37 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(length = 30)
 	private String name;
 
+	@Column(length = 30, nullable = false)
 	private String nickname;
 
 	@Email
-	@Column(unique = true, nullable = true)
+	@Column(unique = true, length = 255, nullable = true)
 	private String email;
 
+	@Column(length = 500)
 	private String profileImage;
 
 	@Enumerated(EnumType.STRING)
+	@Column(length = 10)
 	private Gender gender;
 
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 10)
 	private AuthProvider authProvider;
 
+	@Column(nullable = false, length = 255)
 	private String authId;
+
+	private LocalDateTime birthday;
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -64,18 +76,27 @@ public class User {
 	@Builder
 	protected User(String name, String nickname, String email, String profileImage, Gender gender,
 		AuthProvider authProvider, String authId, UserAuthority userAuthority) {
+		CommonValidator.validateLengthLessThenWithNullable(name, 30, "name");
+		CommonValidator.validateLengthLessThen(nickname, 30, "nickname");
+		CommonValidator.validateEmail(email);
+		CommonValidator.validateNotnull(gender, "gender");
+		CommonValidator.validateNotnull(authProvider, "authProvider");
+		CommonValidator.validateNotnull(userAuthority, "userAuthority");
 		this.name = name;
 		this.nickname = nickname;
 		this.email = email;
 		this.profileImage = profileImage;
 		this.gender = gender;
-		this.authorities.add(userAuthority);
 		this.authProvider = authProvider;
 		this.authId = authId;
+		this.authorities.add(userAuthority);
 		userAuthority.changeUser(this);
 	}
 
 	public static User createByOAuth(OAuth2Attribute attribute, UserAuthority userAuthority) {
+
+		String gender = (String)attribute.getAttributes().get("gender");
+
 		return User.builder()
 			.email(attribute.getEmail())
 			.nickname(attribute.getName())
@@ -83,18 +104,33 @@ public class User {
 			.authId(attribute.getOauthId())
 			.profileImage(attribute.getPicture())
 			.userAuthority(userAuthority)
+			.gender(gender == null ? Gender.NONE : Gender.of(gender))
 			.build();
 	}
 
 	public Collection<GrantedAuthority> grantedAuthorities() {
 		return this.authorities.stream()
-			.map(userAuthority ->
-				new SimpleGrantedAuthority(userAuthority.getAuthorityName().getAuthority()))
+			.map(UserAuthority::getAuthorityName)
 			.collect(Collectors.toList());
 	}
 
-	public boolean hasJob() {
-		return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		User user = (User)o;
+		return Objects.equals(id, user.id) && Objects.equals(name, user.name)
+			&& Objects.equals(nickname, user.nickname) && Objects.equals(email, user.email)
+			&& Objects.equals(profileImage, user.profileImage) && gender == user.gender
+			&& authProvider == user.authProvider && Objects.equals(authId, user.authId)
+			&& Objects.equals(birthday, user.birthday) && Objects.equals(authorities, user.authorities);
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, nickname, email, profileImage, gender, authProvider, authId, birthday,
+			authorities);
+	}
 }

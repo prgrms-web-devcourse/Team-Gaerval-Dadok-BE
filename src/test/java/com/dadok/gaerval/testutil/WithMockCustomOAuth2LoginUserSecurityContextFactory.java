@@ -31,10 +31,10 @@ public class WithMockCustomOAuth2LoginUserSecurityContextFactory
 		attributes.put("email", oAuth2LoginUser.email());
 		attributes.put("picture", oAuth2LoginUser.picture());
 
-		OAuth2Attribute auth2Attribute = OAuth2Attribute.of(oAuth2LoginUser.provider().name(), oAuth2LoginUser.attributeKey(),
+		OAuth2Attribute auth2Attribute = OAuth2Attribute.of(oAuth2LoginUser.provider(), oAuth2LoginUser.attributeKey(),
 			attributes);
 
-		UserAuthority userAuthority = UserAuthority.of(oAuth2LoginUser.role());
+		UserAuthority userAuthority = UserAuthority.create(oAuth2LoginUser.role());
 		User mockUser = User.createByOAuth(auth2Attribute, userAuthority);
 
 		UserPrincipal userPrincipal = UserPrincipal.of(mockUser, attributes);

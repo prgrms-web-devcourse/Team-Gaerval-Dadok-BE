@@ -36,9 +36,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public User register(OAuth2Attribute attribute) {
 		Authority authority = authorityRepository.findById(Role.USER)
-			.orElse(authorityRepository.save(Authority.of(Role.USER)));
+			.orElse(authorityRepository.save(Authority.create(Role.USER)));
 
-		User user = User.createByOAuth(attribute, UserAuthority.of(authority));
+		User user = User.createByOAuth(attribute, UserAuthority.create(authority));
 
 		return userRepository.save(user);
 	}
@@ -53,7 +53,7 @@ public class DefaultUserService implements UserService {
 	@Override
 	public User getById(Long userId) {
 		return userRepository.findById(userId)
-			.orElseThrow(ResourceNotfoundException::new);
+			.orElseThrow(() -> new ResourceNotfoundException(User.class));
 	}
 
 	@Override

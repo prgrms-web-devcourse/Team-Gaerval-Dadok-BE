@@ -5,17 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @DisplayName("Bookshelf 테스트")
 class BookshelfTest {
 
 	private final String name = "영지의 서재";
 	private final Boolean isPublic = false;
-	private final User user = User.builder().userAuthority(UserAuthority.of(Role.USER)).build();
+	private final User user = UserObjectProvider.createKakaoUser();
 
 	@DisplayName("create - Bookshelf의 모든 필드가 유효 - 성공")
 	@Test
