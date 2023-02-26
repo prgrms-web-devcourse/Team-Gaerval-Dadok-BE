@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
+import com.dadok.gaerval.domain.user.entity.Role;
+
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
@@ -16,52 +19,65 @@ class BookshelfTest {
 	private final Boolean isPublic = false;
 	private final User user = UserObjectProvider.createKakaoUser();
 
-	@DisplayName("create - Bookshelf의 모든 필드가 유효 - 성공")
+
+	@DisplayName("create - Bookshelf의 필드가 유효 - 성공")
 	@Test
 	void create_success() {
 		assertDoesNotThrow(() -> {
-			Bookshelf.create(name, isPublic, user);
+			Bookshelf.create(user);
 		});
 	}
 
-	@DisplayName("create - isPublic default 값 저장 - 성공")
+	@DisplayName("changeName - 성공")
 	@Test
-	void create_defaultPublic_success() {
+	void changeName_success() {
+		Bookshelf bookshelf = Bookshelf.create(user);
 		assertDoesNotThrow(() -> {
-			Bookshelf.create(name, user);
+			bookshelf.changeName("개발자의 책장");
 		});
 	}
 
-	@DisplayName("create - name이 null일 경우 - 실패")
+	@DisplayName("changeIsPublic - 성공")
 	@Test
-	void create_nameNull_fail() {
-		assertThrows(IllegalArgumentException.class, () -> Bookshelf.create(null, isPublic, user));
+	void changeIsPublic_success() {
+		Bookshelf bookshelf = Bookshelf.create(user);
+		assertDoesNotThrow(() -> {
+			bookshelf.changeIsPublic(false);
+		});
 	}
 
-	@DisplayName("create - isPublic이 null일 경우 - 실패")
+	@DisplayName("changeName - name이 null일 경우 - 실패")
 	@Test
-	void create_isPublicNull_fail() {
-		assertThrows(IllegalArgumentException.class, () -> Bookshelf.create(name, null, user));
+	void changeName_nameNull_fail() {
+		Bookshelf bookshelf = Bookshelf.create(user);
+		assertThrows(IllegalArgumentException.class, () -> bookshelf.changeName(null));
+	}
+
+	@DisplayName("changeIsPublic - isPublic이 null일 경우 - 실패")
+	@Test
+	void changeIsPublic_isPublicNull_fail() {
+		Bookshelf bookshelf = Bookshelf.create(user);
+		assertThrows(IllegalArgumentException.class, () -> bookshelf.changeIsPublic(null));
 	}
 
 	@DisplayName("create - user가 null일 경우 - 실패")
 	@Test
 	void create_UserNull_fail() {
-		assertThrows(IllegalArgumentException.class, () -> Bookshelf.create(name, isPublic, null));
+		assertThrows(IllegalArgumentException.class, () -> Bookshelf.create(null));
 	}
 
 	@DisplayName("addItem - item이 중복 추가 - 실패")
 	@Test
 	void addItem_success() {
-		Bookshelf bookshelf = Bookshelf.create(name, isPublic, user);
+		Bookshelf bookshelf = Bookshelf.create(user);
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, BookObjectProvider.createRequiredFieldBook());
-		assertThrows(IllegalArgumentException.class, () -> bookshelf.addBookShelfItem(bookshelfItem));
+		assertThrows(AlreadyContainBookshelfItemException.class, () -> bookshelf.addBookShelfItem(bookshelfItem));
 	}
 
 	@DisplayName("addItem - item이 null일 경우 - 실패")
 	@Test
 	void addItem_itemNull_fail() {
-		Bookshelf bookshelf = Bookshelf.create(name, isPublic, user);
+		Bookshelf bookshelf = Bookshelf.create(user);
 		assertThrows(IllegalArgumentException.class, () -> bookshelf.addBookShelfItem(null));
 	}
 
