@@ -51,7 +51,7 @@ class BookshelfTest {
 		assertThrows(IllegalArgumentException.class, () -> Bookshelf.create(name, isPublic, null));
 	}
 
-	@DisplayName("addItem - item이 중복 추가 - 성공")
+	@DisplayName("addItem - item이 중복 추가 - 실패")
 	@Test
 	void addItem_success() {
 		Bookshelf bookshelf = Bookshelf.create(name, isPublic, user);
