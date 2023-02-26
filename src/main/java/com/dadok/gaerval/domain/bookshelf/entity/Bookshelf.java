@@ -70,6 +70,7 @@ public class Bookshelf {
 	}
 
 	public void addBookShelfItem(BookshelfItem bookshelfItem) {
+		Assert.isTrue(!bookshelfItems.contains(bookshelfItem), "이미 책장에 포함딘 BookshelfItem입니다.");
 		Assert.notNull(bookshelfItem, "BookshelfItem 추가시 데이터가 null일 수 없습니다.");
 		bookshelfItems.add(bookshelfItem);
 	}
