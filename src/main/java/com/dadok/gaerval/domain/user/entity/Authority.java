@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
 
@@ -35,6 +36,7 @@ public class Authority extends BaseTimeColumn {
 		return new Authority(role);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -45,6 +47,7 @@ public class Authority extends BaseTimeColumn {
 		return name == authority.name;
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(name);

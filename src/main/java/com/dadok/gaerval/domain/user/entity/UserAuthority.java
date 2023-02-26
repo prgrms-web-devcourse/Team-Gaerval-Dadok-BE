@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -66,6 +67,7 @@ public class UserAuthority extends BaseTimeColumn {
 		return new UserAuthority(authority);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -77,6 +79,7 @@ public class UserAuthority extends BaseTimeColumn {
 			&& Objects.equals(authority, that.authority);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, user.getId(), authority);

@@ -22,6 +22,7 @@ import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.config.security.AuthProvider;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
@@ -114,6 +115,7 @@ public class User extends BaseTimeColumn {
 			.collect(Collectors.toList());
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -128,6 +130,7 @@ public class User extends BaseTimeColumn {
 			&& Objects.equals(birthday, user.birthday) && Objects.equals(authorities, user.authorities);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, nickname, email, profileImage, gender, authProvider, authId, birthday,
