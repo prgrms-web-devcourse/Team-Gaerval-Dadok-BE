@@ -3,7 +3,6 @@ package com.dadok.gaerval.domain.bookshelf.service;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
-import com.dadok.gaerval.domain.bookshelf.dto.request.PopularBookshelfOfJobRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelfOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -19,7 +18,7 @@ public interface BookshelfService {
 
 	Long createBookshelf(User user);
 
-	PopularBookshelfOfJobResponses findAllByJob(PopularBookshelfOfJobRequest request);
+	PopularBookshelfOfJobResponses findPopularBookshelfByJob(User user, String japGroup);
 
 	Long insertBookSelfItem(User user, Long bookshelfId, BookCreateRequest bookCreateRequest);
 

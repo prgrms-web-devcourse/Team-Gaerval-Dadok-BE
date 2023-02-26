@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.bookshelf.entity;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +19,6 @@ import com.dadok.gaerval.domain.book.entity.Book;
 
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +26,6 @@ import lombok.NoArgsConstructor;
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = {"bookshelf", "book"})
 public class BookshelfItem {
 
 	@Id
@@ -67,5 +67,20 @@ public class BookshelfItem {
 			this.bookshelf = bookshelf;
 			bookshelf.addBookShelfItem(this);
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		BookshelfItem that = (BookshelfItem)o;
+		return bookshelf.equals(that.bookshelf) && book.equals(that.book);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookshelf, book);
 	}
 }

@@ -24,7 +24,7 @@ class BookshelfItemRepositoryTest {
 	private final BookshelfItemRepository bookshelfItemRepository;
 
 	private final User user = User.builder().userAuthority(UserAuthority.of(Role.USER)).build();
-	private final Bookshelf bookshelf = Bookshelf.create("영지의 책장", user);
+	private final Bookshelf bookshelf = Bookshelf.create(user);
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 
 	@DisplayName("조회 - 책장과 책을 입력받아 bookshelfItem 조회")

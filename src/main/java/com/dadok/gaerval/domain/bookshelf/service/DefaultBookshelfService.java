@@ -1,6 +1,5 @@
 package com.dadok.gaerval.domain.bookshelf.service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -9,12 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
-import com.dadok.gaerval.domain.bookshelf.dto.request.PopularBookshelfOfJobRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelfOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
-import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -54,15 +51,13 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	public Long createBookshelf(User user) {
-		String name = user.getNickname() + "님의 책장";
-
-		Bookshelf bookshelf = Bookshelf.create(name, user);
+		Bookshelf bookshelf = Bookshelf.create(user);
 		return bookshelfRepository.save(bookshelf).getId();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public PopularBookshelfOfJobResponses findAllByJob(PopularBookshelfOfJobRequest request) {
+	public PopularBookshelfOfJobResponses findPopularBookshelfByJob(User user, String japGroup) {
 		return null;
 	}
 
@@ -74,7 +69,6 @@ public class DefaultBookshelfService implements BookshelfService {
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, book);
 		bookshelfItemRepository.save(bookshelfItem);
 		return bookshelfId;
-
 	}
 
 	@Override
@@ -90,9 +84,7 @@ public class DefaultBookshelfService implements BookshelfService {
 	private Bookshelf validationBookshelfUser(User user, Long bookshelfId) {
 		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
-		if (!Objects.equals(bookshelf.getUser(), user)) {
-			throw new BookshelfUserNotMatchedException();
-		}
+		bookshelf.validateOwner(user.getId());
 		return bookshelf;
 	}
 }

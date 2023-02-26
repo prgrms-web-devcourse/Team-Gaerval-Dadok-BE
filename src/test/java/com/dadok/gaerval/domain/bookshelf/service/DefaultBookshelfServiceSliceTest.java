@@ -46,7 +46,7 @@ class DefaultBookshelfServiceSliceTest {
 	private BookService bookService;
 
 	private final User user = User.builder().userAuthority(UserAuthority.of(Role.USER)).build();
-	private final Bookshelf bookshelf = Bookshelf.create("영지의 책장", user);
+	private final Bookshelf bookshelf = Bookshelf.create(user);
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 
 	@DisplayName("getById - id로 책장을 조회한다 - 성공")
@@ -184,11 +184,13 @@ class DefaultBookshelfServiceSliceTest {
 		verify(bookshelfRepository).findById(1L);
 	}
 
-	@DisplayName("insertBookSelfItem - 책장의 user가 현사용자와 다를 경우 - 실패")
+	@DisplayName("insertBookSelfItem - 책장의 user가 현 사용자와 다를 경우 - 실패")
 	@Test
 	void insertBookSelfItem_bookshelfNotMatchedUser_fail() {
 		// Given
 		User otherUser = User.builder().name("티나").userAuthority(UserAuthority.of(Role.USER)).build();
+		ReflectionTestUtils.setField(otherUser, "id", 645L);
+		ReflectionTestUtils.setField(user, "id", 23L);
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
 			book.getContents(), book.getUrl(), book.getImageUrl(), book.getApiProvider());
