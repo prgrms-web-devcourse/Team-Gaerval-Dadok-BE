@@ -16,12 +16,11 @@ class JobGroupTest {
 	void findSubJob_success() {
 		//given
 		String javaJobName = "JAVA_DEVELOPER";
-		JobGroup.JobName jobName = JobGroup.JobName.JAVA_DEVELOPER;
 		//when
 		JobGroup.JobName subJob = JobGroup.findSubJob(javaJobName);
 
 		//then
-		assertEquals(javaJobName, jobName.name());
+		assertEquals(javaJobName, subJob.name());
 	}
 
 	@DisplayName("findSubJob - 일치하는 JobnName이 없으면 예외를 던진다. ")
