@@ -64,7 +64,12 @@ public class DefaultUserService implements UserService {
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetailResponse getUserDetail(Long userId) {
-		return userRepository.findUserDetail(userId);
+		UserDetailResponse userDetail = userRepository.findUserDetail(userId);
+
+		if (userDetail == null) {
+			throw new ResourceNotfoundException(User.class);
+		}
+		return userDetail;
 	}
 
 }
