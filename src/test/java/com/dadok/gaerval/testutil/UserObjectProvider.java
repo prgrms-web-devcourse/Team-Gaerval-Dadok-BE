@@ -17,7 +17,7 @@ public class UserObjectProvider {
 
 	public static final String USERNAME = "김다독";
 	public static final String NICKNAME = "책장왕다독이";
-	public static final String KAKAO_EMAIL = "dadok@naver.com";
+	public static final String KAKAO_EMAIL = "dadok@kakao.com";
 	public static final String NAVER_EMAIL = "dadok@naver.com";
 	public static final String oauthId = "abcdfgh123";
 	public static final String PICTURE_URL = "https://image.dadokcdn.dadok.io/abcdfgpe.jpg";

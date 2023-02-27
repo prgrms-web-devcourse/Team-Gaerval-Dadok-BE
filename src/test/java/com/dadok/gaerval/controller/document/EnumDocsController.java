@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.entity.Gender;
 import com.dadok.gaerval.global.common.EnumType;
 
 /**
@@ -25,6 +26,7 @@ public class EnumDocsController {
 		return EnumResponse.of(EnumDocs.builder()
 				.jobGroup(toMap(JobGroup.values()))
 				.jobName(toMap(JobGroup.JobName.values()))
+				.gender(toMap(Gender.values()))
 			.build()
 		);
 	}

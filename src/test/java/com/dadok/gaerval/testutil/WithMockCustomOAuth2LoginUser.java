@@ -17,7 +17,7 @@ public @interface WithMockCustomOAuth2LoginUser {
 
 	String username() default "username";
 
-	String name() default "name"; // Provider에서 제공해주는 nickname
+	String nickname() default "name"; // Provider에서 제공해주는 nickname
 
 	String email() default "my@default.email";
 
@@ -25,11 +25,15 @@ public @interface WithMockCustomOAuth2LoginUser {
 
 	Role role() default Role.USER;
 
-	String mockAccessToken() default "mockToken";
+	String mockAccessToken() default "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2";
 
 	AuthProvider provider() default AuthProvider.KAKAO;
 
-	String attributeKey() default "email";
+	String attributeKey() default "id";
+
+	String oauthId() default "abcd12345678910";
+
+	long userId() default 1L;
 
 	//WithMockCustomOAuth2LoginUserSecurityContextFactory
 }

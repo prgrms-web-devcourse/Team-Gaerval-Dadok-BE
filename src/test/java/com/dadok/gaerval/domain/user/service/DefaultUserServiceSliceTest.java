@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -197,4 +199,41 @@ class DefaultUserServiceSliceTest {
 		assertEquals(1, findUser.getAuthorities().size());
 		verify(userRepository).findTopByEmailWithAuthorities(email);
 	}
+
+	@DisplayName("getUserDetail - 유저의 정보를 조회해온다.")
+	@Test
+	void getUserDetail_success() {
+		//given
+		Long userId = 1L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+
+		UserDetailResponse mockUserDetailResponse = new UserDetailResponse(userId, kakaoUser.getName(),
+			kakaoUser.getNickname(), kakaoUser.getEmail(),
+			kakaoUser.getProfileImage(), kakaoUser.getGender(), kakaoUser.getAuthProvider(), JobGroup.DEVELOPMENT,
+			JobGroup.JobName.BACKEND_DEVELOPER, 1);
+
+		given(userRepository.findUserDetail(userId))
+			.willReturn(mockUserDetailResponse);
+
+		//when
+		UserDetailResponse userDetailResponse = defaultUserService.getUserDetail(userId);
+
+		//then
+		assertEquals(mockUserDetailResponse, userDetailResponse);
+		verify(userRepository).findUserDetail(userId);
+	}
+
+	@DisplayName("getUserDetail - 유저가 존재하지 않으면 예외를 던진다.")
+	@Test
+	void getUserDetail_throw() {
+		//given
+		Long userId = 1L;
+		given(userRepository.findUserDetail(userId))
+			.willReturn(null);
+
+		//when
+		assertThrows(ResourceNotfoundException.class, () -> defaultUserService.getUserDetail(userId));
+		verify(userRepository).findUserDetail(userId);
+	}
+
 }
