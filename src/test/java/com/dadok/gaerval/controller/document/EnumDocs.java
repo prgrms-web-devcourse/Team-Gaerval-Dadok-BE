@@ -21,9 +21,10 @@ import lombok.Builder;
  */
 @Builder
 public record EnumDocs(
-		Map<String, String> jobGroup,
-		Map<String, String> jobName,
-		Map<String, String> gender
-	) {
+	Map<String, String> jobGroup,
+	Map<String, String> jobName,
+	Map<String, String> gender,
+	Map<String, String> bookshelfItemType
+) {
 
 }

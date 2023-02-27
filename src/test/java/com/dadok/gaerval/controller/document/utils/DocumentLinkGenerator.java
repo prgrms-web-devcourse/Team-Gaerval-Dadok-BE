@@ -5,21 +5,22 @@ import lombok.RequiredArgsConstructor;
 
 public interface DocumentLinkGenerator {
 
-    static String generateLinkCode(DocUrl docUrl) {
-        return String.format("link:common/%s.html[%s %s,role=\"popup\"]", docUrl.pageId, docUrl.text, "코드");
-    }
+	static String generateLinkCode(DocUrl docUrl) {
+		return String.format("link:common/%s.html[%s %s,role=\"popup\"]", docUrl.pageId, docUrl.text, "코드");
+	}
 
-    static String generateText(DocUrl docUrl) {
-        return String.format("%s %s", docUrl.text, "코드명");
-    }
+	static String generateText(DocUrl docUrl) {
+		return String.format("%s %s", docUrl.text, "코드명");
+	}
 
-    @RequiredArgsConstructor
-    @Getter
-    enum DocUrl {
-        GENDER("gender", "성별"),
-        JOB_GROUP("jobGroup", "직군"),
-        JOB_NAME("jobName", "직업");
-        private final String pageId;
-        private final String text;
-    }
+	@RequiredArgsConstructor
+	@Getter
+	enum DocUrl {
+		GENDER("gender", "성별"),
+		JOB_GROUP("jobGroup", "직군"),
+		JOB_NAME("jobName", "직업"),
+		BOOKSHELF_ITEM_TYPE("bookshelfItemType", "책장 아이템 타입");
+		private final String pageId;
+		private final String text;
+	}
 }

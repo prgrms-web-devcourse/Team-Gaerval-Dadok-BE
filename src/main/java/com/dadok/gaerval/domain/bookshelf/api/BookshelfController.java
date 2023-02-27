@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.*;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,7 @@ public class BookshelfController {
 	 */
 	@GetMapping(value = "/suggestions/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<PopularBookshelvesOfJobResponses> findBookshelvesByJobGroup(
 		@RequestParam(name = "job_group") String jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
@@ -61,6 +63,7 @@ public class BookshelfController {
 	 */
 	@PostMapping(value = "/bookshelves/{bookshelvesId}/books",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<Void> insertBookInBookshelf(@PathVariable Long bookshelvesId,
 		@RequestBody @Valid BookCreateRequest bookCreateRequest,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
@@ -80,6 +83,7 @@ public class BookshelfController {
 	 */
 	@DeleteMapping(value = "/bookshelves/{bookshelvesId}/books/{bookId}",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<Void> removeBookFormBookshelf(
 		@PathVariable Long bookshelvesId, @PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
