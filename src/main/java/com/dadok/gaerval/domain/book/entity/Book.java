@@ -38,7 +38,6 @@ public class Book {
 	private String isbn;
 
 	@Column(nullable = false, columnDefinition = "VARCHAR(2000)")
-	@Lob
 	private String contents;
 
 	@Column(nullable = false)

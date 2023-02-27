@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.dadok.gaerval.global.common.EnumType;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import lombok.Getter;

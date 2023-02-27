@@ -70,6 +70,11 @@ public class EnumDocsControllerTest extends ControllerTest {
 					beneathPath("data.jobName").withSubsectionId("jobName"),
 					attributes(key("title").value("jobName")),
 					enumConvertFieldDescriptor(enumDocs.jobName())
+				),
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.gender").withSubsectionId("gender"),
+					attributes(key("title").value("gender")),
+					enumConvertFieldDescriptor(enumDocs.gender())
 				)
 			)
 

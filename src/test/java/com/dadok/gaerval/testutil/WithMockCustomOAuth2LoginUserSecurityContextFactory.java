@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
@@ -25,17 +26,15 @@ public class WithMockCustomOAuth2LoginUserSecurityContextFactory
 		final SecurityContext context = SecurityContextHolder.createEmptyContext();
 		final String mockToken = oAuth2LoginUser.mockAccessToken();
 
-		Map<String, Object> attributes = new HashMap<>();
-		attributes.put("username", oAuth2LoginUser.username());
-		attributes.put("name", oAuth2LoginUser.username());
-		attributes.put("email", oAuth2LoginUser.email());
-		attributes.put("picture", oAuth2LoginUser.picture());
+		Map<String, Object> attributes = attributes(oAuth2LoginUser);
 
 		OAuth2Attribute auth2Attribute = OAuth2Attribute.of(oAuth2LoginUser.provider(), oAuth2LoginUser.attributeKey(),
 			attributes);
 
 		UserAuthority userAuthority = UserAuthority.create(oAuth2LoginUser.role());
 		User mockUser = User.createByOAuth(auth2Attribute, userAuthority);
+		ReflectionTestUtils.setField(mockUser, "id", oAuth2LoginUser.userId());
+		ReflectionTestUtils.setField(mockUser, "name", oAuth2LoginUser.username());
 
 		UserPrincipal userPrincipal = UserPrincipal.of(mockUser, attributes);
 
@@ -44,5 +43,39 @@ public class WithMockCustomOAuth2LoginUserSecurityContextFactory
 		context.setAuthentication(jwtAuthenticationToken);
 		return context;
 	}
+
+	private Map<String, Object> attributes( WithMockCustomOAuth2LoginUser oAuth2LoginUser) {
+		Map<String, Object> attributes = new HashMap<>();
+
+		switch (oAuth2LoginUser.provider()) {
+			case KAKAO -> {
+				Map<String, Object> kakaoAccount = new HashMap<>();
+				Map<String, Object> kakaoProfile = new HashMap<>();
+
+				kakaoAccount.put("email", oAuth2LoginUser.email());
+
+				kakaoProfile.put("nickname", oAuth2LoginUser.nickname());
+				kakaoProfile.put("profile_image_url", oAuth2LoginUser.picture());
+
+				attributes.put("kakao_account", kakaoAccount);
+				kakaoAccount.put("profile", kakaoProfile);
+				attributes.put("id", oAuth2LoginUser.oauthId());
+
+				return attributes;
+			}
+			case NAVER -> {
+				Map<String, Object> response = new HashMap<>();
+				response.put("name", oAuth2LoginUser.nickname());
+				response.put("email", oAuth2LoginUser.email());
+				response.put("profile_image", oAuth2LoginUser.picture());
+				attributes.put("id", oAuth2LoginUser.oauthId());
+				attributes.put("response", response);
+				return attributes;
+			}
+		}
+
+		return attributes;
+	}
+
 
 }
