@@ -220,6 +220,7 @@ class DefaultUserServiceSliceTest {
 
 		//then
 		assertEquals(mockUserDetailResponse, userDetailResponse);
+		verify(userRepository).findUserDetail(userId);
 	}
 
 	@DisplayName("getUserDetail - 유저가 존재하지 않으면 예외를 던진다.")
@@ -232,6 +233,7 @@ class DefaultUserServiceSliceTest {
 
 		//when
 		assertThrows(ResourceNotfoundException.class, () -> defaultUserService.getUserDetail(userId));
+		verify(userRepository).findUserDetail(userId);
 	}
 
 }

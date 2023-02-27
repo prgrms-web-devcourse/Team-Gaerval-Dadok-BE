@@ -1,5 +1,6 @@
 package com.dadok.gaerval.domain.user.api;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,7 +22,7 @@ public class UserController {
 	private final UserService userService;
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@GetMapping("/me")
+	@GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDetailResponse> userMe(@AuthenticationPrincipal UserPrincipal userPrincipal) {
 		return ResponseEntity.ok(userService.getUserDetail(userPrincipal.getUserId()));
 	}
