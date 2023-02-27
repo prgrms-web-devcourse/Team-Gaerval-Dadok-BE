@@ -37,7 +37,7 @@ public class Book {
 	@Size(min = 10, max = 20)
 	private String isbn;
 
-	@Column(nullable = false, columnDefinition = "LONGTEXT")
+	@Column(nullable = false, columnDefinition = "VARCHAR(2000)")
 	@Lob
 	private String contents;
 
