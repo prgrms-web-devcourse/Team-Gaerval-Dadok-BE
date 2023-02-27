@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.global.common.EnumType;
 
 /**
@@ -22,6 +23,8 @@ public class EnumDocsController {
 	public EnumResponse<EnumDocs> findEnums() {
 
 		return EnumResponse.of(EnumDocs.builder()
+				.jobGroup(toMap(JobGroup.values()))
+				.jobName(toMap(JobGroup.JobName.values()))
 			.build()
 		);
 	}

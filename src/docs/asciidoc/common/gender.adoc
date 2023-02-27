@@ -1,5 +1,0 @@
-:doctype: book
-:icons: font
-
-[[gender]]
-include::{snippets}/enum-docs-controller-test/enums/enum-response-fields-gender.adoc[]

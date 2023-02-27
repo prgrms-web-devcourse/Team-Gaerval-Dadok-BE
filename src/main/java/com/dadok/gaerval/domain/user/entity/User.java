@@ -16,12 +16,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.config.security.AuthProvider;
@@ -73,6 +76,10 @@ public class User extends BaseTimeColumn {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<UserAuthority> authorities = new ArrayList<>();
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "job_id")
+	private Job job;
 
 	@Builder
 	protected User(String name, String nickname, String email, String profileImage, Gender gender,

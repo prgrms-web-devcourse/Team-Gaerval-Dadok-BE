@@ -3,13 +3,13 @@ package com.dadok.gaerval.controller;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.PayloadSubsectionExtractor;
@@ -18,11 +18,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.dadok.gaerval.controller.document.EnumDocs;
+import com.dadok.gaerval.controller.document.EnumDocsController;
 import com.dadok.gaerval.controller.document.EnumResponse;
 import com.dadok.gaerval.controller.document.utils.CustomResponseFieldsSnippet;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 @TestPropertySource(value = "classpath:application-test.yml")
+@WebMvcTest(controllers = EnumDocsController.class)
 public class EnumDocsControllerTest extends ControllerTest {
 
 	private static final String ENUM_SNIPPET_FILE = "enum-response";
@@ -59,7 +61,19 @@ public class EnumDocsControllerTest extends ControllerTest {
 
 		// 문서화 진행
 		result.andDo(restDocs.document(
-			));
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.jobGroup").withSubsectionId("jobGroup"),
+					attributes(key("title").value("jobGroup")),
+					enumConvertFieldDescriptor(enumDocs.jobGroup())
+				),
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.jobName").withSubsectionId("jobName"),
+					attributes(key("title").value("jobName")),
+					enumConvertFieldDescriptor(enumDocs.jobName())
+				)
+			)
+
+		);
 	}
 
 	// 커스텀 템플릿 사용을 위한 함수

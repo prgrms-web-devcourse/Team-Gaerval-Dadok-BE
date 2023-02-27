@@ -67,7 +67,7 @@ class DefaultUserServiceSliceTest {
 
 	@DisplayName("register - authority를 새로 저장하고 유저를 저장하고 반환한다 - 성공")
 	@Test
-	void register_notfindCreateAuthority_success() {
+	void register_notFindCreateAuthority_success() {
 		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
 		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
