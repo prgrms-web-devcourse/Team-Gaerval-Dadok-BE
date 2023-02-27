@@ -83,7 +83,7 @@ class BookTest {
 		// Given
 		Book book = BookObjectProvider.createRequiredFieldBook();
 		// When
-		book.setDeleted(true);
+		book.changeDeleted(true);
 		// Then
 		assertTrue(book.isDeleted());
 	}
