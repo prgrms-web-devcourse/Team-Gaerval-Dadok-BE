@@ -9,7 +9,7 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelfOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
@@ -57,7 +57,7 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public PopularBookshelfOfJobResponses findPopularBookshelfByJob(User user, String japGroup) {
+	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String japGroup) {
 		return null;
 	}
 

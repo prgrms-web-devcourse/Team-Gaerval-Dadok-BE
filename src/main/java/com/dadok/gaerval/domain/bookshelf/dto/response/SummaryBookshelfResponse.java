@@ -2,26 +2,20 @@ package com.dadok.gaerval.domain.bookshelf.dto.response;
 
 import java.util.List;
 
-public class BookshelfSummaryResponse {
+public class SummaryBookshelfResponse {
 
 	String bookshelfName;
 
 	Long bookshelfId;
 
-	List<BookSummaryResponse> books;
+	List<SummaryBookResponse> books;
 
-	private static class BookSummaryResponse {
+	private static class SummaryBookResponse {
 
 		Long bookId;
 
 		String title;
 
-		String author;
-
-		String isbn;
-
 		String imageUrl;
-
-		boolean marked;
 	}
 }
