@@ -482,9 +482,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_user">User</a>
+<li><a href="#_user">User</a></li>
+<li><a href="#_job">Job</a>
 <ul class="sectlevel2">
-<li><a href="#_signup">Signup</a></li>
+<li><a href="#_findall">findAll</a></li>
 </ul>
 </li>
 </ul>
@@ -494,31 +495,1439 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_user"><a class="link" href="#_user">User</a></h2>
 <div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_job"><a class="link" href="#_job">Job</a></h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_signup"><a class="link" href="#_signup">Signup</a></h3>
+<h3 id="_findall"><a class="link" href="#_findall">findAll</a></h3>
 <div class="sect3">
 <h4 id="_request"><a class="link" href="#_request">Request</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/ysk/study/devcourse/프로젝트/Team-Gaerval-Dadok-BE/build/generated-snippets/user-controller-test/signup_user/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: localhost:8080</code></pre>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_request_fields"><a class="link" href="#_request_fields">Request fields</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/ysk/study/devcourse/프로젝트/Team-Gaerval-Dadok-BE/build/generated-snippets/user-controller-test/signup_user/request-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_response"><a class="link" href="#_response">Response</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/ysk/study/devcourse/프로젝트/Team-Gaerval-Dadok-BE/build/generated-snippets/user-controller-test/signup_user/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 33503
+
+{
+  "jobs" : [ {
+    "jobGroup" : {
+      "koreanName" : "개발",
+      "name" : "DEVELOPMENT"
+    },
+    "jobNames" : [ {
+      "koreanName" : "데이터 엔지니어",
+      "name" : "DATA_ENGINEER",
+      "order" : 1
+    }, {
+      "koreanName" : "자바 개발자",
+      "name" : "JAVA_DEVELOPER",
+      "order" : 2
+    }, {
+      "koreanName" : ".NET 개발자",
+      "name" : "DOTNET_DEVELOPER",
+      "order" : 3
+    }, {
+      "koreanName" : "시스템,네트워크 관리자",
+      "name" : "SYSTEM_NETWORK_ADMINISTRATOR",
+      "order" : 4
+    }, {
+      "koreanName" : "백엔드 개발자",
+      "name" : "BACKEND_DEVELOPER",
+      "order" : 5
+    }, {
+      "koreanName" : "프론트엔드 개발자",
+      "name" : "FRONTEND_DEVELOPER",
+      "order" : 6
+    }, {
+      "koreanName" : "보안 엔지니어",
+      "name" : "SECURITY_ENGINEER",
+      "order" : 7
+    }, {
+      "koreanName" : "하드웨어 엔지니어",
+      "name" : "HARDWARE_ENGINEER",
+      "order" : 8
+    }, {
+      "koreanName" : "DevOps / 시스템 관리자",
+      "name" : "DEVOPS",
+      "order" : 9
+    }, {
+      "koreanName" : "QA,테스트 엔지니어",
+      "name" : "QA_TEST_ENGINEER",
+      "order" : 10
+    }, {
+      "koreanName" : "안드로이드 개발자",
+      "name" : "ANDROID_DEVELOPER",
+      "order" : 11
+    }, {
+      "koreanName" : "iOS 개발자",
+      "name" : "IOS_DEVELOPER",
+      "order" : 12
+    }, {
+      "koreanName" : "CIO,Chief Information Officer",
+      "name" : "CIO",
+      "order" : 13
+    }, {
+      "koreanName" : "CTO,Chief Technology Officer",
+      "name" : "CTO",
+      "order" : 14
+    }, {
+      "koreanName" : "서버 개발자",
+      "name" : "SERVER_DEVELOPER",
+      "order" : 15
+    }, {
+      "koreanName" : "웹 개발자",
+      "name" : "WEB_DEVELOPER",
+      "order" : 16
+    }, {
+      "koreanName" : "프로덕트 매니저",
+      "name" : "PRODUCT_MANAGER",
+      "order" : 17
+    }, {
+      "koreanName" : "개발 매니저",
+      "name" : "DEVELOPMENT_MANAGER",
+      "order" : 18
+    }, {
+      "koreanName" : "PHP 개발자",
+      "name" : "PHP_DEVELOPER",
+      "order" : 19
+    }, {
+      "koreanName" : "루비온레일즈 개발자",
+      "name" : "RUBY_ON_RAILS_DEVELOPER",
+      "order" : 20
+    }, {
+      "koreanName" : "Node.js 개발자",
+      "name" : "NODEJS_DEVELOPER",
+      "order" : 21
+    }, {
+      "koreanName" : "영상,음성 엔지니어",
+      "name" : "MEDIA_ENGINEER",
+      "order" : 22
+    }, {
+      "koreanName" : "그래픽스 엔지니어",
+      "name" : "GRAPHICS_ENGINEER",
+      "order" : 23
+    }, {
+      "koreanName" : "파이썬 개발자",
+      "name" : "PYTHON_DEVELOPER",
+      "order" : 24
+    }, {
+      "koreanName" : "C,C++ 개발자",
+      "name" : "C_CPP_DEVELOPER",
+      "order" : 25
+    }, {
+      "koreanName" : "웹 퍼블리셔",
+      "name" : "WEB_PUBLISHER",
+      "order" : 26
+    }, {
+      "koreanName" : "BI 엔지니어",
+      "name" : "BI_ENGINEER",
+      "order" : 27
+    }, {
+      "koreanName" : "데이터 사이언티스트",
+      "name" : "DATA_SCIENTIST",
+      "order" : 28
+    }, {
+      "koreanName" : "빅데이터 엔지니어",
+      "name" : "BIGDATA_ENGINEER",
+      "order" : 29
+    }, {
+      "koreanName" : "기술지원",
+      "name" : "TECHNICAL_SUPPORT",
+      "order" : 30
+    }, {
+      "koreanName" : "블록체인 플랫폼 엔지니어",
+      "name" : "BLOCKCHAIN_ENGINEER",
+      "order" : 31
+    }, {
+      "koreanName" : "머신러닝 엔지니어",
+      "name" : "MACHINE_LEARNING_ENGINEER",
+      "order" : 32
+    }, {
+      "koreanName" : "소프트웨어 엔지니어",
+      "name" : "SOFTWARE_ENGINEER",
+      "order" : 33
+    }, {
+      "koreanName" : "크로스플랫폼 앱 개발자",
+      "name" : "CROSS_PLATFORM_APP_DEVELOPER",
+      "order" : 34
+    }, {
+      "koreanName" : "VR 엔지니어",
+      "name" : "VR_ENGINEER",
+      "order" : 35
+    }, {
+      "koreanName" : "ERP전문가",
+      "name" : "ERP_EXPERT",
+      "order" : 36
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 37
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "경영/비즈니스",
+      "name" : "MANAGEMENT_BUSINESS"
+    },
+    "jobNames" : [ {
+      "koreanName" : "비서",
+      "name" : "SECRETARY",
+      "order" : 1
+    }, {
+      "koreanName" : "운영 매니저",
+      "name" : "OPERATION_MANAGER",
+      "order" : 2
+    }, {
+      "koreanName" : "오피스 관리 / 매니저",
+      "name" : "OFFICE_MANAGER",
+      "order" : 3
+    }, {
+      "koreanName" : "PM/PO",
+      "name" : "PM_PO",
+      "order" : 4
+    }, {
+      "koreanName" : "사업개발/기획자",
+      "name" : "BUSINESS_PLANNER",
+      "order" : 5
+    }, {
+      "koreanName" : "서비스 기획자",
+      "name" : "SERVICE_PLANNER",
+      "order" : 6
+    }, {
+      "koreanName" : "컨설턴트",
+      "name" : "CONSULTANT",
+      "order" : 7
+    }, {
+      "koreanName" : "CEO,Chief Executive Officer",
+      "name" : "CEO",
+      "order" : 8
+    }, {
+      "koreanName" : "CFO,Chief Financial Officer",
+      "name" : "CFO",
+      "order" : 9
+    }, {
+      "koreanName" : "COO,Chief Operation Officer",
+      "name" : "COO",
+      "order" : 10
+    }, {
+      "koreanName" : "CSO,Chief Strategy Officer",
+      "name" : "CSO",
+      "order" : 11
+    }, {
+      "koreanName" : "회계/경리",
+      "name" : "ACCOUNTANT",
+      "order" : 12
+    }, {
+      "koreanName" : "해외 사업개발/기획자",
+      "name" : "OVERSEAS_BUSINESS_PLANNER",
+      "order" : 13
+    }, {
+      "koreanName" : "전시 기획자",
+      "name" : "EXHIBITION_PLANNER",
+      "order" : 14
+    }, {
+      "koreanName" : "세미나/포럼 기획자",
+      "name" : "SEMINAR_FORUM_PLANNER",
+      "order" : 15
+    }, {
+      "koreanName" : "공연 기획자",
+      "name" : "PERFORMANCE_PLANNER",
+      "order" : 16
+    }, {
+      "koreanName" : "애자일코치",
+      "name" : "AGILE_COACH",
+      "order" : 17
+    }, {
+      "koreanName" : "사무보조",
+      "name" : "ADMINISTRATIVE_ASSISTANT",
+      "order" : 18
+    }, {
+      "koreanName" : "상품기획자(BM)",
+      "name" : "PRODUCT_PLANNER_BM",
+      "order" : 19
+    }, {
+      "koreanName" : "ISMS(정보보호체계)",
+      "name" : "ISMS",
+      "order" : 20
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 21
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "마케팅/광고",
+      "name" : "MARKETING_ADVERTISEMENT"
+    },
+    "jobNames" : [ {
+      "koreanName" : "브랜드 마케터",
+      "name" : "BRAND_MARKETER",
+      "order" : 1
+    }, {
+      "koreanName" : "카피라이터",
+      "name" : "COPYWRITER",
+      "order" : 2
+    }, {
+      "koreanName" : "마케터",
+      "name" : "MARKETER",
+      "order" : 3
+    }, {
+      "koreanName" : "PR 전문가",
+      "name" : "PR_EXPERT",
+      "order" : 4
+    }, {
+      "koreanName" : "마케팅 전략 기획자",
+      "name" : "MARKETING_PLANNER",
+      "order" : 5
+    }, {
+      "koreanName" : "소셜 마케터",
+      "name" : "SOCIAL_MEDIA_MARKETER",
+      "order" : 6
+    }, {
+      "koreanName" : "광고 기획자(AE)",
+      "name" : "ADVERTISING_PLANNER_AE",
+      "order" : 7
+    }, {
+      "koreanName" : "CMO,Chief Marketing Officer",
+      "name" : "CMO",
+      "order" : 8
+    }, {
+      "koreanName" : "CBO,Chief Brand Officer",
+      "name" : "CBO",
+      "order" : 9
+    }, {
+      "koreanName" : "글로벌 마케팅",
+      "name" : "GLOBAL_MARKETING",
+      "order" : 10
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 11
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "영업",
+      "name" : "SALES"
+    },
+    "jobNames" : [ {
+      "koreanName" : "영업",
+      "name" : "SALES",
+      "order" : 1
+    }, {
+      "koreanName" : "주요고객사 담당자",
+      "name" : "KEY_ACCOUNT_MANAGER",
+      "order" : 2
+    }, {
+      "koreanName" : "세일즈 엔지니어",
+      "name" : "SALES_ENGINEER",
+      "order" : 3
+    }, {
+      "koreanName" : "영업 관리자",
+      "name" : "SALES_MANAGER",
+      "order" : 4
+    }, {
+      "koreanName" : "솔루션 컨설턴트",
+      "name" : "SOLUTION_CONSULTANT",
+      "order" : 5
+    }, {
+      "koreanName" : "고객성공매니저",
+      "name" : "CUSTOMER_SUCCESS_MANAGER",
+      "order" : 6
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 7
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "고객서비스 / 리테일",
+      "name" : "CUSTOMER_SERVICE_RETAIL"
+    },
+    "jobNames" : [ {
+      "koreanName" : "CS 어드바이저",
+      "name" : "CS_ADVISOR",
+      "order" : 1
+    }, {
+      "koreanName" : "승무원",
+      "name" : "FLIGHT_ATTENDANT",
+      "order" : 2
+    }, {
+      "koreanName" : "AS 기술자",
+      "name" : "AS_TECHNICIAN",
+      "order" : 3
+    }, {
+      "koreanName" : "이벤트 기획자",
+      "name" : "EVENT_PLANNER",
+      "order" : 4
+    }, {
+      "koreanName" : "플로리스트",
+      "name" : "FLORIST",
+      "order" : 5
+    }, {
+      "koreanName" : "여행 에이전트",
+      "name" : "TRAVEL_AGENT",
+      "order" : 6
+    }, {
+      "koreanName" : "매장 관리자",
+      "name" : "STORE_MANAGER",
+      "order" : 7
+    }, {
+      "koreanName" : "매장점원",
+      "name" : "STORE_STAFF",
+      "order" : 8
+    }, {
+      "koreanName" : "피부관리사",
+      "name" : "SKIN_CARE_SPECIALIST",
+      "order" : 9
+    }, {
+      "koreanName" : "헤어 디자이너",
+      "name" : "HAIR_DESIGNER",
+      "order" : 10
+    }, {
+      "koreanName" : "비주얼머천다이저",
+      "name" : "VISUAL_MECHANDISER",
+      "order" : 11
+    }, {
+      "koreanName" : "MD",
+      "name" : "MD",
+      "order" : 12
+    }, {
+      "koreanName" : "인바운드 텔레마케터",
+      "name" : "INBOUND_TELEMARKETER",
+      "order" : 13
+    }, {
+      "koreanName" : "CRM 전문가",
+      "name" : "CRM_EXPERT",
+      "order" : 14
+    }, {
+      "koreanName" : "아웃바운드 텔레마케터",
+      "name" : "OUTBOUND_TELEMARKETER",
+      "order" : 15
+    }, {
+      "koreanName" : "CS 매니저",
+      "name" : "CS_MANAGER",
+      "order" : 16
+    }, {
+      "koreanName" : "헬스케어매니저",
+      "name" : "HEALTHCARE_MANAGER",
+      "order" : 17
+    }, {
+      "koreanName" : "미용사",
+      "name" : "BEAUTICIAN",
+      "order" : 18
+    }, {
+      "koreanName" : "애견 미용사",
+      "name" : "PET_BEAUTICIAN",
+      "order" : 19
+    }, {
+      "koreanName" : "리셉션",
+      "name" : "RECEPTIONIST",
+      "order" : 20
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 21
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "미디어",
+      "name" : "MEDIA"
+    },
+    "jobNames" : [ {
+      "koreanName" : "영상 편집가",
+      "name" : "VIDEO_EDITOR",
+      "order" : 1
+    }, {
+      "koreanName" : "작가",
+      "name" : "WRITER",
+      "order" : 2
+    }, {
+      "koreanName" : "에디터",
+      "name" : "EDITOR",
+      "order" : 3
+    }, {
+      "koreanName" : "저널리스트",
+      "name" : "JOURNALIST",
+      "order" : 4
+    }, {
+      "koreanName" : "PD",
+      "name" : "PD",
+      "order" : 5
+    }, {
+      "koreanName" : "리포터",
+      "name" : "REPORTER",
+      "order" : 6
+    }, {
+      "koreanName" : "사진작가",
+      "name" : "PHOTOGRAPHER",
+      "order" : 7
+    }, {
+      "koreanName" : "통/번역",
+      "name" : "TRANSLATOR_INTERPRETER",
+      "order" : 8
+    }, {
+      "koreanName" : "출판 기획자",
+      "name" : "PUBLISHING_PLANNER",
+      "order" : 9
+    }, {
+      "koreanName" : "음향 엔지니어",
+      "name" : "AUDIO_ENGINEER",
+      "order" : 10
+    }, {
+      "koreanName" : "큐레이터",
+      "name" : "CURATOR",
+      "order" : 11
+    }, {
+      "koreanName" : "콘텐츠 크리에이터",
+      "name" : "CONTENT_CREATOR",
+      "order" : 12
+    }, {
+      "koreanName" : "연예, 엔터테인먼트",
+      "name" : "ENTERTAINMENT",
+      "order" : 13
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 14
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "게임 제작",
+      "name" : "GAME"
+    },
+    "jobNames" : [ {
+      "koreanName" : "유니티 개발자",
+      "name" : "UNITY_DEVELOPER",
+      "order" : 1
+    }, {
+      "koreanName" : "게임 그래픽 디자이너",
+      "name" : "GAME_GRAPHIC_DESIGNER",
+      "order" : 2
+    }, {
+      "koreanName" : "게임 아티스트",
+      "name" : "GAME_ARTIST",
+      "order" : 3
+    }, {
+      "koreanName" : "게임 기획자",
+      "name" : "GAME_PLANNER",
+      "order" : 4
+    }, {
+      "koreanName" : "언리얼 개발자",
+      "name" : "UNREAL_DEVELOPER",
+      "order" : 5
+    }, {
+      "koreanName" : "게임운영자(GM)",
+      "name" : "GAME_OPERATOR_GM",
+      "order" : 6
+    }, {
+      "koreanName" : "게임 서버 개발자",
+      "name" : "GAME_SERVER_DEVELOPER",
+      "order" : 7
+    }, {
+      "koreanName" : "게임 클라이언트 개발자",
+      "name" : "GAME_CLIENT_DEVELOPER",
+      "order" : 8
+    }, {
+      "koreanName" : "모바일 게임 개발자",
+      "name" : "MOBILE_GAME_DEVELOPER",
+      "order" : 9
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 10
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "HR",
+      "name" : "HR"
+    },
+    "jobNames" : [ {
+      "koreanName" : "교사",
+      "name" : "TEACHER",
+      "order" : 1
+    }, {
+      "koreanName" : "기술 교육",
+      "name" : "TECHNICAL_EDUCATION",
+      "order" : 2
+    }, {
+      "koreanName" : "HR 컨설턴트",
+      "name" : "HR_CONSULTANT",
+      "order" : 3
+    }, {
+      "koreanName" : "인사담당",
+      "name" : "PERSONNEL_MANAGER",
+      "order" : 4
+    }, {
+      "koreanName" : "리크루터",
+      "name" : "RECRUITER",
+      "order" : 5
+    }, {
+      "koreanName" : "HRD",
+      "name" : "HRD",
+      "order" : 6
+    }, {
+      "koreanName" : "조직문화",
+      "name" : "ORGANIZATIONAL_CULTURE",
+      "order" : 7
+    }, {
+      "koreanName" : "급여담당",
+      "name" : "SALARY_ADMINISTRATOR",
+      "order" : 8
+    }, {
+      "koreanName" : "E-러닝",
+      "name" : "E_LEARNING",
+      "order" : 9
+    }, {
+      "koreanName" : "헤드헌터",
+      "name" : "HEADHUNTER",
+      "order" : 10
+    }, {
+      "koreanName" : "교수",
+      "name" : "PROFESSOR",
+      "order" : 11
+    }, {
+      "koreanName" : "HRBP",
+      "name" : "HRBP",
+      "order" : 12
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 13
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "엔지니어링 / 설계",
+      "name" : "ENGINEERING_DESIGN"
+    },
+    "jobNames" : [ {
+      "koreanName" : "항공우주 공학자",
+      "name" : "AEROSPACE_ENGINEER",
+      "order" : 1
+    }, {
+      "koreanName" : "농업 공학자",
+      "name" : "AGRICULTURAL_ENGINEER",
+      "order" : 2
+    }, {
+      "koreanName" : "자동차 공학자",
+      "name" : "AUTOMOTIVE_ENGINEER",
+      "order" : 3
+    }, {
+      "koreanName" : "유전 공학자",
+      "name" : "GENETIC_ENGINEER",
+      "order" : 4
+    }, {
+      "koreanName" : "생물의학자",
+      "name" : "BIOMEDICAL_ENGINEER",
+      "order" : 5
+    }, {
+      "koreanName" : "세라믹 엔지니어",
+      "name" : "CERAMIC_ENGINEER",
+      "order" : 6
+    }, {
+      "koreanName" : "화학공학 엔지니어",
+      "name" : "CHEMICAL_ENGINEER",
+      "order" : 7
+    }, {
+      "koreanName" : "토목기사",
+      "name" : "CIVIL_ENGINEERING_TECHNICIAN",
+      "order" : 8
+    }, {
+      "koreanName" : "시운전 엔지니어",
+      "name" : "COMMISSIONING_ENGINEER",
+      "order" : 9
+    }, {
+      "koreanName" : "건설 엔지니어",
+      "name" : "CONSTRUCTION_ENGINEER",
+      "order" : 10
+    }, {
+      "koreanName" : "제어 엔지니어",
+      "name" : "CONTROL_ENGINEER",
+      "order" : 11
+    }, {
+      "koreanName" : "도면 작성가",
+      "name" : "DRAFTING_TECHNICIAN",
+      "order" : 12
+    }, {
+      "koreanName" : "시추 엔지니어",
+      "name" : "DRILLING_ENGINEER",
+      "order" : 13
+    }, {
+      "koreanName" : "전기 엔지니어",
+      "name" : "ELECTRICAL_ENGINEER",
+      "order" : 14
+    }, {
+      "koreanName" : "전기기계 공학자",
+      "name" : "ELECTROMECHANICAL_ENGINEER",
+      "order" : 15
+    }, {
+      "koreanName" : "전자 엔지니어",
+      "name" : "ELECTRONICS_ENGINEER",
+      "order" : 16
+    }, {
+      "koreanName" : "환경 엔지니어",
+      "name" : "ENVIRONMENTAL_ENGINEER",
+      "order" : 17
+    }, {
+      "koreanName" : "장비 엔지니어",
+      "name" : "EQUIPMENT_ENGINEER",
+      "order" : 18
+    }, {
+      "koreanName" : "설비 엔지니어",
+      "name" : "FACILITY_ENGINEER",
+      "order" : 19
+    }, {
+      "koreanName" : "소방안전 기술자",
+      "name" : "FIRE_SAFETY_TECHNICIAN",
+      "order" : 20
+    }, {
+      "koreanName" : "지리학자",
+      "name" : "GEOGRAPHER",
+      "order" : 21
+    }, {
+      "koreanName" : "지질공학자",
+      "name" : "GEOLOGICAL_ENGINEER",
+      "order" : 22
+    }, {
+      "koreanName" : "산업 엔지니어",
+      "name" : "INDUSTRIAL_ENGINEER",
+      "order" : 23
+    }, {
+      "koreanName" : "I&amp;C 엔지니어",
+      "name" : "INSTRUMENTATION_AND_CONTROL_ENGINEER",
+      "order" : 24
+    }, {
+      "koreanName" : "생산공학 엔지니어",
+      "name" : "MANUFACTURING_ENGINEER",
+      "order" : 25
+    }, {
+      "koreanName" : "해양공학자",
+      "name" : "MARINE_ENGINEER",
+      "order" : 26
+    }, {
+      "koreanName" : "재료공학자",
+      "name" : "MATERIALS_ENGINEER",
+      "order" : 27
+    }, {
+      "koreanName" : "기계 엔지니어",
+      "name" : "MECHANICAL_ENGINEER",
+      "order" : 28
+    }, {
+      "koreanName" : "금속 공학자",
+      "name" : "METALLURGICAL_ENGINEER",
+      "order" : 29
+    }, {
+      "koreanName" : "광산 기술자",
+      "name" : "MINING_TECHNICIAN",
+      "order" : 30
+    }, {
+      "koreanName" : "선박 공학자",
+      "name" : "NAVAL_ARCHITECT",
+      "order" : 31
+    }, {
+      "koreanName" : "원자력/에너지",
+      "name" : "NUCLEAR_ENERGY_ENGINEER",
+      "order" : 32
+    }, {
+      "koreanName" : "석유공학 엔지니어",
+      "name" : "OIL_ENGINEER",
+      "order" : 33
+    }, {
+      "koreanName" : "배관설계 엔지니어",
+      "name" : "PIPELINE_DESIGN_ENGINEER",
+      "order" : 34
+    }, {
+      "koreanName" : "플랜트 엔지니어",
+      "name" : "PLANT_ENGINEER",
+      "order" : 35
+    }, {
+      "koreanName" : "공정 엔지니어",
+      "name" : "PROCESS_ENGINEER",
+      "order" : 36
+    }, {
+      "koreanName" : "제품 엔지니어",
+      "name" : "PRODUCT_ENGINEER",
+      "order" : 37
+    }, {
+      "koreanName" : "프로젝트 엔지니어",
+      "name" : "PROJECT_ENGINEER",
+      "order" : 38
+    }, {
+      "koreanName" : "QA 엔지니어",
+      "name" : "QA_ENGINEER",
+      "order" : 39
+    }, {
+      "koreanName" : "QC 엔지니어",
+      "name" : "QC_ENGINEER",
+      "order" : 40
+    }, {
+      "koreanName" : "전자계전 엔지니어",
+      "name" : "ELECTRICAL_POWER_ENGINEER",
+      "order" : 41
+    }, {
+      "koreanName" : "저수처리 엔지니어",
+      "name" : "RESERVOIR_ENGINEER",
+      "order" : 42
+    }, {
+      "koreanName" : "RF 엔지니어",
+      "name" : "RF_ENGINEER",
+      "order" : 43
+    }, {
+      "koreanName" : "회전기계 엔지니어",
+      "name" : "ROTATING_EQUIPMENT_ENGINEER",
+      "order" : 44
+    }, {
+      "koreanName" : "구조공학 엔지니어",
+      "name" : "STRUCTURAL_ENGINEER",
+      "order" : 45
+    }, {
+      "koreanName" : "터빈공학자",
+      "name" : "TURBINE_ENGINEER",
+      "order" : 46
+    }, {
+      "koreanName" : "CAD/3D 설계자",
+      "name" : "CAD_3D_DESIGNER",
+      "order" : 47
+    }, {
+      "koreanName" : "로봇/자동화",
+      "name" : "ROBOT_AUTOMATION",
+      "order" : 48
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 49
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "금융",
+      "name" : "FINANCE"
+    },
+    "jobNames" : [ {
+      "koreanName" : "회계/경리",
+      "name" : "ACCOUNTANT",
+      "order" : 1
+    }, {
+      "koreanName" : "재무 분석가",
+      "name" : "FINANCIAL_ANALYST",
+      "order" : 2
+    }, {
+      "koreanName" : "공인회계사",
+      "name" : "CERTIFIED_PUBLIC_ACCOUNTANT",
+      "order" : 3
+    }, {
+      "koreanName" : "내부통제 담당자",
+      "name" : "INTERNAL_CONTROL_SPECIALIST",
+      "order" : 4
+    }, {
+      "koreanName" : "보험 에이전트",
+      "name" : "INSURANCE_AGENT",
+      "order" : 5
+    }, {
+      "koreanName" : "손해 사정관",
+      "name" : "ADJUSTER",
+      "order" : 6
+    }, {
+      "koreanName" : "계리사",
+      "name" : "CLAIMS_ADJUSTER",
+      "order" : 7
+    }, {
+      "koreanName" : "언더라이터",
+      "name" : "UNDERWRITER",
+      "order" : 8
+    }, {
+      "koreanName" : "부동산 자산 관리자",
+      "name" : "REAL_ESTATE_ASSET_MANAGER",
+      "order" : 9
+    }, {
+      "koreanName" : "부동산 중개사",
+      "name" : "REAL_ESTATE_AGENT",
+      "order" : 10
+    }, {
+      "koreanName" : "감정평가사",
+      "name" : "APPRAISER",
+      "order" : 11
+    }, {
+      "koreanName" : "애널리스트",
+      "name" : "ANALYST",
+      "order" : 12
+    }, {
+      "koreanName" : "IR",
+      "name" : "INVESTOR_RELATIONS",
+      "order" : 13
+    }, {
+      "koreanName" : "트레이더",
+      "name" : "TRADER",
+      "order" : 14
+    }, {
+      "koreanName" : "금융공학자",
+      "name" : "FINANCIAL_ENGINEER",
+      "order" : 15
+    }, {
+      "koreanName" : "자산관리사",
+      "name" : "ASSET_MANAGER",
+      "order" : 16
+    }, {
+      "koreanName" : "자산관리사",
+      "name" : "ASSET_MANAGER",
+      "order" : 17
+    }, {
+      "koreanName" : "투자은행가",
+      "name" : "INVESTMENT_BANKER",
+      "order" : 18
+    }, {
+      "koreanName" : "준법감시인",
+      "name" : "COMPLIANCE_OFFICER",
+      "order" : 19
+    }, {
+      "koreanName" : "세무사",
+      "name" : "TAX_ACCOUNTANT",
+      "order" : 20
+    }, {
+      "koreanName" : "재무 담당자",
+      "name" : "FINANCIAL_MANAGER",
+      "order" : 21
+    }, {
+      "koreanName" : "투자/증권",
+      "name" : "INVESTMENT_SECURITIES",
+      "order" : 22
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 23
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "제조 / 생산",
+      "name" : "MANUFACTURING"
+    },
+    "jobNames" : [ {
+      "koreanName" : "조립 기술자",
+      "name" : "ASSEMBLY_TECHNICIAN",
+      "order" : 1
+    }, {
+      "koreanName" : "화학자",
+      "name" : "CHEMIST",
+      "order" : 2
+    }, {
+      "koreanName" : "기계제작 기술자",
+      "name" : "MECHANICAL_TECHNICIAN",
+      "order" : 3
+    }, {
+      "koreanName" : "생산공학 엔지니어",
+      "name" : "MANUFACTURING_ENGINEER",
+      "order" : 4
+    }, {
+      "koreanName" : "기계/설비/설계",
+      "name" : "MECHANICAL_FACILITY_DESIGN",
+      "order" : 5
+    }, {
+      "koreanName" : "생산 관리자",
+      "name" : "PRODUCTION_MANAGER",
+      "order" : 6
+    }, {
+      "koreanName" : "생산직 종사자",
+      "name" : "PRODUCTION_WORKER",
+      "order" : 7
+    }, {
+      "koreanName" : "공정 관리자",
+      "name" : "PROCESS_MANAGER",
+      "order" : 8
+    }, {
+      "koreanName" : "품질 관리자",
+      "name" : "QUALITY_MANAGER",
+      "order" : 9
+    }, {
+      "koreanName" : "안전 관리자",
+      "name" : "SAFETY_MANAGER",
+      "order" : 10
+    }, {
+      "koreanName" : "제조 테스트 엔지니어",
+      "name" : "TEST_ENGINEER",
+      "order" : 11
+    }, {
+      "koreanName" : "섬유/의류/패션",
+      "name" : "TEXTILES_APPAREL_FASHION",
+      "order" : 12
+    }, {
+      "koreanName" : "반도체/디스플레이",
+      "name" : "SEMICONDUCTOR_DISPLAY",
+      "order" : 13
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 14
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "의료 / 제약 / 바이오",
+      "name" : "MEDICAL"
+    },
+    "jobNames" : [ {
+      "koreanName" : "치과 위생사",
+      "name" : "DENTAL_HYGIENIST",
+      "order" : 1
+    }, {
+      "koreanName" : "조무사",
+      "name" : "PARALEGAL",
+      "order" : 2
+    }, {
+      "koreanName" : "임상병리사",
+      "name" : "CLINICAL_LABORATORY_TECHNOLOGIST",
+      "order" : 3
+    }, {
+      "koreanName" : "간호사",
+      "name" : "NURSE",
+      "order" : 4
+    }, {
+      "koreanName" : "물리 치료사",
+      "name" : "PHYSICAL_THERAPIST",
+      "order" : 5
+    }, {
+      "koreanName" : "의사",
+      "name" : "PHYSICIAN",
+      "order" : 6
+    }, {
+      "koreanName" : "수의사",
+      "name" : "VETERINARIAN",
+      "order" : 7
+    }, {
+      "koreanName" : "간호 조무사",
+      "name" : "NURSE_PARALEGAL",
+      "order" : 8
+    }, {
+      "koreanName" : "치과의사",
+      "name" : "DENTIST",
+      "order" : 9
+    }, {
+      "koreanName" : "검안사",
+      "name" : "EXAMINER",
+      "order" : 10
+    }, {
+      "koreanName" : "약사",
+      "name" : "PHARMACIST",
+      "order" : 11
+    }, {
+      "koreanName" : "임상시험 연구원",
+      "name" : "CLINICAL_TRIAL_RESEARCHER",
+      "order" : 12
+    }, {
+      "koreanName" : "임상시험 간호사",
+      "name" : "CLINICAL_TRIAL_NURSE",
+      "order" : 13
+    }, {
+      "koreanName" : "미생물학자",
+      "name" : "MICROBIOLOGIST",
+      "order" : 14
+    }, {
+      "koreanName" : "유전공학자",
+      "name" : "GENETICIST",
+      "order" : 15
+    }, {
+      "koreanName" : "연구원",
+      "name" : "RESEARCHER",
+      "order" : 16
+    }, {
+      "koreanName" : "한의사",
+      "name" : "ORIENTAL_MEDICINE_PHYSICIAN",
+      "order" : 17
+    }, {
+      "koreanName" : "방사선사",
+      "name" : "RADIOLOGIST",
+      "order" : 18
+    }, {
+      "koreanName" : "병원 코디네이터",
+      "name" : "HOSPITAL_COORDINATOR",
+      "order" : 19
+    }, {
+      "koreanName" : "임상심리사",
+      "name" : "CLINICAL_PSYCHOLOGIST",
+      "order" : 20
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 21
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "물류 / 무역",
+      "name" : "LOGISTICS"
+    },
+    "jobNames" : [ {
+      "koreanName" : "배송담당",
+      "name" : "SHIPPING_HANDLER",
+      "order" : 1
+    }, {
+      "koreanName" : "디젤 정비공",
+      "name" : "DIESEL_MECHANIC",
+      "order" : 2
+    }, {
+      "koreanName" : "운행 관리원",
+      "name" : "OPERATIONS_MANAGER",
+      "order" : 3
+    }, {
+      "koreanName" : "지게차 운전사",
+      "name" : "FORKLIFT_DRIVER",
+      "order" : 4
+    }, {
+      "koreanName" : "운전기사",
+      "name" : "DRIVER",
+      "order" : 5
+    }, {
+      "koreanName" : "물류 분석가",
+      "name" : "LOGISTICS_ANALYST",
+      "order" : 6
+    }, {
+      "koreanName" : "화물트럭 운전기사",
+      "name" : "FREIGHT_TRUCK_DRIVER",
+      "order" : 7
+    }, {
+      "koreanName" : "선적,발송 사무원",
+      "name" : "SHIPPING_CLERK",
+      "order" : 8
+    }, {
+      "koreanName" : "운송 관리자",
+      "name" : "TRANSPORTATION_MANAGER",
+      "order" : 9
+    }, {
+      "koreanName" : "웨어하우스",
+      "name" : "WAREHOUSE_WORKER",
+      "order" : 10
+    }, {
+      "koreanName" : "항공 운송",
+      "name" : "AIR_TRANSPORTATION",
+      "order" : 11
+    }, {
+      "koreanName" : "해운/해양 운송",
+      "name" : "MARINE_TRANSPORTATION",
+      "order" : 12
+    }, {
+      "koreanName" : "무역사무",
+      "name" : "TRADE_OFFICE",
+      "order" : 13
+    }, {
+      "koreanName" : "관세사",
+      "name" : "CUSTOMS_BROKER",
+      "order" : 14
+    }, {
+      "koreanName" : "원산지관리사",
+      "name" : "ORIGIN_MANAGEMENT_SPECIALIST",
+      "order" : 15
+    }, {
+      "koreanName" : "입/출고 관리자",
+      "name" : "INBOUND_OUTBOUND_MANAGER",
+      "order" : 16
+    }, {
+      "koreanName" : "유통 관리자",
+      "name" : "DISTRIBUTION_MANAGER",
+      "order" : 17
+    }, {
+      "koreanName" : "항해사",
+      "name" : "MARINE_NAVIGATION_OFFICER",
+      "order" : 18
+    }, {
+      "koreanName" : "기관사",
+      "name" : "MECHANICAL_OFFICER",
+      "order" : 19
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 20
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "교육",
+      "name" : "EDUCATION"
+    },
+    "jobNames" : [ {
+      "koreanName" : "교재/교육기획",
+      "name" : "CURRICULUM_PLANNER",
+      "order" : 1
+    }, {
+      "koreanName" : "학원강사",
+      "name" : "PRIVATE_TUTOR",
+      "order" : 2
+    }, {
+      "koreanName" : "교직원",
+      "name" : "SCHOOL_STAFF",
+      "order" : 3
+    }, {
+      "koreanName" : "유치원교사",
+      "name" : "KINDERGARTEN_TEACHER",
+      "order" : 4
+    }, {
+      "koreanName" : "교사",
+      "name" : "TEACHER",
+      "order" : 5
+    }, {
+      "koreanName" : "자격증/기술전문교육",
+      "name" : "QUALIFICATION_TECHNICAL_INSTRUCTOR",
+      "order" : 6
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 7
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "식/음료",
+      "name" : "FOOD_BEVERAGE"
+    },
+    "jobNames" : [ {
+      "koreanName" : "영양사",
+      "name" : "NUTRITIONIST",
+      "order" : 1
+    }, {
+      "koreanName" : "제빵사",
+      "name" : "CHEF_BAKER",
+      "order" : 2
+    }, {
+      "koreanName" : "바텐더",
+      "name" : "BARTENDER",
+      "order" : 3
+    }, {
+      "koreanName" : "요리사",
+      "name" : "COOK",
+      "order" : 4
+    }, {
+      "koreanName" : "외식업 종사자",
+      "name" : "FOOD_SERVICE_WORKER",
+      "order" : 5
+    }, {
+      "koreanName" : "레스토랑 관리자",
+      "name" : "RESTAURANT_MANAGER",
+      "order" : 6
+    }, {
+      "koreanName" : "식품 MD",
+      "name" : "FOOD_MD",
+      "order" : 7
+    }, {
+      "koreanName" : "푸드스타일리스트",
+      "name" : "FOOD_STYLIST",
+      "order" : 8
+    }, {
+      "koreanName" : "소믈리에",
+      "name" : "SOMMELIER",
+      "order" : 9
+    }, {
+      "koreanName" : "식품가공/개발",
+      "name" : "FOOD_PROCESSING_DEVELOPMENT",
+      "order" : 10
+    }, {
+      "koreanName" : "바리스타",
+      "name" : "BARISTA",
+      "order" : 11
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 12
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "건설 / 시설",
+      "name" : "CONSTRUCTION_FACILITY"
+    },
+    "jobNames" : [ {
+      "koreanName" : "목수",
+      "name" : "CARPENTER",
+      "order" : 1
+    }, {
+      "koreanName" : "중장비 기술자",
+      "name" : "HEAVY_EQUIPMENT_TECHNICIAN",
+      "order" : 2
+    }, {
+      "koreanName" : "정비공",
+      "name" : "MAINTENANCE_WORKER",
+      "order" : 3
+    }, {
+      "koreanName" : "유지보수 관리자",
+      "name" : "MAINTENANCE_MANAGER",
+      "order" : 4
+    }, {
+      "koreanName" : "관리인",
+      "name" : "FACILITY_MANAGER",
+      "order" : 5
+    }, {
+      "koreanName" : "전기 기술자",
+      "name" : "ELECTRICIAN",
+      "order" : 6
+    }, {
+      "koreanName" : "플랜트 관리자",
+      "name" : "PLANT_MANAGER",
+      "order" : 7
+    }, {
+      "koreanName" : "용접기사",
+      "name" : "WELDER",
+      "order" : 8
+    }, {
+      "koreanName" : "배관공",
+      "name" : "PLUMBER",
+      "order" : 9
+    }, {
+      "koreanName" : "견적 기술자",
+      "name" : "ESTIMATOR",
+      "order" : 10
+    }, {
+      "koreanName" : "건축가",
+      "name" : "ARCHITECT",
+      "order" : 11
+    }, {
+      "koreanName" : "실내건축",
+      "name" : "INTERIOR_ARCHITECT",
+      "order" : 12
+    }, {
+      "koreanName" : "건축시공/감리",
+      "name" : "CONSTRUCTION_SUPERVISOR",
+      "order" : 13
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 14
+    } ]
+  }, {
+    "jobGroup" : {
+      "koreanName" : "공공 / 복지",
+      "name" : "PUBLIC_WELFARE"
+    },
+    "jobNames" : [ {
+      "koreanName" : "상담사",
+      "name" : "COUNSELOR",
+      "order" : 1
+    }, {
+      "koreanName" : "소방관",
+      "name" : "FIREFIGHTER",
+      "order" : 2
+    }, {
+      "koreanName" : "환경 전문가",
+      "name" : "ENVIRONMENTAL_EXPERT",
+      "order" : 3
+    }, {
+      "koreanName" : "정보 분석가",
+      "name" : "INFORMATION_ANALYST",
+      "order" : 4
+    }, {
+      "koreanName" : "인명 구조원",
+      "name" : "LIFEGUARD",
+      "order" : 5
+    }, {
+      "koreanName" : "지역 전문가",
+      "name" : "REGIONAL_EXPERT",
+      "order" : 6
+    }, {
+      "koreanName" : "공무원",
+      "name" : "PUBLIC_OFFICIAL",
+      "order" : 7
+    }, {
+      "koreanName" : "직업군인",
+      "name" : "PROFESSIONAL_SOLDIER",
+      "order" : 8
+    }, {
+      "koreanName" : "자원봉사자",
+      "name" : "VOLUNTEER",
+      "order" : 9
+    }, {
+      "koreanName" : "사회복지사",
+      "name" : "SOCIAL_WORKER",
+      "order" : 10
+    }, {
+      "koreanName" : "응급구조사",
+      "name" : "PARAMEDIC",
+      "order" : 11
+    }, {
+      "koreanName" : "요양보호사",
+      "name" : "CAREGIVER",
+      "order" : 12
+    }, {
+      "koreanName" : "기타",
+      "name" : "ETC",
+      "order" : 13
+    } ]
+  } ]
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_response_fields"><a class="link" href="#_response_fields">Response fields</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/ysk/study/devcourse/프로젝트/Team-Gaerval-Dadok-BE/build/generated-snippets/user-controller-test/signup_user/response-fields.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군, 직업 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobGroup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobGroup.koreanName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군 한글명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobGroup.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군 영어명
+ <a href="common/jobGroup.html" class="popup">직군 코드</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직업명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames[].koreanName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직업 한글명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames[].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군 영어명
+ <a href="common/jobName.html" class="popup">직업 코드</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames[].order</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 순서</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -527,7 +1936,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-02-21 13:52:43 +0900
+Last updated 2023-02-27 17:56:11 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

@@ -40,7 +40,6 @@ public class ExceptionHandlingFilter extends OncePerRequestFilter {
 			setErrorResponse(request, response, e);
 		}
 
-		System.out.println("hihi");
 	}
 
 	private void setErrorResponse(HttpServletRequest request,

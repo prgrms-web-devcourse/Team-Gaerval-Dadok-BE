@@ -10,21 +10,14 @@
 
 == User
 
-=== Signup
 
+== Job
+=== findAll
 ==== Request
-include::{snippets}/user-controller-test/signup_user/http-request.adoc[]
-
-==== Request fields
-include::{snippets}/user-controller-test/signup_user/request-fields.adoc[]
+include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
 
 ==== Response
-
-include::{snippets}/user-controller-test/signup_user/http-response.adoc[]
+include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
 
 ==== Response fields
-
-include::{snippets}/user-controller-test/signup_user/response-fields.adoc[]
-
-
-
+include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
