@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BookshelfItem {
+public class BookshelfItem extends BaseTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

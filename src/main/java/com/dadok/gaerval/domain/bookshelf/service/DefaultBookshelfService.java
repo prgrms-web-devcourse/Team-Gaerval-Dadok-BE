@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.bookshelf.service;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
+import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 
@@ -57,7 +59,9 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String japGroup) {
+	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String jobGroup) {
+		JobGroup searchJobGroup = JobGroup.valueOf(jobGroup);
+		bookshelfRepository.findAllByJob(searchJobGroup, PageRequest.of(0, 10), user.getId());
 		return null;
 	}
 

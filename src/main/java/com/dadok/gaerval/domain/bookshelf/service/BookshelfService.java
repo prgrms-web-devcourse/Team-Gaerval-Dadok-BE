@@ -18,7 +18,7 @@ public interface BookshelfService {
 
 	Long createBookshelf(User user);
 
-	PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String japGroup);
+	PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String jobGroup);
 
 	Long insertBookSelfItem(User user, Long bookshelfId, BookCreateRequest bookCreateRequest);
 

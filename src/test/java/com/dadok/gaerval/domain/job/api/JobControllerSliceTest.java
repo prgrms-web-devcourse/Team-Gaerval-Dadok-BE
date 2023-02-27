@@ -13,6 +13,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
+import com.dadok.gaerval.domain.bookshelf.api.BookshelfController;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 
@@ -20,6 +21,9 @@ class JobControllerSliceTest extends ControllerTest {
 
 	@MockBean
 	private JobService jobService;
+
+	@MockBean
+	private BookshelfController bookshelfController;
 
 	@DisplayName("직업 리스트 조회 - 직업 리스트를 정렬된 상태로 반환한다.")
 	@Test
