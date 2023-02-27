@@ -37,7 +37,7 @@ public class Book {
 	@Size(min = 10, max = 20)
 	private String isbn;
 
-	@Column(nullable = false, columnDefinition = "CLOB")
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	@Lob
 	private String contents;
 

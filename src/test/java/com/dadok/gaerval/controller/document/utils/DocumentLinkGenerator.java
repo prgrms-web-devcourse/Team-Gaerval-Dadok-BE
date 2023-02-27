@@ -16,8 +16,9 @@ public interface DocumentLinkGenerator {
     @RequiredArgsConstructor
     @Getter
     enum DocUrl {
-        GENDER("gender", "성별");
-
+        GENDER("gender", "성별"),
+        JOB_GROUP("jobGroup", "직군"),
+        JOB_NAME("jobName", "직업");
         private final String pageId;
         private final String text;
     }

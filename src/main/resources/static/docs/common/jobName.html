@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Enum Document</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="book">
+<div id="header">
+<h1>Enum Document</h1>
+<div class="details">
+<span id="revnumber">version 0.0.1-SNAPSHOT</span>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div id="JobName" class="paragraph">
+<p>Type : jobName</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">코드</th>
+<th class="tableblock halign-left valign-top">코드명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PIPELINE_DESIGN_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">배관설계 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RESTAURANT_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">레스토랑 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BEAUTICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">미용사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IOS_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">iOS 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATION_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">운영 매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ELECTRONICS_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전자 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BI_BX_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BI/BX 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UNREAL_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">언리얼 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INSTRUMENTATION_AND_CONTROL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">I&amp;C 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FACILITY_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">관리인</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PUBLISHING_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출판 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ADJUSTER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">손해 사정관</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>APPRAISER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">감정평가사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HAIR_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">헤어 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NUTRITIONIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">영양사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COUNSELOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상담사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RESEARCHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">연구원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SOFTWARE_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소프트웨어 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ADMINISTRATIVE_ASSISTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사무보조</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PLANT_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">플랜트 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ART_DIRECTOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아트 디렉터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UNDERWRITER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">언더라이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FINANCIAL_ANALYST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">재무 분석가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRANSLATOR_INTERPRETER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">통/번역</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MEDIA_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">영상,음성 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CEO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CEO,Chief Executive Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TEXTILES_APPAREL_FASHION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">섬유/의류/패션</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>REGIONAL_EXPERT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지역 전문가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PLUMBER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">배관공</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DIESEL_MECHANIC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">디젤 정비공</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QA_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QA 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PARALEGAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조무사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CS_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS 매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VOLUNTEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자원봉사자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MECHANICAL_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기계제작 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DATA_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DOTNET_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">.NET 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BIOMEDICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생물의학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MARINE_TRANSPORTATION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해운/해양 운송</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NUCLEAR_ENERGY_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">원자력/에너지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FINANCIAL_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">재무 담당자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FOOD_STYLIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">푸드스타일리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BUSINESS_DEVELOPER_OVERSEAS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해외 사업개발/기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SAFETY_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">안전 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WAREHOUSE_WORKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">웨어하우스</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CFO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CFO,Chief Financial Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GAME_CLIENT_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게임 클라이언트 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BARTENDER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">바텐더</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BIGDATA_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빅데이터 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QA_TEST_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QA,테스트 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERSONNEL_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인사담당</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DENTAL_HYGIENIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">치과 위생사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DENTIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">치과의사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SALES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">영업</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NODEJS_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Node.js 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FACILITY_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설비 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRADE_OFFICE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">무역사무</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UNITY_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유니티 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONSTRUCTION_SUPERVISOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">건축시공/감리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JAVA_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자바 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PROJECT_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로젝트 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GENETICIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유전공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>STRUCTURAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">구조공학 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DISTRIBUTION_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRODUCT_PLANNER_BM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상품기획자(BM)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DRILLING_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">시추 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ISMS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ISMS(정보보호체계)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SOMMELIER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소믈리에</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>E_LEARNING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">E-러닝</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CHEMIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">화학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CAD_3D_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CAD/3D 설계자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SHIPPING_HANDLER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">배송담당</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VR_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VR 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RECEPTIONIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리셉션</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MACHINE_LEARNING_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">머신러닝 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CLINICAL_TRIAL_RESEARCHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임상시험 연구원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRADER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">트레이더</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QUALIFICATION_TECHNICAL_INSTRUCTOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자격증/기술전문교육</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRANSPORTATION_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">운송 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ASSET_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자산관리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SOCIAL_MEDIA_MARKETER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소셜 마케터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>STORE_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매장 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HRD</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HRD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FOOD_SERVICE_WORKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">외식업 종사자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PYTHON_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파이썬 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONSULTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">컨설턴트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SPACE_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공간 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MATERIALS_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">재료공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DRIVER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">운전기사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SALES_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">세일즈 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AIR_TRANSPORTATION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">항공 운송</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EXHIBITION_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전시 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TRAVEL_AGENT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">여행 에이전트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NURSE_PARALEGAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">간호 조무사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PHYSICAL_THERAPIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">물리 치료사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NURSE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">간호사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ELECTRICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전기 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PUBLIC_OFFICIAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공무원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CURATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">큐레이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORIGIN_MANAGEMENT_SPECIALIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">원산지관리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SALES_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">영업 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SALARY_ADMINISTRATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">급여담당</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PROCESS_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공정 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TECHNICAL_SUPPORT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기술지원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SYSTEM_NETWORK_ADMINISTRATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">시스템,네트워크 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AS_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AS 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CIO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIO,Chief Information Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PR_EXPERT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PR 전문가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HEAVY_EQUIPMENT_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중장비 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ENVIRONMENTAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">환경 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INVESTOR_RELATIONS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GAME_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게임 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INFORMATION_ANALYST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정보 분석가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WEB_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">웹 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MARKETER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마케터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUDIO_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">음향 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SEMINAR_FORUM_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">세미나/포럼 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SOLUTION_CONSULTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">솔루션 컨설턴트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ILLUSTRATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">일러스트레이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GEOGRAPHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지리학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TURBINE_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">터빈공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LANDSCAPE_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조경 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INVESTMENT_SECURITIES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">투자/증권</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MECHANICAL_OFFICER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기관사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIVATE_TUTOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학원강사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATIONS_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">운행 관리원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TAX_ACCOUNTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">세무사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VIDEO_MOTION_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">영상,모션 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INBOUND_TELEMARKETER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인바운드 텔레마케터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUTOMOTIVE_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">자동차 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RECRUITER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리크루터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MOBILE_GAME_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모바일 게임 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OFFICE_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">오피스 관리 / 매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AGILE_COACH</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">애자일코치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RADIOLOGIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">방사선사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ENTERTAINMENT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">연예, 엔터테인먼트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MINING_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">광산 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INTERIOR_ARCHITECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">실내건축</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERP_EXPERT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ERP전문가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ADVERTISING_PLANNER_AE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">광고 기획자(AE)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>REAL_ESTATE_ASSET_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부동산 자산 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FINANCIAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">금융공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OTHER_CUSTOMER_SERVICE_RETAIL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기타</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INBOUND_OUTBOUND_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">입/출고 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HEALTHCARE_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">헬스케어매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EDITOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에디터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BRAND_MARKETER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">브랜드 마케터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OTHER_SALES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기타</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ELECTRICAL_POWER_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전자계전 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INTERIOR_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인테리어 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HRBP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HRBP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INDUSTRIAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">산업 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UI_UX_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UI, UX 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORGANIZATIONAL_CULTURE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조직문화</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GEOLOGICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지질공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PHOTOGRAPHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사진작가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PACKAGE_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">패키지 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COMMISSIONING_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">시운전 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CHARACTER_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">캐릭터 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FIREFIGHTER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소방관</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CUSTOMER_SUCCESS_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">고객성공매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ROTATING_EQUIPMENT_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회전기계 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MARKETING_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마케팅 전략 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DRAFTING_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도면 작성가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MICROBIOLOGIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">미생물학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CLINICAL_PSYCHOLOGIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임상심리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PM_PO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PM/PO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INSURANCE_AGENT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">보험 에이전트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FLIGHT_ATTENDANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승무원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONTENT_CREATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">콘텐츠 크리에이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BI_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BI 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GAME_SERVER_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게임 서버 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CERAMIC_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">세라믹 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FRONTEND_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프론트엔드 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GAME_OPERATOR_GM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게임운영자(GM)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>REAL_ESTATE_AGENT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부동산 중개사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CHEF_BAKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제빵사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TECHNICAL_EDUCATION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기술 교육</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ARCHITECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">건축가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AEROSPACE_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">항공우주 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CMO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CMO,Chief Marketing Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ANALYST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">애널리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FOOD_MD</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">식품 MD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FIRE_SAFETY_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">소방안전 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SOCIAL_WORKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사회복지사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ELECTROMECHANICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전기기계 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CIVIL_ENGINEERING_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">토목기사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EXAMINER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검안사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GRAPHICS_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">그래픽스 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MAINTENANCE_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유지보수 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OIL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">석유공학 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PUBLISHING_EDITOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출판, 편집 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TEACHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">교사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LIFEGUARD</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인명 구조원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RESERVOIR_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저수처리 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ASSEMBLY_TECHNICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조립 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ELECTRICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전기 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PLANT_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">플랜트 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRODUCT_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제품 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HR_CONSULTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HR 컨설턴트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AGRICULTURAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">농업 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRODUCT_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제품 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRODUCTION_WORKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생산직 종사자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COMPLIANCE_OFFICER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">준법감시인</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CURRICULUM_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">교재/교육기획</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SERVICE_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">서비스 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CARPENTER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">목수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VETERINARIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수의사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SEMICONDUCTOR_DISPLAY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">반도체/디스플레이</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COOK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MAINTENANCE_WORKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정비공</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BUSINESS_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사업개발/기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>KINDERGARTEN_TEACHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유치원교사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OTHER_MARKETING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기타</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JOURNALIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저널리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ENVIRONMENTAL_EXPERT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">환경 전문가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OVERSEAS_BUSINESS_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해외 사업개발/기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CHEMICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">화학공학 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DATA_SCIENTIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터 사이언티스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">COO,Chief Operation Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MECHANICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기계 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRODUCTION_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생산 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BARISTA</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">바리스타</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WEB_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">웹 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>KEY_ACCOUNT_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">주요고객사 담당자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WRITER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">작가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BACKEND_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">백엔드 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PHP_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PHP 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ORIENTAL_MEDICINE_PHYSICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">한의사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GAME_ARTIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게임 아티스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PROFESSIONAL_SOLDIER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직업군인</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WEB_PUBLISHER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">웹 퍼블리셔</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CAREGIVER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요양보호사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PARAMEDIC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응급구조사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MANUFACTURING_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생산공학 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PHARMACIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">약사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MOBILE_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모바일 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CERTIFIED_PUBLIC_ACCOUNTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인회계사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ETC</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기타</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GENETIC_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유전 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>C_CPP_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C,C++ 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONTROL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제어 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QUALITY_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">품질 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HEADHUNTER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">헤드헌터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NAVAL_ARCHITECT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선박 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PHYSICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">의사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DEVOPS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DevOps / 시스템 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SERVER_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">서버 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CS_ADVISOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CS 어드바이저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FLORIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">플로리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ESTIMATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">견적 기술자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VISUAL_MECHANDISER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비주얼머천다이저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ROBOT_AUTOMATION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로봇/자동화</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EVENT_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이벤트 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RUBY_ON_RAILS_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">루비온레일즈 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HOSPITAL_COORDINATOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">병원 코디네이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ACCOUNTANT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회계/경리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WELDER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">용접기사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MD</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SECRETARY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비서</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CLAIMS_ADJUSTER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SKIN_CARE_SPECIALIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">피부관리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CUSTOMS_BROKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">관세사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GAME_GRAPHIC_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게임 그래픽 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>STORE_STAFF</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매장점원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MECHANICAL_FACILITY_DESIGN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기계/설비/설계</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONSTRUCTION_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">건설 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FASHION_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">패션 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VIDEO_EDITOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">영상 편집가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BLOCKCHAIN_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">블록체인 플랫폼 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PROFESSOR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">교수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MARINE_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해양공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SECURITY_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">보안 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FOOD_PROCESSING_DEVELOPMENT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">식품가공/개발</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OUTBOUND_TELEMARKETER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아웃바운드 텔레마케터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CROSS_PLATFORM_APP_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">크로스플랫폼 앱 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CRM_EXPERT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CRM 전문가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PROCESS_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공정 관리자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DISPLAY_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전시 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>REPORTER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리포터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INTERNAL_CONTROL_SPECIALIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내부통제 담당자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TEST_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제조 테스트 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FREIGHT_TRUCK_DRIVER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">화물트럭 운전기사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SCHOOL_STAFF</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">교직원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CBO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CBO,Chief Brand Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LOGISTICS_ANALYST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">물류 분석가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CLINICAL_TRIAL_NURSE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임상시험 간호사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FORKLIFT_DRIVER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">지게차 운전사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CLINICAL_LABORATORY_TECHNOLOGIST</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임상병리사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>HARDWARE_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">하드웨어 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SHIPPING_CLERK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선적,발송 사무원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>THREE_D_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3D 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CSO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CSO,Chief Strategy Officer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QC_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QC 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EQUIPMENT_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">장비 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DEVELOPMENT_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개발 매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRODUCT_MANAGER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">프로덕트 매니저</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PERFORMANCE_PLANNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공연 기획자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>METALLURGICAL_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">금속 공학자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GLOBAL_MARKETING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">글로벌 마케팅</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INVESTMENT_BANKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">투자은행가</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MARINE_NAVIGATION_OFFICER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">항해사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GRAPHIC_DESIGNER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">그래픽 디자이너</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COPYWRITER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카피라이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PD</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PD</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RF_ENGINEER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RF 엔지니어</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ANDROID_DEVELOPER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">안드로이드 개발자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PET_BEAUTICIAN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">애견 미용사</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CTO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CTO,Chief Technology Officer</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 0.0.1-SNAPSHOT<br>
+Last updated 2023-02-27 17:35:20 +0900
+</div>
+</div>
+</body>
+</html>
