@@ -60,7 +60,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Override
 	@Transactional(readOnly = true)
 	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String jobGroup) {
-		JobGroup searchJobGroup = JobGroup.valueOf(jobGroup);
+		//TODO 수정 예정
+		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
 		bookshelfRepository.findAllByJob(searchJobGroup, PageRequest.of(0, 10), user.getId());
 		return null;
 	}

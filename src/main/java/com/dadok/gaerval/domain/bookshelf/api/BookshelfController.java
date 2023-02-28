@@ -64,7 +64,7 @@ public class BookshelfController {
 	@PostMapping(value = "/bookshelves/{bookshelvesId}/books",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	public ResponseEntity<Void> insertBookInBookshelf(@PathVariable Long bookshelvesId,
+	public ResponseEntity<Void> insertBookInBookshelf(@PathVariable("bookshelvesId") Long bookshelvesId,
 		@RequestBody @Valid BookCreateRequest bookCreateRequest,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 		User user = userPrincipal.getUserEntity();
@@ -85,7 +85,7 @@ public class BookshelfController {
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<Void> removeBookFormBookshelf(
-		@PathVariable Long bookshelvesId, @PathVariable Long bookId,
+		@PathVariable("bookshelvesId") Long bookshelvesId, @PathVariable("bookId") Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 		User user = userPrincipal.getUserEntity();
 		bookshelfService.removeBookSelfItem(user, bookshelvesId, bookId);

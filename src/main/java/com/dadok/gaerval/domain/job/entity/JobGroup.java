@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import com.dadok.gaerval.global.common.EnumType;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import lombok.Getter;
@@ -405,6 +404,13 @@ public enum JobGroup implements EnumType {
 			.filter(j -> Objects.equals(j.name(), jobName.toUpperCase()))
 			.findFirst()
 			.orElseThrow(() -> new InvalidArgumentException(jobName, "jobName"));
+	}
+
+	public static JobGroup findJobGroup(String groupName) {
+		return Arrays.stream(values())
+			.filter(j -> Objects.equals(j.getDescription(), groupName.toUpperCase()))
+			.findFirst()
+			.orElseThrow(() -> new InvalidArgumentException(groupName, "groupName"));
 	}
 
 	@JsonCreator
