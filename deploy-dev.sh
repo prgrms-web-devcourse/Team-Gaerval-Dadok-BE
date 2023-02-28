@@ -1,20 +1,5 @@
 #!/bin/bash
 
-# 도커가 이미 설치되어있는지 확인
-if command -v docker &> /dev/null
-then
-    echo "Docker already installed"
-else # 도커가 설치되지 않았다면
-    # 도커 설치 스크립트
-    sudo amazon-linux-extras install docker
-    sudo service docker start
-    # 현재 사용자를 docker 그룹에 추가하여 sudo를 사용하지 않고 도커 명령을 사용할 수 있도록 설정
-    sudo usermod -aG docker $USER
-    # 도커 설치 완료 메시지 출력
-    echo "Docker installed successfully"
-fi
-
-
 # Blue 를 기준으로 현재 떠있는 컨테이너를 체크한다.
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
