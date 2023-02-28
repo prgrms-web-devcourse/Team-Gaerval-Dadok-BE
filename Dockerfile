@@ -32,5 +32,5 @@ ACCESS_TOKEN_EXPIRE_SECONDS: ${ACCESS_TOKEN_EXPIRE_SECONDS} \
 SERVER_HOST: ${SERVER_HOST}
 
 ENTRYPOINT ["java", \
-"-Dspring.profiles.active=${SPRING_ACTIVE_PROFILE}", \
+"-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
 "-jar", "/dadok.jar"]
