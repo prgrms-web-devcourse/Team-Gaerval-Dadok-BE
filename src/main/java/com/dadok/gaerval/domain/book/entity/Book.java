@@ -80,7 +80,7 @@ public class Book extends BaseTimeColumn {
 		validateLengthInRange(url, 0, 2083, "URL");
 		validateLengthInRange(imageUrl, 0, 2083, "이미지 URL");
 		validateLengthInRange(apiProvider, 0, 20, "API 제공자");
-		validateLengthInRange(isbn, 1, 20, "출판사");
+		validateLengthInRange(publisher, 1, 20, "출판사");
 	}
 
 	protected Book(String title, String author, String isbn, String contents, String url,
