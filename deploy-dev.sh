@@ -23,31 +23,33 @@ BLUE="blue"
 GREEN="green"
 BLUE_PORT=8080
 GREEN_PORT=8081
+BLUE_CONTAINER_NAME="dadok-dev-blue"
+GREEN_CONTAINER_NAME="dadok-green-blue"
+
 
 # 컨테이너 스위칭
 # BLUE 컨테이너가 동작중이지 않다면,
-if [ -z "$RUNNING_BLUE_CONTAINER"]; then
+if [ -z "$RUNNING_BLUE_CONTAINER" ]; then
 
   echo "blue up"
-  START_CONTAINER = "blue-dev" # 시작할 컨테이너
-  STARTED_CONTAINER = "green-dev" # 시동중인 턴테이너
+  START_CONTAINER="blue-dev" # 시작할 컨테이너
+  STARTED_CONTAINER="green-dev" # 시동중인 턴테이너
   START_PORT=8080
   docker-compose up -d blue-dev
 
-  sed -i "s/${GREEN}/${GREEN_PORT}/g; s/${BLUE}/${BLUE_PORT}/g" $DEFAULT_CONF
+  sed -i "s/${GREEN_CONTAINER_NAME}:${GREEN_PORT}/${BLUE_CONTAINER_NAME}:${BLUE_PORT}/g" $DEFAULT_CONF
   docker-compose exec nginx-dev service nginx reload
 
 else # BLUE 컨테이너가 동작중이라면
 
   echo "green up"
-  START_CONTAINER = "green-dev" # 시작할 컨테이너
-  STARTED_CONTAINER = "blue-dev" # 시동중인 턴테이너
+  START_CONTAINER="green-dev" # 시작할 컨테이너
+  STARTED_CONTAINER="blue-dev" # 시동중인 턴테이너
   START_PORT=8081
 
   docker-compose up -d green-dev
 
-
-  sed -i "s/${BLUE}/${BLUE_PORT}/g; s/${GREEN}/${GREEN_PORT}/g" $DEFAULT_CONF
+  sed -i "s/${BLUE_CONTAINER_NAME}:${BLUE_PORT}/${GREEN_CONTAINER_NAME}:${GREEN_PORT}/g" $DEFAULT_CONF
   docker-compose exec nginx-dev service nginx reload
 
 fi
@@ -59,7 +61,8 @@ echo "started container : $STARTED_CONTAINER"
 count=0
 while [ $count lt 10 ]; do
     echo "$START_CONTAINER health check...."
-    HEALTH=$(docker-compose exec nginx-dev curl http://$STARTED_CONTAINER:$START_PORT)
+
+    HEALTH=$(docker-compose exec nginx-dev curl http://$START_CONTAINER:$START_PORT)
     if [ -n "$HEALTH" ]; then
         break
     fi
