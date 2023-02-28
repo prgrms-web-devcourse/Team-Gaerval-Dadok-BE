@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "bookshelves")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Bookshelf {
+public class Bookshelf extends BaseTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

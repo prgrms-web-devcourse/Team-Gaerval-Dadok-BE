@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
+import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
 import com.dadok.gaerval.global.error.response.ErrorResponse.FieldError;
@@ -94,6 +96,22 @@ public class GlobalExceptionHandler {
 		HttpServletRequest request, InvalidFormatException e) {
 
 		return ResponseEntity.badRequest()
+			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
+	}
+
+	@ExceptionHandler(AlreadyContainBookshelfItemException.class)
+	public ResponseEntity<ErrorResponse> handleAlreadyContainBookshelfItemException(
+		HttpServletRequest request, AlreadyContainBookshelfItemException e) {
+
+		return ResponseEntity.badRequest()
+			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
+	}
+
+	@ExceptionHandler(BookshelfUserNotMatchedException.class)
+	public ResponseEntity<ErrorResponse> handleBookshelfUserNotMatchedException(
+		HttpServletRequest request, BookshelfUserNotMatchedException e) {
+
+		return ResponseEntity.status(e.getErrorCode().getStatus())
 			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
 	}
 

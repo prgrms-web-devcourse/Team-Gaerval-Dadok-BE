@@ -16,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
+import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
@@ -26,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BookshelfItem {
+public class BookshelfItem extends BaseTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +71,7 @@ public class BookshelfItem {
 		}
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -79,6 +82,7 @@ public class BookshelfItem {
 		return bookshelf.equals(that.bookshelf) && book.equals(that.book);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(bookshelf, book);

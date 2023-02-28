@@ -1,0 +1,5 @@
+:doctype: book
+:icons: font
+
+[[bookshelfItemType]]
+include::{snippets}/enum-docs-controller-test/enums/enum-response-fields-bookshelfItemType.adoc[]
