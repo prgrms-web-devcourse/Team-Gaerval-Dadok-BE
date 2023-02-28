@@ -44,12 +44,12 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew --daemon clean build
 
       - name: docker hub push
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build --platform linux/amd64 --env-file .env -t ${{ secrets.DOCKER_DEV_REPO }} .
+          docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build --env-file .env --platform linux/amd64 -t ${{ secrets.DOCKER_DEV_REPO }} .
           docker push ${{ secrets.DOCKER_DEV_REPO }}
 
       - name: Remote Check and install Docker
