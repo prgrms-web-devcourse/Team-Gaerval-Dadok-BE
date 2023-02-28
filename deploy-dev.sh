@@ -12,7 +12,7 @@ RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
 DEFAULT_CONF="/home/ec2-user/app/nginx/default.conf"
 BLUE_CONTAINER_NAME="dadok-dev-blue"
-GREEN_CONTAINER_NAME="dadok-green-blue"
+GREEN_CONTAINER_NAME="dadok-dev-green"
 PORT=8080
 
 # 컨테이너 스위칭
