@@ -8,8 +8,8 @@ RUN apk add --update-cache \
     build-base \
   && rm -rf /var/cache/apk/* \
 
-
 ARG JAR_FILE=build/libs/*.jar
+
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 DATASOURCE_URL: ${DATASOURCE_URL} \
 DATASOURCE_USERNAME: ${DATASOURCE_USERNAME} \
@@ -38,4 +38,3 @@ COPY ${JAR_FILE} dadok.jar
 ENTRYPOINT ["java", \
 "-Dspring.profiles.active=${SPRING_ACTIVE_PROFILE}", \
 "-jar", "/dadok.jar"]
-
