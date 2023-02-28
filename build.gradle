@@ -14,8 +14,9 @@ plugins {
 }
 
 group = 'com.dadok'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '17'
+
 
 configurations {
     compileOnly {
@@ -242,4 +243,5 @@ bootJar {
             into 'static/docs'
         }
     }
+    archiveName = version + ".dadok.jar"
 }

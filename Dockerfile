@@ -2,7 +2,7 @@ FROM openjdk:17-alpine
 
 RUN apk add --no-cache bash
 
-ARG JAR_FILE=/build/libs/*.jar
+ARG JAR_FILE=build/libs/*.dadok.jar
 
 COPY $JAR_FILE dadok.jar
 
