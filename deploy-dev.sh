@@ -1,62 +1,62 @@
 #!/bin/bash
 
-# 도커가 이미 설치되어있는지 확인
-if command -v docker &> /dev/null
-then
-    echo "Docker already installed"
-else # 도커가 설치되지 않았다면
-    # 도커 설치 스크립트
-    sudo amazon-linux-extras install docker
-    sudo service docker start
-    # 현재 사용자를 docker 그룹에 추가하여 sudo를 사용하지 않고 도커 명령을 사용할 수 있도록 설정
-    sudo usermod -aG docker $USER
-    # 도커 설치 완료 메시지 출력
-    echo "Docker installed successfully"
+if [ $(docker ps | grep -c "nginx-dev") -eq 0 ]; then
+  echo "Starting nginx-dev..."
+  docker-compose up -d nginx-dev
+else
+
+  echo "-------------------------------------------"
+  echo "nginx is already running"
+  echo "-------------------------------------------"
 fi
 
+echo
+echo
 
 # Blue 를 기준으로 현재 떠있는 컨테이너를 체크한다.
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
 DEFAULT_CONF="/home/ec2-user/app/nginx/default.conf"
-BLUE="blue"
-GREEN="green"
-BLUE_PORT=8080
-GREEN_PORT=8081
+BLUE_CONTAINER_NAME="dadok-dev-blue"
+GREEN_CONTAINER_NAME="dadok-dev-green"
+PORT=8080
 
 # 컨테이너 스위칭
 # BLUE 컨테이너가 동작중이지 않다면,
-if [ -z "$RUNNING_BLUE_CONTAINER"]; then
+if [ -z "$RUNNING_BLUE_CONTAINER" ]; then
 
   echo "blue up"
-  START_CONTAINER = "blue-dev" # 시작할 컨테이너
-  STARTED_CONTAINER = "green-dev" # 시동중인 턴테이너
-  START_PORT=8080
-  docker-compose up -d blue-dev
+  START_CONTAINER="dadok-dev-blue" # 시작할 컨테이너
+  STARTED_CONTAINER="dadok-dev-green" # 시동중인 턴테이너
+  docker-compose up -d dadok-dev-blue
 
-  sed -i "s/${GREEN}/${GREEN_PORT}/g; s/${BLUE}/${BLUE_PORT}/g" $DEFAULT_CONF
-  docker-compose exec nginx-dev service nginx reload
+  sed -i "s/${GREEN_CONTAINER_NAME}/${BLUE_CONTAINER_NAME}/g" $DEFAULT_CONF
+
+  docker exec nginx-dev service nginx reload
 
 else # BLUE 컨테이너가 동작중이라면
 
   echo "green up"
-  START_CONTAINER = "green-dev" # 시작할 컨테이너
-  STARTED_CONTAINER = "blue-dev" # 시동중인 턴테이너
-  START_PORT=8081
+  START_CONTAINER="dadok-dev-green" # 시작할 컨테이너
+  STARTED_CONTAINER="dadok-dev-blue" # 시동중인 턴테이너
 
-  docker-compose up -d green-dev
+  docker-compose up -d dadok-dev-green
 
+  sed -i "s/${BLUE_CONTAINER_NAME}/${GREEN_CONTAINER_NAME}/g" $DEFAULT_CONF
 
-  sed -i "s/${BLUE}/${BLUE_PORT}/g; s/${GREEN}/${GREEN_PORT}/g" $DEFAULT_CONF
-  docker-compose exec nginx-dev service nginx reload
+  docker exec nginx-dev service nginx reload
 
 fi
 
+echo "start container : $START_CONTAINER"
+echo "started container : $STARTED_CONTAINER"
+
 # 새로운 컨테이너가 제대로 떴는지 확인
 count=0
-while [ $count lt 10]; do
+while [ $count -lt 10 ]; do
     echo "$START_CONTAINER health check...."
-    HEALTH=$(docker-compose exec nginx-dev curl http://$STARTED_CONTAINER:$START_PORT)
+
+    HEALTH=$(docker exec nginx-dev curl http://$START_CONTAINER:8080)
     if [ -n "$HEALTH" ]; then
         break
     fi
@@ -70,9 +70,15 @@ if [ $count -ge 11 ]; then
     exit 1
 fi
 
+echo "-------------------------------------------"
+echo "nginx reload"
+docker exec nginx-dev service nginx reload
+echo "-------------------------------------------"
+
 # 이전 컨테이너 종료
-if docker-compose ps | grep -q "$STARTED_CONTAINER"; then
+if [ $(docker ps | grep -c "$STARTED_CONTAINER") -eq 1 ]; then
   docker-compose stop "$STARTED_CONTAINER"
+  docker rm $STARTED_CONTAINER
 else
   echo "$STARTED_CONTAINER is not running."
 fi
