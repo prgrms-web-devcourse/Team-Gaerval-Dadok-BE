@@ -19,8 +19,6 @@ fi
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
 DEFAULT_CONF="/home/ec2-user/app/nginx/default.conf"
-BLUE="blue"
-GREEN="green"
 BLUE_PORT=8080
 GREEN_PORT=8081
 BLUE_CONTAINER_NAME="dadok-dev-blue"
@@ -59,7 +57,7 @@ echo "started container : $STARTED_CONTAINER"
 
 # 새로운 컨테이너가 제대로 떴는지 확인
 count=0
-while [ $count lt 10 ]; do
+while [ $count -lt 10 ]; do
     echo "$START_CONTAINER health check...."
 
     HEALTH=$(docker-compose exec nginx-dev curl http://$START_CONTAINER:$START_PORT)
