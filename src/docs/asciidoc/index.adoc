@@ -13,31 +13,61 @@
 === Me
 
 ==== Request
+
 include::{snippets}/user-controller-slice-test/me/http-request.adoc[]
 
 ==== Request Header
+
 include::{snippets}/user-controller-slice-test/me/request-headers.adoc[]
 
 ==== Response
+
 include::{snippets}/user-controller-slice-test/me/http-response.adoc[]
 
 ==== Response fields
+
 include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
-
-
-
 == Job
+
 === findAll
+
 ==== Request
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
 
 ==== Request Header
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/request-headers.adoc[]
 
-
 ==== Response
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
 
 ==== Response fields
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
+
+== Bookshelf
+
+=== findPopularByJobGroup
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-request.adoc
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-parameters.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-response.adoc
+
+==== Response body
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc

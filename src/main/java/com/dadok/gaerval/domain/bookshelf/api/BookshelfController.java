@@ -42,7 +42,7 @@ public class BookshelfController {
 	@GetMapping(value = "/suggestions/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	public ResponseEntity<PopularBookshelvesOfJobResponses> findBookshelvesByJobGroup(
+	public ResponseEntity<PopularBookshelvesOfJobResponses> findPopularBookshelvesByJobGroup(
 		@RequestParam(name = "job_group") String jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {

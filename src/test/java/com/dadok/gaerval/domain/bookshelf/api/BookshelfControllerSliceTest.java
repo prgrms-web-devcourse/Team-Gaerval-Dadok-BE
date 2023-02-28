@@ -35,14 +35,14 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 	@MockBean
 	private BookshelfService bookshelfService;
 
-	@DisplayName("findBookshelvesByJobGroup - 직군별 인기있는 책장 리스트 조회 - 성공")
+	@DisplayName("findPopularBookshelvesByJobGroup - 직군별 인기있는 책장 리스트 조회 - 성공")
 	@Test
 	@WithMockCustomOAuth2LoginUser
-	void findBookshelvesByJobGroup_success() throws Exception {
+	void findBookshelvesByJobGroup() throws Exception {
 		// Given
 		String jobGroup = JobGroup.DEVELOPMENT.getDescription();
 		PopularBookshelvesOfJobResponses responses = new PopularBookshelvesOfJobResponses(
-			jobGroup, List.of(new SummaryBookshelfResponse("영지님의 책", 23L,
+			jobGroup, List.of(new SummaryBookshelfResponse("영지님의 책장", 23L,
 			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		))
@@ -89,7 +89,7 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 
 	@DisplayName("insertBookInBookshelf - 책장에 책 추가 - 성공")
 	@Test
-	void insertBookInBookshelf_success() {
+	void insertBookInBookshelf() {
 
 		// TODO : BookCreateRequest dto가 확정되면 추가 예정
 	}
@@ -98,7 +98,7 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 	@DisplayName("removeBookFormBookshelf - 책장에 책 제거 - 성공")
 	@Test
 	@WithMockCustomOAuth2LoginUser
-	void removeBookFormBookshelf_success() {
+	void removeBookFormBookshelf() {
 		// Given
 		given(bookshelfService.removeBookSelfItem(any(), eq(23L), eq(34L)))
 			.willReturn(23L);
