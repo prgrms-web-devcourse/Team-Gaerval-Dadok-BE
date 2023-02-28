@@ -32,6 +32,7 @@ import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.testutil.BookObjectProvider;
@@ -52,6 +53,9 @@ class DefaultBookshelfServiceSliceTest {
 
 	@Mock
 	private BookService bookService;
+
+	@Mock
+	private UserService userService;
 
 	private final User user = UserObjectProvider.createKakaoUser();
 	private final Bookshelf bookshelf = Bookshelf.create(user);
@@ -330,4 +334,64 @@ class DefaultBookshelfServiceSliceTest {
 			() -> bookshelfService.findPopularBookshelvesByJob(user, jobGroup));
 
 	}
+
+	@DisplayName("findSummaryBookshelf - user를 입력받야 책장 요약 데이터 조회 - 성공")
+	@Test
+	void findSummaryBookshelf_user_success() {
+		// Given
+		var books = List.of(
+			new SummaryBookshelfResponse.SummaryBookResponse(1L, "제목1", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(2L, "제목2", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(3L, "제목3", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(4L, "제목4", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(5L, "제목5", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(6L, "제목6", "url")
+		);
+
+		var summaryBookshelf = new SummaryBookshelfResponse(2L, "찐 개발자 책장", books);
+
+		given(bookshelfRepository.findByUser(user))
+			.willReturn(summaryBookshelf);
+
+		// When// Then
+		var response = assertDoesNotThrow(() -> bookshelfService.findSummaryBookshelf(user));
+
+		verify(bookshelfRepository).findByUser(user);
+		assertThat(response.getBookshelfId()).isEqualTo(2L);
+		assertThat(response.getBookshelfName()).isEqualTo("찐 개발자 책장");
+		assertThat(response.getBooks()).hasSize(5);
+		assertThat(response.getBooks().get(0).bookId()).isEqualTo(1L);
+	}
+
+	@DisplayName("findSummaryBookshelf - userId를 입력받야 책장 요약 데이터 조회 - 성공")
+	@Test
+	void findSummaryBookshelf_userId_success() {
+		// Given
+		var books = List.of(
+			new SummaryBookshelfResponse.SummaryBookResponse(1L, "제목1", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(2L, "제목2", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(3L, "제목3", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(4L, "제목4", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(5L, "제목5", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(6L, "제목6", "url")
+		);
+
+		var summaryBookshelf = new SummaryBookshelfResponse(2L, "찐 개발자 책장", books);
+
+		given(userService.getById(user.getId()))
+			.willReturn(user);
+		given(bookshelfRepository.findByUser(user))
+			.willReturn(summaryBookshelf);
+
+		// When// Then
+		var response = assertDoesNotThrow(() -> bookshelfService.findSummaryBookshelf(user.getId()));
+
+		verify(userService).getById(user.getId());
+		verify(bookshelfRepository).findByUser(user);
+		assertThat(response.getBookshelfId()).isEqualTo(2L);
+		assertThat(response.getBookshelfName()).isEqualTo("찐 개발자 책장");
+		assertThat(response.getBooks()).hasSize(5);
+		assertThat(response.getBooks().get(0).bookId()).isEqualTo(1L);
+	}
+
 }
