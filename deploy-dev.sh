@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ $(docker ps | grep -c "nginx-dev") -eq 0 ]; then
+  echo "Starting nginx-dev..."
+  docker-compose up -d nginx-dev
+else
+  echo "running nginx"
+fi
+
 # Blue 를 기준으로 현재 떠있는 컨테이너를 체크한다.
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
@@ -18,7 +25,7 @@ if [ -z "$RUNNING_BLUE_CONTAINER" ]; then
   START_CONTAINER="blue-dev" # 시작할 컨테이너
   STARTED_CONTAINER="green-dev" # 시동중인 턴테이너
   START_PORT=8080
-  docker-compose up -d blue-dev
+  docker-compose up -d dadok-dev-blue
 
   sed -i "s/${GREEN_CONTAINER_NAME}:${GREEN_PORT}/${BLUE_CONTAINER_NAME}:${BLUE_PORT}/g" $DEFAULT_CONF
   docker-compose exec nginx-dev service nginx reload
@@ -30,7 +37,7 @@ else # BLUE 컨테이너가 동작중이라면
   STARTED_CONTAINER="blue-dev" # 시동중인 턴테이너
   START_PORT=8081
 
-  docker-compose up -d green-dev
+  docker-compose up -d dadok-dev-green
 
   sed -i "s/${BLUE_CONTAINER_NAME}:${BLUE_PORT}/${GREEN_CONTAINER_NAME}:${GREEN_PORT}/g" $DEFAULT_CONF
   docker-compose exec nginx-dev service nginx reload

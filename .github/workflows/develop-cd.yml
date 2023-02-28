@@ -165,16 +165,7 @@ jobs:
           script: |
             cd app
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
-            
-            ls -al
-            if ! $(docker-compose ps --services | grep -q "^nginx-dev$"); then
-              echo "Starting nginx-dev..."
-              docker-compose up -d nginx-dev
-            else
-              echo "Reloading nginx-dev..."
-              docker-compose exec nginx-dev nginx -s reload
-            fi
-            
+          
             
             chmod 777 ./deploy-dev.sh
             ./deploy-dev.sh
