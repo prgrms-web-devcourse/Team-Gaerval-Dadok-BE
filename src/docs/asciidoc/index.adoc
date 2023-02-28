@@ -71,3 +71,61 @@ include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-grou
 ==== Response body
 
 include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc
+
+=== removeBookshelfItem
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-request.adoc
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/path-parameters.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-response.adoc
+
+=== findMySummaryBookshelf
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-request.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-response.adoc
+
+==== Response body
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc
+
+=== findUserSummaryBookshelf
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-request.adoc
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/path-parameters.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-response.adoc
+
+==== Response body
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc

@@ -25,6 +25,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobRe
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 import lombok.SneakyThrows;
@@ -84,11 +85,11 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 						.description("책 이미지 url")
 				)
 			));
-
 	}
 
 	@DisplayName("insertBookInBookshelf - 책장에 책 추가 - 성공")
 	@Test
+	@WithMockCustomOAuth2LoginUser
 	void insertBookInBookshelf() {
 
 		// TODO : BookCreateRequest dto가 확정되면 추가 예정
@@ -118,6 +119,92 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 				pathParameters(
 					parameterWithName("bookshelvesId").description("첵장 Id"),
 					parameterWithName("bookId").description("책 Id")
+				)
+			));
+	}
+
+	@DisplayName("findSummaryBookshelf - 자신의 책장 요약 조회 - 성공")
+	@Test
+	@WithMockCustomOAuth2LoginUser
+	void findMySummaryBookshelf() throws Exception {
+		// Given
+		var responses = new SummaryBookshelfResponse(23L, "영지님의 책장",
+			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+		);
+
+		given(bookshelfService.findSummaryBookshelf((User)any()))
+			.willReturn(responses);
+
+		// When // Then
+		mockMvc.perform(get("/api/bookshelves/me")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.accept(MediaType.APPLICATION_JSON)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andExpect(jsonPath("$.bookshelfName").exists())
+			.andExpect(jsonPath("$.bookshelfId").exists())
+			.andExpect(jsonPath("$.books[*].bookId").exists())
+			.andExpect(jsonPath("$.books[*].title").exists())
+			.andExpect(jsonPath("$.books[*].imageUrl").exists())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				responseFields(
+					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url")
+				)
+			));
+	}
+
+	@DisplayName("findSummaryBookshelf - 사용자의 책장 요약 조회 - 성공")
+	@Test
+	@WithMockCustomOAuth2LoginUser
+	void findSummaryBookshelfByUserId() throws Exception {
+		// Given
+		var responses = new SummaryBookshelfResponse(23L, "영지님의 책장",
+			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+		);
+
+		given(bookshelfService.findSummaryBookshelf(5L))
+			.willReturn(responses);
+
+		// When // Then
+		mockMvc.perform(get("/api/users/{userId}/bookshelves", 5L)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andExpect(jsonPath("$.bookshelfName").exists())
+			.andExpect(jsonPath("$.bookshelfId").exists())
+			.andExpect(jsonPath("$.books[*].bookId").exists())
+			.andExpect(jsonPath("$.books[*].title").exists())
+			.andExpect(jsonPath("$.books[*].imageUrl").exists())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("userId").description("유저 Id")
+				),
+				responseFields(
+					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url")
 				)
 			));
 	}

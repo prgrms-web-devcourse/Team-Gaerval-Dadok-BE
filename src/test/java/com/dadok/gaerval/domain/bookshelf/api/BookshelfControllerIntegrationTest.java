@@ -129,4 +129,22 @@ class BookshelfControllerIntegrationTest {
 	void removeBookFormBookshelf_validationBookshelf_fail() {
 
 	}
+
+	@DisplayName("findSummaryBookshelf - 자신의 빈 책장 요약 조회 - 성공")
+	@Test
+	void findMySummaryBookshelf_userEmptyBookList_success() {
+
+	}
+
+	@DisplayName("findSummaryBookshelf - 잘못된 userId 책장 요약 조회 - 실패")
+	@Test
+	void findSummaryBookshelfByUserId_userIdNotExist_fail() {
+
+	}
+
+	@DisplayName("findSummaryBookshelf - 사용자의 책장이 없는 경우 조회 - 실패")
+	@Test
+	void findSummaryBookshelfByUserId_userShelfNotExist_fail() {
+
+	}
 }
