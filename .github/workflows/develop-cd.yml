@@ -15,7 +15,7 @@ jobs:
 
       - name: Add private key
         run: |
-          ssh-add <(echo "${{ secrets.PRIVATE_KEY }}")      
+          echo "${{ secrets.PRIVATE_KEY }}"
 
       - name: Remote Check and install Docker
         uses: appleboy/ssh-action@master
