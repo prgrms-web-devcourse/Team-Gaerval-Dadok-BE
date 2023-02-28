@@ -4,8 +4,14 @@ if [ $(docker ps | grep -c "nginx-dev") -eq 0 ]; then
   echo "Starting nginx-dev..."
   docker-compose up -d nginx-dev
 else
-  echo "running nginx"
+
+  echo "-------------------------------------------"
+  echo "nginx is already running"
+  echo "-------------------------------------------"
 fi
+
+echo
+echo
 
 # Blue 를 기준으로 현재 떠있는 컨테이너를 체크한다.
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
@@ -26,7 +32,7 @@ if [ -z "$RUNNING_BLUE_CONTAINER" ]; then
 
   sed -i "s/${GREEN_CONTAINER_NAME}/${BLUE_CONTAINER_NAME}/g" $DEFAULT_CONF
 
-  docker-compose exec nginx-dev service nginx reload
+  docker exec nginx-dev service nginx reload
 
 else # BLUE 컨테이너가 동작중이라면
 
@@ -37,7 +43,8 @@ else # BLUE 컨테이너가 동작중이라면
   docker-compose up -d dadok-dev-green
 
   sed -i "s/${BLUE_CONTAINER_NAME}/${GREEN_CONTAINER_NAME}/g" $DEFAULT_CONF
-  docker-compose exec nginx-dev service nginx reload
+
+  docker exec nginx-dev service nginx reload
 
 fi
 
@@ -65,7 +72,7 @@ fi
 
 echo "-------------------------------------------"
 echo "nginx reload"
-docker-compose exec nginx-dev service nginx reload
+docker exec nginx-dev service nginx reload
 echo "-------------------------------------------"
 
 # 이전 컨테이너 종료
