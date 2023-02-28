@@ -9,7 +9,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  test:
+  CD:
     runs-on: ubuntu-latest
     steps:
       - name: checkout branch
