@@ -2,7 +2,9 @@ FROM openjdk:17-alpine
 
 RUN apk add --no-cache bash
 
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=/build/libs/*.jar
+
+COPY $JAR_FILE dadok.jar
 
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 DATASOURCE_URL: ${DATASOURCE_URL} \
@@ -27,7 +29,6 @@ NAVER_REDIRECT_PATH: ${NAVER_REDIRECT_PATH} \
 ACCESS_TOKEN_EXPIRE_SECONDS: ${ACCESS_TOKEN_EXPIRE_SECONDS} \
 SERVER_HOST: ${SERVER_HOST} \
 
-COPY ${JAR_FILE} dadok.jar
 
 ENTRYPOINT ["java", \
 "-Dspring.profiles.active=${SPRING_ACTIVE_PROFILE}", \
