@@ -52,9 +52,12 @@ else # BLUE 컨테이너가 동작중이라면
 
 fi
 
+echo "start container : $START_CONTAINER"
+echo "started container : $STARTED_CONTAINER"
+
 # 새로운 컨테이너가 제대로 떴는지 확인
 count=0
-while [ $count lt 10]; do
+while [ $count lt 10 ]; do
     echo "$START_CONTAINER health check...."
     HEALTH=$(docker-compose exec nginx-dev curl http://$STARTED_CONTAINER:$START_PORT)
     if [ -n "$HEALTH" ]; then

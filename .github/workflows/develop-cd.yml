@@ -157,7 +157,18 @@ jobs:
           script: |
             cd app
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
-            docker-compose up -d
-            docker image prune -f
+            
+            ls -al
+            if ! $(docker-compose ps --services | grep -q "^nginx-dev$"); then
+              echo "Starting nginx-dev..."
+              docker-compose up -d nginx-dev
+            else
+              echo "Reloading nginx-dev..."
+              docker-compose exec nginx-dev nginx -s reload
+            fi
+            
+            
             chmod 777 ./deploy-dev.sh
             ./deploy-dev.sh
+            docker image prune -f
+            echo "end deploy###"
