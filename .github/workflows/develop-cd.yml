@@ -9,7 +9,98 @@ permissions:
   pull-requests: write
 
 jobs:
-  test:
+
+  INSTALL_DOCKER:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remote Check and install Docker
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST_DEV }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          script: |
+            if ! [ -x "$(command -v docker)" ]; then
+              echo "Docker is not installed. Installing Docker..."
+              sudo yum update
+              sudo amazon-linux-extras install docker
+              sudo systemctl enable --now docker
+              sudo usermod -aG docker $USER
+              else
+              echo "Docker is already installed."
+            fi
+            
+            if ! [ -x "$(command -v docker-compose)" ]; then
+              echo "Docker Compose is not installed. Installing Docker Compose..."
+              sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              sudo chmod +x /usr/local/bin/docker-compose
+              else
+              echo "Docker Compose is already installed."
+            fi
+
+  MOVE_FILE:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v3
+
+      - name: create dir
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/app/nginx/
+
+      - name: Copy configruation files
+        run:
+          echo "${{secrets.DEV_ENV_FILE }}" > ./.env
+
+      - name: Send env file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./.env"
+          target: "/home/ec2-user/app"
+
+      - name: Send docker-compose.yml
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./docker-compose.yml"
+          target: "/home/ec2-user/app"
+
+      - name: Send deploy-dev.sh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./deploy-dev.sh"
+          target: "/home/ec2-user/app"
+
+      - name: Send nginx.conf
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./nginx/default.conf"
+          target: "/home/ec2-user/app"
+
+
+  CD:
     runs-on: ubuntu-latest
     steps:
       - name: checkout branch
@@ -44,58 +135,23 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build --build-cache --daemon
 
       - name: docker hub push
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_DEV_REPO }} .
+          pwd
+          ls -al
+          pwd
+          cd build/libs
+          pwd
+          ls -al
+          cd ../../
+          pwd
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker build -t ${{ secrets.DOCKER_DEV_REPO }} .
           docker push ${{ secrets.DOCKER_DEV_REPO }}
 
-      - name: Remote Check and install Docker
-        uses: appleboy/ssh-action@master
-        if: contains(github.ref, 'develop')
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            # Check if Docker is installed
-            if ! command -v docker &> /dev/null
-            then
-            # Install Docker
-            sudo yum update -y
-            sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-            sudo amazon-linux-extras install docker
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            sudo usermod -aG docker ec2-user
-            fi
 
-      - name: Copy .env to remote server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            mkdir -p /home/ec2-user/app/
-            scp .env ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/.env
-
-      - name: Copy nginx configuration to remote server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            mkdir -p /home/ec2-user/app/nginx/
-            scp ./nginx/default.conf ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/nginx/default.conf   
-
-      ## deploy to develop
       - name: Deploy to develop
         uses: appleboy/ssh-action@master
         id: deploy-dev
@@ -105,13 +161,13 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "docker-compose-dev.yml"
-
+          source: "docker-compose.yml"
           script: |
             cd app
-#            sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
-            docker-compose up -d
-            docker image prune -f
-            scp ./docker-compose-dev.yml ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/docker-compose-dev.yml
-            ssh ${secrets.USERNAME}@${secrets.HOST_DEV} -i "${secrets.PRIVATE_KEY}" ".deploy-dev.sh"
+          
+            
+            chmod 777 ./deploy-dev.sh
+            ./deploy-dev.sh
+            docker rmi $(docker images -aq)
+            echo "end deploy###"

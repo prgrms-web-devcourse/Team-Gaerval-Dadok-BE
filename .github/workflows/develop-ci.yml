@@ -1,9 +1,10 @@
 name: develop ci-cd
 
 on:
-  push:
-    branches: [ "develop" ]
   pull_request:
+    branches:
+      - develop
+    types: [opened, reopened, synchronize]
 
 permissions:
   checks: write

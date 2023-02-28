@@ -1,15 +1,13 @@
 FROM openjdk:17-alpine
 
-RUN apk add --update-cache \
-    bash \
-    python \
-    python-dev \
-    py-pip \
-    build-base \
-  && rm -rf /var/cache/apk/* \
+RUN apk add --no-cache bash
 
+ARG JAR_FILE=build/libs/*.dadok.jar
 
-ARG JAR_FILE=build/libs/*.jar
+RUN echo
+
+COPY ${JAR_FILE} dadok.jar
+
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 DATASOURCE_URL: ${DATASOURCE_URL} \
 DATASOURCE_USERNAME: ${DATASOURCE_USERNAME} \
@@ -31,11 +29,8 @@ NAVER_CLIENT_ID: ${NAVER_CLIENT_ID} \
 NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET} \
 NAVER_REDIRECT_PATH: ${NAVER_REDIRECT_PATH} \
 ACCESS_TOKEN_EXPIRE_SECONDS: ${ACCESS_TOKEN_EXPIRE_SECONDS} \
-SERVER_HOST: ${SERVER_HOST} \
-
-COPY ${JAR_FILE} dadok.jar
+SERVER_HOST: ${SERVER_HOST}
 
 ENTRYPOINT ["java", \
-"-Dspring.profiles.active=${SPRING_ACTIVE_PROFILE}", \
+"-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
 "-jar", "/dadok.jar"]
-
