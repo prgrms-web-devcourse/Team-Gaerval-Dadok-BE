@@ -19,7 +19,9 @@ public interface DocumentLinkGenerator {
 		GENDER("gender", "성별"),
 		JOB_GROUP("jobGroup", "직군"),
 		JOB_NAME("jobName", "직업"),
-		BOOKSHELF_ITEM_TYPE("bookshelfItemType", "책장 아이템 타입");
+		BOOKSHELF_ITEM_TYPE("bookshelfItemType", "책장 아이템 타입"),
+		AUTH_PROVIDER("authProvider", "OAuth2 Provider")
+		;
 		private final String pageId;
 		private final String text;
 	}
