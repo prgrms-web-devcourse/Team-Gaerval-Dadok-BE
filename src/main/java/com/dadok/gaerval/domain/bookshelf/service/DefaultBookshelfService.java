@@ -1,8 +1,10 @@
 package com.dadok.gaerval.domain.bookshelf.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
@@ -60,10 +63,13 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Override
 	@Transactional(readOnly = true)
 	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String jobGroup) {
-		//TODO 수정 예정
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
-		bookshelfRepository.findAllByJob(searchJobGroup, PageRequest.of(0, 10), user.getId());
-		return null;
+		List<SummaryBookshelfResponse> summaryBookshelfResponses = bookshelfRepository.findAllByJob(searchJobGroup,
+			PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size"))), user.getId());
+		summaryBookshelfResponses.forEach(bookshelf -> {
+			bookshelf.setBooks(bookshelf.getBooks().stream().limit(5).toList());
+		});
+		return new PopularBookshelvesOfJobResponses(jobGroup, summaryBookshelfResponses);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.bookshelf.repository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestConstructor;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -24,6 +25,8 @@ class BookshelfRepositoryTest {
 
 	@Test
 	void test() {
-		bookshelfRepository.findAllByJob(JobGroup.GAME, PageRequest.of(0, 10), 234L);
+		bookshelfRepository.findAllByJob(JobGroup.GAME,
+			PageRequest.of(0, 10, Sort.by(Sort.Order.desc("bookshelfItems.size"))),
+			234L);
 	}
 }

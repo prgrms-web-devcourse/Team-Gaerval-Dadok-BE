@@ -10,6 +10,8 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,11 +20,13 @@ import org.springframework.test.context.TestConstructor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.bookshelf.service.DefaultBookshelfService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 import lombok.RequiredArgsConstructor;
@@ -63,8 +67,9 @@ class BookshelfControllerIntegrationTest {
 	}
 
 	@DisplayName("findPopularBookshelvesByJobGroup - 존재 하지 않은 직군의 책장 조회 - 실패")
-	@Test
-	void findBookshelvesByJobGroup_notExistJobGroup_fail() throws Exception {
+	@ParameterizedTest
+	@ValueSource(strings = {"개 발 ", "백수", "노 직군", "영지", "다독"})
+	void findBookshelvesByJobGroup_notExistJobGroup_fail(String jobGroup) throws Exception {
 
 		// Given
 		// When// Then
@@ -72,7 +77,7 @@ class BookshelfControllerIntegrationTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.accept(MediaType.APPLICATION_JSON)
-				.param("job_group", "노직군")
+				.param("job_group", jobGroup)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isBadRequest())
 			.andDo(print());
@@ -105,7 +110,12 @@ class BookshelfControllerIntegrationTest {
 	@DisplayName("removeBookFormBookshelf - 책 책장에 책 제거 - 성공")
 	@Test
 	void removeBookFormBookshelf_success() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
 
+		// When
+
+		// Then
 	}
 
 	@DisplayName("removeBookFormBookshelf - 책장에 있지 않은 책 제거 - 실패")

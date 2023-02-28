@@ -4,26 +4,35 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
+import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
@@ -273,5 +282,52 @@ class DefaultBookshelfServiceSliceTest {
 		verify(bookshelfRepository).findById(1L);
 		verify(bookService).findById(book.getId());
 		verify(bookshelfItemRepository).findByBookshelfAndBook(bookshelf, book);
+	}
+
+	@DisplayName("findPopularBookshelvesByJob - 직업군에 맞는 책장 리스트 조회 - 성공")
+	@Test
+	void findPopularBookshelvesByJob_success() {
+		// Given
+		String jobGroup = JobGroup.HR.getDescription();
+		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size")));
+
+		var books = List.of(
+			new SummaryBookshelfResponse.SummaryBookResponse(1L, "제목1", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(2L, "제목2", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(3L, "제목3", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(4L, "제목4", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(5L, "제목5", "url"),
+			new SummaryBookshelfResponse.SummaryBookResponse(6L, "제목6", "url")
+		);
+		var Bookshelves = List.of(
+			new SummaryBookshelfResponse(1L, "책장", books),
+			new SummaryBookshelfResponse(2L, "책장", books),
+			new SummaryBookshelfResponse(3L, "책장", books),
+			new SummaryBookshelfResponse(4L, "책장", books),
+			new SummaryBookshelfResponse(5L, "책장", books));
+
+		given(bookshelfRepository.findAllByJob(JobGroup.HR, pageable, user.getId()))
+			.willReturn(Bookshelves);
+
+		// When
+		var responses = bookshelfService.findPopularBookshelvesByJob(user, jobGroup);
+
+		// Then
+		verify(bookshelfRepository).findAllByJob(JobGroup.HR, pageable, user.getId());
+
+		assertThat(responses.jobGroup()).isEqualTo(jobGroup);
+		assertThat(responses.bookshelfResponses()).hasSize(5);
+		assertThat(responses.bookshelfResponses().get(0).getBooks()).hasSize(5);
+
+	}
+
+	@DisplayName("findPopularBookshelvesByJob- 존재하지 않은 직업군의 책장 리스트 조회 - 실패")
+	@ParameterizedTest
+	@ValueSource(strings = {"개 발 ", "백수", "노 직군", "영지", "다독"})
+	void findPopularBookshelvesByJob_JobGroupNotExist_fail(String jobGroup) {
+
+		assertThrows(InvalidArgumentException.class,
+			() -> bookshelfService.findPopularBookshelvesByJob(user, jobGroup));
+
 	}
 }
