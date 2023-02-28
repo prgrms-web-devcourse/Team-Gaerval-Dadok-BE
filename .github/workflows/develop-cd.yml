@@ -1,0 +1,117 @@
+name: develop cd
+
+on:
+  push:
+    branches: [ "develop" ]
+
+permissions:
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: set up environment Variable
+        run: |
+          echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
+          echo "${{secrets.APPLICATION_TEST}}" >> ./src/test/resources/application-test.yml
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name : ls -al
+        run: ls -al
+
+      - name: Setup Gradle permission
+        run: chmod +x ./gradlew
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: build with Gradle
+        run: ./gradlew clean build
+
+      - name: docker hub push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_DEV_REPO }} .
+          docker push ${{ secrets.DOCKER_DEV_REPO }}
+
+      - name: Remote Check and install Docker
+        uses: appleboy/ssh-action@master
+        if: contains(github.ref, 'develop')
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            # Check if Docker is installed
+            if ! command -v docker &> /dev/null
+            then
+            # Install Docker
+            sudo yum update -y
+            sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+            sudo amazon-linux-extras install docker
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker ec2-user
+            fi
+
+      - name: Copy .env to remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/app/
+            scp .env ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/.env
+
+      - name: Copy nginx configuration to remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/app/nginx/
+            scp ./nginx/default.conf ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/nginx/default.conf   
+
+      ## deploy to develop
+      - name: Deploy to develop
+        uses: appleboy/ssh-action@master
+        id: deploy-dev
+        if: contains(github.ref, 'develop')
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "docker-compose-dev.yml"
+
+          script: |
+            cd app
+#            sudo docker rm -f $(docker ps -qa)
+            sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
+            docker-compose up -d
+            docker image prune -f
+            scp ./docker-compose-dev.yml ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/docker-compose-dev.yml
+            ssh ${secrets.USERNAME}@${secrets.HOST_DEV} -i "${secrets.PRIVATE_KEY}" ".deploy-dev.sh"
