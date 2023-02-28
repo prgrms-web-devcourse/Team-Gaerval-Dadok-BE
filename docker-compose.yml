@@ -50,7 +50,7 @@ services:
     container_name: dadok-dev-green
     image: ${DOCKER_DEV_REPO}
     expose:
-      - "8081"
+      - "8080"
     working_dir: /app
     depends_on:
       - nginx-dev
