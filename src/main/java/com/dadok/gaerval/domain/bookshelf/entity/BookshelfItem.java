@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 
 import io.jsonwebtoken.lang.Assert;
@@ -70,6 +71,7 @@ public class BookshelfItem extends BaseTimeColumn {
 		}
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -80,6 +82,7 @@ public class BookshelfItem extends BaseTimeColumn {
 		return bookshelf.equals(that.bookshelf) && book.equals(that.book);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(bookshelf, book);
