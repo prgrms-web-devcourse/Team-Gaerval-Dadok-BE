@@ -9,14 +9,10 @@ permissions:
   pull-requests: write
 
 jobs:
-  MOVE_FILE:
+
+  INSTALL_DOCKER:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Add private key
-        run: |
-          echo "${{ secrets.PRIVATE_KEY }}"
-
       - name: Remote Check and install Docker
         uses: appleboy/ssh-action@master
         with:
@@ -34,18 +30,13 @@ jobs:
             sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
             sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Copy .env to remote server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            mkdir -p /home/ec2-user/app/
-            scp .env ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/.env
+  MOVE_FILE:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout branch
+        uses: actions/checkout@v3
 
-      - name: Copy nginx configuration to remote server
+      - name: create dir
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DEV }}
@@ -54,7 +45,51 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             mkdir -p /home/ec2-user/app/nginx/
-            scp ./nginx/default.conf ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/nginx/default.conf   
+
+      - name: Copy configruation files
+        run:
+          echo "${{secrets.TEST_ENV_FILE }}" > ./.env
+
+      - name: Send env file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./.env"
+          target: "/home/ec2-user/app"
+
+      - name: Send docker-compose-dev.yml
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./docker-compose-dev.yml"
+          target: "/home/ec2-user/app"
+
+      - name: Send deploy-dev.sh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./deploy-dev.sh"
+          target: "/home/ec2-user/app"
+
+      - name: Send nginx.conf
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "./nginx/default.conf"
+          target: "/home/ec2-user/app/nginx"
+
 
   CD:
     runs-on: ubuntu-latest
@@ -115,5 +150,4 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
             docker-compose up -d
             docker image prune -f
-            scp ./docker-compose-dev.yml ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/docker-compose-dev.yml
-            ssh ${secrets.USERNAME}@${secrets.HOST_DEV} -i "${secrets.PRIVATE_KEY}" ".deploy-dev.sh"
+            ./deploy-dev.sh
