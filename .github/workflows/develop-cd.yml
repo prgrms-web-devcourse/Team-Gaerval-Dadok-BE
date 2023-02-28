@@ -88,7 +88,7 @@ jobs:
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
           source: "./nginx/default.conf"
-          target: "/home/ec2-user/app/nginx"
+          target: "/home/ec2-user/app"
 
 
   CD:
@@ -150,4 +150,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
             docker-compose up -d
             docker image prune -f
+            chmod 777 ./deploy-dev.sh
             ./deploy-dev.sh
