@@ -19,12 +19,11 @@ jobs:
 
       - name: Remote Check and install Docker
         uses: appleboy/ssh-action@master
-        if: contains(github.ref, 'develop')
         with:
-          host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.USERNAME }}
-          port: 22
+          host: ${{ secrets.HOST_DEV }}
           key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
           script: |
             sudo apt-get update
             sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
