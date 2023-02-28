@@ -95,7 +95,6 @@ jobs:
             mkdir -p /home/ec2-user/app/nginx/
             scp ./nginx/default.conf ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/nginx/default.conf   
 
-      ## deploy to develop
       - name: Deploy to develop
         uses: appleboy/ssh-action@master
         id: deploy-dev
@@ -106,10 +105,8 @@ jobs:
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
           source: "docker-compose-dev.yml"
-
           script: |
             cd app
-#            sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
             docker-compose up -d
             docker image prune -f
