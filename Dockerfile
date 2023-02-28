@@ -4,7 +4,7 @@ RUN apk add --no-cache bash
 
 ARG JAR_FILE=build/libs/*.dadok.jar
 
-COPY $JAR_FILE dadok.jar
+COPY ${JAR_FILE} dadok.jar
 
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 DATASOURCE_URL: ${DATASOURCE_URL} \
