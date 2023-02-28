@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "books")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Book extends BaseTimeColumn {
+public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
