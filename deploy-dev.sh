@@ -63,6 +63,11 @@ if [ $count -ge 11 ]; then
     exit 1
 fi
 
+echo "-------------------------------------------"
+echo "nginx reload"
+docker-compose exec nginx-dev service nginx reload
+echo "-------------------------------------------"
+
 # 이전 컨테이너 종료
 if [ $(docker ps | grep -c "$STARTED_CONTAINER") -eq 1 ]; then
   docker-compose stop "$STARTED_CONTAINER"
