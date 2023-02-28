@@ -1,4 +1,3 @@
-# Repo Action 페이지에 나타날 이름
 name: develop ci-cd
 
 on:
@@ -23,14 +22,11 @@ jobs:
           distribution: 'corretto'
       - name: set up environment Variable
         run: |
-          echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
+          echo "${{secrets.TEST_ENV_FILE }}" > ./.env
           echo "${{secrets.APPLICATION_TEST}}" >> ./src/test/resources/application-test.yml
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      
-      - name : ls -al
-        run: ls -al
 
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
@@ -46,9 +42,8 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: test with Gradle
-#         run: ./gradlew test
-        run: ./gradlew clean build
-      
+        run: ./gradlew test
+
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()

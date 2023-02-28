@@ -31,7 +31,7 @@ spring:
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
-            redirect-uri: ${SERVER_HOST}:${SERVER_PORT}${KAKAO_REDIRECT_PATH}
+            redirect-uri: ${SERVER_HOST}${KAKAO_REDIRECT_PATH}
             scope:
               - profile_nickname
               - profile_image
@@ -42,5 +42,5 @@ spring:
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Naver
-            redirect-uri: ${SERVER_HOST}:${SERVER_PORT}${NAVER_REDIRECT_PATH}
+            redirect-uri: ${SERVER_HOST}${NAVER_REDIRECT_PATH}
             scope: nickname,email,gender,age,profile_image
