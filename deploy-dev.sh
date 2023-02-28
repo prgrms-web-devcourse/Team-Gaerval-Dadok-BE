@@ -68,7 +68,7 @@ if [ $count -ge 11 ]; then
 fi
 
 # 이전 컨테이너 종료
-if [ docker ps | grep -c "$STARTED_CONTAINER" -eq 1 ]; then
+if [ $(docker ps | grep -c "$STARTED_CONTAINER") -eq 1 ]; then
   docker-compose stop "$STARTED_CONTAINER"
 else
   echo "$STARTED_CONTAINER is not running."
