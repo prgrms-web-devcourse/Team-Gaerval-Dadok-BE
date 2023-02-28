@@ -56,7 +56,7 @@ count=0
 while [ $count -lt 10 ]; do
     echo "$START_CONTAINER health check...."
 
-    HEALTH=$(docker-compose exec nginx-dev curl http://$START_CONTAINER:8080)
+    HEALTH=$(docker exec nginx-dev curl http://$START_CONTAINER:8080)
     if [ -n "$HEALTH" ]; then
         break
     fi
