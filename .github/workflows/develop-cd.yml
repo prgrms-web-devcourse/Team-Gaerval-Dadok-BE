@@ -48,7 +48,7 @@ jobs:
 
       - name: docker hub push
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} --password-stdin
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker build --env-file .env --platform linux/amd64 -t ${{ secrets.DOCKER_DEV_REPO }} .
           docker push ${{ secrets.DOCKER_DEV_REPO }}
 
