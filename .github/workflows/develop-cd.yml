@@ -9,6 +9,54 @@ permissions:
   pull-requests: write
 
 jobs:
+  MOVE_FILE:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Add private key
+        run: |
+          ssh-add <(echo "${{ secrets.PRIVATE_KEY }}")      
+
+      - name: Remote Check and install Docker
+        uses: appleboy/ssh-action@master
+        if: contains(github.ref, 'develop')
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+            sudo apt-get update
+            sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+            sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Copy .env to remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/app/
+            scp .env ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/.env
+
+      - name: Copy nginx configuration to remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DEV }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/app/nginx/
+            scp ./nginx/default.conf ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/nginx/default.conf   
+
   CD:
     runs-on: ubuntu-latest
     steps:
@@ -52,48 +100,6 @@ jobs:
           docker build --platform linux/amd64 -t ${{ secrets.DOCKER_DEV_REPO }} .
           docker push ${{ secrets.DOCKER_DEV_REPO }}
 
-      - name: Remote Check and install Docker
-        uses: appleboy/ssh-action@master
-        if: contains(github.ref, 'develop')
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            # Check if Docker is installed
-            if ! command -v docker &> /dev/null
-            then
-            # Install Docker
-            sudo yum update -y
-            sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-            sudo amazon-linux-extras install docker
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            sudo usermod -aG docker ec2-user
-            fi
-
-      - name: Copy .env to remote server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            mkdir -p /home/ec2-user/app/
-            scp .env ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/.env
-
-      - name: Copy nginx configuration to remote server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.USERNAME }}
-          port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
-            mkdir -p /home/ec2-user/app/nginx/
-            scp ./nginx/default.conf ${{ secrets.USERNAME }}@${{ secrets.HOST_DEV }}:/home/ec2-user/app/nginx/default.conf   
 
       - name: Deploy to develop
         uses: appleboy/ssh-action@master
