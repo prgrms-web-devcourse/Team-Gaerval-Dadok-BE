@@ -20,6 +20,7 @@ import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	private final BookshelfItemRepository bookshelfItemRepository;
 
 	private final BookService bookService;
+
+	private final UserService userService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -90,6 +93,21 @@ public class DefaultBookshelfService implements BookshelfService {
 			.orElseThrow(() -> new ResourceNotfoundException(BookshelfItem.class));
 		bookshelfItemRepository.deleteById(bookshelfItem.getId());
 		return bookshelfId;
+	}
+
+	@Override
+	public SummaryBookshelfResponse findSummaryBookshelf(User user) {
+		SummaryBookshelfResponse summaryBookshelf = bookshelfRepository.findByUser(user);
+		summaryBookshelf.setBooks(summaryBookshelf.getBooks().stream().limit(5).toList());
+		return summaryBookshelf;
+	}
+
+	@Override
+	public SummaryBookshelfResponse findSummaryBookshelf(Long userId) {
+		User user = userService.getById(userId);
+		SummaryBookshelfResponse summaryBookshelf = bookshelfRepository.findByUser(user);
+		summaryBookshelf.setBooks(summaryBookshelf.getBooks().stream().limit(5).toList());
+		return summaryBookshelf;
 	}
 
 	private Bookshelf validationBookshelfUser(User user, Long bookshelfId) {

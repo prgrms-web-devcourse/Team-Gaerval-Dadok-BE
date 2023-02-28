@@ -7,9 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestConstructor;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
-import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
-import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +18,6 @@ import lombok.RequiredArgsConstructor;
 class BookshelfRepositoryTest {
 
 	private final BookshelfRepository bookshelfRepository;
-
-	private final User user = UserObjectProvider.createKakaoUser();
 
 	@Test
 	void test() {

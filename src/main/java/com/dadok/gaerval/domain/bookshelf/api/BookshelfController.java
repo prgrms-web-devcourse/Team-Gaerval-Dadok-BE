@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
@@ -49,6 +50,41 @@ public class BookshelfController {
 		User user = userPrincipal.getUserEntity();
 		PopularBookshelvesOfJobResponses responses =
 			bookshelfService.findPopularBookshelvesByJob(user, jobGroup);
+		return ResponseEntity.ok().body(responses);
+	}
+
+	/**
+	 * <pre>
+	 *     자신의 책장 요약 데이터를 조회한다.
+	 * </pre>
+	 *
+	 * @return status : ok , SummaryBookshelfResponse : 책장과 책장의 일부 책 list
+	 */
+	@GetMapping(value = "/bookshelves/me",
+		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<SummaryBookshelfResponse> findMySummaryBookshelf(
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		User user = userPrincipal.getUserEntity();
+		SummaryBookshelfResponse responses =
+			bookshelfService.findSummaryBookshelf(user);
+		return ResponseEntity.ok().body(responses);
+	}
+
+	/**
+	 * <pre>
+	 *     사용자의 책장 요약 데이터를 조회한다.
+	 * </pre>
+	 *
+	 * @return status : ok , SummaryBookshelfResponse : 책장과 책장의 일부 책 list
+	 */
+	@GetMapping(value = "/users/{userId}/bookshelves",
+		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<SummaryBookshelfResponse> findSummaryBookshelfByUserId(@PathVariable("userId") Long userId) {
+		SummaryBookshelfResponse responses =
+			bookshelfService.findSummaryBookshelf(userId);
 		return ResponseEntity.ok().body(responses);
 	}
 
