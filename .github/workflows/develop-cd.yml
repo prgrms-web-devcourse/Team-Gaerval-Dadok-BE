@@ -169,5 +169,5 @@ jobs:
             
             chmod 777 ./deploy-dev.sh
             ./deploy-dev.sh
-            docker image prune -f
+            docker rmi $(docker images -aq)
             echo "end deploy###"

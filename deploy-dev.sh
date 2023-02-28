@@ -22,19 +22,20 @@ GREEN_CONTAINER_NAME="dadok-green-blue"
 if [ -z "$RUNNING_BLUE_CONTAINER" ]; then
 
   echo "blue up"
-  START_CONTAINER="blue-dev" # 시작할 컨테이너
-  STARTED_CONTAINER="green-dev" # 시동중인 턴테이너
+  START_CONTAINER="dadok-dev-blue" # 시작할 컨테이너
+  STARTED_CONTAINER="dadok-dev-green" # 시동중인 턴테이너
   START_PORT=8080
   docker-compose up -d dadok-dev-blue
 
   sed -i "s/${GREEN_CONTAINER_NAME}:${GREEN_PORT}/${BLUE_CONTAINER_NAME}:${BLUE_PORT}/g" $DEFAULT_CONF
+
   docker-compose exec nginx-dev service nginx reload
 
 else # BLUE 컨테이너가 동작중이라면
 
   echo "green up"
-  START_CONTAINER="green-dev" # 시작할 컨테이너
-  STARTED_CONTAINER="blue-dev" # 시동중인 턴테이너
+  START_CONTAINER="dadok-dev-green" # 시작할 컨테이너
+  STARTED_CONTAINER="dadok-dev-blue" # 시동중인 턴테이너
   START_PORT=8081
 
   docker-compose up -d dadok-dev-green
@@ -67,7 +68,7 @@ if [ $count -ge 11 ]; then
 fi
 
 # 이전 컨테이너 종료
-if docker-compose ps | grep -q "$STARTED_CONTAINER"; then
+if [ docker ps | grep -c "$STARTED_CONTAINER" ]; then
   docker-compose stop "$STARTED_CONTAINER"
 else
   echo "$STARTED_CONTAINER is not running."
