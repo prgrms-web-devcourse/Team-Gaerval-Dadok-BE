@@ -75,6 +75,11 @@ public class EnumDocsControllerTest extends ControllerTest {
 					beneathPath("data.gender").withSubsectionId("gender"),
 					attributes(key("title").value("gender")),
 					enumConvertFieldDescriptor(enumDocs.gender())
+				),
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.bookshelfItemType").withSubsectionId("bookshelfItemType"),
+					attributes(key("title").value("bookshelfItemType")),
+					enumConvertFieldDescriptor(enumDocs.bookshelfItemType())
 				)
 			)
 

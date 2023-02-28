@@ -14,7 +14,7 @@ import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
-@DisplayName("bookshelf repository 쿼리 테스트")
+@DisplayName("bookshelfItem repository 쿼리 테스트")
 @CustomDataJpaTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @RequiredArgsConstructor

@@ -19,7 +19,6 @@ import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.testutil.JobObjectProvider;
-import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WebMvcTest(controllers = JobController.class)
 class JobControllerSliceTest extends ControllerTest {
@@ -27,7 +26,6 @@ class JobControllerSliceTest extends ControllerTest {
 	@MockBean
 	private JobService jobService;
 
-	@WithMockCustomOAuth2LoginUser(userId = 1L)
 	@DisplayName("직업 리스트 조회 - 직업 리스트를 정렬된 상태로 반환한다.")
 	@Test
 	void findAllJobList() throws Exception {
