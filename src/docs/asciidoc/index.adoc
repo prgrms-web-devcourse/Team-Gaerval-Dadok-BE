@@ -162,7 +162,7 @@ include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/req
 
 ==== Request Body
 
-include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/request-body.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/request-fields.adoc[]
 
 ==== Response
 
