@@ -112,8 +112,8 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleBookshelfUserNotMatchedException(
 		HttpServletRequest request, BookshelfUserNotMatchedException e) {
 
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-			.body(ErrorResponse.unAuthorized(e.getMessage(), request.getRequestURI(), List.of()));
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+			.body(ErrorResponse.forbidden(e.getMessage(), request.getRequestURI(), List.of()));
 	}
 
 	private List<FieldError> makeFieldErrorsFromBindingResult(BindingResult bindingResult) {

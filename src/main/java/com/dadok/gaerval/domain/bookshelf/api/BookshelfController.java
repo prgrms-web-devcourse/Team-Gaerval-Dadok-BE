@@ -124,6 +124,7 @@ public class BookshelfController {
 		@PathVariable("bookshelvesId") Long bookshelvesId, @PathVariable("bookId") Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 		User user = userPrincipal.getUserEntity();
+
 		bookshelfService.removeBookSelfItem(user, bookshelvesId, bookId);
 		return ResponseEntity.ok().build();
 	}
