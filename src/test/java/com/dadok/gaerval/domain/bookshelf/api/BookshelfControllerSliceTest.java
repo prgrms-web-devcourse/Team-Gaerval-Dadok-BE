@@ -25,7 +25,6 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobRe
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
-import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 import lombok.SneakyThrows;
@@ -133,7 +132,7 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		);
 
-		given(bookshelfService.findSummaryBookshelf((User)any()))
+		given(bookshelfService.findSummaryBookshelf(any()))
 			.willReturn(responses);
 
 		// When // Then

@@ -20,7 +20,6 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
-import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -47,9 +46,9 @@ public class BookshelfController {
 		@RequestParam(name = "job_group") String jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
-		User user = userPrincipal.getUserEntity();
+		Long userId = userPrincipal.getUserId();
 		PopularBookshelvesOfJobResponses responses =
-			bookshelfService.findPopularBookshelvesByJob(user, jobGroup);
+			bookshelfService.findPopularBookshelvesByJob(userId, jobGroup);
 		return ResponseEntity.ok().body(responses);
 	}
 
@@ -66,9 +65,9 @@ public class BookshelfController {
 	public ResponseEntity<SummaryBookshelfResponse> findMySummaryBookshelf(
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
-		User user = userPrincipal.getUserEntity();
+		Long userId = userPrincipal.getUserId();
 		SummaryBookshelfResponse responses =
-			bookshelfService.findSummaryBookshelf(user);
+			bookshelfService.findSummaryBookshelf(userId);
 		return ResponseEntity.ok().body(responses);
 	}
 
@@ -103,8 +102,8 @@ public class BookshelfController {
 	public ResponseEntity<Void> insertBookInBookshelf(@PathVariable("bookshelvesId") Long bookshelvesId,
 		@RequestBody @Valid BookCreateRequest bookCreateRequest,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		User user = userPrincipal.getUserEntity();
-		bookshelfService.insertBookSelfItem(user, bookshelvesId, bookCreateRequest);
+		Long userId = userPrincipal.getUserId();
+		bookshelfService.insertBookSelfItem(userId, bookshelvesId, bookCreateRequest);
 		return ResponseEntity.ok().build();
 	}
 
@@ -123,9 +122,8 @@ public class BookshelfController {
 	public ResponseEntity<Void> removeBookFormBookshelf(
 		@PathVariable("bookshelvesId") Long bookshelvesId, @PathVariable("bookId") Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		User user = userPrincipal.getUserEntity();
-
-		bookshelfService.removeBookSelfItem(user, bookshelvesId, bookId);
+		Long userId = userPrincipal.getUserId();
+		bookshelfService.removeBookSelfItem(userId, bookshelvesId, bookId);
 		return ResponseEntity.ok().build();
 	}
 
