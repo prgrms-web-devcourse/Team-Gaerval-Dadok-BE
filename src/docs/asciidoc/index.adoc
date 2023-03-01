@@ -201,3 +201,28 @@ include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-us
 ==== Response body
 
 include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc[]
+
+
+== Book
+
+=== findBookByQuery
+
+==== Request
+
+include::{snippets}/book-controller-slice-test/find-book_success/http-request.adoc[]
+
+==== Request Param
+
+include::{snippets}/book-controller-slice-test/find-book_success/request-parameters.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-controller-slice-test/find-book_success/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/book-controller-slice-test/find-book_success/http-response.adoc[]
+
+==== Response body
+
+include::{snippets}/book-controller-slice-test/find-book_success/response-body.adoc[]
