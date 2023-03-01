@@ -52,7 +52,7 @@ class JobControllerSliceTest extends ControllerTest {
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
 					fieldWithPath("jobs[].jobNames").type(JsonFieldType.ARRAY).description("직업명"),
 					fieldWithPath("jobs[].jobNames[].koreanName").type(JsonFieldType.STRING).description("직업 한글명"),
-					fieldWithPath("jobs[].jobNames[].name").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+					fieldWithPath("jobs[].jobNames[].name").type(JsonFieldType.STRING).description("직업 영어명 :  " +
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
 					fieldWithPath("jobs[].jobNames[].order").type(JsonFieldType.NUMBER).description("정렬 순서")
 

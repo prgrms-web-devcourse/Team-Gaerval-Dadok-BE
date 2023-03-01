@@ -5,6 +5,8 @@ import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +18,14 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
+import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
+import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
@@ -50,6 +56,7 @@ class UserControllerSliceTest extends ControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 			)
+			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 					requestHeaders(
 						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
@@ -86,5 +93,71 @@ class UserControllerSliceTest extends ControllerTest {
 		verify(userService).getUserDetail(userId);
 	}
 
+	@WithMockCustomOAuth2LoginUser(userId = 1L)
+	@DisplayName("registerUserJob - 유저의 직업을 변경하는데 성공한다.")
+	@Test
+	void registerUserJob() throws Exception {
+		//given
+		Long userId = 1L;
+
+		Job backendJob = JobObjectProvider.backendJob();
+
+		UserJobRegisterRequest userJobRegisterRequest = new UserJobRegisterRequest(JobGroup.DEVELOPMENT,
+			JobGroup.JobName.BACKEND_DEVELOPER);
+
+		UserJobRegisterResponse userJobRegisterResponse = new UserJobRegisterResponse(userId,
+			new UserDetailResponse.JobDetailResponse(backendJob.getJobGroup(), backendJob.getJobName(),
+				backendJob.getSortOrder()));
+
+		given(userService.registerJob(userId, userJobRegisterRequest))
+			.willReturn(userJobRegisterResponse);
+
+		//when
+		mockMvc.perform(patch("/api/users/{userId}/jobs", userId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.content(createJson(userJobRegisterRequest))
+			)
+			.andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					pathParameters(parameterWithName("userId").description("userId. 본인이 아닌 사람이 요청하면 403")),
+
+					requestFields(
+						fieldWithPath("jobGroup").description("직군 영어명. 대문자로 요청 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+						fieldWithPath("jobName").description("직업 영어명. 대문자로 요청 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
+					),
+
+					responseFields(
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("요청 user Id"),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("등록된 직군, 직업 정보"),
+
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING)
+							.description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING)
+							.description("직군 영어명 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+							.optional()
+							.description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).optional().description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).optional().description("직업 정렬 순위")
+
+					)
+
+				)
+			);
+
+		//then
+		verify(userService).registerJob(userId, userJobRegisterRequest);
+	}
 
 }

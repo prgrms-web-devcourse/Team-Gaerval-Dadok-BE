@@ -11,14 +11,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.global.config.security.AuthProvider;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
+import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 class UserTest {
 
 	private AuthProvider kakao = AuthProvider.KAKAO;
 	private String kakaoAttributeKey = "id";
+	private Map<String, Object> kakaoAttributes = UserObjectProvider.attributes(kakao);
+	private OAuth2Attribute kakaoOauth2Attributes = OAuth2Attribute.of(kakao, kakaoAttributeKey, kakaoAttributes);
+	private UserAuthority userAuthority = UserAuthority.create(Role.USER);
 
 	@DisplayName("createByOAuth - User의 모든 필드가 유효하다면 생성한다. gender가 null이면 NONE으로 생성한다.- 성공")
 	@Test
@@ -51,7 +56,7 @@ class UserTest {
 		UserAuthority userAuthority = UserAuthority.create(Role.USER);
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
 
-		Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+		Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
 		kakaoAccount.put("gender", Gender.MALE.name());
 		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(kakao, kakaoAttributeKey, attributes);
 
@@ -88,6 +93,21 @@ class UserTest {
 		//then
 		assertThat(grantedAuthorities).size().isEqualTo(1);
 		assertThat(grantedAuthority.getAuthority()).isEqualTo(Role.USER.getAuthority());
+	}
+
+	@DisplayName("changeJob - 유저의 Job이 바뀐다.")
+	@Test
+	void changeJob() {
+		//given
+		User user = UserObjectProvider.createKakaoUser();
+		Job beforeUserJob = user.getJob();
+
+		Job backendJob = JobObjectProvider.backendJob();
+		//when
+		user.changeJob(backendJob);
+		//then
+		assertNotEquals(beforeUserJob, user.getJob());
+		assertEquals(user.getJob(), backendJob);
 	}
 
 }

@@ -2,7 +2,9 @@ package com.dadok.gaerval.domain.user.service;
 
 import java.util.Optional;
 
+import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
@@ -20,5 +22,7 @@ public interface UserService {
 	UserProfileResponse getUserProfile(Long userId);
 
 	UserDetailResponse getUserDetail(Long userId);
+
+	UserJobRegisterResponse registerJob(Long userId, UserJobRegisterRequest request);
 
 }

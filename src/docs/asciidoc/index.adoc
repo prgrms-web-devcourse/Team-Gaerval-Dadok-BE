@@ -68,84 +68,107 @@ include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.ad
 
 include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
 
+=== register Job
+
+==== Request
+include::{snippets}/user-controller-slice-test/register-user-job/http-request.adoc[]
+
+==== Request Header
+include::{snippets}/user-controller-slice-test/register-user-job/request-headers.adoc[]
+
+
+==== Path Parameter
+include::{snippets}/user-controller-slice-test/register-user-job/path-parameters.adoc[]
+
+==== Request Body
+include::{snippets}/user-controller-slice-test/register-user-job/request-fields.adoc[]
+
+
+==== Response
+include::{snippets}/user-controller-slice-test/register-user-job/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
+
+
 == Bookshelf
 
 === findPopularByJobGroup
 
 ==== Request
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-request.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-request.adoc[]
 
 ==== Request Param
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-parameters.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-parameters.adoc[]
 
 ==== Request Header
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-headers.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-headers.adoc[]
 
 ==== Response
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-response.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-response.adoc[]
 
 ==== Response body
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc[]
 
 === removeBookshelfItem
 
 ==== Request
 
-include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-request.adoc
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-request.adoc[]
 
 ==== Request Param
 
-include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/path-parameters.adoc
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/path-parameters.adoc[]
 
 ==== Request Header
 
-include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/request-headers.adoc
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/request-headers.adoc[]
 
 ==== Response
 
-include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-response.adoc
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-response.adoc[]
 
 === findMySummaryBookshelf
 
 ==== Request
 
-include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-request.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/request-headers.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/request-headers.adoc[]
 
 ==== Response
 
-include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-response.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-response.adoc[]
 
 ==== Response body
 
-include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc[]
 
 === findUserSummaryBookshelf
 
 ==== Request
 
-include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-request.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-request.adoc[]
 
 ==== Request Param
 
-include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/path-parameters.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/path-parameters.adoc[]
 
 ==== Request Header
 
-include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/request-headers.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/request-headers.adoc[]
 
 ==== Response
 
-include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-response.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-response.adoc[]
 
 ==== Response body
 
-include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc[]
