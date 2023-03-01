@@ -3,11 +3,12 @@ package com.dadok.gaerval.domain.book.service;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 
 public interface BookService {
-	//
-	// BookResponses findAllByKeyword(String keyword, Pageable pageable, );
+
+	BookResponses findAllByKeyword(String keyword);
 
 	Book createBook(BookCreateRequest bookCreateRequest);
 

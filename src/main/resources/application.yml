@@ -4,6 +4,7 @@ spring:
       - db
       - security
       - aws
+      - api
     active: ${SPRING_PROFILES_ACTIVE}
 
   config:

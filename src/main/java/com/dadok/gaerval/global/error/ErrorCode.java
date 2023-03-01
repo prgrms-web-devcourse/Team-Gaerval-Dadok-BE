@@ -18,7 +18,10 @@ public enum ErrorCode {
 
 	// Bookshelf
 	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "S001", "이미 책장에 포함된 아아템입니다."),
-	BOOKSHELF_USER_NOT_MATCHED(HttpStatus.FORBIDDEN, "S002", "해당 책장에 올바르지 않은 사용자 접근입니다.");
+	BOOKSHELF_USER_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "S002", "해당 책장에 올바르지 않은 사용자 접근입니다."),
+
+	// Book
+	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B001", "잘못된 도서 데이터 형식입니다.");
 
 	private final HttpStatus status;
 
