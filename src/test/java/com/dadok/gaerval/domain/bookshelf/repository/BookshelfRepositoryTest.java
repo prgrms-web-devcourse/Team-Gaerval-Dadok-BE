@@ -3,7 +3,9 @@ package com.dadok.gaerval.domain.bookshelf.repository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestConstructor;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -20,10 +22,19 @@ class BookshelfRepositoryTest {
 
 	private final BookshelfRepository bookshelfRepository;
 
-	private final User user = UserObjectProvider.createKakaoUser();
-
+	@DisplayName("인기 책장 요약 list 조회")
 	@Test
-	void test() {
-		bookshelfRepository.findAllByJob(JobGroup.GAME, PageRequest.of(0, 10), 234L);
+	void findAllByJob() {
+		bookshelfRepository.findAllByJob(JobGroup.GAME,
+			PageRequest.of(0, 10, Sort.by(Sort.Order.desc("bookshelfItems.size"))),
+			234L);
+	}
+
+	@DisplayName("사용자의 책장 요약 조회")
+	@Test
+	void findByUser() {
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		bookshelfRepository.findByUser(user);
 	}
 }

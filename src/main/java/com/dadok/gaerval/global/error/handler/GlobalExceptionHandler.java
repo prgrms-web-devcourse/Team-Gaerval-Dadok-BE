@@ -12,6 +12,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
 
 import org.hibernate.validator.internal.engine.path.PathImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -111,8 +112,8 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleBookshelfUserNotMatchedException(
 		HttpServletRequest request, BookshelfUserNotMatchedException e) {
 
-		return ResponseEntity.status(e.getErrorCode().getStatus())
-			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+			.body(ErrorResponse.forbidden(e.getMessage(), request.getRequestURI(), List.of()));
 	}
 
 	private List<FieldError> makeFieldErrorsFromBindingResult(BindingResult bindingResult) {

@@ -33,31 +33,119 @@ include::{snippets}/oauth2-test/oauth2-login/response-headers.adoc[]
 === Me
 
 ==== Request
+
 include::{snippets}/user-controller-slice-test/me/http-request.adoc[]
 
 ==== Request Header
+
 include::{snippets}/user-controller-slice-test/me/request-headers.adoc[]
 
 ==== Response
+
 include::{snippets}/user-controller-slice-test/me/http-response.adoc[]
 
 ==== Response fields
+
 include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
-
-
-
 == Job
+
 === findAll
+
 ==== Request
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
 
 ==== Request Header
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/request-headers.adoc[]
 
-
 ==== Response
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
 
 ==== Response fields
+
 include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
+
+== Bookshelf
+
+=== findPopularByJobGroup
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-request.adoc
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-parameters.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-response.adoc
+
+==== Response body
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc
+
+=== removeBookshelfItem
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-request.adoc
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/path-parameters.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-response.adoc
+
+=== findMySummaryBookshelf
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-request.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-response.adoc
+
+==== Response body
+
+include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc
+
+=== findUserSummaryBookshelf
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-request.adoc
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/path-parameters.adoc
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/request-headers.adoc
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-response.adoc
+
+==== Response body
+
+include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc
