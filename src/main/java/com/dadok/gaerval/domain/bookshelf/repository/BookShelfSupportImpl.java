@@ -33,12 +33,15 @@ public class BookShelfSupportImpl implements BookShelfSupport {
 		return Optional.empty();
 	}
 
-	private BooleanExpression generetedCursorId(Long cursorId, Sort.Direction direction) {
+	private BooleanExpression genereteCursorId(Long cursorId, Sort.Direction direction) {
 		if (cursorId == null) {
 			return null;
 		}
 
+		if (direction == Sort.Direction.DESC) {
+			return book.id.lt(cursorId);
+		}
 
-
+		return book.id.gt(cursorId);
 	}
 }

@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.user.api;
 
+import javax.validation.Valid;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,7 +38,7 @@ public class UserController {
 	@PatchMapping(value = "/{userId}/jobs", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserJobRegisterResponse> registerUserJob(
 		@PathVariable Long userId,
-		@RequestBody UserJobRegisterRequest request,
+		@RequestBody @Valid UserJobRegisterRequest request,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 
 		UserJobRegisterResponse userJobRegisterResponse = userService.registerJob(userId, request);

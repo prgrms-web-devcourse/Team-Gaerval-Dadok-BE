@@ -185,6 +185,11 @@ compileQuerydsl {
 clean {
     delete file(querydslDir)
     delete file("$buildDir/resources/main/static/docs")
+    println('-------------------------------------------------------')
+    println('clean do remove docs')
+    delete file('src/main/resources/static/docs')
+    println('-------------------------------------------------------')
+    println()
 }
 
 // ---- querydsl
@@ -217,6 +222,14 @@ tasks.named('asciidoctor') {
     dependsOn test
 }
 
+asciidoctor.doFirst {
+    println('-------------------------------------------------------')
+    println('do first remove docs')
+    delete file('src/main/resources/static/docs')
+    println('-------------------------------------------------------')
+    println()
+}
+
 asciidoctor {
     dependsOn test
     inputs.dir snippetsDir
@@ -227,14 +240,21 @@ asciidoctor {
     baseDirFollowsSourceFile()
 }
 
-asciidoctor.doFirst {
-    delete file('src/main/resources/static/docs')
-}
 
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
+    println('-------------------------------------------------------')
+    println('copy document')
     from file("build/docs/asciidoc")
     into file("src/main/resources/static/docs")
+    println('-------------------------------------------------------')
+    println()
+}
+
+task copyHtml(type: Copy) {
+    dependsOn bootJar
+    from file("${buildDir}/docs/asciidoc")
+    into file("${buildDir}/rouces/main/static/docs")
 }
 
 build {
@@ -243,9 +263,18 @@ build {
 
 bootJar {
     dependsOn asciidoctor
+
+    println("run bootJar")
     copy {
         from("${asciidoctor.outputDir}/html5") {
+            into "$buildDir/resources/main/static/docs"
             into 'static/docs'
+        }
+    }
+
+    copy {
+        from("static/docs") {
+            into "$buildDir/resources/main/static/docs"
         }
     }
     archiveName = version + ".dadok.jar"

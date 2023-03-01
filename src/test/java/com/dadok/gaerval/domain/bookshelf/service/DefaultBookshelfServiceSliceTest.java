@@ -132,7 +132,7 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getApiProvider());
+			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
@@ -156,7 +156,7 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getApiProvider());
+			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
@@ -183,7 +183,7 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getApiProvider());
+			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.empty());
@@ -203,7 +203,7 @@ class DefaultBookshelfServiceSliceTest {
 		ReflectionTestUtils.setField(user, "id", 23L);
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getApiProvider());
+			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));

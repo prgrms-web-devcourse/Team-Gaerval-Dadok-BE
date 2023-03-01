@@ -19,11 +19,11 @@ import com.dadok.gaerval.testutil.UserObjectProvider;
 
 class UserTest {
 
-	private AuthProvider kakao = AuthProvider.KAKAO;
-	private String kakaoAttributeKey = "id";
-	private Map<String, Object> kakaoAttributes = UserObjectProvider.attributes(kakao);
-	private OAuth2Attribute kakaoOauth2Attributes = OAuth2Attribute.of(kakao, kakaoAttributeKey, kakaoAttributes);
-	private UserAuthority userAuthority = UserAuthority.create(Role.USER);
+	private final AuthProvider kakao = AuthProvider.KAKAO;
+	private final String kakaoAttributeKey = "id";
+	private final Map<String, Object> kakaoAttributes = UserObjectProvider.attributes(kakao);
+	private final OAuth2Attribute kakaoOauth2Attributes = OAuth2Attribute.of(kakao, kakaoAttributeKey, kakaoAttributes);
+	private final UserAuthority userAuthority = UserAuthority.create(Role.USER);
 
 	@DisplayName("createByOAuth - User의 모든 필드가 유효하다면 생성한다. gender가 null이면 NONE으로 생성한다.- 성공")
 	@Test
@@ -49,6 +49,7 @@ class UserTest {
 		;
 	}
 
+	@SuppressWarnings("unchecked")
 	@DisplayName("createByOAuth - User의 모든 필드가 유효하다면 생성한다. gender가 존재한다. - 성공")
 	@Test
 	void create_withGender_success() {
