@@ -17,7 +17,7 @@ public enum SortDirection implements EnumType {
 
 	private final String description;
 
-	private final Sort.Direction sortDirection;
+	private final Sort.Direction direction;
 
 	@Override
 	public String getName() {
@@ -30,7 +30,7 @@ public enum SortDirection implements EnumType {
 	}
 
 	public Sort.Direction toDirection() {
-		return this.sortDirection;
+		return this.direction;
 	}
 
 	@JsonCreator

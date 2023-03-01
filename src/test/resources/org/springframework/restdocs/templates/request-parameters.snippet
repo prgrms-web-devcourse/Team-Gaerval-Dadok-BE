@@ -1,11 +1,10 @@
 |===
-|필드명|타입|필수여부(nullable)|설명|제약조건
-{{#fields}}
-|{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
-|{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
+|파라미터명|필수여부(nullable)|설명|제약조건
+{{#parameters}}
+|{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
 |{{#tableCellContent}}{{^optional}}true{{/optional}}{{#optional}}false{{/optional}}{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
 |{{#tableCellContent}}{{#constraints}}{{.}} +
 {{/constraints}}{{/tableCellContent}}
-{{/fields}}
+{{/parameters}}
 |===

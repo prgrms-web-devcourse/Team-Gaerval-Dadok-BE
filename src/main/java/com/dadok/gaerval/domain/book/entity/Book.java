@@ -2,6 +2,8 @@ package com.dadok.gaerval.domain.book.entity;
 
 import static com.dadok.gaerval.global.util.CommonValidator.*;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -102,5 +106,28 @@ public class Book {
 
 	public void changeDeleted(boolean deleted) {
 		isDeleted = deleted;
+	}
+
+	@JacocoExcludeGenerated
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Book book = (Book)o;
+		return isDeleted == book.isDeleted && Objects.equals(id, book.id) && Objects.equals(title,
+			book.title) && Objects.equals(author, book.author) && Objects.equals(isbn, book.isbn)
+			&& Objects.equals(contents, book.contents) && Objects.equals(url, book.url)
+			&& Objects.equals(imageUrl, book.imageUrl) && Objects.equals(imageKey, book.imageKey)
+			&& Objects.equals(apiProvider, book.apiProvider) && Objects.equals(publisher,
+			book.publisher);
+	}
+
+	@JacocoExcludeGenerated
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, title, author, isbn, contents, isDeleted, url, imageUrl, imageKey, apiProvider,
+			publisher);
 	}
 }

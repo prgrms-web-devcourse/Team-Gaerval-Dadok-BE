@@ -8,7 +8,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 
-public interface BookshelfItemRepository extends JpaRepository<BookshelfItem, Long> {
+public interface BookshelfItemRepository extends JpaRepository<BookshelfItem, Long>, BookShelfItemSupport {
 
 	Optional<BookshelfItem> findByBookshelfAndBook(Bookshelf bookshelf, Book Book);
 }

@@ -65,7 +65,7 @@ public class BookshelfItem extends BaseTimeColumn {
 	}
 
 	private void addBookshelf(Bookshelf bookshelf) {
-		if (this.bookshelf == null & !bookshelf.getBookshelfItems().contains(this)) {
+		if (this.bookshelf == null && !bookshelf.getBookshelfItems().contains(this)) {
 			this.bookshelf = bookshelf;
 			bookshelf.addBookShelfItem(this);
 		}
@@ -79,7 +79,7 @@ public class BookshelfItem extends BaseTimeColumn {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		BookshelfItem that = (BookshelfItem)o;
-		return bookshelf.equals(that.bookshelf) && book.equals(that.book);
+		return Objects.equals(bookshelf, that.bookshelf) && Objects.equals(book, that.book);
 	}
 
 	@JacocoExcludeGenerated

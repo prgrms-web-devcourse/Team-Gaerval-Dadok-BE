@@ -1,0 +1,7 @@
+= Enum Document
+:doctype: book
+:icons: font
+
+[[SortDirection]]
+include::{snippets}/enum-docs-controller-test/enums/enum-response-fields-sortDirection.adoc[]
+

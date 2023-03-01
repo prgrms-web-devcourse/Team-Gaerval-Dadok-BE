@@ -6,30 +6,27 @@ import javax.validation.constraints.Min;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.global.util.SortDirection;
 
-public record BooksInBookShelfFindRequest(
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-	BookshelfItemType type,
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
+public class BooksInBookShelfFindRequest {
+
+	private BookshelfItemType type;
 
 	@Min(value = 0, message = "pageSize는 최소 0 입니다.")
 	@Max(value = 100, message = "pageSize는 최대 100 입니다.")
-	Integer pageSize,
+	private Integer pageSize = 10;
 
-	Long bookCursorId,
+	private Long bookCursorId;
 
-	SortDirection sortDirection
+	private SortDirection sortDirection= SortDirection.DESC;
 
-) {
-	public BooksInBookShelfFindRequest() {
-		this(null, 10, null, SortDirection.DESC);
-	}
-
-	public BooksInBookShelfFindRequest(
-		@Min(value = 0, message = "pageSize는 최소 0 입니다.")
-		@Max(value = 100, message = "pageSize는 최대 100 입니다.")
-		Integer pageSize,
-		Long bookCursorId
-	) {
-		this(null, pageSize, bookCursorId, SortDirection.DESC);
-	}
 
 }
