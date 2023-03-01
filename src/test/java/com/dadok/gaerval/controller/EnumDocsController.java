@@ -1,4 +1,4 @@
-package com.dadok.gaerval.controller.document;
+package com.dadok.gaerval.controller;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -13,6 +13,7 @@ import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.Gender;
 import com.dadok.gaerval.global.common.EnumType;
 import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.global.util.SortDirection;
 
 /**
  * 문서화 하고 싶은 enum을 toMap()을 통해 Map으로 변환합니다.
@@ -26,11 +27,12 @@ public class EnumDocsController {
 	public EnumResponse<EnumDocs> findEnums() {
 
 		return EnumResponse.of(EnumDocs.builder()
+			.authProvider(toMap(AuthProvider.values()))
+			.sortDirection(toMap(SortDirection.values()))
+			.bookshelfItemType(toMap(BookshelfItemType.values()))
 			.jobGroup(toMap(JobGroup.values()))
 			.jobName(toMap(JobGroup.JobName.values()))
 			.gender(toMap(Gender.values()))
-			.bookshelfItemType(toMap(BookshelfItemType.values()))
-			.authProvider(toMap(AuthProvider.values()))
 			.build()
 		);
 	}

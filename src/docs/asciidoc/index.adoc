@@ -7,9 +7,9 @@
 :sectlinks:
 :docinfo: shared-head
 
-== Auth
+== Auth - 인증
 
-=== OAuth2
+=== 소셜 로그인 - OAuth2
 
 ==== Request
 
@@ -32,9 +32,9 @@ include::{snippets}/oauth2-test/oauth2-login/http-response.adoc[]
 
 include::{snippets}/oauth2-test/oauth2-login/response-headers.adoc[]
 
-== User
+== User - 유저
 
-=== Me
+=== 자기자신 개인정보 조회 - Me
 
 ==== Request
 
@@ -52,9 +52,9 @@ include::{snippets}/user-controller-slice-test/me/http-response.adoc[]
 
 include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
-== Job
+== Job - 직군, 직업
 
-=== findAll
+=== 모든 직업 조회 - findAll
 
 ==== Request
 
@@ -72,7 +72,7 @@ include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.ad
 
 include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
 
-=== register Job
+=== 직업 등록 및 수정 - register Job
 
 ==== Request
 
@@ -98,9 +98,33 @@ include::{snippets}/user-controller-slice-test/register-user-job/http-response.a
 
 include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
 
-== Bookshelf
+== Bookshelf - 책장(북카이브)
 
-=== findPopularByJobGroup
+=== 책장 책 조회
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/http-request.adoc[]
+
+==== Request Header
+include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/path-parameters.adoc[]
+
+==== Request Parameter
+
+include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/http-response.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/response-fields.adoc[]
+
+'''
+
+=== 직군별 책장 요약 리스트 (추천) - findPopularByJobGroup
 
 ==== Request
 
@@ -122,7 +146,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-grou
 
 include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc[]
 
-=== insertBookshelfItem
+=== 책장 책 넣기 - insertBookshelfItem
 
 ==== Request
 
@@ -138,13 +162,13 @@ include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/req
 
 ==== Request Body
 
-include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/request-body.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/request-fields.adoc[]
 
 ==== Response
 
 include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/http-response.adoc[]
 
-=== removeBookshelfItem
+=== 책장 책 제거 removeBookshelfItem
 
 ==== Request
 
@@ -162,7 +186,7 @@ include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/r
 
 include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-response.adoc[]
 
-=== findMySummaryBookshelf
+=== 자기 자신 책장 조회 (프로필) findMySummaryBookshelf
 
 ==== Request
 
@@ -180,7 +204,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/ht
 
 include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc[]
 
-=== findUserSummaryBookshelf
+=== 다른 유저 프로필 책장 조회  findUserSummaryBookshelf
 
 ==== Request
 
@@ -203,9 +227,9 @@ include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-us
 include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc[]
 
 
-== Book
+== Book - 책
 
-=== findBookByQuery
+=== 책 검색 - findBookByQuery
 
 ==== Request
 

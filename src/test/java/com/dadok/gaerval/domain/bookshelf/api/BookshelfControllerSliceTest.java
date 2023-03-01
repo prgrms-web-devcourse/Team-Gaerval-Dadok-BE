@@ -16,16 +16,33 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.SliceImpl;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
+import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
+import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
+import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.global.util.SortDirection;
+import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 import lombok.SneakyThrows;
@@ -123,14 +140,38 @@ class BookshelfControllerSliceTest extends ControllerTest {
 					parameterWithName("bookshelvesId").description("첵장 Id")
 				),
 				requestFields(
-					fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목"),
-					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가"),
-					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn"),
-					fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명"),
-					fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url"),
-					fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url"),
-					fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사"),
+					fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "title")
+						),
+					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
+						.attributes(
+						constrainsAttribute(BookCreateRequest.class, "author")
+					),
+					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "isbn")
+						),
+					fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "contents")
+						),
+					fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "url")
+						),
+					fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "imageUrl")
+						),
+					fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "publisher")
+						),
 					fieldWithPath("apiProvider").type(JsonFieldType.STRING).description("api 제공사")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "apiProvider")
+						)
 				)
 			));
 	}
@@ -248,4 +289,112 @@ class BookshelfControllerSliceTest extends ControllerTest {
 				)
 			));
 	}
+
+	@DisplayName("findBooksInBookShelf - 책장속 책들을 조회한다. ")
+	@Test
+	void findBooksInBookShelf() throws Exception {
+		//given
+		Long bookShelfId = 3L;
+		BooksInBookShelfFindRequest booksInBookShelfFindRequest = new BooksInBookShelfFindRequest(
+			BookshelfItemType.READ, 10, 3L, SortDirection.DESC);
+
+		Book book1 = BookObjectProvider.createAllFieldBook();
+		ReflectionTestUtils.setField(book1, "id", 1L);
+		Book book2 = BookObjectProvider.createAllFieldBook();
+		ReflectionTestUtils.setField(book2, "id", 2L);
+		Book book3 = BookObjectProvider.createAllFieldBook();
+		ReflectionTestUtils.setField(book3, "id", 3L);
+
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
+
+		Bookshelf createBookShelf = Bookshelf.create(kakaoUser);
+		ReflectionTestUtils.setField(createBookShelf, "id", bookShelfId);
+		List<BookshelfItem> bookshelfItems = List.of(
+			BookshelfItem.create(createBookShelf, book1, BookshelfItemType.WISH),
+			BookshelfItem.create(createBookShelf, book2, BookshelfItemType.WISH),
+			BookshelfItem.create(createBookShelf, book3, BookshelfItemType.READ));
+
+		SliceImpl<BookshelfItem> bookshelfItemSlice = new SliceImpl<>(bookshelfItems, PageRequest.of(0, 50,
+			Sort.by(Sort.Direction.DESC, "id")), false);
+
+		List<BookInShelfResponses.BookInShelfResponse> bookInShelfResponseLists = bookshelfItemSlice.getContent()
+			.stream().map(bookshelfItem -> {
+				Book book = bookshelfItem.getBook();
+				return new BookInShelfResponses.BookInShelfResponse(
+					book.getId(),
+					book.getTitle(),
+					book.getAuthor(),
+					book.getIsbn(),
+					book.getContents(),
+					book.getImageUrl(),
+					book.getUrl(),
+					book.getPublisher()
+				);
+			}).toList();
+
+		BookInShelfResponses bookInShelfResponses = new BookInShelfResponses(bookshelfItemSlice,
+			bookInShelfResponseLists);
+
+		given(bookshelfService.findAllBooksInShelf(bookShelfId, booksInBookShelfFindRequest))
+			.willReturn(bookInShelfResponses);
+
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+		params.add("type", booksInBookShelfFindRequest.getType().name());
+		params.add("pageSize", booksInBookShelfFindRequest.getPageSize().toString());
+		params.add("bookCursorId", Long.toString(3L));
+		params.add("sortDirection", SortDirection.DESC.name());
+
+		//when
+		mockMvc.perform(get("/api/bookshelves/{bookshelvesId}/books", bookShelfId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.params(params)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+			)
+			.andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("bookshelvesId").description("첵장 Id")
+				),
+				requestParameters(
+					parameterWithName("type").description("책장 아이템 타입. ").optional(),
+					parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+						.attributes(
+							constrainsAttribute(BooksInBookShelfFindRequest.class, "pageSize")
+						),
+					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
+					parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+						.description("정렬 방식 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
+						)
+
+				),
+				responseFields(
+					fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
+					fieldWithPath("empty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("first").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("last").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+
+					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
+					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("books[].isbn").description("책 isbn. 고유번호").type(JsonFieldType.STRING),
+					fieldWithPath("books[].author").description("책 작가").type(JsonFieldType.STRING),
+					fieldWithPath("books[].contents").description("책 설명").type(JsonFieldType.STRING),
+					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url"),
+					fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
+					fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING)
+				)
+			))
+		;
+
+		//then
+	}
+
 }

@@ -1,4 +1,4 @@
-package com.dadok.gaerval.controller.document;
+package com.dadok.gaerval.controller;
 
 public record EnumResponse<T>(
 	T data

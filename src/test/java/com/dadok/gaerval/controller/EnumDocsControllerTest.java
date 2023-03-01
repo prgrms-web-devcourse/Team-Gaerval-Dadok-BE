@@ -17,9 +17,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.dadok.gaerval.controller.document.EnumDocs;
-import com.dadok.gaerval.controller.document.EnumDocsController;
-import com.dadok.gaerval.controller.document.EnumResponse;
 import com.dadok.gaerval.controller.document.utils.CustomResponseFieldsSnippet;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -85,7 +82,13 @@ public class EnumDocsControllerTest extends ControllerTest {
 					beneathPath("data.authProvider").withSubsectionId("authProvider"),
 					attributes(key("title").value("provider")),
 					enumConvertFieldDescriptor(enumDocs.authProvider())
+				),
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.sortDirection").withSubsectionId("sortDirection"),
+					attributes(key("title").value("sortDirection")),
+					enumConvertFieldDescriptor(enumDocs.sortDirection())
 				)
+
 			)
 
 		);

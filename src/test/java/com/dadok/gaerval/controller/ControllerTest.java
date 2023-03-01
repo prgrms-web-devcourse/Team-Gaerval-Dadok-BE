@@ -1,5 +1,9 @@
 package com.dadok.gaerval.controller;
 
+import static org.springframework.restdocs.snippet.Attributes.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,8 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -54,6 +60,17 @@ public abstract class ControllerTest {
 			.alwaysDo(restDocs) // pretty 패턴과 문서 디렉토리 명 정해준것 적용
 			.addFilters(new CharacterEncodingFilter("UTF-8", true)) // 한글 깨짐 방지
 			.build();
+	}
+
+	public static String getConstraintMessage(Class<?> constraintClassType, String propertyName) {
+		ConstraintDescriptions constraintDescriptions =
+			new ConstraintDescriptions(constraintClassType);
+		List<String> nameDescription = constraintDescriptions.descriptionsForProperty(propertyName);
+		return String.join("\n", nameDescription);
+	}
+
+	public static Attributes.Attribute constrainsAttribute(Class<?> constraintClassType, String propertyName) {
+		return key("constraints").value(getConstraintMessage(constraintClassType, propertyName));
 	}
 
 }

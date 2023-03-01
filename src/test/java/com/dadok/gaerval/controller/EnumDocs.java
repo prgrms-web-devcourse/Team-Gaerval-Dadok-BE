@@ -1,4 +1,4 @@
-package com.dadok.gaerval.controller.document;
+package com.dadok.gaerval.controller;
 
 import java.util.Map;
 
@@ -21,11 +21,12 @@ import lombok.Builder;
  */
 @Builder
 public record EnumDocs(
-	Map<String, String> jobGroup,
-	Map<String, String> jobName,
-	Map<String, String> gender,
+	Map<String, String> authProvider,
+	Map<String, String> sortDirection,
 	Map<String, String> bookshelfItemType,
-	Map<String, String> authProvider
+	Map<String, String> gender,
+	Map<String, String> jobGroup,
+	Map<String, String> jobName
 ) {
 
 }

@@ -128,9 +128,15 @@ class UserControllerSliceTest extends ControllerTest {
 
 					requestFields(
 						fieldWithPath("jobGroup").description("직군 영어명. 대문자로 요청 :  " +
-							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP))
+							.attributes(
+								constrainsAttribute(UserJobRegisterRequest.class, "jobGroup")
+							),
 						fieldWithPath("jobName").description("직업 영어명. 대문자로 요청 :  " +
 							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
+							.attributes(
+								constrainsAttribute(UserJobRegisterRequest.class, "jobName")
+							)
 					),
 
 					responseFields(

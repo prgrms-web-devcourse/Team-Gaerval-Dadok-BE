@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +19,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
+
+import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
+
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -34,6 +42,7 @@ import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
+import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
@@ -355,7 +364,72 @@ class DefaultBookshelfServiceSliceTest {
 		assertThrows(ResourceNotfoundException.class, () -> bookshelfService.findSummaryBookshelf(user.getId()));
 
 		verify(bookshelfRepository).findByUser(user.getId());
+	}
 
+	@DisplayName("findAllBooksInShelf - 요청에 맞는 결과가 없으면 빈 응답을 반환한다.")
+	@Test
+	void findAllBooksInShelf_empty() {
+		//given
+		Long bookShelfId = 1L;
+		BooksInBookShelfFindRequest booksInBookShelfFindRequest = new BooksInBookShelfFindRequest(
+			BookshelfItemType.READ, 10, null, SortDirection.DESC);
+
+		given(bookshelfItemRepository.findAllInBookShelf(bookShelfId, booksInBookShelfFindRequest))
+			.willReturn(new SliceImpl<>(new ArrayList<>()));
+
+		//when
+		BookInShelfResponses bookInShelfResponses = bookshelfService.findAllBooksInShelf(bookShelfId,
+			booksInBookShelfFindRequest);
+
+		//then
+		assertThat(bookInShelfResponses)
+			.hasFieldOrPropertyWithValue("isFirst", true)
+			.hasFieldOrPropertyWithValue("isLast", true)
+			.hasFieldOrPropertyWithValue("count", 0)
+			.hasFieldOrPropertyWithValue("isEmpty", true)
+			.hasFieldOrPropertyWithValue("books", Collections.emptyList());
+	}
+
+	@DisplayName("findAllBooksInShelf - 책장안에 있는 책들을 요청만큼 가져온다.")
+	@Test
+	void findAllBooksInShelf() {
+	    //given
+		Long bookShelfId = 1L;
+		BooksInBookShelfFindRequest booksInBookShelfFindRequest = new BooksInBookShelfFindRequest(
+			BookshelfItemType.READ, 10, null, SortDirection.DESC);
+
+		Book book1 = BookObjectProvider.createAllFieldBook();
+		ReflectionTestUtils.setField(book1, "id", 1L);
+		Book book2 = BookObjectProvider.createAllFieldBook();
+		ReflectionTestUtils.setField(book2, "id", 2L);
+		Book book3 = BookObjectProvider.createAllFieldBook();
+		ReflectionTestUtils.setField(book3, "id", 3L);
+
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
+
+		Bookshelf createBookShelf = Bookshelf.create(kakaoUser);
+		ReflectionTestUtils.setField(createBookShelf, "id", bookShelfId);
+		List<BookshelfItem> bookshelfItems = List.of(
+			BookshelfItem.create(createBookShelf, book1, BookshelfItemType.WISH),
+			BookshelfItem.create(createBookShelf, book2, BookshelfItemType.WISH),
+			BookshelfItem.create(createBookShelf, book3, BookshelfItemType.READ));
+
+		given(bookshelfItemRepository.findAllInBookShelf(bookShelfId, booksInBookShelfFindRequest))
+			.willReturn(new SliceImpl<>(bookshelfItems, PageRequest.of(0, 50,
+				Sort.by(Sort.Direction.DESC, "id")), false));
+
+		//when
+
+		BookInShelfResponses bookInShelfResponses = bookshelfService.findAllBooksInShelf(bookShelfId,
+			booksInBookShelfFindRequest);
+
+		//then
+		assertThat(bookInShelfResponses)
+			.hasFieldOrPropertyWithValue("isFirst", true)
+			.hasFieldOrPropertyWithValue("isLast", true)
+			.hasFieldOrPropertyWithValue("count", 3)
+			.hasFieldOrPropertyWithValue("isEmpty", false);
 	}
 
 }

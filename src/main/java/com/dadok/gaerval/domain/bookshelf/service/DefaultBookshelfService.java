@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
@@ -113,6 +116,34 @@ public class DefaultBookshelfService implements BookshelfService {
 					)
 				).collect(Collectors.toList());
 		return new SummaryBookshelfResponse(bookshelf.getId(), bookshelf.getName(), bookResponses);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookInShelfResponses findAllBooksInShelf(Long bookshelfId, BooksInBookShelfFindRequest request) {
+
+		Slice<BookshelfItem> bookshelfItems = bookshelfItemRepository.findAllInBookShelf(bookshelfId, request);
+
+		if (bookshelfItems.isEmpty()) {
+			return BookInShelfResponses.empty(bookshelfItems);
+		}
+
+		List<BookInShelfResponses.BookInShelfResponse> bookInShelfResponses = bookshelfItems.getContent()
+			.stream().map(bookshelfItem -> {
+				Book book = bookshelfItem.getBook();
+				return new BookInShelfResponses.BookInShelfResponse(
+					book.getId(),
+					book.getTitle(),
+					book.getAuthor(),
+					book.getIsbn(),
+					book.getContents(),
+					book.getImageUrl(),
+					book.getUrl(),
+					book.getPublisher()
+				);
+			}).toList();
+
+		return new BookInShelfResponses(bookshelfItems, bookInShelfResponses);
 	}
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
