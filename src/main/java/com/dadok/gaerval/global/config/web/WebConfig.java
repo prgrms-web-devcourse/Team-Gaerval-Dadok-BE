@@ -1,10 +1,9 @@
 package com.dadok.gaerval.global.config.web;
 
-import java.util.Arrays;
+import static org.springframework.http.HttpMethod.*;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -18,10 +17,11 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOrigins("*")
-			.allowedMethods(Arrays.toString(HttpMethod.values()))
-			.allowedOriginPatterns("http://localhost:8080", "http://localhost:3000", "/**")
-			.allowedMethods(Arrays.toString(HttpMethod.values()))
+			.allowedOriginPatterns("*","http://localhost:8080", "http://localhost:3000", "/**", "https://localhost:3000",
+				"https://dadok.vercel.app"
+				)
+			.allowedMethods(GET.name(), POST.name(), PUT.name(), PATCH.name(), DELETE.name(), OPTIONS.name(),
+				HEAD.name())
 			.allowCredentials(true);
 	}
 

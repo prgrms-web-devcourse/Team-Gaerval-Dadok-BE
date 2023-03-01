@@ -118,9 +118,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name : ls -al
-        run: ls -al
-
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
 
