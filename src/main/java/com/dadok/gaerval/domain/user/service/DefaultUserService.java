@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
@@ -32,6 +33,8 @@ public class DefaultUserService implements UserService {
 
 	private final JobService jobService;
 
+	private final BookshelfService bookshelfService;
+
 	@Transactional(readOnly = true)
 	@Override
 	public Optional<User> findByEmailWithAuthorities(String email) {
@@ -45,7 +48,9 @@ public class DefaultUserService implements UserService {
 			.orElse(authorityRepository.save(Authority.create(Role.USER)));
 
 		User user = User.createByOAuth(attribute, UserAuthority.create(authority));
-		return userRepository.save(user);
+		User savedUser = userRepository.save(user);
+		bookshelfService.createBookshelf(savedUser);
+		return savedUser;
 	}
 
 	@Transactional(readOnly = true)

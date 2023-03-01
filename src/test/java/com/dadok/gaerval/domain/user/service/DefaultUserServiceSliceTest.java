@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.job.service.JobService;
@@ -48,6 +49,9 @@ class DefaultUserServiceSliceTest {
 	@Mock
 	private JobService jobService;
 
+	@Mock
+	private BookshelfService bookshelfService;
+
 	private Role user = Role.USER;
 	private AuthProvider kakao = AuthProvider.KAKAO;
 	private Authority RoleUserAuthority = Authority.create(user);
@@ -67,6 +71,9 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.save(expectedUser))
 			.willReturn(expectedUser);
 
+		given(bookshelfService.createBookshelf(expectedUser))
+			.willReturn(1L);
+
 		//when
 		User register = defaultUserService.register(oAuth2Attribute);
 		//then
@@ -74,6 +81,7 @@ class DefaultUserServiceSliceTest {
 		assertEquals(register, expectedUser);
 		verify(authorityRepository).findById(user);
 		verify(userRepository).save(expectedUser);
+		verify(bookshelfService).createBookshelf(expectedUser);
 	}
 
 	@DisplayName("register - authority를 새로 저장하고 유저를 저장하고 반환한다 - 성공")
@@ -95,6 +103,9 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.save(expectedUser))
 			.willReturn(expectedUser);
 
+		given(bookshelfService.createBookshelf(expectedUser))
+			.willReturn(1L);
+
 		//when
 		User register = defaultUserService.register(oAuth2Attribute);
 
@@ -103,6 +114,7 @@ class DefaultUserServiceSliceTest {
 		verify(authorityRepository).findById(user);
 		verify(authorityRepository).save(RoleUserAuthority);
 		verify(userRepository).save(expectedUser);
+		verify(bookshelfService).createBookshelf(expectedUser);
 	}
 
 	@DisplayName("findById - Optional<User>를 반환한다.")
