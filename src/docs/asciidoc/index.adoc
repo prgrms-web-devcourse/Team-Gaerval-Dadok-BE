@@ -7,6 +7,48 @@
 :sectlinks:
 :docinfo: shared-head
 
+[[introduction]]
+== 문서 소개
+
+다독다독 API 문서입니다.
+
+
+[[common]]
+== 공통 사항
+- 왼쪽 table을 통해 이동하시거나 cmd + f 또는 ctrl + f로 검색하셔서 찾을 수 있습니다.
+- 파란 글씨로 된 링크를 클릭하시면 code(상수)를 새 창에서 보실 수 있습니다.
+
+=== Domain
+
+|===
+| 환경 | Domain
+
+| 개발서버
+| `http://13.125.171.172`
+| 개발서버 API 문서
+| `http://13.125.171.172/docs/index.html`
+
+| 운영서버
+| 배포 예정
+|===
+
+=== 공통 에러 응답 - ErrorResponse
+|===
+| 필드명 | 설명
+| `+status+`
+| HTTP Status
+| `+timestamp+`
+| 응답 현재 서버 시각
+| `+message+`
+| 에러메시지
+| `+errors+`
+| 여러 필드가 잘못 되었을때의 필드 에러 정보
+
+| `+path+`
+| 요청 URL
+|===
+
+
 == Auth - 인증
 
 === 소셜 로그인 - OAuth2
@@ -52,52 +94,6 @@ include::{snippets}/user-controller-slice-test/me/http-response.adoc[]
 
 include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
-== Job - 직군, 직업
-
-=== 모든 직업 조회 - findAll
-
-==== Request
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
-
-==== Request Header
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/request-headers.adoc[]
-
-==== Response
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
-
-==== Response fields
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
-
-=== 직업 등록 및 수정 - register Job
-
-==== Request
-
-include::{snippets}/user-controller-slice-test/register-user-job/http-request.adoc[]
-
-==== Request Header
-
-include::{snippets}/user-controller-slice-test/register-user-job/request-headers.adoc[]
-
-==== Path Parameter
-
-include::{snippets}/user-controller-slice-test/register-user-job/path-parameters.adoc[]
-
-==== Request Body
-
-include::{snippets}/user-controller-slice-test/register-user-job/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/user-controller-slice-test/register-user-job/http-response.adoc[]
-
-==== Response fields
-
-include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
-
 == Bookshelf - 책장(북카이브)
 
 === 책장 책 조회
@@ -124,7 +120,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/res
 
 '''
 
-=== 직군별 책장 요약 리스트 (추천) - findPopularByJobGroup
+=== 직군별 책장 요약 리스트 (추천)
 
 ==== Request
 
@@ -146,7 +142,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-grou
 
 include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc[]
 
-=== 책장 책 넣기 - insertBookshelfItem
+=== 책장 책 넣기
 
 ==== Request
 
@@ -168,7 +164,7 @@ include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/req
 
 include::{snippets}/bookshelf-controller-slice-test/insert-book-in-bookshelf/http-response.adoc[]
 
-=== 책장 책 제거 removeBookshelfItem
+=== 책장 책 제거
 
 ==== Request
 
@@ -186,7 +182,7 @@ include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/r
 
 include::{snippets}/bookshelf-controller-slice-test/remove-book-form-bookshelf/http-response.adoc[]
 
-=== 자기 자신 책장 조회 (프로필) findMySummaryBookshelf
+=== 자기 자신 책장 조회 (프로필)
 
 ==== Request
 
@@ -204,7 +200,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/ht
 
 include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc[]
 
-=== 다른 유저 프로필 책장 조회  findUserSummaryBookshelf
+=== 다른 유저 프로필 책장 조회
 
 ==== Request
 
@@ -229,7 +225,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-us
 
 == Book - 책
 
-=== 책 검색 - findBookByQuery
+=== 책 검색
 
 ==== Request
 
@@ -250,3 +246,49 @@ include::{snippets}/book-controller-slice-test/find-book_success/http-response.a
 ==== Response body
 
 include::{snippets}/book-controller-slice-test/find-book_success/response-body.adoc[]
+
+== Job - 직군, 직업
+
+=== 모든 직업 조회
+
+==== Request
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
+
+=== 직업 등록 및 수정
+
+==== Request
+
+include::{snippets}/user-controller-slice-test/register-user-job/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/user-controller-slice-test/register-user-job/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/user-controller-slice-test/register-user-job/path-parameters.adoc[]
+
+==== Request Body
+
+include::{snippets}/user-controller-slice-test/register-user-job/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/user-controller-slice-test/register-user-job/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
