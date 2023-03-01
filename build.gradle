@@ -184,6 +184,7 @@ compileQuerydsl {
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
     delete file(querydslDir)
+    delete file("$buildDir/resources/main/static/docs")
 }
 
 // ---- querydsl
