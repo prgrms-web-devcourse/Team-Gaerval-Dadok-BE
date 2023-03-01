@@ -45,7 +45,6 @@ public class DefaultUserService implements UserService {
 			.orElse(authorityRepository.save(Authority.create(Role.USER)));
 
 		User user = User.createByOAuth(attribute, UserAuthority.create(authority));
-
 		return userRepository.save(user);
 	}
 
