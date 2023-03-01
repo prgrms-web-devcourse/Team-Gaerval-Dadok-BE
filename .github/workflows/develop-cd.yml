@@ -135,7 +135,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: build with Gradle
-        run: ./gradlew clean build --build-cache --daemon
+        run: ./gradlew clean build
 
       - name: docker hub push
         run: |
