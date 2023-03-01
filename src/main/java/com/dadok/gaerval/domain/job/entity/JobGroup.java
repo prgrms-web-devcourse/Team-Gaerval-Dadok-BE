@@ -98,7 +98,7 @@ public enum JobGroup implements EnumType {
 			JobName.CUSTOMER_SUCCESS_MANAGER,
 			JobName.ETC)),
 
-	CUSTOMER_SERVICE_RETAIL("고객서비스 / 리테일",
+	CUSTOMER_SERVICE_RETAIL("고객서비스/리테일",
 		Arrays.asList(JobName.CS_ADVISOR,
 			JobName.FLIGHT_ATTENDANT,
 			JobName.AS_TECHNICIAN,
@@ -168,7 +168,7 @@ public enum JobGroup implements EnumType {
 			JobName.HRBP,
 			JobName.ETC)),
 
-	ENGINEERING_DESIGN("엔지니어링 / 설계",
+	ENGINEERING_DESIGN("엔지니어링/설계",
 		Arrays.asList(JobName.AEROSPACE_ENGINEER,
 			JobName.AGRICULTURAL_ENGINEER,
 			JobName.AUTOMOTIVE_ENGINEER,
@@ -246,7 +246,7 @@ public enum JobGroup implements EnumType {
 			JobName.ETC
 		)),
 
-	MANUFACTURING("제조 / 생산",
+	MANUFACTURING("제조/생산",
 		Arrays.asList(
 			JobName.ASSEMBLY_TECHNICIAN,
 			JobName.CHEMIST,
@@ -264,7 +264,7 @@ public enum JobGroup implements EnumType {
 			JobName.ETC
 		)),
 
-	MEDICAL("의료 / 제약 / 바이오",
+	MEDICAL("의료/제약/바이오",
 		Arrays.asList(
 			JobName.DENTAL_HYGIENIST,
 			JobName.PARALEGAL,
@@ -290,7 +290,7 @@ public enum JobGroup implements EnumType {
 		)
 	),
 
-	LOGISTICS("물류 / 무역",
+	LOGISTICS("물류/무역",
 		Arrays.asList(
 			JobName.SHIPPING_HANDLER,
 			JobName.DIESEL_MECHANIC,
@@ -343,7 +343,7 @@ public enum JobGroup implements EnumType {
 		)
 	),
 
-	CONSTRUCTION_FACILITY("건설 / 시설",
+	CONSTRUCTION_FACILITY("건설/시설",
 		Arrays.asList(
 			JobName.CARPENTER,
 			JobName.HEAVY_EQUIPMENT_TECHNICIAN,
@@ -362,7 +362,7 @@ public enum JobGroup implements EnumType {
 		)
 	),
 
-	PUBLIC_WELFARE("공공 / 복지",
+	PUBLIC_WELFARE("공공/복지",
 		Arrays.asList(
 			JobName.COUNSELOR,
 			JobName.FIREFIGHTER,

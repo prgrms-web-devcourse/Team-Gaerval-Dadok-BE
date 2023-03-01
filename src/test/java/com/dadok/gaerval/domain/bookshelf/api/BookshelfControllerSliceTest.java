@@ -90,7 +90,9 @@ class BookshelfControllerSliceTest extends ControllerTest {
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				requestParameters(
-					parameterWithName("job_group").description("직군")
+					parameterWithName("job_group").description(
+						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)
+					)
 				),
 				responseFields(
 					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군"),
@@ -146,8 +148,8 @@ class BookshelfControllerSliceTest extends ControllerTest {
 						),
 					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
 						.attributes(
-						constrainsAttribute(BookCreateRequest.class, "author")
-					),
+							constrainsAttribute(BookCreateRequest.class, "author")
+						),
 					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
 						.attributes(
 							constrainsAttribute(BookCreateRequest.class, "isbn")
