@@ -92,6 +92,7 @@ class BookshelfControllerSliceTest extends ControllerTest {
 				requestParameters(
 					parameterWithName("job_group").description(
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)
+							+ " (한글 코드명 입력)"
 					)
 				),
 				responseFields(
