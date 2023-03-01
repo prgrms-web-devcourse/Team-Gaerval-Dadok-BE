@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -30,7 +31,7 @@ import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 import lombok.SneakyThrows;
 
 @WebMvcTest(controllers = BookshelfController.class)
-public class BookshelfControllerSliceTest extends ControllerTest {
+class BookshelfControllerSliceTest extends ControllerTest {
 
 	@MockBean
 	private BookshelfService bookshelfService;
@@ -89,9 +90,49 @@ public class BookshelfControllerSliceTest extends ControllerTest {
 	@DisplayName("insertBookInBookshelf - 책장에 책 추가 - 성공")
 	@Test
 	@WithMockCustomOAuth2LoginUser
-	void insertBookInBookshelf() {
+	void insertBookInBookshelf() throws Exception {
+		// Given
+		var title = "미움받을 용기";
+		var author = "기시미 이치로, 고가 후미타케";
+		var isbn = "9788996991342";
+		var contents = "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.";
+		var url = "https://search.daum.net/search?w=bookpage&bookId=1467038&q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0";
+		var imageUrl = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038";
+		var apiProvider = "kakao";
+		var publisher = "인플루엔셜";
+		BookCreateRequest request = new BookCreateRequest(title, author, isbn, contents, url,
+			imageUrl, publisher, apiProvider);
 
-		// TODO : BookCreateRequest dto가 확정되면 추가 예정
+		given(bookshelfService.insertBookSelfItem(any(), eq(23L), eq(request)))
+			.willReturn(23L);
+
+		// When // Then
+		mockMvc.perform(post("/api/bookshelves/{bookshelvesId}/books", 23L)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("bookshelvesId").description("첵장 Id")
+				),
+				requestFields(
+					fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목"),
+					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가"),
+					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn"),
+					fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명"),
+					fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url"),
+					fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url"),
+					fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사"),
+					fieldWithPath("apiProvider").type(JsonFieldType.STRING).description("api 제공사")
+				)
+			));
 	}
 
 	@SneakyThrows
