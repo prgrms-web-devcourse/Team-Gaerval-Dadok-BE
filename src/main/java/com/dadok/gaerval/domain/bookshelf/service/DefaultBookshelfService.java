@@ -20,7 +20,6 @@ import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -35,8 +34,6 @@ public class DefaultBookshelfService implements BookshelfService {
 	private final BookshelfItemRepository bookshelfItemRepository;
 
 	private final BookService bookService;
-
-	private final UserService userService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -65,10 +62,10 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String jobGroup) {
+	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(Long userId, String jobGroup) {
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
 		List<SummaryBookshelfResponse> summaryBookshelfResponses = bookshelfRepository.findAllByJob(searchJobGroup,
-			PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size"))), user.getId());
+			PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size"))), userId);
 		summaryBookshelfResponses.forEach(bookshelf -> {
 			bookshelf.setBooks(bookshelf.getBooks().stream().limit(5).toList());
 		});
@@ -76,8 +73,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	}
 
 	@Override
-	public Long insertBookSelfItem(User user, Long bookshelfId, BookCreateRequest bookCreateRequest) {
-		Bookshelf bookshelf = validationBookshelfUser(user, bookshelfId);
+	public Long insertBookSelfItem(Long userId, Long bookshelfId, BookCreateRequest bookCreateRequest) {
+		Bookshelf bookshelf = validationBookshelfUser(userId, bookshelfId);
 		Book book = bookService.findByIsbn(bookCreateRequest.isbn())
 			.orElseGet(() -> bookService.createBook(bookCreateRequest));
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, book);
@@ -86,8 +83,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	}
 
 	@Override
-	public Long removeBookSelfItem(User user, Long bookshelfId, Long bookId) {
-		Bookshelf bookshelf = validationBookshelfUser(user, bookshelfId);
+	public Long removeBookSelfItem(Long userId, Long bookshelfId, Long bookId) {
+		Bookshelf bookshelf = validationBookshelfUser(userId, bookshelfId);
 		Book book = bookService.findById(bookId).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 		BookshelfItem bookshelfItem = bookshelfItemRepository.findByBookshelfAndBook(bookshelf, book)
 			.orElseThrow(() -> new ResourceNotfoundException(BookshelfItem.class));
@@ -96,24 +93,17 @@ public class DefaultBookshelfService implements BookshelfService {
 	}
 
 	@Override
-	public SummaryBookshelfResponse findSummaryBookshelf(User user) {
-		SummaryBookshelfResponse summaryBookshelf = bookshelfRepository.findByUser(user);
-		summaryBookshelf.setBooks(summaryBookshelf.getBooks().stream().limit(5).toList());
-		return summaryBookshelf;
-	}
-
-	@Override
 	public SummaryBookshelfResponse findSummaryBookshelf(Long userId) {
-		User user = userService.getById(userId);
-		SummaryBookshelfResponse summaryBookshelf = bookshelfRepository.findByUser(user);
+		SummaryBookshelfResponse summaryBookshelf = bookshelfRepository.findByUser(userId)
+			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 		summaryBookshelf.setBooks(summaryBookshelf.getBooks().stream().limit(5).toList());
 		return summaryBookshelf;
 	}
 
-	private Bookshelf validationBookshelfUser(User user, Long bookshelfId) {
+	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
 		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
-		bookshelf.validateOwner(user.getId());
+		bookshelf.validateOwner(userId);
 		return bookshelf;
 	}
 }

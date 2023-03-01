@@ -140,7 +140,7 @@ class DefaultBookshelfServiceSliceTest {
 			.willReturn(Optional.of(book));
 
 		// When
-		var bookshelfId = bookshelfService.insertBookSelfItem(user, 1L, bookCreateRequest);
+		var bookshelfId = bookshelfService.insertBookSelfItem(user.getId(), 1L, bookCreateRequest);
 
 		// Then
 		assertThat(bookshelfId).isEqualTo(1L);
@@ -166,7 +166,7 @@ class DefaultBookshelfServiceSliceTest {
 			.willReturn(book);
 
 		// When
-		var bookshelfId = bookshelfService.insertBookSelfItem(user, 1L, bookCreateRequest);
+		var bookshelfId = bookshelfService.insertBookSelfItem(user.getId(), 1L, bookCreateRequest);
 
 		// Then
 		assertThat(bookshelfId).isEqualTo(1L);
@@ -190,7 +190,7 @@ class DefaultBookshelfServiceSliceTest {
 
 		// When
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.insertBookSelfItem(user, 1L, bookCreateRequest));
+			() -> bookshelfService.insertBookSelfItem(user.getId(), 1L, bookCreateRequest));
 
 		// Then
 		verify(bookshelfRepository).findById(1L);
@@ -200,8 +200,6 @@ class DefaultBookshelfServiceSliceTest {
 	@Test
 	void insertBookSelfItem_bookshelfNotMatchedUser_fail() {
 		// Given
-		User otherUser = UserObjectProvider.createKakaoUser();
-		ReflectionTestUtils.setField(otherUser, "id", 645L);
 		ReflectionTestUtils.setField(user, "id", 23L);
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
@@ -212,7 +210,7 @@ class DefaultBookshelfServiceSliceTest {
 
 		// When
 		assertThrows(BookshelfUserNotMatchedException.class,
-			() -> bookshelfService.insertBookSelfItem(otherUser, 1L, bookCreateRequest));
+			() -> bookshelfService.insertBookSelfItem(645L, 1L, bookCreateRequest));
 
 		// Then
 		verify(bookshelfRepository).findById(1L);
@@ -235,7 +233,7 @@ class DefaultBookshelfServiceSliceTest {
 		doNothing().when(bookshelfItemRepository).deleteById(200L);
 
 		// When
-		var bookshelfId = bookshelfService.removeBookSelfItem(user, 1L, book.getId());
+		var bookshelfId = bookshelfService.removeBookSelfItem(user.getId(), 1L, book.getId());
 
 		// Then
 		assertThat(bookshelfId).isEqualTo(1L);
@@ -258,7 +256,7 @@ class DefaultBookshelfServiceSliceTest {
 
 		// When
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.removeBookSelfItem(user, 1L, book.getId()));
+			() -> bookshelfService.removeBookSelfItem(user.getId(), 1L, book.getId()));
 
 		// Then;
 		verify(bookshelfRepository).findById(1L);
@@ -280,7 +278,7 @@ class DefaultBookshelfServiceSliceTest {
 
 		// When
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.removeBookSelfItem(user, 1L, book.getId()));
+			() -> bookshelfService.removeBookSelfItem(user.getId(), 1L, book.getId()));
 
 		// Then
 		verify(bookshelfRepository).findById(1L);
@@ -314,7 +312,7 @@ class DefaultBookshelfServiceSliceTest {
 			.willReturn(Bookshelves);
 
 		// When
-		var responses = bookshelfService.findPopularBookshelvesByJob(user, jobGroup);
+		var responses = bookshelfService.findPopularBookshelvesByJob(user.getId(), jobGroup);
 
 		// Then
 		verify(bookshelfRepository).findAllByJob(JobGroup.HR, pageable, user.getId());
@@ -331,36 +329,8 @@ class DefaultBookshelfServiceSliceTest {
 	void findPopularBookshelvesByJob_JobGroupNotExist_fail(String jobGroup) {
 
 		assertThrows(InvalidArgumentException.class,
-			() -> bookshelfService.findPopularBookshelvesByJob(user, jobGroup));
+			() -> bookshelfService.findPopularBookshelvesByJob(user.getId(), jobGroup));
 
-	}
-
-	@DisplayName("findSummaryBookshelf - user를 입력받야 책장 요약 데이터 조회 - 성공")
-	@Test
-	void findSummaryBookshelf_user_success() {
-		// Given
-		var books = List.of(
-			new SummaryBookshelfResponse.SummaryBookResponse(1L, "제목1", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(2L, "제목2", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(3L, "제목3", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(4L, "제목4", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(5L, "제목5", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(6L, "제목6", "url")
-		);
-
-		var summaryBookshelf = new SummaryBookshelfResponse(2L, "찐 개발자 책장", books);
-
-		given(bookshelfRepository.findByUser(user))
-			.willReturn(summaryBookshelf);
-
-		// When// Then
-		var response = assertDoesNotThrow(() -> bookshelfService.findSummaryBookshelf(user));
-
-		verify(bookshelfRepository).findByUser(user);
-		assertThat(response.getBookshelfId()).isEqualTo(2L);
-		assertThat(response.getBookshelfName()).isEqualTo("찐 개발자 책장");
-		assertThat(response.getBooks()).hasSize(5);
-		assertThat(response.getBooks().get(0).bookId()).isEqualTo(1L);
 	}
 
 	@DisplayName("findSummaryBookshelf - userId를 입력받야 책장 요약 데이터 조회 - 성공")
@@ -378,20 +348,31 @@ class DefaultBookshelfServiceSliceTest {
 
 		var summaryBookshelf = new SummaryBookshelfResponse(2L, "찐 개발자 책장", books);
 
-		given(userService.getById(user.getId()))
-			.willReturn(user);
-		given(bookshelfRepository.findByUser(user))
-			.willReturn(summaryBookshelf);
+		given(bookshelfRepository.findByUser(user.getId()))
+			.willReturn(Optional.of(summaryBookshelf));
 
 		// When// Then
 		var response = assertDoesNotThrow(() -> bookshelfService.findSummaryBookshelf(user.getId()));
 
-		verify(userService).getById(user.getId());
-		verify(bookshelfRepository).findByUser(user);
+		verify(bookshelfRepository).findByUser(user.getId());
 		assertThat(response.getBookshelfId()).isEqualTo(2L);
 		assertThat(response.getBookshelfName()).isEqualTo("찐 개발자 책장");
 		assertThat(response.getBooks()).hasSize(5);
 		assertThat(response.getBooks().get(0).bookId()).isEqualTo(1L);
+	}
+
+	@DisplayName("findSummaryBookshelf - userId를 입력받야 책장 요약 데이터 조회 - 실패")
+	@Test
+	void findSummaryBookshelf_userId_fail() {
+		// Given
+		given(bookshelfRepository.findByUser(user.getId()))
+			.willReturn(Optional.empty());
+
+		// When// Then
+		assertThrows(ResourceNotfoundException.class, () -> bookshelfService.findSummaryBookshelf(user.getId()));
+
+		verify(bookshelfRepository).findByUser(user.getId());
+
 	}
 
 }

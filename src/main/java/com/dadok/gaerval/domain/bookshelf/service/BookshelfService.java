@@ -19,13 +19,11 @@ public interface BookshelfService {
 
 	Long createBookshelf(User user);
 
-	PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(User user, String jobGroup);
+	PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(Long userId, String jobGroup);
 
-	Long insertBookSelfItem(User user, Long bookshelfId, BookCreateRequest bookCreateRequest);
+	Long insertBookSelfItem(Long userId, Long bookshelfId, BookCreateRequest bookCreateRequest);
 
-	Long removeBookSelfItem(User user, Long bookshelfId, Long bookId);
-
-	SummaryBookshelfResponse findSummaryBookshelf(User user);
+	Long removeBookSelfItem(Long userId, Long bookshelfId, Long bookId);
 
 	SummaryBookshelfResponse findSummaryBookshelf(Long userId);
 }
