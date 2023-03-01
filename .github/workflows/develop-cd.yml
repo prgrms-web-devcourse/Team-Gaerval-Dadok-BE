@@ -125,13 +125,13 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: build with Gradle
-        run: ./gradlew clean build
+        run: |
+          ./gradlew clean
+          ./gradlew build
+          ./gradlew bootjar
 
       - name: docker hub push
         run: |
-          pwd
-          ls -al
-          pwd
           cd build/libs
           pwd
           ls -al

@@ -79,7 +79,7 @@ public class SecurityConfig {
 			.and()
 			.authorizeRequests()
 			.antMatchers(allowedApiUrls).permitAll()
-			.antMatchers("/oauth2/authorize/**", "/login/oauth2/code/**").permitAll()
+			.antMatchers("/oauth2/authorize/**", "/login/oauth2/code/**", "/docs/index.html", "/docs/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			// oauth
