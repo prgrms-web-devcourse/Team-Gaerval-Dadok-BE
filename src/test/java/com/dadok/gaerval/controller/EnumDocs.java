@@ -24,7 +24,8 @@ public record EnumDocs(
 	Map<String, String> jobGroup,
 	Map<String, String> jobName,
 	Map<String, String> gender,
-	Map<String, String> bookshelfItemType
+	Map<String, String> bookshelfItemType,
+	Map<String, String> authProvider
 ) {
 
 }
