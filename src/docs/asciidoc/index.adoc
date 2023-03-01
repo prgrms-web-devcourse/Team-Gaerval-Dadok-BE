@@ -61,3 +61,25 @@ include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.ad
 
 ==== Response fields
 include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
+
+=== register Job
+
+==== Request
+include::{snippets}/user-controller-slice-test/register-user-job/http-request.adoc[]
+
+==== Request Header
+include::{snippets}/user-controller-slice-test/register-user-job/request-headers.adoc[]
+
+
+==== Path Parameter
+include::{snippets}/user-controller-slice-test/register-user-job/path-parameters.adoc[]
+
+==== Request Body
+include::{snippets}/user-controller-slice-test/register-user-job/request-fields.adoc[]
+
+
+==== Response
+include::{snippets}/user-controller-slice-test/register-user-job/http-response.adoc[]
+
+==== Response fields
+include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]

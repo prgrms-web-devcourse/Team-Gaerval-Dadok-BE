@@ -5,7 +5,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dadok.gaerval.domain.job.entity.Job;
+import com.dadok.gaerval.domain.job.service.JobService;
+import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
@@ -25,6 +29,8 @@ public class DefaultUserService implements UserService {
 	private final UserRepository userRepository;
 
 	private final AuthorityRepository authorityRepository;
+
+	private final JobService jobService;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -70,6 +76,17 @@ public class DefaultUserService implements UserService {
 			throw new ResourceNotfoundException(User.class);
 		}
 		return userDetail;
+	}
+
+	@Transactional
+	@Override
+	public UserJobRegisterResponse registerJob(Long userId, UserJobRegisterRequest request) {
+		User user = userRepository.getReferenceById(userId);
+		Job job = jobService.getBy(request.jobGroup(), request.jobName());
+
+		user.changeJob(job);
+
+		return new UserJobRegisterResponse(user.getId(), new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
 	}
 
 }

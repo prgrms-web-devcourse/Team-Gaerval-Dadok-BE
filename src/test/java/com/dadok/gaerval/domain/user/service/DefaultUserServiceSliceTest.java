@@ -1,5 +1,6 @@
 package com.dadok.gaerval.domain.user.service;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
@@ -14,8 +15,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.job.service.JobService;
+import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -25,6 +30,7 @@ import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.global.config.security.AuthProvider;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
+import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +45,8 @@ class DefaultUserServiceSliceTest {
 	@Mock
 	private AuthorityRepository authorityRepository;
 
+	@Mock
+	private JobService jobService;
 
 	private Role user = Role.USER;
 	private AuthProvider kakao = AuthProvider.KAKAO;
@@ -47,9 +55,10 @@ class DefaultUserServiceSliceTest {
 	@DisplayName("register - authority를 찾아 유저를 저장하고 반환한다 - 성공")
 	@Test
 	void register_findWithAuthority_success() {
-	    //given
+		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
-		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY,
+			attributes);
 
 		User expectedUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 		given(authorityRepository.findById(user))
@@ -72,7 +81,8 @@ class DefaultUserServiceSliceTest {
 	void register_notFindCreateAuthority_success() {
 		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
-		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY,
+			attributes);
 
 		User expectedUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 
@@ -100,7 +110,8 @@ class DefaultUserServiceSliceTest {
 	void findById_withNonnull_success() {
 		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
-		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY,
+			attributes);
 
 		User user = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 		Long userId = 1L;
@@ -141,7 +152,8 @@ class DefaultUserServiceSliceTest {
 	void getById_found_success() {
 		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
-		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY,
+			attributes);
 
 		User user = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 		Long userId = 1L;
@@ -157,12 +169,14 @@ class DefaultUserServiceSliceTest {
 		assertEquals(user, findUser);
 		verify(userRepository).findById(userId);
 	}
+
 	@DisplayName("getById - User가 없으면 예외를 던진다.")
 	@Test
 	void getById_notfound_throw() {
 		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
-		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY,
+			attributes);
 
 		User user = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 		Long userId = 1L;
@@ -176,19 +190,20 @@ class DefaultUserServiceSliceTest {
 			() -> defaultUserService.getById(userId));
 		verify(userRepository).findById(userId);
 	}
-	
+
 	@DisplayName("findByEmailWithAuthorities - email로 Authority들을 조인해서 반환한다.")
 	@Test
 	void findByEmailWithAuthorities() {
 		//given
 		Map<String, Object> attributes = UserObjectProvider.attributes(kakao);
-		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY, attributes);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, UserObjectProvider.KAKAO_ATTRIBUTE_KEY,
+			attributes);
 
 		User expectedUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 		String email = expectedUser.getEmail();
 		given(userRepository.findTopByEmailWithAuthorities(email))
 			.willReturn(Optional.of(expectedUser));
-		
+
 		//when
 		Optional<User> userOptional = defaultUserService.findByEmailWithAuthorities(email);
 
@@ -234,6 +249,46 @@ class DefaultUserServiceSliceTest {
 		//when
 		assertThrows(ResourceNotfoundException.class, () -> defaultUserService.getUserDetail(userId));
 		verify(userRepository).findUserDetail(userId);
+	}
+
+	@DisplayName("registerJob - 유저의 Job을 바꾼다.")
+	@Test
+	void registerJob() {
+		//given
+		User user = UserObjectProvider.createKakaoUser();
+		Long userId = 1L;
+		ReflectionTestUtils.setField(user, "id", userId);
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(user);
+
+		Job backendJob = JobObjectProvider.backendJob();
+
+		JobGroup development = JobGroup.DEVELOPMENT;
+		JobGroup.JobName backendDeveloper = JobGroup.JobName.BACKEND_DEVELOPER;
+
+		given(jobService.getBy(development, backendDeveloper))
+			.willReturn(backendJob);
+
+		UserJobRegisterRequest userJobRegisterRequest = new UserJobRegisterRequest(development, backendDeveloper);
+		//when
+
+		UserJobRegisterResponse response = defaultUserService.registerJob(userId,
+			userJobRegisterRequest);
+
+		//then
+		assertThat(user.getJob()).isEqualTo(backendJob);
+
+		assertThat(response)
+			.hasFieldOrPropertyWithValue("userId", userId);
+		assertThat(response.job())
+			.hasFieldOrPropertyWithValue("jobGroupKoreanName", development.getGroupName())
+			.hasFieldOrPropertyWithValue("jobGroupName", development)
+			.hasFieldOrPropertyWithValue("jobNameKoreanName", backendDeveloper.getJobName())
+			.hasFieldOrPropertyWithValue("jobName", backendDeveloper)
+			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
+		verify(userRepository).getReferenceById(userId);
+		verify(jobService).getBy(development, backendDeveloper);
 	}
 
 }

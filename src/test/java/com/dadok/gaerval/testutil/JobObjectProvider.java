@@ -3,6 +3,8 @@ package com.dadok.gaerval.testutil;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.test.util.ReflectionTestUtils;
+
 import com.dadok.gaerval.domain.job.dto.response.JobResponse;
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.entity.Job;
@@ -56,6 +58,19 @@ public class JobObjectProvider {
 		}
 
 		return jobs;
+	}
+
+	public static Job backendJob() {
+		Job backendDeveloper = Job.create(JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
+		ReflectionTestUtils.setField(backendDeveloper, "id", 5L);
+		return backendDeveloper;
+	}
+
+	public static Job frontendJob() {
+		Job frontendDeveloper = Job.create(JobGroup.DEVELOPMENT, JobGroup.JobName.FRONTEND_DEVELOPER, 6);
+		ReflectionTestUtils.setField(frontendDeveloper, "id", 6L);
+
+		return frontendDeveloper;
 	}
 
 }

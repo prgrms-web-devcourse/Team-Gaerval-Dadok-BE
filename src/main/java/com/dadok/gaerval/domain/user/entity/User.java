@@ -143,4 +143,9 @@ public class User extends BaseTimeColumn {
 		return Objects.hash(id, name, nickname, email, profileImage, gender, authProvider, authId, birthday,
 			authorities);
 	}
+
+	public void changeJob(Job job) {
+		this.job = job;
+	}
+
 }
