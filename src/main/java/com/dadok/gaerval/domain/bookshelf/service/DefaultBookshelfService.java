@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.bookshelf.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -64,11 +65,16 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Transactional(readOnly = true)
 	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(Long userId, String jobGroup) {
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
-		List<SummaryBookshelfResponse> summaryBookshelfResponses = bookshelfRepository.findAllByJob(searchJobGroup,
+		List<Bookshelf> bookshelves = bookshelfRepository.findAllByJob(searchJobGroup,
 			PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size"))), userId);
-		summaryBookshelfResponses.forEach(bookshelf -> {
-			bookshelf.setBooks(bookshelf.getBooks().stream().limit(5).toList());
-		});
+		List<SummaryBookshelfResponse> summaryBookshelfResponses = bookshelves.stream().map(bookshelf ->
+			new SummaryBookshelfResponse(bookshelf.getId(), bookshelf.getName(),
+				bookshelf.getBookshelfItems().stream().limit(5).map(bookshelfItem ->
+					new SummaryBookshelfResponse.SummaryBookResponse(
+						bookshelfItem.getBook().getId(), bookshelfItem.getBook().getTitle(),
+						bookshelfItem.getBook().getImageUrl()
+					)
+				).collect(Collectors.toList()))).collect(Collectors.toList());
 		return new PopularBookshelvesOfJobResponses(jobGroup, summaryBookshelfResponses);
 	}
 
@@ -94,10 +100,19 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	public SummaryBookshelfResponse findSummaryBookshelf(Long userId) {
-		SummaryBookshelfResponse summaryBookshelf = bookshelfRepository.findByUser(userId)
+		Bookshelf bookshelf = bookshelfRepository.findByUser(userId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
-		summaryBookshelf.setBooks(summaryBookshelf.getBooks().stream().limit(5).toList());
-		return summaryBookshelf;
+		List<SummaryBookshelfResponse.SummaryBookResponse> bookResponses =
+			bookshelf.getBookshelfItems()
+				.stream()
+				.limit(5)
+				.map(bookshelfItem ->
+					new SummaryBookshelfResponse.SummaryBookResponse(
+						bookshelfItem.getBook().getId(), bookshelfItem.getBook().getTitle(),
+						bookshelfItem.getBook().getImageUrl()
+					)
+				).collect(Collectors.toList());
+		return new SummaryBookshelfResponse(bookshelf.getId(), bookshelf.getName(), bookResponses);
 	}
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
