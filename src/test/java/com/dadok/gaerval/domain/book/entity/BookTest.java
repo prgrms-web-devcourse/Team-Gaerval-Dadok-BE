@@ -1,11 +1,14 @@
 package com.dadok.gaerval.domain.book.entity;
 
+
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.dadok.gaerval.testutil.BookObjectProvider;
+
 
 class BookTest {
 
@@ -22,7 +25,9 @@ class BookTest {
 		String url = "https://search.daum.net/search?w=bookpage&bookId=1467038&q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0";
 		String imageUrl = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038";
 		String apiProvider = "kakao";
-		Book book = Book.create(title, author, isbn, contents, url, imageUrl, apiProvider);
+		String publisher = "인플루엔셜";
+
+		Book book = Book.create(title, author, isbn, contents, url, imageUrl, apiProvider, publisher);
 
 		// When Then
 		assertEquals(title, book.getTitle());
@@ -48,7 +53,9 @@ class BookTest {
 		String imageUrl = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038";
 		String apiProvider = "kakao";
 		String imageKey = "687f74fd-a612-4ec9-9ae5-8f7b7fe8e80f/photo-1606787364406-a3cdf06c6d0c.jpeg";
-		Book book = Book.create(title, author, isbn, contents, url, imageUrl, imageKey, apiProvider);
+		String publisher = "인플루엔셜";
+
+		Book book = Book.create(title, author, isbn, contents, url, imageUrl, imageKey, apiProvider, publisher);
 		// When Then
 		assertEquals(title, book.getTitle());
 		assertEquals(author, book.getAuthor());
@@ -71,9 +78,10 @@ class BookTest {
 		String url = "https://migu.world";
 		String imageUrl = "";
 		String apiProvider = "kakao";
+		String publisher = "인플루엔셜";
 
 		// When Then
-		assertThrows(IllegalArgumentException.class, () -> new Book( emptyTitle, author, exceededIsbn, emptyContents, url, imageUrl, apiProvider));
+		assertThrows(InvalidArgumentException.class, () -> new Book( emptyTitle, author, exceededIsbn, emptyContents, url, imageUrl, apiProvider, publisher));
 	}
 
 
@@ -83,7 +91,7 @@ class BookTest {
 		// Given
 		Book book = BookObjectProvider.createRequiredFieldBook();
 		// When
-		book.setDeleted(true);
+		book.changeDeleted(true);
 		// Then
 		assertTrue(book.isDeleted());
 	}

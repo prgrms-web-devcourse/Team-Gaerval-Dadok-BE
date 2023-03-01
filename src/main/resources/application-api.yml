@@ -1,0 +1,4 @@
+search-api-provider:
+    api-key: ${KAKAO_CLIENT_ID}
+    scheme: ${KAKAO_SCHEME}
+    base-uri: ${KAKAO_BOOK_BASE_URI}
