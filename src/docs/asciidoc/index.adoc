@@ -96,6 +96,25 @@ include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
 == Bookshelf - 책장(북카이브)
 
+== 책장 정보 조회
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job/http-request.adoc[]
+
+==== Request Header
+include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job//request-headers.adoc[]
+
+==== Request Parameter
+
+include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job/http-response.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job/response-fields.adoc[]
+
+
 === 책장 책 조회
 
 ==== Request

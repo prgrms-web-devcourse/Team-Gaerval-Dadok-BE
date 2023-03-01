@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 
-public interface BookshelfRepository extends JpaRepository<Bookshelf, Long> {
+public interface BookshelfRepository extends JpaRepository<Bookshelf, Long>, BookshelfSupport {
 
 	@Query("""
 		select bs from Bookshelf bs join fetch bs.user u join fetch u.job j left join fetch bs.bookshelfItems i left join fetch  i.book b 

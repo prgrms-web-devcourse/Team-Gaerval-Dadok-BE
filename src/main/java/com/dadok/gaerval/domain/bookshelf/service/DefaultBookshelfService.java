@@ -15,6 +15,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
@@ -144,6 +145,13 @@ public class DefaultBookshelfService implements BookshelfService {
 			}).toList();
 
 		return new BookInShelfResponses(bookshelfItems, bookInShelfResponses);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookShelfDetailResponse findBookShelfWithJob(Long userId) {
+		return bookshelfRepository.findByIdWithUserAndJob(userId)
+			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {

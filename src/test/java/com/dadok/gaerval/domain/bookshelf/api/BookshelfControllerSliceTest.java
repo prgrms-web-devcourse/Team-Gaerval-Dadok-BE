@@ -6,6 +6,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.snippet.Attributes.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -32,6 +33,7 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -146,8 +148,8 @@ class BookshelfControllerSliceTest extends ControllerTest {
 						),
 					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
 						.attributes(
-						constrainsAttribute(BookCreateRequest.class, "author")
-					),
+							constrainsAttribute(BookCreateRequest.class, "author")
+						),
 					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
 						.attributes(
 							constrainsAttribute(BookCreateRequest.class, "isbn")
@@ -394,6 +396,68 @@ class BookshelfControllerSliceTest extends ControllerTest {
 			))
 		;
 
+		//then
+	}
+
+	@DisplayName("findBookShelfWithUserJob - 유저와 책장과 직업을 같이 조회해온다.")
+	@Test
+	void findBookShelfWithUserJob() throws Exception {
+		//given
+
+		Long userId = 1L;
+
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, userId,
+			"username", "userNickname",
+			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
+
+		given(bookshelfService.findBookShelfWithJob(userId))
+			.willReturn(bookShelfDetailResponse);
+		//when
+
+		mockMvc.perform(get("/api/bookshelves")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.param("userId", userId.toString())
+			)
+			.andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				requestParameters(
+					parameterWithName("userId").description("조회할 책장의 userId")
+						.attributes(
+							key("constraints").value("Must not be null")
+						)
+
+				),
+				responseFields(
+					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
+					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
+
+					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
+					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
+					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+					fieldWithPath("userProfileImage").type(JsonFieldType.STRING).description("유저 프로필 이미지 url"),
+					fieldWithPath("job").type(JsonFieldType.OBJECT).description("유저의 직업"),
+					fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING)
+						.description("직군 한글명"),
+					fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING)
+						.description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+					fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+						.optional()
+						.description("직업 한글명"),
+
+					fieldWithPath("job.jobName").type(JsonFieldType.STRING).optional().description("직업 영어명 :  " +
+						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+					fieldWithPath("job.order").type(JsonFieldType.NUMBER).optional().description("직업 정렬 순위")
+
+				)
+			));
 		//then
 	}
 
