@@ -7,7 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.TestConstructor;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 class BookshelfRepositoryTest {
 
 	private final BookshelfRepository bookshelfRepository;
+
+	private final User user = UserObjectProvider.createKakaoUser();
 
 	@DisplayName("인기 책장 요약 list 조회")
 	@Test
@@ -30,7 +34,7 @@ class BookshelfRepositoryTest {
 	@DisplayName("사용자의 책장 요약 조회")
 	@Test
 	void findByUser() {
-		bookshelfRepository.findByUser(1L);
+		bookshelfRepository.findByUser(user.getId());
 	}
 
 }

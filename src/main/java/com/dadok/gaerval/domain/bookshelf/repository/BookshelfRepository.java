@@ -8,22 +8,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 
 public interface BookshelfRepository extends JpaRepository<Bookshelf, Long> {
 
 	@Query("""
-		select bs.id as bookshelfId, bs.name as bookshelfName, b.id as bookId,b.title as title, b.imageUrl as imageUrl 
-		 from Bookshelf bs join bs.user u join u.job j join bs.bookshelfItems i join  i.book b 
+		select bs from Bookshelf bs join fetch bs.user u join fetch u.job j left join fetch bs.bookshelfItems i left join fetch  i.book b 
 		 where j.jobGroup = :jobGroup and u.id <> :user
 		""")
-	List<SummaryBookshelfResponse> findAllByJob(@Param("jobGroup") JobGroup jobGroup, Pageable pageable, Long user);
+	List<Bookshelf> findAllByJob(@Param("jobGroup") JobGroup jobGroup, Pageable pageable, Long user);
 
 	@Query("""
-		select bs.id as bookshelfId, bs.name as bookshelfName, b.id as bookId,b.title as title, b.imageUrl as imageUrl 
-		 from Bookshelf bs join bs.bookshelfItems i join  i.book b where bs.user.id = :userId
+		select bs from Bookshelf bs left join fetch bs.bookshelfItems i left join fetch i.book b where bs.user.id = :userId
 		""")
-	Optional<SummaryBookshelfResponse> findByUser(Long userId);
+	Optional<Bookshelf> findByUser(@Param("userId") Long userId);
+
 }
