@@ -1,12 +1,13 @@
 package com.dadok.gaerval.domain.book.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
@@ -41,7 +42,15 @@ public class DefaultBookService implements BookService {
 	@Transactional
 	public BookResponses findAllByKeyword(String keyword) {
 		// TODO 페이징 처리
+
+		if (!StringUtils.hasText(keyword)) {
+			return new BookResponses(Collections.emptyList());
+		}
+
+		System.out.println("search keyword : " + keyword);
+
 		Flux<String> resultFlux = searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
+
 		List<SearchBookResponse> searchBookResponseList = new ArrayList<>();
 		try {
 			JsonNode jsonNode = objectMapper.readTree(resultFlux.toStream().findFirst().orElse(""));
@@ -60,8 +69,21 @@ public class DefaultBookService implements BookService {
 				String apiProvider = AuthProvider.KAKAO.getName();
 				String publisher = document.get("publisher").asText();
 
-				Book book = Book.create(title, String.join(",", allAuthors), isbn, contents, url, imageUrl, apiProvider,
+				String processingContents;
+
+				if (!StringUtils.hasText(contents) || contents.length() == 0) {
+					processingContents = "콘텐츠가 없습니다.";
+				} else {
+					if (contents.length() >= 1999)
+						processingContents = contents.substring(0, 1998);
+					else
+						processingContents = contents;
+				}
+
+				Book book = Book.create(title, String.join(",", allAuthors), isbn,
+					processingContents, url, imageUrl, apiProvider,
 					publisher);
+
 				searchBookResponseList.add(bookMapper.entityToSearchBookResponse(book));
 				// TODO 저장정책
 				// bookRepository.save(book);
@@ -101,7 +123,6 @@ public class DefaultBookService implements BookService {
 				.queryParam("size", size)
 				.queryParam("sort", sort)
 				.build())
-			.accept(MediaType.APPLICATION_JSON)
 			.retrieve()
 			.bodyToFlux(String.class);
 	}

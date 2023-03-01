@@ -8,7 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @Configuration
 @RequiredArgsConstructor
@@ -31,7 +33,6 @@ public class WebClientConfig {
 				String.format("%s %s", webClientProperties.getScheme(), webClientProperties.getApiKey()))
 			.build();
 	}
-
 
 
 }

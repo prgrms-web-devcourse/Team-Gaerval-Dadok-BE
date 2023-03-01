@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
 			.allowedOriginPatterns("*","http://localhost:8080", "http://localhost:3000", "/**", "https://localhost:3000",
-				"https://dadok.vercel.app"
+				"https://dadok.vercel.app", "http://127.0.0.1:3000"
 				)
 			.allowedMethods(GET.name(), POST.name(), PUT.name(), PATCH.name(), DELETE.name(), OPTIONS.name(),
 				HEAD.name())
