@@ -12,7 +12,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 
-public interface BookshelfRepository extends JpaRepository<Bookshelf, Long> {
+public interface BookshelfRepository extends JpaRepository<Bookshelf, Long>, BookShelfSupport {
 
 	@Query("""
 		select bs.id as bookshelfId, bs.name as bookshelfName, b.id as bookId,b.title as title, b.imageUrl as imageUrl 

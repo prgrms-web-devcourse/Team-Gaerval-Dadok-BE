@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
@@ -99,6 +100,14 @@ public class DefaultBookshelfService implements BookshelfService {
 		summaryBookshelf.setBooks(summaryBookshelf.getBooks().stream().limit(5).toList());
 		return summaryBookshelf;
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public void findAllBooks(Long bookshelfId, BooksInBookShelfFindRequest request) {
+
+		bookshelfRepository.findAllWithBooks(bookshelfId, request);
+	}
+
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
 		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)

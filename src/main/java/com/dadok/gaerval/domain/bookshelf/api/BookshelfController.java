@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -127,4 +129,12 @@ public class BookshelfController {
 		return ResponseEntity.ok().build();
 	}
 
+	@GetMapping(value = "/bookshelves/{bookshelvesId}/books")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<?> findBooksInBookShelf(@PathVariable Long bookshelvesId,
+		@ModelAttribute @Valid BooksInBookShelfFindRequest request
+		) {
+		bookshelfService.findAllBooks(bookshelvesId, request);
+		return null;
+	}
 }
