@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>API Document</title>
+<title>다독다독 API Document</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -475,13 +475,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>API Document</h1>
+<h1>다독다독 API Document</h1>
 <div class="details">
 <span id="revnumber">version 0.0.1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#_auth">Auth</a>
+<ul class="sectlevel2">
+<li><a href="#_oauth2">OAuth2</a></li>
+</ul>
+</li>
 <li><a href="#_user">User</a>
 <ul class="sectlevel2">
 <li><a href="#_me">Me</a></li>
@@ -497,12 +502,110 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
+<h2 id="_auth"><a class="link" href="#_auth">Auth</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_oauth2"><a class="link" href="#_oauth2">OAuth2</a></h3>
+<div class="sect3">
+<h4 id="_request"><a class="link" href="#_request">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/oauth2/authorize/kakao?redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Foauth%2Fcallback' -i -X GET</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth2/authorize/kakao?redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Foauth%2Fcallback HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_path_parameter"><a class="link" href="#_path_parameter">Path Parameter</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /oauth2/authorize/{provider}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>provider</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oauth 제공자 Id. 소문자로 요청하셔야 합니다. : <a href="common/authProvider.html" class="popup">oauth2 제공자. 코드</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_parameter"><a class="link" href="#_request_parameter">Request Parameter</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>redirect_uri</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 후 redirect 할 frontend uri</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response"><a class="link" href="#_response">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 302 Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_header"><a class="link" href="#_response_header">Response Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청시 사용한 redirect_uri, with accessToken</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_user"><a class="link" href="#_user">User</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_me"><a class="link" href="#_me">Me</a></h3>
 <div class="sect3">
-<h4 id="_request"><a class="link" href="#_request">Request</a></h4>
+<h4 id="_request_2"><a class="link" href="#_request_2">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/users/me HTTP/1.1
@@ -538,7 +641,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response"><a class="link" href="#_response">Response</a></h4>
+<h4 id="_response_2"><a class="link" href="#_response_2">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -673,7 +776,7 @@ Content-Length: 411
 <div class="sect2">
 <h3 id="_findall"><a class="link" href="#_findall">findAll</a></h3>
 <div class="sect3">
-<h4 id="_request_2"><a class="link" href="#_request_2">Request</a></h4>
+<h4 id="_request_3"><a class="link" href="#_request_3">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
@@ -709,7 +812,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_2"><a class="link" href="#_response_2">Response</a></h4>
+<h4 id="_response_3"><a class="link" href="#_response_3">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2129,7 +2232,7 @@ Content-Length: 33503
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2023-02-28 02:07:06 +0900
+Last updated 2023-03-01 05:16:07 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

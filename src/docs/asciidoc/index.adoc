@@ -1,4 +1,4 @@
-= API Document
+= 다독다독 API Document
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -7,6 +7,26 @@
 :sectlinks:
 :docinfo: shared-head
 
+== Auth
+
+=== OAuth2
+
+==== Request
+include::{snippets}/oauth2-test/oauth2-login/curl-request.adoc[]
+include::{snippets}/oauth2-test/oauth2-login/http-request.adoc[]
+
+
+==== Path Parameter
+include::{snippets}/oauth2-test/oauth2-login/path-parameters.adoc[]
+
+==== Request Parameter
+include::{snippets}/oauth2-test/oauth2-login/request-parameters.adoc[]
+
+==== Response
+include::{snippets}/oauth2-test/oauth2-login/http-response.adoc[]
+
+==== Response Header
+include::{snippets}/oauth2-test/oauth2-login/response-headers.adoc[]
 
 == User
 

@@ -80,6 +80,11 @@ public class EnumDocsControllerTest extends ControllerTest {
 					beneathPath("data.bookshelfItemType").withSubsectionId("bookshelfItemType"),
 					attributes(key("title").value("bookshelfItemType")),
 					enumConvertFieldDescriptor(enumDocs.bookshelfItemType())
+				),
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.authProvider").withSubsectionId("authProvider"),
+					attributes(key("title").value("provider")),
+					enumConvertFieldDescriptor(enumDocs.authProvider())
 				)
 			)
 

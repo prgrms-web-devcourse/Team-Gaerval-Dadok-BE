@@ -12,6 +12,7 @@ import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.Gender;
 import com.dadok.gaerval.global.common.EnumType;
+import com.dadok.gaerval.global.config.security.AuthProvider;
 
 /**
  * 문서화 하고 싶은 enum을 toMap()을 통해 Map으로 변환합니다.
@@ -29,6 +30,7 @@ public class EnumDocsController {
 			.jobName(toMap(JobGroup.JobName.values()))
 			.gender(toMap(Gender.values()))
 			.bookshelfItemType(toMap(BookshelfItemType.values()))
+			.authProvider(toMap(AuthProvider.values()))
 			.build()
 		);
 	}
