@@ -57,7 +57,7 @@ jobs:
 
       - name: Copy configruation files
         run:
-          echo "${{secrets.DEV_ENV_FILE }}" > ./.env
+          echo "${{secrets.DEVELOP_ENV_FILE }}" > ./.env
 
       - name: Send env file
         uses: appleboy/scp-action@master

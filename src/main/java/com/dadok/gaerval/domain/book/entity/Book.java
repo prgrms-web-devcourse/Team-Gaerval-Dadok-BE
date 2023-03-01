@@ -37,7 +37,7 @@ public class Book {
 	private String isbn;
 
 	@Column(nullable = false)
-	@Size(min = 1, max = 2000)
+	@Size(min = 0, max = 2000)
 	private String contents;
 
 	@Column(nullable = false)

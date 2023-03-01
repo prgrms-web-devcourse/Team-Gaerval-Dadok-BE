@@ -32,6 +32,7 @@ public class BookController {
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookResponses> findBooksByQuery(@RequestParam(name = "query") String query) {
+		System.out.println("BookController. query : " + query);
 		return ResponseEntity.ok().body(bookService.findAllByKeyword(query));
 	}
 }

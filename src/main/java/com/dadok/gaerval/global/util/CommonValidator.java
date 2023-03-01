@@ -10,7 +10,9 @@ import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommonValidator {
 
@@ -56,7 +58,15 @@ public class CommonValidator {
 	public static void validateLengthInRange(String value, int minLength, int maxLength, String valueName) {
 		validateNotnull(value, valueName);
 
-		if (!(value.length() >= minLength && value.length() <= maxLength)) {
+		if (value.length() >= maxLength || value.length() <= minLength) {
+			log.info("에러 발생. valueName : {}, value : {}, length : {}",
+				valueName, value, value.length());
+			log.debug("에러 발생. valueName : {}, value : {}, length : {}",
+				valueName, value, value.length());
+			System.out.println("CommonValidator.validateLengthInRange \n"
+			+ String.format("에러 발생. valueName : %s, value : %s, length : %s",
+				valueName, value, value.length()));
+
 			throw new InvalidArgumentException(
 				String.format("%s의 길이는 %s 이상, %s 이하여야 합니다. ", valueName, minLength, maxLength));
 		}

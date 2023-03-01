@@ -15,3 +15,23 @@ server:
   shutdown: graceful
 
   host: ${SERVER_HOST}
+
+logging:
+  level:
+    com:
+      dadok:
+        gaerval: DEBUG
+
+    org.springframework.web: DEBUG
+
+    reactor:
+      netty:
+        http:
+          client:
+            reactor.netty.http.client.HttpClient: DEBUG
+    org:
+      springframework:
+        web:
+          reactive:
+            function:
+              client: DEBUG

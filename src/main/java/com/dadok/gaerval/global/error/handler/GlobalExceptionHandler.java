@@ -70,6 +70,8 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
 		HttpServletRequest request, IllegalArgumentException e) {
 
+		e.printStackTrace();
+
 		return ResponseEntity.badRequest()
 			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
 	}
