@@ -26,9 +26,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
+
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
+
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -299,33 +301,24 @@ class DefaultBookshelfServiceSliceTest {
 		String jobGroup = JobGroup.HR.getDescription();
 		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size")));
 
-		var books = List.of(
-			new SummaryBookshelfResponse.SummaryBookResponse(1L, "제목1", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(2L, "제목2", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(3L, "제목3", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(4L, "제목4", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(5L, "제목5", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(6L, "제목6", "url")
-		);
-		var Bookshelves = List.of(
-			new SummaryBookshelfResponse(1L, "책장", books),
-			new SummaryBookshelfResponse(2L, "책장", books),
-			new SummaryBookshelfResponse(3L, "책장", books),
-			new SummaryBookshelfResponse(4L, "책장", books),
-			new SummaryBookshelfResponse(5L, "책장", books));
+		var bookshelf = Bookshelf.create(user);
+		ReflectionTestUtils.setField(bookshelf, "id", 2L);
+		BookshelfItem.create(bookshelf, book);
 
-		given(bookshelfRepository.findAllByJob(JobGroup.HR, pageable, user.getId()))
-			.willReturn(Bookshelves);
+		List<Bookshelf> bookshelves = List.of(bookshelf);
+
+		given(bookshelfRepository.findAllByJob(JobGroup.HR, pageable, 5L))
+			.willReturn(bookshelves);
 
 		// When
-		var responses = bookshelfService.findPopularBookshelvesByJob(user.getId(), jobGroup);
+		var responses = bookshelfService.findPopularBookshelvesByJob(5L, jobGroup);
 
 		// Then
-		verify(bookshelfRepository).findAllByJob(JobGroup.HR, pageable, user.getId());
+		verify(bookshelfRepository).findAllByJob(JobGroup.HR, pageable, 5L);
 
 		assertThat(responses.jobGroup()).isEqualTo(jobGroup);
-		assertThat(responses.bookshelfResponses()).hasSize(5);
-		assertThat(responses.bookshelfResponses().get(0).getBooks()).hasSize(5);
+		assertThat(responses.bookshelfResponses()).hasSize(1);
+		assertThat(responses.bookshelfResponses().get(0).books()).hasSize(1);
 
 	}
 
@@ -343,28 +336,21 @@ class DefaultBookshelfServiceSliceTest {
 	@Test
 	void findSummaryBookshelf_userId_success() {
 		// Given
-		var books = List.of(
-			new SummaryBookshelfResponse.SummaryBookResponse(1L, "제목1", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(2L, "제목2", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(3L, "제목3", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(4L, "제목4", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(5L, "제목5", "url"),
-			new SummaryBookshelfResponse.SummaryBookResponse(6L, "제목6", "url")
-		);
-
-		var summaryBookshelf = new SummaryBookshelfResponse(2L, "찐 개발자 책장", books);
+		var bookshelf = Bookshelf.create(user);
+		ReflectionTestUtils.setField(bookshelf, "id", 2L);
+		BookshelfItem.create(bookshelf, book);
 
 		given(bookshelfRepository.findByUser(user.getId()))
-			.willReturn(Optional.of(summaryBookshelf));
+			.willReturn(Optional.of(bookshelf));
 
 		// When// Then
 		var response = assertDoesNotThrow(() -> bookshelfService.findSummaryBookshelf(user.getId()));
 
 		verify(bookshelfRepository).findByUser(user.getId());
-		assertThat(response.getBookshelfId()).isEqualTo(2L);
-		assertThat(response.getBookshelfName()).isEqualTo("찐 개발자 책장");
-		assertThat(response.getBooks()).hasSize(5);
-		assertThat(response.getBooks().get(0).bookId()).isEqualTo(1L);
+		assertThat(response.bookshelfId()).isEqualTo(2L);
+		assertThat(response.bookshelfName()).isEqualTo("책장왕다독이님의 책장");
+		assertThat(response.books()).hasSize(1);
+		assertThat(response.books().get(0).bookId()).isEqualTo(123L);
 	}
 
 	@DisplayName("findSummaryBookshelf - userId를 입력받야 책장 요약 데이터 조회 - 실패")
