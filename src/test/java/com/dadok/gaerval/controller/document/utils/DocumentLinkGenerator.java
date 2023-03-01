@@ -10,7 +10,7 @@ public interface DocumentLinkGenerator {
 	}
 
 	static String generateText(DocUrl docUrl) {
-		return String.format("%s %s", docUrl.text, "코드명");
+		return String.format("%s %s", docUrl.text, "코드명 및 설명");
 	}
 
 	@RequiredArgsConstructor
