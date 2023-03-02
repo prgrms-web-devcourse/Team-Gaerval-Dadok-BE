@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -42,8 +43,14 @@ public class UserController {
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 
 		UserJobRegisterResponse userJobRegisterResponse = userService.registerJob(userId, request);
-
 		return ResponseEntity.ok(userJobRegisterResponse);
+	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserProfileResponse> findUserProfile(
+		@PathVariable("userId") Long userId) {
+		return ResponseEntity.ok(userService.getUserProfile(userId));
 	}
 
 }
