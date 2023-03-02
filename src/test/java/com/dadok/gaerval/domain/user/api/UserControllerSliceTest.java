@@ -23,6 +23,7 @@ import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.testutil.JobObjectProvider;
@@ -94,6 +95,60 @@ class UserControllerSliceTest extends ControllerTest {
 	}
 
 	@WithMockCustomOAuth2LoginUser(userId = 1L)
+	@DisplayName("userProfile - 유저 정보 조회에 성공한다.")
+	@Test
+	void userProfile() throws Exception {
+		//given
+		Long userId = 1L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+
+		var mockUserProfileResponse = new UserProfileResponse(userId,
+			kakaoUser.getNickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
+			JobGroup.JobName.BACKEND_DEVELOPER, 1);
+
+		given(userService.getUserProfile(userId))
+			.willReturn(mockUserProfileResponse);
+
+		//when
+		mockMvc.perform(get("/api/users/{userId}/profile", userId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+			)
+			.andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					pathParameters(parameterWithName("userId").description("user Id")),
+					responseFields(
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("user Id"),
+						fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
+						fieldWithPath("gender").type(JsonFieldType.STRING).optional().description("성별 영어명 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.GENDER)
+						),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).optional().description("직업"),
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING).optional().description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING).optional().description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING).optional().description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).optional().description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).optional().description("직업 정렬 순위")
+
+					)
+
+				)
+			);
+
+		//then
+		verify(userService).getUserProfile(userId);
+	}
+
+	@WithMockCustomOAuth2LoginUser(userId = 1L)
 	@DisplayName("registerUserJob - 유저의 직업을 변경하는데 성공한다.")
 	@Test
 	void registerUserJob() throws Exception {
@@ -128,12 +183,12 @@ class UserControllerSliceTest extends ControllerTest {
 
 					requestFields(
 						fieldWithPath("jobGroup").description("직군 영어명. 대문자로 요청 :  " +
-							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP))
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP))
 							.attributes(
 								constrainsAttribute(UserJobRegisterRequest.class, "jobGroup")
 							),
 						fieldWithPath("jobName").description("직업 영어명. 대문자로 요청 :  " +
-							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
 							.attributes(
 								constrainsAttribute(UserJobRegisterRequest.class, "jobName")
 							)

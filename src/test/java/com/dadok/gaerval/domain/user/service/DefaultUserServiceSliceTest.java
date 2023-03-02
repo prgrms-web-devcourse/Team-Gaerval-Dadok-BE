@@ -22,6 +22,7 @@ import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -261,6 +262,41 @@ class DefaultUserServiceSliceTest {
 		//when
 		assertThrows(ResourceNotfoundException.class, () -> defaultUserService.getUserDetail(userId));
 		verify(userRepository).findUserDetail(userId);
+	}
+
+	@DisplayName("getUserProfile - 유저의 정보를 조회해온다.")
+	@Test
+	void getUserProfile_success() {
+		//given
+		Long userId = 1L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+
+		var mockUserProfileResponse = new UserProfileResponse(userId,
+			kakaoUser.getNickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
+			JobGroup.JobName.BACKEND_DEVELOPER, 1);
+
+		given(userRepository.findUserProfile(userId))
+			.willReturn(mockUserProfileResponse);
+
+		//when
+		var userProfileResponse = defaultUserService.getUserProfile(userId);
+
+		//then
+		assertEquals(mockUserProfileResponse, userProfileResponse);
+		verify(userRepository).findUserProfile(userId);
+	}
+
+	@DisplayName("getUserProfile - 유저가 존재하지 않으면 예외를 던진다.")
+	@Test
+	void getUserProfile_throw() {
+		//given
+		Long userId = 1L;
+		given(userRepository.findUserProfile(userId))
+			.willReturn(null);
+
+		//when
+		assertThrows(ResourceNotfoundException.class, () -> defaultUserService.getUserProfile(userId));
+		verify(userRepository).findUserProfile(userId);
 	}
 
 	@DisplayName("registerJob - 유저의 Job을 바꾼다.")

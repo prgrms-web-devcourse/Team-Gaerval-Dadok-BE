@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.bookshelf.api;
 import static org.springframework.http.MediaType.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -136,9 +138,17 @@ public class BookshelfController {
 	public ResponseEntity<BookInShelfResponses> findBooksInBookShelf(@PathVariable Long bookshelvesId,
 		@ModelAttribute @Valid BooksInBookShelfFindRequest request
 	) {
-
 		BookInShelfResponses bookInShelfResponses = bookshelfService.findAllBooksInShelf(bookshelvesId, request);
 
 		return ResponseEntity.ok(bookInShelfResponses);
+	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(value = "/bookshelves", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookShelfDetailResponse> findBookShelfWithUserJob(@RequestParam @Valid @NotNull Long userId) {
+
+		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfWithJob(userId);
+
+		return ResponseEntity.ok(bookShelf);
 	}
 }
