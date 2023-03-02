@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.dadok.gaerval.global.error.ErrorCode;
-import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.UnAuthenticationException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,10 +33,12 @@ public class ExceptionHandlingFilter extends OncePerRequestFilter {
 
 		try {
 			filterChain.doFilter(request, response);
-		} catch (InvalidArgumentException e) {
-			setErrorResponse(request, response, e);
 		} catch (UnAuthenticationException e) {
 			setErrorResponse(request, response, e);
+		} catch (RuntimeException e) {
+			setErrorResponse(request, response, e);
+			log.warn("path : {}, Exception Name : {}, Message : {}",
+				request.getRequestURI(), e.getClass().getSimpleName(), e.getMessage());
 		}
 
 	}

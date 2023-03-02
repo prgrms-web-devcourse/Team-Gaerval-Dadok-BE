@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
-import com.dadok.gaerval.global.config.security.CustomOAuth2UserService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 import com.dadok.gaerval.global.error.exception.UserNotFoundException;
 import com.dadok.gaerval.infra.redis.RemoteCacheService;
@@ -31,8 +30,6 @@ public class JwtService {
 	private final UserRepository userRepository;
 
 	private final RemoteCacheService cacheService;
-
-	private final CustomOAuth2UserService customOAuth2UserService;
 
 	public String createAccessToken(Long userId, Collection<GrantedAuthority> authorities) {
 		return jwtProvider.createAccessToken(userId, authorities);

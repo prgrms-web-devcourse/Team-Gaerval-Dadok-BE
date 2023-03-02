@@ -113,10 +113,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleInvalidArgumentException(
 		HttpServletRequest request, InvalidArgumentException e) {
 
-		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
 
-		return of(errorCode, request.getRequestURI());
+		return ResponseEntity.badRequest().body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
