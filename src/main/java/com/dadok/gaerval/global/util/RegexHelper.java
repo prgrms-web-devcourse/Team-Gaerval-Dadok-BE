@@ -14,6 +14,9 @@ public class RegexHelper {
 	public final static String NICKNAME_REGEX = "^[가-힣0-9a-zA-Z]{2,10}$";
 
 	public static void validateNickname(String nickname) {
+
+		CommonValidator.validateNotnull(nickname, "nickname");
+
 		String regex = "^[가-힣0-9a-zA-Z]{2,10}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(nickname);

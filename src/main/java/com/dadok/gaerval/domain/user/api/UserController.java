@@ -73,7 +73,8 @@ public class UserController {
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/nickname", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserNicknameExistsResponse> existsUsername(
-		@RequestParam @Valid @NotBlank
+		@RequestParam @Valid
+		@NotBlank
 		@Pattern(regexp = RegexHelper.NICKNAME_REGEX, message = "특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용합니다.")
 		String nickname) {
 
