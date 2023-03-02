@@ -21,4 +21,10 @@ class UserRepositoryTest {
 		userRepository.findUserDetail(1L);
 	}
 
+	@DisplayName("findUserProfile - query 확인")
+	@Test
+	void findUserProfile_query() {
+		userRepository.findUserProfile(1L);
+	}
+
 }

@@ -68,7 +68,11 @@ public class DefaultUserService implements UserService {
 
 	@Override
 	public UserProfileResponse getUserProfile(Long userId) {
-		return null;
+		UserProfileResponse userProfile = userRepository.findUserProfile(userId);
+		if (userProfile == null) {
+			throw new ResourceNotfoundException(User.class);
+		}
+		return userProfile;
 	}
 
 	@Transactional(readOnly = true)
@@ -90,7 +94,8 @@ public class DefaultUserService implements UserService {
 
 		user.changeJob(job);
 
-		return new UserJobRegisterResponse(user.getId(), new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
+		return new UserJobRegisterResponse(user.getId(),
+			new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
 	}
 
 }
