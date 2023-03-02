@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 
 public interface UserRepository extends JpaRepository<User, Long>,
 	UserSupport {
@@ -27,5 +28,8 @@ public interface UserRepository extends JpaRepository<User, Long>,
 		left join fetch ua.authority
 		WHERE u.id = :id""")
 	Optional<User> findByIdWithAuthorities(@Param("id") Long id);
+
+
+	User getByNickname(@Param("nickname") Nickname nickname);
 
 }

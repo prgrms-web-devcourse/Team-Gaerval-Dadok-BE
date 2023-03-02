@@ -5,6 +5,7 @@ import static com.dadok.gaerval.domain.user.entity.QUser.*;
 
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -39,6 +40,21 @@ public class UserSupportImpl implements UserSupport {
 			.leftJoin(user.job, job)
 			.where(user.id.eq(userId))
 			.fetchOne();
+	}
+
+	/**
+	 * 데이터가 없으면 nulldㅡㄹ 반환한다.
+	 * @param nickname 찾을 닉네임
+	 * @return
+	 */
+	@Override
+	public boolean existsByNickname(Nickname nickname) {
+		Integer exists = query.selectOne()
+			.from(user)
+			.where(user.nickname.eq(nickname))
+			.fetchFirst();
+
+		return exists != null;
 	}
 
 }

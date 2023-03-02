@@ -94,6 +94,32 @@ include::{snippets}/user-controller-slice-test/me/http-response.adoc[]
 
 include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
+=== 유저 프로필 수정
+
+==== Request
+
+include::{snippets}/user-controller-slice-test/change-profile_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/user-controller-slice-test/change-profile_success/request-headers.adoc[]
+
+
+==== Request fields
+
+include::{snippets}/user-controller-slice-test/change-profile_success/request-fields.adoc[]
+
+
+==== Response
+
+include::{snippets}/user-controller-slice-test/change-profile_success/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/user-controller-slice-test/change-profile_success/response-fields.adoc[]
+
+
+
 === 유저 프로필 정보 조회
 
 ==== Request

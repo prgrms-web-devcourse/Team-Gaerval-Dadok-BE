@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
@@ -56,10 +57,11 @@ public class UserController {
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_USER')")
 	@PutMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDetailResponse> findUserProfile(
+	public ResponseEntity<UserDetailResponse> changeProfile(
+		@RequestBody @Valid UserChangeProfileRequest request,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
-		return ResponseEntity.ok(userService.changeProfile(userPrincipal.getUserId()));
+		return ResponseEntity.ok(userService.changeProfile(userPrincipal.getUserId(), request));
 	}
 
 }

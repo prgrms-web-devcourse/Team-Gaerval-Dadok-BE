@@ -35,8 +35,9 @@ public abstract class ControllerTest {
 	public static final String MOCK_ACCESS_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg";
 
 	public static final String CONTENT_TYPE_JSON_DESCRIPTION = "Content type 필수 :  application/json";
+
 	public static final String ACCESS_TOKEN_HEADER_NAME_DESCRIPTION = "인증 형식 : Bearer ";
-	public static final String ACCEPT_JSON_DESCRIPTION = "ACCEPT type 필수 : accept";
+	public static final String ACCEPT_JSON_DESCRIPTION = "Accept type 필수 : accept";
 
 	@Autowired
 	protected ObjectMapper objectMapper;

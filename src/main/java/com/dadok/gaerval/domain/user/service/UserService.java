@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.user.service;
 
 import java.util.Optional;
 
+import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
@@ -25,6 +26,6 @@ public interface UserService {
 
 	UserJobRegisterResponse registerJob(Long userId, UserJobRegisterRequest request);
 
-	UserDetailResponse changeProfile(Long userId);
+	UserDetailResponse changeProfile(Long userId, UserChangeProfileRequest request);
 
 }

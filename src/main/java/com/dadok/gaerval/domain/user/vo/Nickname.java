@@ -21,10 +21,6 @@ public class Nickname {
 		this.nickname = nickname;
 	}
 
-	public Nickname changeNickname(String nickname) {
-		return new Nickname(nickname);
-	}
-
 	public String nickname() {
 		return nickname;
 	}

@@ -155,4 +155,9 @@ public class User extends BaseTimeColumn {
 			authorities);
 	}
 
+	public void changeNickname(Nickname nickname) {
+		CommonValidator.validateNotnull(nickname, "nickname");
+		this.nickname = nickname;
+	}
+
 }

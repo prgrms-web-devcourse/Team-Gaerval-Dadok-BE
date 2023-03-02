@@ -3,12 +3,14 @@ package com.dadok.gaerval.domain.user.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.service.JobService;
+import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
@@ -17,13 +19,17 @@ import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
+import com.dadok.gaerval.domain.user.exception.DuplicateNicknameException;
 import com.dadok.gaerval.domain.user.repository.AuthorityRepository;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class DefaultUserService implements UserService {
@@ -102,8 +108,37 @@ public class DefaultUserService implements UserService {
 
 	@Transactional
 	@Override
-	public UserDetailResponse changeProfile(Long userId) {
-		return null;
+	public UserDetailResponse changeProfile(Long userId, UserChangeProfileRequest request) {
+
+		User user = userRepository.getReferenceById(userId);
+		Nickname nickname = new Nickname(request.nickname());
+		validateExistsNickname(nickname);
+
+		try {
+			user.changeNickname(nickname);
+			UserJobRegisterRequest jobRequest = request.job();
+
+			Job job = jobService.getBy(jobRequest.jobGroup(), jobRequest.jobName());
+			user.changeJob(job);
+
+			return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
+				user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),
+				user.getAuthProvider(),
+				new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
+		} catch (DataIntegrityViolationException e) {
+			log.warn("닉네임 중복 예외. {} - {} ", e.getClass().getName(), e.getMessage());
+			throw new DuplicateNicknameException(e);
+		}
+
+	}
+
+	@Transactional(readOnly = true)
+	public void validateExistsNickname(Nickname nickname) {
+
+		if (userRepository.existsByNickname(nickname)) {
+			throw new DuplicateNicknameException();
+		}
+
 	}
 
 }
