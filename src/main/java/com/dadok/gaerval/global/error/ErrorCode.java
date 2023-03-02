@@ -14,6 +14,8 @@ public enum ErrorCode {
 
 	// Common
 	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "C001", "%s 리소스가 존재하지 않습니다."),
+	INVALID_ARGUMENT(HttpStatus.BAD_REQUEST, "I001", "%s 의 입력값이 잘못되었습니다. value : %s"),
+
 
 	// Auth
 	INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A002", "잘못된 접근입니다."),

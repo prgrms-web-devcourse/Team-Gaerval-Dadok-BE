@@ -1,13 +1,19 @@
 package com.dadok.gaerval.global.error.exception;
 
-public class InvalidArgumentException extends BusinessException{
+import static com.dadok.gaerval.global.error.ErrorCode.*;
+
+import com.dadok.gaerval.global.error.ErrorCode;
+
+public class InvalidArgumentException extends BusinessException {
+
+	private final ErrorCode errorCode = INVALID_ARGUMENT;
 
 	public InvalidArgumentException(String message) {
 		super(message);
 	}
 
 	public InvalidArgumentException(Object value, String valueName) {
-		super(String.format("%s의 입력값이 잘못되었습니다. value : %s", valueName, value));
+		super(INVALID_ARGUMENT, String.format(INVALID_ARGUMENT.getMessage(), valueName, value));
 	}
 
 }
