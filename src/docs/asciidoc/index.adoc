@@ -270,6 +270,25 @@ include::{snippets}/book-controller-slice-test/find-book_success/http-response.a
 include::{snippets}/book-controller-slice-test/find-book_success/response-body.adoc[]
 include::{snippets}/book-controller-slice-test/find-book_success/response-fields.adoc[]
 
+=== 책 상세 정-
+
+==== Request
+
+include::{snippets}/book-controller-slice-test/find-book-detail_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-controller-slice-test/find-book-detail_success/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/book-controller-slice-test/find-book-detail_success/http-response.adoc[]
+
+==== Response body
+
+include::{snippets}/book-controller-slice-test/find-book-detail_success/response-body.adoc[]
+include::{snippets}/book-controller-slice-test/find-book-detail_success/response-fields.adoc[]
+
 == Job - 직군, 직업
 
 === 모든 직업 조회

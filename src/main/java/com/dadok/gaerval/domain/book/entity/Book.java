@@ -130,4 +130,32 @@ public class Book {
 		return Objects.hash(id, title, author, isbn, contents, isDeleted, url, imageUrl, imageKey, apiProvider,
 			publisher);
 	}
+
+	public void changeTitle(String title) {
+		this.title = title;
+	}
+
+	public void changeAuthor(String author) {
+		this.author = author;
+	}
+
+	public void changeContents(String contents) {
+		this.contents = contents;
+	}
+
+	public void changeUrl(String url) {
+		this.url = url;
+	}
+
+	public void changeImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public void changeImageKey(String imageKey) {
+		this.imageKey = imageKey;
+	}
+
+	public void changeApiProvider(String apiProvider) {
+		this.apiProvider = apiProvider;
+	}
 }

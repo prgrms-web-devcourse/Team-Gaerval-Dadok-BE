@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book.converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.entity.Book;
 
@@ -10,4 +11,6 @@ import com.dadok.gaerval.domain.book.entity.Book;
 public interface BookMapper {
 
 	SearchBookResponse entityToSearchBookResponse(Book book);
+
+	BookResponse entityToBookResponse(Book book);
 }

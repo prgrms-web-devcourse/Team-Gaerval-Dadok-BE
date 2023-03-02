@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.entity.Book;
@@ -20,18 +22,18 @@ public class BookObjectProvider {
 	public static final String apiProvider = "KAKAO";
 	public static final String imageKey = "687f74fd-a612-4ec9-9ae5-8f7b7fe8e80f/photo-1606787364406-a3cdf06c6d0c.jpeg";
 	public static final String publisher = "인플루엔셜";
-	public static final long userId = 123L;
+	public static final long bookId = 123L;
 
 	public static Book createRequiredFieldBook() {
 
 		Book book = Book.create(title, author, isbn, contents, url, imageUrl, apiProvider, publisher);
-		ReflectionTestUtils.setField(book, "id", userId);
+		ReflectionTestUtils.setField(book, "id", bookId);
 		return book;
 	}
 
 	public static Book createAllFieldBook() {
-		Book book = Book.create(title, author, isbn, contents, url, imageUrl, imageKey ,apiProvider, publisher);
-		ReflectionTestUtils.setField(book, "id", userId);
+		Book book = Book.create(title, author, isbn, contents, url, imageUrl, imageKey, apiProvider, publisher);
+		ReflectionTestUtils.setField(book, "id", bookId);
 		return book;
 	}
 
@@ -39,5 +41,22 @@ public class BookObjectProvider {
 		List<SearchBookResponse> bookList = new ArrayList<>();
 		bookList.add(new SearchBookResponse(title, author, isbn, contents, url, imageUrl, apiProvider, publisher));
 		return new BookResponses(bookList);
+	}
+
+	public static BookCreateRequest createBookCreateRequest() {
+		return new BookCreateRequest(
+			title,
+			author,
+			isbn,
+			contents,
+			url,
+			imageUrl,
+			publisher,
+			apiProvider
+		);
+	}
+
+	public static BookResponse createBookResponse() {
+		return new BookResponse(title, author, isbn, contents, url, imageUrl, apiProvider, publisher, imageKey, bookId);
 	}
 }
