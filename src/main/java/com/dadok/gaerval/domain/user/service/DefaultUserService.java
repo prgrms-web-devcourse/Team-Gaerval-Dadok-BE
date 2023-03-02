@@ -1,5 +1,6 @@
 package com.dadok.gaerval.domain.user.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -66,10 +67,11 @@ public class DefaultUserService implements UserService {
 			.orElseThrow(() -> new ResourceNotfoundException(User.class));
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public UserProfileResponse getUserProfile(Long userId) {
 		UserProfileResponse userProfile = userRepository.findUserProfile(userId);
-		if (userProfile == null) {
+		if (Objects.isNull(userProfile)) {
 			throw new ResourceNotfoundException(User.class);
 		}
 		return userProfile;
@@ -80,7 +82,7 @@ public class DefaultUserService implements UserService {
 	public UserDetailResponse getUserDetail(Long userId) {
 		UserDetailResponse userDetail = userRepository.findUserDetail(userId);
 
-		if (userDetail == null) {
+		if (Objects.isNull(userDetail)) {
 			throw new ResourceNotfoundException(User.class);
 		}
 		return userDetail;

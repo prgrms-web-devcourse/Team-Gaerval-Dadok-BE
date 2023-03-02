@@ -18,7 +18,7 @@ public class UserSupportImpl implements UserSupport {
 	@Override
 	public UserDetailResponse findUserDetail(Long userId) {
 		return query.select(Projections.constructor(UserDetailResponse.class,
-					user.id, user.name, user.nickname, user.email, user.profileImage, user.gender, user.authProvider,
+					user.id, user.name, user.nickname, user.oauthNickname, user.email, user.profileImage, user.gender, user.authProvider,
 					user.job.jobGroup, user.job.jobName, user.job.sortOrder
 				)
 			)

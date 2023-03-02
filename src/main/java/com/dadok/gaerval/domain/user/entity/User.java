@@ -50,8 +50,11 @@ public class User extends BaseTimeColumn {
 	@Column(length = 30)
 	private String name;
 
-	@Column(length = 30, nullable = false)
+	@Column(length = 30, unique = true)
 	private String nickname;
+
+	@Column(length = 100)
+	private String oauthNickname;
 
 	@Email
 	@Column(unique = true, length = 255, nullable = true)
@@ -82,16 +85,16 @@ public class User extends BaseTimeColumn {
 	private Job job;
 
 	@Builder
-	protected User(String name, String nickname, String email, String profileImage, Gender gender,
+	protected User(String oauthNickname, String email, String profileImage, Gender gender,
 		AuthProvider authProvider, String authId, UserAuthority userAuthority) {
-		CommonValidator.validateLengthLessThenWithNullable(name, 30, "name");
-		CommonValidator.validateLengthLessThen(nickname, 30, "nickname");
+		CommonValidator.validateLengthLessThen(oauthNickname, 100, "oauthNickname");
+
 		CommonValidator.validateEmail(email);
 		CommonValidator.validateNotnull(gender, "gender");
 		CommonValidator.validateNotnull(authProvider, "authProvider");
 		CommonValidator.validateNotnull(userAuthority, "userAuthority");
-		this.name = name;
-		this.nickname = nickname;
+
+		this.oauthNickname = oauthNickname;
 		this.email = email;
 		this.profileImage = profileImage;
 		this.gender = gender;
@@ -107,7 +110,7 @@ public class User extends BaseTimeColumn {
 
 		return User.builder()
 			.email(attribute.getEmail())
-			.nickname(attribute.getName())
+			.oauthNickname(attribute.getName())
 			.authProvider(attribute.getAuthProvider())
 			.authId(attribute.getOauthId())
 			.profileImage(attribute.getPicture())

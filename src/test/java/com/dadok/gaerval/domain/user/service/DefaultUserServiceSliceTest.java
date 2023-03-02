@@ -236,7 +236,7 @@ class DefaultUserServiceSliceTest {
 		User kakaoUser = UserObjectProvider.createKakaoUser();
 
 		UserDetailResponse mockUserDetailResponse = new UserDetailResponse(userId, kakaoUser.getName(),
-			kakaoUser.getNickname(), kakaoUser.getEmail(),
+			kakaoUser.getNickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
 			kakaoUser.getProfileImage(), kakaoUser.getGender(), kakaoUser.getAuthProvider(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 

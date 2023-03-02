@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
@@ -45,7 +46,7 @@ class UserControllerSliceTest extends ControllerTest {
 		User kakaoUser = UserObjectProvider.createKakaoUser();
 
 		UserDetailResponse mockUserDetailResponse = new UserDetailResponse(userId, kakaoUser.getName(),
-			kakaoUser.getNickname(), kakaoUser.getEmail(),
+			kakaoUser.getNickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
 			kakaoUser.getProfileImage(), kakaoUser.getGender(), kakaoUser.getAuthProvider(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
@@ -66,7 +67,9 @@ class UserControllerSliceTest extends ControllerTest {
 					responseFields(
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("user Id"),
 						fieldWithPath("name").type(JsonFieldType.STRING).optional().description("유저 이름. 실명"),
-						fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("nickname").type(JsonFieldType.STRING).optional().description("유저 닉네임"),
+						fieldWithPath("oauthNickname").type(JsonFieldType.STRING).description("oauth를 통해 가입한 유저 닉네임"),
+
 						fieldWithPath("email").type(JsonFieldType.STRING).optional().description("유저 이메일"),
 						fieldWithPath("profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
 						fieldWithPath("gender").type(JsonFieldType.STRING).description("성별 영어명 : " +
@@ -101,7 +104,7 @@ class UserControllerSliceTest extends ControllerTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
-
+		ReflectionTestUtils.setField(kakaoUser, "nickname", "임시 닉네임. 가입시 입력받아야한다." );
 		var mockUserProfileResponse = new UserProfileResponse(userId,
 			kakaoUser.getNickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);

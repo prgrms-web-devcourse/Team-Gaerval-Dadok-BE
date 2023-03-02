@@ -54,7 +54,7 @@ public class Bookshelf extends BaseTimeColumn {
 		Assert.notNull(isPublic, "Bookshelf의 isPublic null일 수 없습니다.");
 		Assert.notNull(user, "Bookshelf의 user는 null일 수 없습니다.");
 
-		this.name = user.getNickname() + "님의 책장";
+		this.name = user.getOauthNickname() + "님의 책장";
 		this.isPublic = isPublic;
 		this.user = user;
 	}
