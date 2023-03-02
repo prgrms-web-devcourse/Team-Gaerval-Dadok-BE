@@ -51,5 +51,4 @@ class BookShelfItemSupportImplTest {
 		bookshelfItemRepository.findAllInBookShelf(50L, booksInBookShelfFindRequest);
 	}
 
-
 }

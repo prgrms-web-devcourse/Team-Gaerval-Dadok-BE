@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ErrorCode {
 
+	//User
+	ALREADY_EXISTS_NICKNAME(HttpStatus.BAD_REQUEST, "U001", "이미 존재하는 닉네임입니다."),
+
 	// Common
 	RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "C001", "%s 리소스가 존재하지 않습니다."),
 

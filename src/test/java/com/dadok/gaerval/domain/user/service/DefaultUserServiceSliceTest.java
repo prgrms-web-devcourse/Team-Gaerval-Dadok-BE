@@ -10,6 +10,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,6 +21,7 @@ import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.job.service.JobService;
+import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
@@ -29,7 +32,9 @@ import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.domain.user.repository.AuthorityRepository;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.global.error.exception.DuplicateException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
 import com.dadok.gaerval.testutil.JobObjectProvider;
@@ -234,9 +239,10 @@ class DefaultUserServiceSliceTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "nickname", new Nickname("임시닉네임"));
 
 		UserDetailResponse mockUserDetailResponse = new UserDetailResponse(userId, kakaoUser.getName(),
-			kakaoUser.getNickname(), kakaoUser.getEmail(),
+			kakaoUser.getNickname().nickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
 			kakaoUser.getProfileImage(), kakaoUser.getGender(), kakaoUser.getAuthProvider(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
@@ -270,9 +276,11 @@ class DefaultUserServiceSliceTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "nickname", new Nickname("임시닉네임"));
 
 		var mockUserProfileResponse = new UserProfileResponse(userId,
-			kakaoUser.getNickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
+			kakaoUser.getNickname().nickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(),
+			JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
 		given(userRepository.findUserProfile(userId))
@@ -337,6 +345,109 @@ class DefaultUserServiceSliceTest {
 			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
 		verify(userRepository).getReferenceById(userId);
 		verify(jobService).getBy(development, backendDeveloper);
+	}
+
+	@DisplayName("changeProfile - 프로필 변경에 성공한다.")
+	@Test
+	void changeProfile_success() {
+		//given
+		User user = UserObjectProvider.createKakaoUser();
+		Long userId = 1L;
+		ReflectionTestUtils.setField(user, "id", userId);
+
+		JobGroup development = JobGroup.DEVELOPMENT;
+		JobGroup.JobName backendDeveloper = JobGroup.JobName.BACKEND_DEVELOPER;
+		Job backendJob = JobObjectProvider.backendJob();
+
+		String changeNickname = "nickname";
+		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
+			new UserJobRegisterRequest(development,
+				backendDeveloper));
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(user);
+
+		given(jobService.getBy(development, backendDeveloper))
+			.willReturn(backendJob);
+
+		Nickname nickname = new Nickname(changeNickname);
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(false);
+
+		//when
+		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
+
+		//then
+		assertThat(user.getJob()).isEqualTo(backendJob);
+
+		assertThat(response)
+			.hasFieldOrPropertyWithValue("userId", userId)
+			.hasFieldOrPropertyWithValue("nickname", changeNickname)
+			.hasFieldOrPropertyWithValue("oauthNickname", user.getOauthNickname())
+			.hasFieldOrPropertyWithValue("email", user.getEmail())
+			.hasFieldOrPropertyWithValue("profileImage", user.getProfileImage())
+			.hasFieldOrPropertyWithValue("gender", user.getGender())
+			.hasFieldOrPropertyWithValue("authProvider", user.getAuthProvider());
+
+		assertThat(response.job())
+			.hasFieldOrPropertyWithValue("jobGroupKoreanName", development.getGroupName())
+			.hasFieldOrPropertyWithValue("jobGroupName", development)
+			.hasFieldOrPropertyWithValue("jobNameKoreanName", backendDeveloper.getJobName())
+			.hasFieldOrPropertyWithValue("jobName", backendDeveloper)
+			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
+
+		verify(userRepository).getReferenceById(userId);
+		verify(jobService).getBy(development, backendDeveloper);
+		verify(userRepository).existsByNickname(nickname);
+	}
+
+	@DisplayName("changeProfile - 닉네임 중복 예외가 발생한다. ")
+	@Test
+	void changeProfile_throw() {
+		//given
+		User user = UserObjectProvider.createKakaoUser();
+		Long userId = 1L;
+		ReflectionTestUtils.setField(user, "id", userId);
+
+		JobGroup development = JobGroup.DEVELOPMENT;
+		JobGroup.JobName backendDeveloper = JobGroup.JobName.BACKEND_DEVELOPER;
+
+		String changeNickname = "nickname";
+		Nickname nickname = new Nickname(changeNickname);
+		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
+			new UserJobRegisterRequest(development,
+				backendDeveloper));
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(user);
+
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(true);
+
+		//when
+		assertThrows(DuplicateException.class, () -> defaultUserService.changeProfile(userId, request));
+
+		verify(userRepository).getReferenceById(userId);
+		verify(userRepository).existsByNickname(nickname);
+	}
+
+
+	@DisplayName("existsNickname - 닉네임이 존재하면 true 존재하지 않으면 false")
+	@ParameterizedTest
+	@ValueSource(booleans = {true, false})
+	void existsNickname(boolean exists) {
+		//given
+		String nicknameStr = "nickname";
+		Nickname nickname = new Nickname(nicknameStr);
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(exists);
+
+		//when
+		boolean existsNickname = defaultUserService.existsNickname(nickname);
+
+		//then
+		assertEquals(existsNickname, exists);
+		verify(userRepository).existsByNickname(nickname);
 	}
 
 }

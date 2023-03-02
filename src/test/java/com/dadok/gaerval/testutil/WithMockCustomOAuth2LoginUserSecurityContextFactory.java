@@ -33,8 +33,9 @@ public class WithMockCustomOAuth2LoginUserSecurityContextFactory
 
 		UserAuthority userAuthority = UserAuthority.create(oAuth2LoginUser.role());
 		User mockUser = User.createByOAuth(auth2Attribute, userAuthority);
+
 		ReflectionTestUtils.setField(mockUser, "id", oAuth2LoginUser.userId());
-		ReflectionTestUtils.setField(mockUser, "name", oAuth2LoginUser.username());
+		ReflectionTestUtils.setField(mockUser, "oauthNickname", oAuth2LoginUser.username());
 
 		UserPrincipal userPrincipal = UserPrincipal.of(mockUser, attributes);
 
@@ -54,7 +55,7 @@ public class WithMockCustomOAuth2LoginUserSecurityContextFactory
 
 				kakaoAccount.put("email", oAuth2LoginUser.email());
 
-				kakaoProfile.put("nickname", oAuth2LoginUser.nickname());
+				kakaoProfile.put("nickname", oAuth2LoginUser.oauthNickname());
 				kakaoProfile.put("profile_image_url", oAuth2LoginUser.picture());
 
 				attributes.put("kakao_account", kakaoAccount);
@@ -65,7 +66,7 @@ public class WithMockCustomOAuth2LoginUserSecurityContextFactory
 			}
 			case NAVER -> {
 				Map<String, Object> response = new HashMap<>();
-				response.put("name", oAuth2LoginUser.nickname());
+				response.put("name", oAuth2LoginUser.oauthNickname());
 				response.put("email", oAuth2LoginUser.email());
 				response.put("profile_image", oAuth2LoginUser.picture());
 				attributes.put("id", oAuth2LoginUser.oauthId());
