@@ -270,7 +270,7 @@ include::{snippets}/book-controller-slice-test/find-book_success/http-response.a
 include::{snippets}/book-controller-slice-test/find-book_success/response-body.adoc[]
 include::{snippets}/book-controller-slice-test/find-book_success/response-fields.adoc[]
 
-=== 책 상세 정-
+=== 책 상세 정보
 
 ==== Request
 
