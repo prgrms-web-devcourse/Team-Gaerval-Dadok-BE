@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
@@ -30,5 +31,7 @@ public interface BookshelfService {
 	SummaryBookshelfResponse findSummaryBookshelf(Long userId);
 
 	BookInShelfResponses findAllBooksInShelf(Long bookshelvesId, BooksInBookShelfFindRequest request);
+
+	BookShelfDetailResponse findBookShelfWithJob(Long userId);
 
 }
