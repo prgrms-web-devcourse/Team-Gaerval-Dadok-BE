@@ -29,6 +29,7 @@ import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.domain.user.repository.AuthorityRepository;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.config.security.AuthProvider;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
@@ -234,9 +235,10 @@ class DefaultUserServiceSliceTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "nickname", new Nickname("임시닉네임"));
 
 		UserDetailResponse mockUserDetailResponse = new UserDetailResponse(userId, kakaoUser.getName(),
-			kakaoUser.getNickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
+			kakaoUser.getNickname().nickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
 			kakaoUser.getProfileImage(), kakaoUser.getGender(), kakaoUser.getAuthProvider(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
@@ -270,9 +272,10 @@ class DefaultUserServiceSliceTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "nickname", new Nickname("임시닉네임"));
 
 		var mockUserProfileResponse = new UserProfileResponse(userId,
-			kakaoUser.getNickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
+			kakaoUser.getNickname().nickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
 		given(userRepository.findUserProfile(userId))

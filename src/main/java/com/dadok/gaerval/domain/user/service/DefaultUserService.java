@@ -100,4 +100,10 @@ public class DefaultUserService implements UserService {
 			new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
 	}
 
+	@Transactional
+	@Override
+	public UserDetailResponse changeProfile(Long userId) {
+		return null;
+	}
+
 }

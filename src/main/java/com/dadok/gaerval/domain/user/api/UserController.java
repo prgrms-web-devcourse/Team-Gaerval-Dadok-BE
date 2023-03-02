@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,14 @@ public class UserController {
 	public ResponseEntity<UserProfileResponse> findUserProfile(
 		@PathVariable("userId") Long userId) {
 		return ResponseEntity.ok(userService.getUserProfile(userId));
+	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_USER')")
+	@PutMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDetailResponse> findUserProfile(
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		return ResponseEntity.ok(userService.changeProfile(userPrincipal.getUserId()));
 	}
 
 }

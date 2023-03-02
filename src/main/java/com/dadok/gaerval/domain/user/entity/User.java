@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,6 +26,7 @@ import javax.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.dadok.gaerval.domain.job.entity.Job;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.config.security.AuthProvider;
@@ -50,8 +52,9 @@ public class User extends BaseTimeColumn {
 	@Column(length = 30)
 	private String name;
 
-	@Column(length = 30, unique = true)
-	private String nickname;
+	@Column(length = 30, unique = true, name = "nickname")
+	@Embedded
+	private Nickname nickname;
 
 	@Column(length = 100)
 	private String oauthNickname;
@@ -125,6 +128,11 @@ public class User extends BaseTimeColumn {
 			.collect(Collectors.toList());
 	}
 
+	public void changeJob(Job job) {
+		CommonValidator.validateNotnull(job, "job");
+		this.job = job;
+	}
+
 	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
@@ -145,10 +153,6 @@ public class User extends BaseTimeColumn {
 	public int hashCode() {
 		return Objects.hash(id, name, nickname, email, profileImage, gender, authProvider, authId, birthday,
 			authorities);
-	}
-
-	public void changeJob(Job job) {
-		this.job = job;
 	}
 
 }

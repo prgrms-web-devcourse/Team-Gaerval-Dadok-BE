@@ -27,6 +27,7 @@ import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
@@ -44,9 +45,9 @@ class UserControllerSliceTest extends ControllerTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
-
+		ReflectionTestUtils.setField(kakaoUser, "nickname", new Nickname("임시닉네임"));
 		UserDetailResponse mockUserDetailResponse = new UserDetailResponse(userId, kakaoUser.getName(),
-			kakaoUser.getNickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
+			kakaoUser.getNickname().nickname(), kakaoUser.getOauthNickname(), kakaoUser.getEmail(),
 			kakaoUser.getProfileImage(), kakaoUser.getGender(), kakaoUser.getAuthProvider(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
@@ -104,9 +105,9 @@ class UserControllerSliceTest extends ControllerTest {
 		//given
 		Long userId = 1L;
 		User kakaoUser = UserObjectProvider.createKakaoUser();
-		ReflectionTestUtils.setField(kakaoUser, "nickname", "임시 닉네임. 가입시 입력받아야한다." );
+		ReflectionTestUtils.setField(kakaoUser, "nickname", new Nickname("임시닉네임"));
 		var mockUserProfileResponse = new UserProfileResponse(userId,
-			kakaoUser.getNickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
+			kakaoUser.getNickname().nickname(), kakaoUser.getProfileImage(), kakaoUser.getGender(), JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER, 1);
 
 		given(userService.getUserProfile(userId))

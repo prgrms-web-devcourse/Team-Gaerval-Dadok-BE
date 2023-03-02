@@ -25,4 +25,6 @@ public interface UserService {
 
 	UserJobRegisterResponse registerJob(Long userId, UserJobRegisterRequest request);
 
+	UserDetailResponse changeProfile(Long userId);
+
 }
