@@ -6,6 +6,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.snippet.Attributes.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.DisplayName;
@@ -400,6 +401,49 @@ class UserControllerSliceTest extends ControllerTest {
 		;
 		//then
 		verify(userService).changeProfile(userId, request);
+	}
+
+	@DisplayName("existsUsername - 유저 닉네임이 존재하면 true를 반환한다.")
+	@Test
+	void existsUsername_true() throws Exception {
+		//given
+		Nickname nickname = new Nickname("nickname");
+
+		given(userService.existsNickname(nickname))
+			.willReturn(true);
+
+		//when
+		mockMvc.perform(get("/api/users/nickname")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.queryParam("nickname", "nickname")
+			)
+			.andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
+						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
+					),
+					requestParameters(parameterWithName("nickname").description("존재 여부 확인할 nickname. \n 특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용")
+						.attributes(key("constraints").value("""
+							Must match the regular expression \n
+							`^[가-힣0-9a-zA-Z]{2,10}$`\s
+		
+							Must not be blank""")
+						)
+					)
+
+					,
+					responseFields(
+						fieldWithPath("isExists").description("유저 닉네임 존재 여부. 존재하면 true 아니면 false")
+					)
+				)
+			);
+
+		//then
+		verify(userService).existsNickname(nickname);
 	}
 
 }

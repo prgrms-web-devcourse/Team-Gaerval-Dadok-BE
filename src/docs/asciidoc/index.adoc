@@ -94,6 +94,30 @@ include::{snippets}/user-controller-slice-test/me/http-response.adoc[]
 
 include::{snippets}/user-controller-slice-test/me/response-fields.adoc[]
 
+=== 유저 nickname 존재 여부
+
+==== Request
+
+include::{snippets}/user-controller-slice-test/exists-username_true/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/user-controller-slice-test/exists-username_true/request-headers.adoc[]
+
+
+==== Request parameters
+
+include::{snippets}/user-controller-slice-test/exists-username_true/request-parameters.adoc[]
+
+
+==== Response
+
+include::{snippets}/user-controller-slice-test/exists-username_true/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/user-controller-slice-test/exists-username_true/response-fields.adoc[]
+
 === 유저 프로필 수정
 
 ==== Request

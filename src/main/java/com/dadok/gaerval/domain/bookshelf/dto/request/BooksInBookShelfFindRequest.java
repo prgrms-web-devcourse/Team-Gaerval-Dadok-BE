@@ -26,7 +26,6 @@ public class BooksInBookShelfFindRequest {
 
 	private Long bookCursorId;
 
-	private SortDirection sortDirection= SortDirection.DESC;
-
+	private SortDirection sortDirection = SortDirection.DESC;
 
 }

@@ -38,17 +38,15 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 			.orderBy(order(direction))
 			.fetch();
 
-		return
-			QueryDslUtil.toSlice(bookshelfItems, PageRequest.of(0, request.getPageSize(),
+		return QueryDslUtil.toSlice(bookshelfItems, PageRequest.of(0, request.getPageSize(),
 				Sort.by(direction, "id")));
-
 	}
 
 	private OrderSpecifier<?> order(Sort.Direction direction) {
 
 		return switch (direction) {
 			case DESC -> bookshelfItem.id.desc();
-			case ASC -> bookshelfItem.id.asc();
+			default -> bookshelfItem.id.asc();
 		};
 	}
 

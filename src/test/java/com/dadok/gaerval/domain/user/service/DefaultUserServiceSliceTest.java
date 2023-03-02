@@ -10,6 +10,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -426,6 +428,25 @@ class DefaultUserServiceSliceTest {
 		assertThrows(DuplicateException.class, () -> defaultUserService.changeProfile(userId, request));
 
 		verify(userRepository).getReferenceById(userId);
+		verify(userRepository).existsByNickname(nickname);
+	}
+
+
+	@DisplayName("existsNickname - 닉네임이 존재하면 true 존재하지 않으면 false")
+	@ParameterizedTest
+	@ValueSource(booleans = {true, false})
+	void existsNickname(boolean exists) {
+		//given
+		String nicknameStr = "nickname";
+		Nickname nickname = new Nickname(nicknameStr);
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(exists);
+
+		//when
+		boolean existsNickname = defaultUserService.existsNickname(nickname);
+
+		//then
+		assertEquals(existsNickname, exists);
 		verify(userRepository).existsByNickname(nickname);
 	}
 

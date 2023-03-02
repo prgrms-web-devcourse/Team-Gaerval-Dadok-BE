@@ -133,6 +133,12 @@ public class DefaultUserService implements UserService {
 	}
 
 	@Transactional(readOnly = true)
+	@Override
+	public boolean existsNickname(Nickname nickname) {
+		return userRepository.existsByNickname(nickname);
+	}
+
+	@Transactional(readOnly = true)
 	public void validateExistsNickname(Nickname nickname) {
 
 		if (userRepository.existsByNickname(nickname)) {
