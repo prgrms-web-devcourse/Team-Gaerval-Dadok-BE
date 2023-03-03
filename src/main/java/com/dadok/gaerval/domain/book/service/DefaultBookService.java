@@ -1,13 +1,15 @@
 package com.dadok.gaerval.domain.book.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
@@ -19,7 +21,6 @@ import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.exception.InvalidBookDataException;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
-import com.dadok.gaerval.global.config.security.AuthProvider;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,50 +46,34 @@ public class DefaultBookService implements BookService {
 	public BookResponses findAllByKeyword(String keyword) {
 		// TODO 페이징 처리
 
-		if (!StringUtils.hasText(keyword)) {
+		if (StringUtils.isBlank(keyword) || !StringUtils.isAlphanumericSpace(keyword)) {
+			log.info("[DefaultBookService]-[findAllByKeyword] invalid keyword : {}", keyword);
 			return new BookResponses(Collections.emptyList());
 		}
-
-		System.out.println("search keyword : " + keyword);
 
 		Flux<String> resultFlux = searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
 
 		List<SearchBookResponse> searchBookResponseList = new ArrayList<>();
 		try {
 			JsonNode jsonNode = objectMapper.readTree(resultFlux.toStream().findFirst().orElse(""));
-			log.info(jsonNode.toPrettyString());
+			log.info("[DefaultBookService]-[findAllByKeyword] received data : {}", jsonNode.toPrettyString());
 
 			Optional<JsonNode> documents = Optional.of(jsonNode.get("documents"));
 
 			documents.ifPresent(docs -> docs.forEach(document -> {
-				String title = document.get("title").asText();
 				List<String> allAuthors = new ArrayList<>();
 				document.get("authors").forEach(authorNode -> allAuthors.add(authorNode.asText()));
-				String isbn = document.get("isbn").asText().split(" ")[1];
-				String contents = document.get("contents").asText();
-				String url = document.get("url").asText();
-				String imageUrl = document.get("thumbnail").asText();
-				String apiProvider = AuthProvider.KAKAO.getName();
-				String publisher = document.get("publisher").asText();
 
-				String processingContents;
+				Book processedBook = BookDataProcessor.process(document.get("title").asText(),
+					allAuthors,
+					document.get("contents").asText(),
+					document.get("isbn").asText(),
+					document.get("url").asText(),
+					document.get("thumbnail").asText(),
+					document.get("publisher").asText()
+				);
 
-				if (!StringUtils.hasText(contents) || contents.length() == 0) {
-					processingContents = "콘텐츠가 없습니다.";
-				} else {
-					if (contents.length() >= 1999)
-						processingContents = contents.substring(0, 1998);
-					else
-						processingContents = contents;
-				}
-
-				Book book = Book.create(title, String.join(",", allAuthors), isbn,
-					processingContents, url, imageUrl, apiProvider,
-					publisher);
-
-				searchBookResponseList.add(bookMapper.entityToSearchBookResponse(book));
-				// TODO 저장정책
-				// bookRepository.save(book);
+				searchBookResponseList.add(bookMapper.entityToSearchBookResponse(processedBook));
 			}));
 
 		} catch (JsonProcessingException e) {
@@ -130,7 +115,7 @@ public class DefaultBookService implements BookService {
 	@Override
 	@Transactional(readOnly = true)
 	public Book getById(Long bookId) {
-		return bookRepository.findById(bookId).orElseThrow(()-> new ResourceNotfoundException(Book.class));
+		return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 	}
 
 	@Override
@@ -159,7 +144,10 @@ public class DefaultBookService implements BookService {
 				.queryParam("size", size)
 				.queryParam("sort", sort)
 				.build())
+			.acceptCharset(StandardCharsets.UTF_8)
+			.accept(MediaType.APPLICATION_JSON)
 			.retrieve()
 			.bodyToFlux(String.class);
 	}
+
 }

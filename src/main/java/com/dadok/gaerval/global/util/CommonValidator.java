@@ -65,7 +65,7 @@ public class CommonValidator {
 	public static void validateLengthInRange(String value, int minLength, int maxLength, String valueName) {
 		validateNotnull(value, valueName);
 
-		if (value.length() >= maxLength || value.length() <= minLength) {
+		if (value.length() >= maxLength || value.length() < minLength) {
 			log.info("에러 발생. valueName : {}, value : {}, length : {}",
 				valueName, value, value.length());
 			log.debug("에러 발생. valueName : {}, value : {}, length : {}",
