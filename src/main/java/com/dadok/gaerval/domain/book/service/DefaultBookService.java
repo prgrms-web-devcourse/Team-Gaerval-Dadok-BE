@@ -49,11 +49,11 @@ public class DefaultBookService implements BookService {
 			return new BookResponses(Collections.emptyList());
 		}
 
-		Flux<String> resultFlux = externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
+		String result = externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
 
 		List<SearchBookResponse> searchBookResponseList = new ArrayList<>();
 		try {
-			JsonNode jsonNode = objectMapper.readTree(resultFlux.toStream().findFirst().orElse(""));
+			JsonNode jsonNode = objectMapper.readTree(result);
 			log.info("[DefaultBookService]-[findAllByKeyword] received data : {}", jsonNode.toPrettyString());
 
 			Optional<JsonNode> documents = Optional.of(jsonNode.get("documents"));
