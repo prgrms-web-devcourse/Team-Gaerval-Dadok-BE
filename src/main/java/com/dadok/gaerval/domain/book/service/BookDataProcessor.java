@@ -12,7 +12,7 @@ public class BookDataProcessor {
 	static Book process(String title, List<String> authors, String contents, String isbn, String url, String imageUrl,
 		String publisher) {
 
-		if (StringUtils.isEmpty(title)) {
+		if (StringUtils.isBlank(title)) {
 			title = "책 제목 미상";
 		}
 
@@ -21,7 +21,7 @@ public class BookDataProcessor {
 			authorsString = "저자 미상";
 		}
 
-		if (StringUtils.isEmpty(contents)) {
+		if (StringUtils.isBlank(contents)) {
 			contents = "책 소개 미상";
 		} else {
 			if (contents.length() >= 1999)
@@ -30,7 +30,7 @@ public class BookDataProcessor {
 
 		isbn = isbn.contains(" ") ? isbn.split(" ")[1] : isbn;
 
-		if (StringUtils.isEmpty(publisher)) {
+		if (StringUtils.isBlank(publisher)) {
 			publisher = "출판사 미상";
 		}
 
