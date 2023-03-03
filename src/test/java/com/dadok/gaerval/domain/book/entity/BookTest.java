@@ -1,12 +1,12 @@
 package com.dadok.gaerval.domain.book.entity;
 
-
-import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 
 
@@ -94,5 +94,93 @@ class BookTest {
 		book.changeDeleted(true);
 		// Then
 		assertTrue(book.isDeleted());
+	}
+
+	@Test
+	@DisplayName("도서 제목이 변경된다.")
+	void change_book_title() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String newTitle = "새로운 도서 제목";
+		// When
+		book.changeTitle(newTitle);
+		// Then
+		assertEquals(newTitle, book.getTitle());
+	}
+
+
+	@Test
+	@DisplayName("도서 저자가 변경된다.")
+	void change_book_author() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String newAuthor = "새로운 도서 저자";
+		// When
+		book.changeAuthor(newAuthor);
+		// Then
+		assertEquals(newAuthor, book.getAuthor());
+	}
+
+
+
+	@Test
+	@DisplayName("도서 소개가 변경된다.")
+	void change_book_contents() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String newContents = "새로운 도서 소개";
+		// When
+		book.changeContents(newContents);
+		// Then
+		assertEquals(newContents, book.getContents());
+	}
+
+	@Test
+	@DisplayName("도서 URL이 변경된다.")
+	void change_book_url() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String newUrl = BookObjectProvider.url;
+		// When
+		book.changeUrl(newUrl);
+		// Then
+		assertEquals(newUrl, book.getUrl());
+	}
+
+	@Test
+	@DisplayName("도서 이미지 URL이 변경된다.")
+	void change_book_imageUrl() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String newImageUrl = BookObjectProvider.imageKey	;
+		// When
+		book.changeImageUrl(newImageUrl);
+		// Then
+		assertEquals(newImageUrl, book.getImageUrl());
+	}
+
+
+	@Test
+	@DisplayName("도서 이미지 키가 변경된다.")
+	void change_book_imageKey() {
+		// Given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String newImageKey = BookObjectProvider.imageKey;
+		// When
+		book.changeImageKey(newImageKey);
+		// Then
+		assertEquals(newImageKey, book.getImageKey());
+	}
+
+	@Test
+	@DisplayName("api provider가 변경된다.")
+	void change_api_provider() {
+		// given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		String apiProvider = AuthProvider.NAVER.getName();
+		// when
+		book.changeApiProvider(apiProvider);
+		// then
+		assertEquals(apiProvider, book.getApiProvider());
 	}
 }
