@@ -52,7 +52,7 @@ public class User extends BaseTimeColumn {
 	@Column(length = 30)
 	private String name;
 
-	@Column(length = 30, unique = true, name = "nickname")
+	@Column(length = 30, unique = true, name = "nickname", nullable = true)
 	@Embedded
 	private Nickname nickname;
 

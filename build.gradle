@@ -63,6 +63,8 @@ dependencies {
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
     //oauth
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // slack
+    implementation 'com.slack.api:slack-api-client:1.27.3'
 
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'

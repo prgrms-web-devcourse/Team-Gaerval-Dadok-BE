@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterRegistry;
@@ -30,6 +31,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.controller.document.utils.RestDocsConfig;
 import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.infra.slack.SlackService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,9 @@ class Oauth2Test {
 	private final RestDocumentationResultHandler restDocs;
 
 	private final ConverterRegistry converterRegistry;
+
+	@MockBean
+	private SlackService slackService;
 
 	@BeforeEach
 	void setUp(final WebApplicationContext context,

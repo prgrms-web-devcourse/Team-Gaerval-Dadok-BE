@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -23,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.dadok.gaerval.controller.document.utils.RestDocsConfig;
+import com.dadok.gaerval.infra.slack.SlackService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,6 +40,9 @@ public abstract class ControllerTest {
 
 	public static final String ACCESS_TOKEN_HEADER_NAME_DESCRIPTION = "인증 형식 : Bearer ";
 	public static final String ACCEPT_JSON_DESCRIPTION = "Accept type 필수 : accept";
+
+	@MockBean
+	private SlackService slackService;
 
 	@Autowired
 	protected ObjectMapper objectMapper;

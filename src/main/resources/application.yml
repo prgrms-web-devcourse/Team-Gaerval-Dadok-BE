@@ -35,3 +35,8 @@ logging:
           reactive:
             function:
               client: DEBUG
+
+
+slack:
+  oauth-token: ${SLACK_OAUTH_TOKEN}
+  error-channel-id: ${SLACK_ERROR_CHANNEL_ID}
