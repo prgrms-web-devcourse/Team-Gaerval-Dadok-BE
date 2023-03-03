@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.util.StringUtils;
 
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 
@@ -24,6 +25,12 @@ public class CommonValidator {
 
 	public static void validateNotnull(Object obj, String valueName) {
 		if (Objects.isNull(obj)) {
+			throw new InvalidArgumentException(String.format(NULL_MESSAGE, valueName));
+		}
+	}
+
+	public static void validateBlank(String input, String valueName) {
+		if (!StringUtils.hasText(input)) {
 			throw new InvalidArgumentException(String.format(NULL_MESSAGE, valueName));
 		}
 	}

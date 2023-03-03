@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
+import com.dadok.gaerval.global.error.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public record ErrorResponse(
@@ -26,6 +27,11 @@ public record ErrorResponse(
 		public static FieldError of(String filedName, Object value, String reason) {
 			return new FieldError(filedName, value.toString(), reason);
 		}
+	}
+
+
+	public static ErrorResponse of(ErrorCode errorCode, String path) {
+		return new ErrorResponse(errorCode.getStatus().value(), errorCode.getMessage(), LocalDateTime.now(), null, path);
 	}
 
 	public static ErrorResponse of(HttpStatus status, String message, String path) {

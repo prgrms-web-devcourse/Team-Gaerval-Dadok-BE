@@ -21,10 +21,12 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 	public Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long userId) {
 
 		BookShelfDetailResponse bookShelfDetailResponse = query.select(constructor(BookShelfDetailResponse.class,
-					bookshelf.id.as("bookShelfId"),
-					bookshelf.name.as("bookShelfName"),
-					bookshelf.isPublic.as("isPublic"), user.id.as("userId"),
-					user.name.as("username"), user.nickname.as("userNickname"),
+					bookshelf.id.as("bookshelfId"),
+					bookshelf.name.as("bookshelfName"),
+					bookshelf.isPublic.as("isPublic"),
+					user.id.as("userId"),
+					user.name.as("username"),
+					user.nickname.nickname.as("userNickname"),
 					user.profileImage.as("userProfileImage"),
 					job.jobGroup, job.jobName, job.sortOrder
 

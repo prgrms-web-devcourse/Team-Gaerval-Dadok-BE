@@ -10,6 +10,7 @@ public record UserDetailResponse(
 	Long userId,
 	String name,
 	String nickname,
+	String oauthNickname,
 	String email,
 	String profileImage,
 	Gender gender,
@@ -17,10 +18,10 @@ public record UserDetailResponse(
 	JobDetailResponse job
 ) {
 
-	public UserDetailResponse(Long userId, String name, String nickname, String email, String profileImage,
+	public UserDetailResponse(Long userId, String name, String nickname, String oauthNickname, String email, String profileImage,
 		Gender gender,
 		AuthProvider authProvider, JobGroup jobGroup, JobGroup.JobName jobName, int order) {
-		this(userId, name, nickname, email, profileImage, gender, authProvider,
+		this(userId, name, nickname, oauthNickname, email, profileImage, gender, authProvider,
 			new JobDetailResponse(jobGroup, jobName, order));
 	}
 
