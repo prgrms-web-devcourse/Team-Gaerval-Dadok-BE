@@ -130,4 +130,39 @@ public class Book {
 		return Objects.hash(id, title, author, isbn, contents, isDeleted, url, imageUrl, imageKey, apiProvider,
 			publisher);
 	}
+
+	public void changeTitle(String title) {
+		this.title = title;
+		validateLengthInRange(title, 1, 500, "책 제목");
+	}
+
+	public void changeAuthor(String author) {
+		this.author = author;
+		validateLengthInRange(author, 1, 255, "책 저자");
+	}
+
+	public void changeContents(String contents) {
+		this.contents = contents;
+		validateLengthInRange(contents, 1, 2000, "책 소개");
+	}
+
+	public void changeUrl(String url) {
+		this.url = url;
+		validateLengthInRange(url, 0, 2083, "URL");
+	}
+
+	public void changeImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+		validateLengthInRange(imageUrl, 0, 2083, "이미지 URL");
+	}
+
+	public void changeImageKey(String imageKey) {
+		this.imageKey = imageKey;
+		validateLengthInRange(imageKey, 0, 500, "이미지 키");
+	}
+
+	public void changeApiProvider(String apiProvider) {
+		this.apiProvider = apiProvider;
+		validateLengthInRange(apiProvider, 0, 20, "API 제공자");
+	}
 }
