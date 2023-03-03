@@ -17,11 +17,13 @@ import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "books")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Book {
 
 	@Id
