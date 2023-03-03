@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book.service;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 
@@ -18,7 +19,7 @@ public interface BookService {
 
 	Optional<Book> findByIsbn(String isbn);
 
-	// BookResponse findDetailById(Long bookId);
+	BookResponse findDetailById(Long bookId);
 	//
 	// PopularBookOfJobResponses findAllPopularBook(String jobGroup, Pageable pageable);
 }
