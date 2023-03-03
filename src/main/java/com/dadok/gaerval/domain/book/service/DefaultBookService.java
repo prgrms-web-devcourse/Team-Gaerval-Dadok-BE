@@ -1,16 +1,13 @@
 package com.dadok.gaerval.domain.book.service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
@@ -21,6 +18,7 @@ import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.exception.InvalidBookDataException;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,7 +34,7 @@ import reactor.core.publisher.Flux;
 @RequiredArgsConstructor
 public class DefaultBookService implements BookService {
 
-	private final WebClient webClient;
+	private final ExternalBookApiOperations externalBookApiOperations;
 	private final ObjectMapper objectMapper;
 	private final BookRepository bookRepository;
 	private final BookMapper bookMapper;
@@ -51,7 +49,7 @@ public class DefaultBookService implements BookService {
 			return new BookResponses(Collections.emptyList());
 		}
 
-		Flux<String> resultFlux = searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
+		Flux<String> resultFlux = externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
 
 		List<SearchBookResponse> searchBookResponseList = new ArrayList<>();
 		try {
@@ -134,20 +132,6 @@ public class DefaultBookService implements BookService {
 	@Transactional(readOnly = true)
 	public BookResponse findDetailById(Long bookId) {
 		return bookMapper.entityToBookResponse(this.getById(bookId));
-	}
-
-	private Flux<String> searchBooks(String query, int page, int size, String sort) {
-		return webClient.get()
-			.uri(uriBuilder -> uriBuilder
-				.queryParam("query", query)
-				.queryParam("page", page)
-				.queryParam("size", size)
-				.queryParam("sort", sort)
-				.build())
-			.acceptCharset(StandardCharsets.UTF_8)
-			.accept(MediaType.APPLICATION_JSON)
-			.retrieve()
-			.bodyToFlux(String.class);
 	}
 
 }

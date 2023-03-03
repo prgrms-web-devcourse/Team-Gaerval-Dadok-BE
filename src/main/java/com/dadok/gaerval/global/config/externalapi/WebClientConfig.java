@@ -1,4 +1,4 @@
-package com.dadok.gaerval.global.config.webclient;
+package com.dadok.gaerval.global.config.externalapi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

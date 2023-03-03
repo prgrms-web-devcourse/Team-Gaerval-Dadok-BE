@@ -22,7 +22,7 @@ public class BookDataProcessor {
 		}
 
 		if (StringUtils.isEmpty(contents)) {
-			contents = "콘텐츠 미상";
+			contents = "책 소개 미상";
 		} else {
 			if (contents.length() >= 1999)
 				contents = contents.substring(0, 1998);
