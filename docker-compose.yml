@@ -48,6 +48,10 @@ services:
 
       SERVER_HOST: ${SERVER_HOST}
 
+      SLACK_OAUTH_TOKEN: ${SLACK_OAUTH_TOKEN}
+      SLACK_ERROR_CHANNEL_ID: ${SLACK_ERROR_CHANNEL_ID}
+
+
   dadok-dev-green:
     container_name: dadok-dev-green
     image: ${DOCKER_DEV_REPO}
@@ -87,3 +91,6 @@ services:
       KAKAO_SCHEME: ${KAKAO_SCHEME}
 
       SERVER_HOST: ${SERVER_HOST}
+
+      SLACK_OAUTH_TOKEN: ${SLACK_OAUTH_TOKEN}
+      SLACK_ERROR_CHANNEL_ID: ${SLACK_ERROR_CHANNEL_ID}

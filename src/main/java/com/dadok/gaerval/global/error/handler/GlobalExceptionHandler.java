@@ -29,21 +29,42 @@ import com.dadok.gaerval.global.error.exception.DuplicateException;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
 import com.dadok.gaerval.global.error.response.ErrorResponse.FieldError;
+import com.dadok.gaerval.infra.slack.SlackException;
+import com.dadok.gaerval.infra.slack.SlackService;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Info : 에러는 아니지만 주시해야할 것
+ * Warning : 예외상황이긴 했지만 에러는 아닌 것
+ * Error : 에러가 맞고 대응해야할 것
+ * Fatal : 치명적인 것
+ */
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+	private final SlackService slackService;
+
+	@ExceptionHandler(value = SlackException.class)
+	public ResponseEntity<?> handleSlackException(
+		SlackException e, HttpServletRequest request
+	) {
+
+		logError(e, request.getRequestURI());
+		slackService.sendError(e, request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	}
 
 	@ExceptionHandler(value = DataIntegrityViolationException.class)
 	public ResponseEntity<?> handleDataIntegrityViolationException(
 		DataIntegrityViolationException e, HttpServletRequest request
 	) {
-		//todo: slack
-		logWarn(e, request.getRequestURI());
-
+		logError(e, request.getRequestURI());
+		slackService.sendError(e, request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 
@@ -52,8 +73,8 @@ public class GlobalExceptionHandler {
 		DuplicateException e, HttpServletRequest request) {
 
 		ErrorCode errorCode = e.getErrorCode();
-		//todo: slack
-		logWarn(e, request.getRequestURI());
+		logError(e, request.getRequestURI());
+		slackService.sendError(e, request.getRequestURI());
 
 		return of(errorCode, request.getRequestURI());
 	}
@@ -95,7 +116,21 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(RuntimeException.class)
 	public ResponseEntity<ErrorResponse> handleRuntimeException(
 		HttpServletRequest request, RuntimeException e) {
-		logInfo(e, request.getRequestURI());
+		logWarn(e, request.getRequestURI());
+
+		slackService.sendWarn(e, request.getRequestURI());
+
+		return ResponseEntity.badRequest()
+			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> handleException(
+		HttpServletRequest request, Exception e) {
+
+		logError(e, request.getRequestURI());
+
+		slackService.sendError(e, request.getRequestURI());
 
 		return ResponseEntity.badRequest()
 			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
@@ -204,6 +239,11 @@ public class GlobalExceptionHandler {
 
 	private void logWarn(Exception e, String path) {
 		log.warn("path : {}, Exception Name : {}, Message : {}", path, e.getClass().getSimpleName(), e.getMessage());
+	}
+
+
+	private void logError(Exception e, String path) {
+		log.error("path : {}, Exception Name : {}, Message : {}", path, e.getClass().getSimpleName(), e.getMessage());
 	}
 
 	private void logInfo(Exception e, String path) {
