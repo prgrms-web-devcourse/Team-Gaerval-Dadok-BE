@@ -38,7 +38,7 @@ public class BookGroup extends BaseTimeColumn {
 	@Column(nullable = false)
 	private Long ownerId;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	private Book book;
 
 	@Column(nullable = false)

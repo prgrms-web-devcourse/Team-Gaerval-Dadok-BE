@@ -2,7 +2,6 @@ package com.dadok.gaerval.domain.bookGroup.entity;
 
 import static com.dadok.gaerval.global.util.CommonValidator.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,7 @@ public class GroupMember extends BaseTimeColumn {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private User user;
 
@@ -37,7 +36,7 @@ public class GroupMember extends BaseTimeColumn {
 	@JoinColumn(nullable = false)
 	private BookGroup bookGroup;
 
-	public GroupMember(User user, BookGroup bookGroup) {
+	protected GroupMember(User user, BookGroup bookGroup) {
 		validateNotnull(user, "user");
 		validateNotnull(bookGroup, "bookGroup");
 		this.user = user;

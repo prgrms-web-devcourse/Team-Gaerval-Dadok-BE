@@ -39,7 +39,7 @@ class BookGroupTest {
 		});
 	}
 
-	@DisplayName("create - startData null일 경우 - 실패")
+	@DisplayName("create - StartDate null일 경우 - 실패")
 	@Test
 	void create_startDateNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
@@ -47,7 +47,7 @@ class BookGroupTest {
 		});
 	}
 
-	@DisplayName("create - endData null일 경우 - 실패")
+	@DisplayName("create - endDate null일 경우 - 실패")
 	@Test
 	void create_endDateNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
@@ -55,7 +55,7 @@ class BookGroupTest {
 		});
 	}
 
-	@DisplayName("create - startData 지난 날짜인 경우 - 실패")
+	@DisplayName("create - startDate 지난 날짜인 경우 - 실패")
 	@Test
 	void create_startDateValid_fail() {
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -63,7 +63,7 @@ class BookGroupTest {
 		});
 	}
 
-	@DisplayName("create - endData startDate보다 빠를 경우 - 실패")
+	@DisplayName("create - endDate startDate보다 빠를 경우 - 실패")
 	@Test
 	void create_endDateValid_fail() {
 		assertThrows(IllegalArgumentException.class, () -> {
