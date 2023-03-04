@@ -103,12 +103,12 @@ class UserTest {
 		User user = UserObjectProvider.createKakaoUser();
 		Job beforeUserJob = user.getJob();
 
-		Job backendJob = JobObjectProvider.backendJob();
+		Job frontEndJob = JobObjectProvider.frontendJob();
 		//when
-		user.changeJob(backendJob);
+		user.changeJob(frontEndJob);
 		//then
 		assertNotEquals(beforeUserJob, user.getJob());
-		assertEquals(user.getJob(), backendJob);
+		assertEquals(user.getJob(), frontEndJob);
 	}
 
 }
