@@ -42,6 +42,7 @@ import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @DisplayName("bookshelf service 테스트")
@@ -63,7 +64,7 @@ class DefaultBookshelfServiceSliceTest {
 	@Mock
 	private UserService userService;
 
-	private final User user = UserObjectProvider.createKakaoUser();
+	private final User user = UserObjectProvider.createKakaoUser(JobObjectProvider.backendJob());
 	private final Bookshelf bookshelf = Bookshelf.create(user);
 	private final Book book = BookObjectProvider.createRequiredFieldBook();
 
@@ -403,7 +404,7 @@ class DefaultBookshelfServiceSliceTest {
 		Book book3 = BookObjectProvider.createAllFieldBook();
 		ReflectionTestUtils.setField(book3, "id", 3L);
 
-		User kakaoUser = UserObjectProvider.createKakaoUser();
+		User kakaoUser = UserObjectProvider.createKakaoUser(JobObjectProvider.backendJob());
 		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
 
 		Bookshelf createBookShelf = Bookshelf.create(kakaoUser);
@@ -418,7 +419,6 @@ class DefaultBookshelfServiceSliceTest {
 				Sort.by(Sort.Direction.DESC, "id")), false));
 
 		//when
-
 		BookInShelfResponses bookInShelfResponses = bookshelfService.findAllBooksInShelf(bookShelfId,
 			booksInBookShelfFindRequest);
 

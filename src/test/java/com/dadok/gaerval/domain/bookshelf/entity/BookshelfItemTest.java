@@ -9,11 +9,12 @@ import org.junit.jupiter.api.Test;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.JobObjectProvider;
 
 @DisplayName("BookshelfItem 테스트")
 class BookshelfItemTest {
 
-	private final User user = createKakaoUser();
+	private final User user = createKakaoUser(JobObjectProvider.backendJob());
 	private final Bookshelf bookshelf = Bookshelf.create(user);
 
 	private final Book book = BookObjectProvider.createRequiredFieldBook();

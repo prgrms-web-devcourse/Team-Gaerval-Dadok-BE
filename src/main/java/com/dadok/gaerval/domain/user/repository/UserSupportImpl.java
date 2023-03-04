@@ -43,7 +43,7 @@ public class UserSupportImpl implements UserSupport {
 	}
 
 	/**
-	 * 데이터가 없으면 nulld을 반환한다.
+	 * 데이터가 없으면 null을 반환한다.
 	 * @param nickname 찾을 닉네임
 	 * @return
 	 */

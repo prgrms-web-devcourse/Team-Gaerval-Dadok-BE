@@ -44,6 +44,7 @@ import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
@@ -310,9 +311,8 @@ class BookshelfControllerSliceTest extends ControllerTest {
 		Book book3 = BookObjectProvider.createAllFieldBook();
 		ReflectionTestUtils.setField(book3, "id", 3L);
 
-		User kakaoUser = UserObjectProvider.createKakaoUser();
+		User kakaoUser = UserObjectProvider.createKakaoUser(JobObjectProvider.backendJob());
 		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
-
 		Bookshelf createBookShelf = Bookshelf.create(kakaoUser);
 		ReflectionTestUtils.setField(createBookShelf, "id", bookShelfId);
 		List<BookshelfItem> bookshelfItems = List.of(
@@ -384,6 +384,7 @@ class BookshelfControllerSliceTest extends ControllerTest {
 					fieldWithPath("empty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("first").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("last").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
 
 					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),

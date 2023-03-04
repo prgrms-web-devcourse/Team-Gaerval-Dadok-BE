@@ -14,7 +14,7 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 
 
 @CustomDataJpaTest
-public class BookRepositoryTest {
+class BookRepositoryTest {
 	@Autowired
 	private BookRepository bookRepository;
 

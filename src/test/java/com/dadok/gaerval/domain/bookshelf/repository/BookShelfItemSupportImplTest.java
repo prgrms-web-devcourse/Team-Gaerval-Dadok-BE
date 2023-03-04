@@ -26,7 +26,6 @@ class BookShelfItemSupportImplTest {
 		bookshelfItemRepository.findAllInBookShelf(null, booksInBookShelfFindRequest);
 	}
 
-
 	@DisplayName("findAllWithBooks - id = 50L, Type = Read, Sort = DESC, PageSize = 10")
 	@Test
 	void findAllWithBooks_withId() {
@@ -50,5 +49,4 @@ class BookShelfItemSupportImplTest {
 			BookshelfItemType.READ, 10, 50L, SortDirection.ASC);
 		bookshelfItemRepository.findAllInBookShelf(50L, booksInBookShelfFindRequest);
 	}
-
 }
