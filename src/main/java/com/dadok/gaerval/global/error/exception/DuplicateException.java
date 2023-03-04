@@ -2,7 +2,7 @@ package com.dadok.gaerval.global.error.exception;
 
 import com.dadok.gaerval.global.error.ErrorCode;
 
-public class DuplicateException extends BusinessException{
+public class DuplicateException extends BusinessException {
 
 	public DuplicateException(ErrorCode errorCode) {
 		super(errorCode);

@@ -142,6 +142,25 @@ include::{snippets}/user-controller-slice-test/change-profile_success/http-respo
 
 include::{snippets}/user-controller-slice-test/change-profile_success/response-fields.adoc[]
 
+=== 유저 닉네임 수정
+
+==== Request
+
+include::{snippets}/user-controller-slice-test/change-nickname_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/user-controller-slice-test/change-nickname_success/request-headers.adoc[]
+
+
+==== Request fields
+
+include::{snippets}/user-controller-slice-test/change-nickname_success/request-fields.adoc[]
+
+
+==== Response
+
+include::{snippets}/user-controller-slice-test/change-nickname_success/http-response.adoc[]
 
 
 === 유저 프로필 정보 조회

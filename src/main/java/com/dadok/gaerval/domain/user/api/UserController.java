@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dadok.gaerval.domain.user.dto.request.NicknameChangeRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
@@ -79,6 +80,15 @@ public class UserController {
 		String nickname) {
 
 		return ResponseEntity.ok(new UserNicknameExistsResponse(userService.existsNickname(new Nickname(nickname))));
+	}
+
+	@PatchMapping(value = "/profile/nickname", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDetailResponse> changeProfile(
+		@RequestBody @Valid NicknameChangeRequest request,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		userService.changeNickname(userPrincipal.getUserId(), new Nickname(request.getNickname()));
+		return ResponseEntity.ok().build();
 	}
 
 }

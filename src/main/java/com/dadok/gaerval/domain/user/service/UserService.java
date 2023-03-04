@@ -31,4 +31,6 @@ public interface UserService {
 
 	boolean existsNickname(Nickname nickname);
 
+	void changeNickname(Long userId, Nickname nickname);
+
 }
