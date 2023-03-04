@@ -381,9 +381,9 @@ class BookshelfControllerSliceTest extends ControllerTest {
 				),
 				responseFields(
 					fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
-					fieldWithPath("empty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
-					fieldWithPath("first").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
-					fieldWithPath("last").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
 
 					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),

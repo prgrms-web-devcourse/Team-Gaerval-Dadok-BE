@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ErrorCode {
 
+	// GroupComment
+	INVALID_COMMENT_NOT_PARENT(HttpStatus.BAD_REQUEST, "C001", "부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다."),
+
 	//User
 	ALREADY_EXISTS_NICKNAME(HttpStatus.BAD_REQUEST, "U001", "이미 존재하는 닉네임입니다."),
 
@@ -32,5 +35,6 @@ public enum ErrorCode {
 	private final String code;
 
 	private final String message;
-
+	// Cannot comment on child comments
+	// You can't post a child comment if it's not a parent comment.
 }

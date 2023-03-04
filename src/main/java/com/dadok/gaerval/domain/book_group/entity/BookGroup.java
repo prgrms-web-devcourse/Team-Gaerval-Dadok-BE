@@ -114,7 +114,6 @@ public class BookGroup extends BaseTimeColumn {
 		validateNotnull(groupMember, "groupMember");
 		if (!this.groupMembers.contains(groupMember)) {
 			this.groupMembers.add(groupMember);
-			groupMember.joinGroup(this);
 		}
 	}
 

@@ -180,7 +180,7 @@ class DefaultBookServiceSliceTest {
 			.hasFieldOrPropertyWithValue("count", 4)
 			.hasFieldOrPropertyWithValue("isEmpty", false);
 
-		assertThat(suggestionBooks.getBooks()).isSortedAccordingTo((o1, o2) -> o2.count().compareTo(o1.count()));
+		assertThat(suggestionBooks.books()).isSortedAccordingTo((o1, o2) -> o2.count().compareTo(o1.count()));
 	}
 
 	@DisplayName("findSuggestionBooks - JobGroup으로 조회했지만, 비어있어서 빈 응답이 온다.")

@@ -28,6 +28,15 @@ class BookGroupTest {
 		});
 	}
 
+	@DisplayName("create - maxCount가 1보다 작을경우 생성 - 실패")
+	@Test
+	void create_lessThen1_fail() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now(),
+				0, "작은 모임", "작은 모임", true);
+		});
+	}
+
 	@DisplayName("create - userId null일 경우 - 실패")
 	@Test
 	void create_userIdNull_fail() {

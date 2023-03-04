@@ -89,6 +89,25 @@ class GroupCommentTest {
 		assertThrows(InvalidCommentException.class, () -> groupComment.addParent(childComment));
 	}
 
+	@DisplayName("addParent - 같은 부모라면 바뀌지 않는다.")
+	@Test
+	void addParent_success() {
+		//given
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createAllFieldBook(),
+			1L);
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		GroupComment parentComment = GroupComment.create("우리 모임 너무 좋아요", bookGroup, kakaoUser);
+
+		//when
+		GroupComment groupComment = GroupComment.create("나도 자식이에요", bookGroup, kakaoUser);
+		groupComment.addParent(parentComment);
+		groupComment.addParent(parentComment);
+
+		//then
+
+		assertEquals(1, parentComment.getChildComments().size());
+	}
+
 	@DisplayName("adChild - GroupComment 자신이 Parent가 아니면 addChild에 실패한다.")
 	@Test
 	void addChild_fail_selfNotParent() {
@@ -121,6 +140,52 @@ class GroupCommentTest {
 		GroupComment child = GroupComment.createChild("나도 자식이에요", bookGroup, kakaoUser, parentComment);
 
 		assertThrows(InvalidCommentException.class, () -> child.addChild(OtherParent));
+	}
+
+	@DisplayName("addChild - child가 Parent이면  addChild에 실패한다.")
+	@Test
+	void addChild_fail_Parent() {
+		//given
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createAllFieldBook(),
+			1L);
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		User naverUser = UserObjectProvider.createNaverUser();
+		GroupComment parentComment = GroupComment.create("우리 모임 너무 좋아요", bookGroup, kakaoUser);
+		GroupComment OtherParent = GroupComment.create("자식이에요", bookGroup, naverUser);
+
+		//when
+		assertThrows(InvalidCommentException.class, () -> parentComment.addChild(OtherParent));
+	}
+
+	@DisplayName("adChild - child로 add하려는 child가 Parent이면 addChild에 실패한다.")
+	@Test
+	void addChild_fail_childParent() {
+		//given
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createAllFieldBook(),
+			1L);
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		GroupComment parentComment = GroupComment.create("우리 모임 너무 좋아요", bookGroup, kakaoUser);
+		//when
+		GroupComment child = GroupComment.createChild("나도 자식이에요", bookGroup, kakaoUser, parentComment);
+
+		assertThrows(InvalidCommentException.class, () -> child.addChild(parentComment));
+	}
+
+	@DisplayName("adChild - 같은 child이라면 추가되지 않는다 ")
+	@Test
+	void addChild_fail_sameChild() {
+		//given
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createAllFieldBook(),
+			1L);
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		User naverUser = UserObjectProvider.createNaverUser();
+		GroupComment parentComment = GroupComment.create("우리 모임 너무 좋아요", bookGroup, kakaoUser);
+		GroupComment childComment = GroupComment.createChild("자식이에요", bookGroup, naverUser, parentComment);
+
+		//when
+		parentComment.addChild(childComment);
+		//then
+		assertEquals(1, parentComment.getChildComments().size());
 	}
 
 	@DisplayName("isParent : 부모가 없으면 true")

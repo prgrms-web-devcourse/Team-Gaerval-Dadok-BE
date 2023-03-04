@@ -12,15 +12,15 @@ import lombok.Getter;
 @Getter
 public class BookInShelfResponses {
 
-	private boolean isFirst; // 첫번째냐
+	private Boolean isFirst; // 첫번째냐
 
-	private boolean isLast;  // 마지막이냐
+	private Boolean isLast;  // 마지막이냐
 
-	private boolean hasNext;
+	private Boolean hasNext;
 
 	private int count; // 결과 총 갯수
 
-	private boolean isEmpty; // 반환 값이 0개인가
+	private Boolean isEmpty; // 반환 값이 0개인가
 
 	private List<BookInShelfResponse> books;
 

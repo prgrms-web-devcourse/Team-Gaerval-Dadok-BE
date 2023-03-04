@@ -58,7 +58,6 @@ class BookControllerSliceTest extends ControllerTest {
 				.param("query", keyword)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
-			.andDo(print())
 			.andDo(this.restDocs.document(
 				requestHeaders(
 					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
@@ -236,9 +235,9 @@ class BookControllerSliceTest extends ControllerTest {
 				),
 				responseFields(
 					fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
-					fieldWithPath("empty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
-					fieldWithPath("first").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
-					fieldWithPath("last").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 한글명 :  " +
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
