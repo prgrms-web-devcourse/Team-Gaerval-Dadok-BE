@@ -426,11 +426,12 @@ class UserControllerSliceTest extends ControllerTest {
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
 						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
 					),
-					requestParameters(parameterWithName("nickname").description("존재 여부 확인할 nickname. \n 특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용")
+					requestParameters(parameterWithName("nickname").description(
+							"존재 여부 확인할 nickname. \n 특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용")
 						.attributes(key("constraints").value("""
 							Must match the regular expression \n
 							`^[가-힣0-9a-zA-Z]{2,10}$`\s
-		
+									
 							Must not be blank""")
 						)
 					)
@@ -444,6 +445,78 @@ class UserControllerSliceTest extends ControllerTest {
 
 		//then
 		verify(userService).existsNickname(nickname);
+	}
+
+	@DisplayName("changeNickname - 유저 이름 변경에 성공한다. ")
+	@Test
+	void changeNickname_success() throws Exception {
+		//given
+		Long userId = 1L;
+		Nickname nickname = new Nickname("changeName");
+
+		willDoNothing()
+			.given(userService).changeNickname(userId, nickname);
+
+		//when
+		mockMvc.perform(patch("/api/users/profile/nickname")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.content(createJson(nickname))
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
+						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
+					),
+					requestFields(
+						fieldWithPath("nickname").type(JsonFieldType.STRING)
+							.description("변경할 이름. ")
+							.attributes(constrainsAttribute(UserChangeProfileRequest.class, "nickname")
+							)
+					)
+				)
+			);
+
+		//then
+		verify(userService).changeNickname(userId, nickname);
+	}
+
+	@DisplayName("changeNickname - 유저 이름이 중복이므로 변경에 실패한다. ")
+	@Test
+	void changeNickname_fail() throws Exception {
+		//given
+		Long userId = 1L;
+		Nickname nickname = new Nickname("nickname");
+
+		willThrow(new DuplicateNicknameException())
+			.given(userService).changeNickname(userId, nickname);
+
+		//when
+		mockMvc.perform(patch("/api/users/profile/nickname")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+			.content(createJson(nickname))
+		).andExpect(status().isBadRequest());
+
+		//then
+		verify(userService).changeNickname(userId, nickname);
+	}
+
+	@DisplayName("changeNickname - 유저 이름이 잘못된 형식이므로 변경에 실패한다. ")
+	@Test
+	void changeNickname_badNickname_fail() throws Exception {
+		//given
+
+		mockMvc.perform(patch("/api/users/profile/nickname")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+			.content("{\"nickname\":\" sㅊㅂㄷㅇ0ㅏ래 \"}")
+		).andExpect(status().isBadRequest());
+
 	}
 
 }

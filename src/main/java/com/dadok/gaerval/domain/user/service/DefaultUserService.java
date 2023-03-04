@@ -139,6 +139,19 @@ public class DefaultUserService implements UserService {
 		return userRepository.existsByNickname(nickname);
 	}
 
+	@Transactional
+	@Override
+	public void changeNickname(Long userId, Nickname nickname) {
+		validateExistsNickname(nickname);
+		User user = userRepository.getReferenceById(userId);
+		try {
+			user.changeNickname(nickname);
+		} catch (DataIntegrityViolationException e) {
+			log.warn("닉네임 중복 예외. {} - {} ", e.getClass().getName(), e.getMessage());
+			throw new DuplicateNicknameException(e);
+		}
+	}
+
 	@Transactional(readOnly = true)
 	public void validateExistsNickname(Nickname nickname) {
 

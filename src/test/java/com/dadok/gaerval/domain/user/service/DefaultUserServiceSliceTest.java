@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -30,6 +31,7 @@ import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
+import com.dadok.gaerval.domain.user.exception.DuplicateNicknameException;
 import com.dadok.gaerval.domain.user.repository.AuthorityRepository;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.domain.user.vo.Nickname;
@@ -58,9 +60,9 @@ class DefaultUserServiceSliceTest {
 	@Mock
 	private BookshelfService bookshelfService;
 
-	private Role user = Role.USER;
+	private Role roleUser = Role.USER;
 	private AuthProvider kakao = AuthProvider.KAKAO;
-	private Authority RoleUserAuthority = Authority.create(user);
+	private Authority RoleUserAuthority = Authority.create(roleUser);
 
 	@DisplayName("register - authority를 찾아 유저를 저장하고 반환한다 - 성공")
 	@Test
@@ -71,7 +73,7 @@ class DefaultUserServiceSliceTest {
 			attributes);
 
 		User expectedUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
-		given(authorityRepository.findById(user))
+		given(authorityRepository.findById(roleUser))
 			.willReturn(Optional.of(RoleUserAuthority));
 
 		given(userRepository.save(expectedUser))
@@ -82,7 +84,7 @@ class DefaultUserServiceSliceTest {
 		//then
 
 		assertEquals(register, expectedUser);
-		verify(authorityRepository).findById(user);
+		verify(authorityRepository).findById(roleUser);
 		verify(userRepository).save(expectedUser);
 	}
 
@@ -96,7 +98,7 @@ class DefaultUserServiceSliceTest {
 
 		User expectedUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(RoleUserAuthority));
 
-		given(authorityRepository.findById(user))
+		given(authorityRepository.findById(roleUser))
 			.willReturn(Optional.empty());
 
 		given(authorityRepository.save(RoleUserAuthority))
@@ -110,7 +112,7 @@ class DefaultUserServiceSliceTest {
 
 		//then
 		assertEquals(register, expectedUser);
-		verify(authorityRepository).findById(user);
+		verify(authorityRepository).findById(roleUser);
 		verify(authorityRepository).save(RoleUserAuthority);
 		verify(userRepository).save(expectedUser);
 	}
@@ -366,7 +368,6 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.existsByNickname(nickname))
 			.willReturn(false);
 
-
 		given(bookshelfService.createBookshelf(user))
 			.willReturn(1L);
 
@@ -428,7 +429,6 @@ class DefaultUserServiceSliceTest {
 		verify(userRepository).existsByNickname(nickname);
 	}
 
-
 	@DisplayName("existsNickname - 닉네임이 존재하면 true 존재하지 않으면 false")
 	@ParameterizedTest
 	@ValueSource(booleans = {true, false})
@@ -445,6 +445,79 @@ class DefaultUserServiceSliceTest {
 		//then
 		assertEquals(existsNickname, exists);
 		verify(userRepository).existsByNickname(nickname);
+	}
+
+	@DisplayName("changeNickname - 유저 이름 변경에 성공한다. ")
+	@Test
+	void changeNickname_success() {
+		//given
+		Long userId = 1L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+
+		Nickname nickname = new Nickname("changeName");
+
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(false);
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(kakaoUser);
+
+		//when
+		defaultUserService.changeNickname(userId, nickname);
+
+		//then
+		verify(userRepository).existsByNickname(nickname);
+		verify(userRepository).getReferenceById(userId);
+		assertEquals(kakaoUser.getNickname(), nickname);
+	}
+
+	@DisplayName("changeNickname - 유저 이름이 중복이므로 변경에 실패한다. ")
+	@Test
+	void changeNickname_fail() {
+		//given
+		Long userId = 1L;
+		Nickname nickname = new Nickname("nickname");
+
+		willThrow(new DuplicateNicknameException())
+			.given(userRepository).existsByNickname(nickname);
+
+		//when
+		assertThrows(DuplicateNicknameException.class,
+			() ->
+				defaultUserService.validateExistsNickname(nickname));
+		//then
+		verify(userRepository).existsByNickname(nickname);
+	}
+
+	@DisplayName("changeNickname - 이름 변경중 예외가 발생하여 변경에 실패한다. ")
+	@Test
+	void changeNickname_badNickname_fail() throws Exception {
+		//given
+		Long userId = 1L;
+		User kakaoSpyUser = UserObjectProvider.createKakaoUser();
+
+
+		kakaoSpyUser = spy(kakaoSpyUser);
+
+		Nickname nickname = new Nickname("changeName");
+
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(false);
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(kakaoSpyUser);
+
+		willThrow(DataIntegrityViolationException.class)
+			.given(kakaoSpyUser).changeNickname(nickname);
+
+		//when
+		assertThrows(DuplicateNicknameException.class,
+			() ->
+				defaultUserService.changeNickname(userId, nickname));
+		//then
+		verify(userRepository).existsByNickname(nickname);
+		verify(userRepository).getReferenceById(userId);
+		verify(kakaoSpyUser).changeNickname(nickname);
 	}
 
 }

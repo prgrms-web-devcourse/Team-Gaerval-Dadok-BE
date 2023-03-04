@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.util.RegexHelper;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Nickname {
 		this.nickname = nickname;
 	}
 
+	@JsonProperty
 	public String nickname() {
 		return nickname;
 	}
