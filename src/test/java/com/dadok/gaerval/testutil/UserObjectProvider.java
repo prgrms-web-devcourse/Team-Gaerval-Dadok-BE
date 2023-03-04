@@ -3,6 +3,7 @@ package com.dadok.gaerval.testutil;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
@@ -59,7 +60,15 @@ public class UserObjectProvider {
 		UserAuthority userAuthority = UserAuthority.create(Role.USER);
 		Map<String, Object> attributes = attributes(AuthProvider.KAKAO);
 		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, KAKAO_ATTRIBUTE_KEY, attributes);
-		return User.createByOAuth(oAuth2Attribute, userAuthority);
+		User user = User.createByOAuth(oAuth2Attribute, userAuthority);
+
+		return user;
+	}
+
+	public static User createKakaoUser(Job job) {
+		User kakaoUser = createKakaoUser();
+		kakaoUser.changeJob(job);
+		return kakaoUser;
 	}
 
 }

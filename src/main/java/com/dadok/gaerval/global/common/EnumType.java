@@ -28,8 +28,10 @@ package com.dadok.gaerval.global.common;
  */
 public interface EnumType {
 
+	@JacocoExcludeGenerated
 	String getName();
 
+	@JacocoExcludeGenerated
 	String getDescription();
 
 }

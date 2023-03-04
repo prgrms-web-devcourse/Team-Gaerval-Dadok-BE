@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.dadok.gaerval.domain.book.entity.Book;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, BookSupport {
 	Optional<Book> findBookByIsbn(@Param("isbn") String isbn);
 }

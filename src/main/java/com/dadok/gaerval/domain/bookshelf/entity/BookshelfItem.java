@@ -35,7 +35,7 @@ public class BookshelfItem extends BaseTimeColumn {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = false, name = "bookshelf_id")
 	private Bookshelf bookshelf;
 
 	@OneToOne(fetch = FetchType.LAZY)

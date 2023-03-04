@@ -39,7 +39,7 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 			.fetch();
 
 		return QueryDslUtil.toSlice(bookshelfItems, PageRequest.of(0, request.getPageSize(),
-				Sort.by(direction, "id")));
+			Sort.by(direction, "id")));
 	}
 
 	private OrderSpecifier<?> order(Sort.Direction direction) {

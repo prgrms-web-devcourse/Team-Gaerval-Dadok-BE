@@ -21,6 +21,6 @@ public class InvalidArgumentException extends BusinessException {
 
 	@Override
 	public String getMessage() {
-		return this.getMessage();
+		return this.message;
 	}
 }

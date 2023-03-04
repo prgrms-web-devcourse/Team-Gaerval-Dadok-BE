@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dadok.gaerval.domain.book.converter.BookMapper;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.SortingPolicy;
+import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
+import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.exception.InvalidBookDataException;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
@@ -27,8 +29,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
 
+@Transactional(readOnly = true)
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -111,27 +113,28 @@ public class DefaultBookService implements BookService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Book getById(Long bookId) {
 		return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Optional<Book> findById(Long bookId) {
 		return bookRepository.findById(bookId);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Optional<Book> findByIsbn(String isbn) {
 		return bookRepository.findBookByIsbn(isbn);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public BookResponse findDetailById(Long bookId) {
 		return bookMapper.entityToBookResponse(this.getById(bookId));
+	}
+
+	@Override
+	public SuggestionsBookFindResponses findSuggestionBooks(SuggestionsBookFindRequest request) {
+		return bookRepository.findSuggestionBooks(request);
 	}
 
 }

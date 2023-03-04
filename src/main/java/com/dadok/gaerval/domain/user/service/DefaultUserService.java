@@ -55,9 +55,7 @@ public class DefaultUserService implements UserService {
 			.orElse(authorityRepository.save(Authority.create(Role.USER)));
 
 		User user = User.createByOAuth(attribute, UserAuthority.create(authority));
-		User savedUser = userRepository.save(user);
-		bookshelfService.createBookshelf(savedUser);
-		return savedUser;
+		return userRepository.save(user);
 	}
 
 	@Transactional(readOnly = true)
@@ -120,6 +118,9 @@ public class DefaultUserService implements UserService {
 
 			Job job = jobService.getBy(jobRequest.jobGroup(), jobRequest.jobName());
 			user.changeJob(job);
+
+
+			bookshelfService.createBookshelf(user);
 
 			return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
 				user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),

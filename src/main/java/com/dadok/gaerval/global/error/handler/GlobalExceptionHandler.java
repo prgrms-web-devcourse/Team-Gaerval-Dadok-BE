@@ -12,7 +12,10 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
 
 import org.hibernate.validator.internal.engine.path.PathImpl;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -20,7 +23,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
@@ -45,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
 
@@ -153,17 +159,37 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
 	}
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
-		HttpServletRequest request, MethodArgumentNotValidException e) {
+	@NotNull
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(@NotNull MethodArgumentNotValidException e,
+		@NotNull HttpHeaders headers, @NotNull HttpStatus status, @NotNull WebRequest webRequest) {
 
-		logInfo(e, request.getRequestURI());
+		ServletWebRequest request = (ServletWebRequest)webRequest;
 
+		logInfo(e, request.getRequest().getRequestURI());
+		return ResponseEntity.badRequest()
+			.body(ErrorResponse.badRequest(
+				makeErrorMessageToMessage(e.getBindingResult()),
+				request.getRequest().getRequestURI(),
+				makeFieldErrorsFromBindingResult(e.getBindingResult())
+			));
+	}
 
-		return ResponseEntity.badRequest().body(ErrorResponse.badRequest(
-			e.getMessage(), request.getRequestURI(),
-			makeFieldErrorsFromBindingResult(e.getBindingResult())
-		));
+	@NotNull
+	@Override
+	protected ResponseEntity<Object> handleBindException(@NotNull BindException e,
+		@NotNull HttpHeaders headers,
+		@NotNull HttpStatus status,
+		@NotNull WebRequest webRequest) {
+		ServletWebRequest request = (ServletWebRequest)webRequest;
+
+		logInfo(e, request.getRequest().getRequestURI());
+		return ResponseEntity.badRequest()
+			.body(ErrorResponse.badRequest(
+				makeErrorMessageToMessage(e.getBindingResult()),
+				request.getRequest().getRequestURI(),
+				makeFieldErrorsFromBindingResult(e.getBindingResult())
+			));
 	}
 
 	@ExceptionHandler(InvalidFormatException.class)
@@ -206,6 +232,15 @@ public class GlobalExceptionHandler {
 		return fieldErrors;
 	}
 
+	private String makeErrorMessageToMessage(BindingResult bindingResult) {
+
+		return bindingResult.getFieldErrors()
+			.stream()
+			.map(DefaultMessageSourceResolvable::getDefaultMessage)
+			.collect(Collectors.joining("\n"));
+
+	}
+
 	private List<FieldError> makeFieldErrorsFromConstraintViolations(
 		Set<ConstraintViolation<?>> constraintViolations) {
 
@@ -240,7 +275,6 @@ public class GlobalExceptionHandler {
 	private void logWarn(Exception e, String path) {
 		log.warn("path : {}, Exception Name : {}, Message : {}", path, e.getClass().getSimpleName(), e.getMessage());
 	}
-
 
 	private void logError(Exception e, String path) {
 		log.error("path : {}, Exception Name : {}, Message : {}", path, e.getClass().getSimpleName(), e.getMessage());

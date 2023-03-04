@@ -77,9 +77,6 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.save(expectedUser))
 			.willReturn(expectedUser);
 
-		given(bookshelfService.createBookshelf(expectedUser))
-			.willReturn(1L);
-
 		//when
 		User register = defaultUserService.register(oAuth2Attribute);
 		//then
@@ -87,7 +84,6 @@ class DefaultUserServiceSliceTest {
 		assertEquals(register, expectedUser);
 		verify(authorityRepository).findById(user);
 		verify(userRepository).save(expectedUser);
-		verify(bookshelfService).createBookshelf(expectedUser);
 	}
 
 	@DisplayName("register - authority를 새로 저장하고 유저를 저장하고 반환한다 - 성공")
@@ -109,9 +105,6 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.save(expectedUser))
 			.willReturn(expectedUser);
 
-		given(bookshelfService.createBookshelf(expectedUser))
-			.willReturn(1L);
-
 		//when
 		User register = defaultUserService.register(oAuth2Attribute);
 
@@ -120,7 +113,6 @@ class DefaultUserServiceSliceTest {
 		verify(authorityRepository).findById(user);
 		verify(authorityRepository).save(RoleUserAuthority);
 		verify(userRepository).save(expectedUser);
-		verify(bookshelfService).createBookshelf(expectedUser);
 	}
 
 	@DisplayName("findById - Optional<User>를 반환한다.")
@@ -374,6 +366,10 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.existsByNickname(nickname))
 			.willReturn(false);
 
+
+		given(bookshelfService.createBookshelf(user))
+			.willReturn(1L);
+
 		//when
 		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
 
@@ -399,6 +395,7 @@ class DefaultUserServiceSliceTest {
 		verify(userRepository).getReferenceById(userId);
 		verify(jobService).getBy(development, backendDeveloper);
 		verify(userRepository).existsByNickname(nickname);
+		verify(bookshelfService).createBookshelf(user);
 	}
 
 	@DisplayName("changeProfile - 닉네임 중복 예외가 발생한다. ")
