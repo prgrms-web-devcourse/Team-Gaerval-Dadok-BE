@@ -29,7 +29,7 @@ public class BookInShelfResponses {
 		this.isFirst = bookshelfItemSlice.isFirst();
 		this.isLast = bookshelfItemSlice.isLast();
 		this.hasNext = bookshelfItemSlice.hasNext();
-		this.count = bookshelfItemSlice.getContent().size();
+		this.count = bookshelfItemSlice.getNumberOfElements();
 		this.isEmpty = bookshelfItemSlice.isEmpty();
 		this.books = bookInShelfResponses;
 	}

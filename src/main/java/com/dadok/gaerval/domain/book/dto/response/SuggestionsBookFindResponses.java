@@ -34,7 +34,7 @@ public class SuggestionsBookFindResponses {
 		this.isFirst = slice.isFirst();
 		this.isLast = slice.isLast();
 		this.hasNext = slice.hasNext();
-		this.count = slice.getContent().size();
+		this.count = slice.getNumberOfElements();
 		this.isEmpty = slice.isEmpty();
 		this.books = slice.getContent();
 		this.jobGroup = jobGroup;
