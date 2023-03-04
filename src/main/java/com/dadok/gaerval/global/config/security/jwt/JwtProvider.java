@@ -60,7 +60,7 @@ public class JwtProvider {
 				 | MalformedJwtException | UnsupportedJwtException |
 				 IllegalArgumentException e) {
 			//todo : 로깅 AOP
-			log.warn("error : {}", e);
+			log.warn("error : {}", e.getMessage());
 			throw new JwtAuthenticationException(INVALID_ACCESS_TOKEN, e);
 		}
 	}
