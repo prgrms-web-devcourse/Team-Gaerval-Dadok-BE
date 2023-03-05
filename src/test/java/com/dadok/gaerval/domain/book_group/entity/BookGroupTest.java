@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
+import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
@@ -171,11 +173,9 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(book,
 			1L);
 		User kakaoUser = UserObjectProvider.createKakaoUser();
-
-		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
-
+		
 		//when
-		bookGroup.addMember(groupMember);
+		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
 
 		//then
 		assertEquals(1, bookGroup.getGroupMembers().size());
@@ -196,6 +196,37 @@ class BookGroupTest {
 		//when
 		assertThrows(InvalidArgumentException.class,
 			() -> bookGroup.addMember(groupMember));
+	}
+
+	@DisplayName("addMembers - maximum 정원 초과시 예외를 던진다.")
+	@Test
+	void addMembers_ExceedThrow() {
+		//given
+		Book book = BookObjectProvider.createAllFieldBook();
+		BookGroup bookGroup = BookGroup.create(
+			1L, book, LocalDate.now(), LocalDate.now(),
+			1, "책읽기 소모임", "책읽기 소모임", true
+		);
+		GroupMember.create(bookGroup, UserObjectProvider.createKakaoUser());
+
+		//when
+		assertThrows(ExceedMaximumNumberOfMemberException.class,
+			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
+	}
+
+	@DisplayName("addMembers - 이미 참여한 사용자일 경우 예외를 던진다.")
+	@Test
+	void addMembers_AlreadyContainThrow() {
+		//given
+		Book book = BookObjectProvider.createAllFieldBook();
+		User user = UserObjectProvider.createKakaoUser();
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(book,
+			1L);
+		GroupMember.create(bookGroup, user);
+
+		//when
+		assertThrows(AlreadyContainBookGroupException.class,
+			() -> GroupMember.create(bookGroup, user));
 	}
 
 }

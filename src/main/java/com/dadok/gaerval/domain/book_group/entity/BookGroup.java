@@ -20,6 +20,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
+import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
@@ -112,9 +114,13 @@ public class BookGroup extends BaseTimeColumn {
 
 	public void addMember(GroupMember groupMember) {
 		validateNotnull(groupMember, "groupMember");
-		if (!this.groupMembers.contains(groupMember)) {
-			this.groupMembers.add(groupMember);
+		if (this.groupMembers.contains(groupMember)) {
+			throw new AlreadyContainBookGroupException();
 		}
+		if (this.groupMembers.size() >= this.maxMemberCount) {
+			throw new ExceedMaximumNumberOfMemberException();
+		}
+		this.groupMembers.add(groupMember);
 	}
 
 	@JacocoExcludeGenerated

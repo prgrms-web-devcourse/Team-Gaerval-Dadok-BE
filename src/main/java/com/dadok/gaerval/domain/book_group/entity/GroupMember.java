@@ -2,6 +2,8 @@ package com.dadok.gaerval.domain.book_group.entity;
 
 import static com.dadok.gaerval.global.util.CommonValidator.*;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -40,6 +42,7 @@ public class GroupMember extends BaseTimeColumn {
 	protected GroupMember(User user, BookGroup bookGroup) {
 		validateNotnull(user, "user");
 		validateNotnull(bookGroup, "bookGroup");
+
 		this.user = user;
 		this.bookGroup = bookGroup;
 	}
@@ -51,4 +54,18 @@ public class GroupMember extends BaseTimeColumn {
 		return groupMember;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		GroupMember that = (GroupMember)o;
+		return Objects.equals(user, that.user) && Objects.equals(bookGroup, that.bookGroup);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(user, bookGroup);
+	}
 }

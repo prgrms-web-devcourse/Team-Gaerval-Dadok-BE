@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book_group.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -12,15 +13,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
+import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
-@ExtendWith(MockitoExtension.class)
+import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 
+@ExtendWith(MockitoExtension.class)
 class DefaultBookGroupServiceSliceTest {
 
 	@InjectMocks
@@ -28,6 +36,9 @@ class DefaultBookGroupServiceSliceTest {
 
 	@Mock
 	private BookGroupRepository bookGroupRepository;
+
+	@Mock
+	private BookService bookService;
 
 	@DisplayName("findAllBookGroups - 모임 리스트를 조회한다.")
 	@Test
@@ -82,8 +93,39 @@ class DefaultBookGroupServiceSliceTest {
 			.hasFieldOrPropertyWithValue("count", 5)
 			.hasFieldOrPropertyWithValue("isEmpty", false);
 
-		assertThat(bookGroups.bookGroups()).isSortedAccordingTo((o1, o2) -> o2.getBookGroupId().compareTo(o1.getBookGroupId()));
+		assertThat(bookGroups.bookGroups()).isSortedAccordingTo(
+			(o1, o2) -> o2.getBookGroupId().compareTo(o1.getBookGroupId()));
 
+	}
+
+	@DisplayName("createBookGroup - 모임 생성에 성공한다.")
+	@Test
+	void createBookGroup_success() {
+		// Given
+		var user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		var book = BookObjectProvider.createRequiredFieldBook();
+		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
+			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
+		BookGroupCreateRequest request = new BookGroupCreateRequest(bookCreateRequest,
+			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true
+		);
+		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
+			request.maxMemberCount(), request.title(), request.introduce(), request.isPublic());
+		ReflectionTestUtils.setField(bookGroup, "id", 1L);
+
+		given(bookService.createBook(bookCreateRequest))
+			.willReturn(book);
+		given(bookGroupRepository.save(any()))
+			.willReturn(bookGroup);
+
+		// When
+		var bookGroupId = defaultBookGroupService.createBookGroup(user, request);
+
+		// Then
+		verify(bookService).createBook(bookCreateRequest);
+		verify(bookGroupRepository).save(any());
+		assertThat(bookGroupId).isEqualTo(1L);
 	}
 
 }

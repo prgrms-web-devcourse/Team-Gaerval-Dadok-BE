@@ -104,11 +104,9 @@ include::{snippets}/user-controller-slice-test/exists-username_true/http-request
 
 include::{snippets}/user-controller-slice-test/exists-username_true/request-headers.adoc[]
 
-
 ==== Request parameters
 
 include::{snippets}/user-controller-slice-test/exists-username_true/request-parameters.adoc[]
-
 
 ==== Response
 
@@ -128,11 +126,9 @@ include::{snippets}/user-controller-slice-test/change-profile_success/http-reque
 
 include::{snippets}/user-controller-slice-test/change-profile_success/request-headers.adoc[]
 
-
 ==== Request fields
 
 include::{snippets}/user-controller-slice-test/change-profile_success/request-fields.adoc[]
-
 
 ==== Response
 
@@ -152,16 +148,13 @@ include::{snippets}/user-controller-slice-test/change-nickname_success/http-requ
 
 include::{snippets}/user-controller-slice-test/change-nickname_success/request-headers.adoc[]
 
-
 ==== Request fields
 
 include::{snippets}/user-controller-slice-test/change-nickname_success/request-fields.adoc[]
 
-
 ==== Response
 
 include::{snippets}/user-controller-slice-test/change-nickname_success/http-response.adoc[]
-
 
 === 유저 프로필 정보 조회
 
@@ -383,7 +376,6 @@ include::{snippets}/book-controller-slice-test/find-book-detail_success/response
 
 === 책 추천(직군별 많이 꽂혀있는 순)
 
-
 ==== Request
 
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/http-request.adoc[]
@@ -405,7 +397,6 @@ include::{snippets}/book-controller-slice-test/find-suggestion-books_success/htt
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/response-body.adoc[]
 
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/response-fields.adoc[]
-
 
 == Job - 직군, 직업
 
@@ -452,3 +443,28 @@ include::{snippets}/user-controller-slice-test/register-user-job/http-response.a
 ==== Response fields
 
 include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
+
+== BookGroup - 모임
+
+=== 모임 생성
+
+==== Request
+
+include::{snippets}/book-group-controller-test/create-book-group/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-test/create-book-group/request-headers.adoc[]
+
+==== Request Body
+
+include::{snippets}/book-group-controller-test/create-book-group/request-body.adoc[]
+include::{snippets}/book-group-controller-test/create-book-group/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-test/create-book-group/http-response.adoc[]
+
+==== Response Header
+
+include::{snippets}/book-group-controller-test/create-book-group/response-headers.adoc[]
