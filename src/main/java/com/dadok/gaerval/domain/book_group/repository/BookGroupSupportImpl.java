@@ -17,6 +17,7 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,14 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 	private final JPAQueryFactory query;
 
 	@Override
-	public BookGroupResponses findAllBy(BookGroupSearchRequest request) {
+	public BookGroupResponses findAllBy(BookGroupSearchRequest request, Long userId) {
 
 		Sort.Direction direction = request.sortDirection().toDirection();
 
 		List<BookGroupResponse> groupResponses = query.select(Projections.fields(BookGroupResponse.class,
 				bookGroup.id.as("bookGroupId"),
 				bookGroup.title.as("title"),
+				bookGroup.maxMemberCount.as("maximumMemberCount"),
 
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),
@@ -49,8 +51,11 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			.innerJoin(user).on(user.id.eq(bookGroup.ownerId))
 			.leftJoin(bookGroup.groupMembers, groupMember)
 			.leftJoin(bookGroup.comments, groupComment)
-			.where(QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(),
-				direction), bookGroup.isPublic.isTrue())
+			.where(
+				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction),
+				bookGroup.isPublic.isTrue(),
+				generateMemberUserId(userId)
+			)
 			.groupBy(bookGroup.id,
 				book.id,
 				user.id
@@ -62,8 +67,14 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 		Slice<BookGroupResponse> bookGroupResponses = QueryDslUtil.toSlice(groupResponses,
 			PageRequest.of(0, request.pageSize(), Sort.by(direction, "id")));
 
-
 		return new BookGroupResponses(bookGroupResponses);
+	}
+
+	private BooleanExpression generateMemberUserId(Long userId) {
+		if (userId == null) {
+			return null;
+		}
+		return groupMember.user.id.eq(userId);
 	}
 
 }

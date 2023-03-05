@@ -1,12 +1,11 @@
 package com.dadok.gaerval.domain.book_group.dto.response;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class BookGroupResponse {
 
@@ -15,6 +14,8 @@ public class BookGroupResponse {
 	private String title;
 
 	private String introduce;
+
+	private Integer maximumMemberCount;
 
 	private Long memberCount;
 
@@ -29,6 +30,5 @@ public class BookGroupResponse {
 	private String ownerProfileUrl;
 
 	private String ownerNickname;
-
 
 }

@@ -60,4 +60,13 @@ public class BookGroupController {
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookGroupId.toString();
 		return ResponseEntity.created(URI.create(redirectUri)).build();
 	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(value = "/me", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookGroupResponses> findMyBookGroups(
+		@ModelAttribute @Valid BookGroupSearchRequest request,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		return ResponseEntity.ok().body(bookGroupService.findAllBookGroupsByUser(request, userPrincipal.getUserId()));
+	}
 }

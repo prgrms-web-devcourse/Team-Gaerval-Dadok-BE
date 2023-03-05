@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,6 +49,7 @@ public class BookGroup extends BaseTimeColumn {
 	private Long ownerId;
 
 	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Book book;
 
 	@Column(nullable = false, length = 30)

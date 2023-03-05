@@ -29,7 +29,7 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Transactional(readOnly = true)
 	@Override
 	public BookGroupResponses findAllBookGroups(BookGroupSearchRequest request) {
-		return bookGroupRepository.findAllBy(request);
+		return bookGroupRepository.findAllBy(request, null);
 	}
 
 	@Transactional
@@ -41,6 +41,12 @@ public class DefaultBookGroupService implements BookGroupService {
 			request.maxMemberCount(), request.title(), request.introduce(), request.isPublic());
 		GroupMember.create(bookGroup, user);
 		return bookGroupRepository.save(bookGroup).getId();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId) {
+		return bookGroupRepository.findAllBy(request, userId);
 	}
 
 }

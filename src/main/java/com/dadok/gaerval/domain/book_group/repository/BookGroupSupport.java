@@ -5,6 +5,5 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 
 interface BookGroupSupport {
 
-	BookGroupResponses findAllBy(BookGroupSearchRequest request);
-
+	BookGroupResponses findAllBy(BookGroupSearchRequest request, Long userId);
 }
