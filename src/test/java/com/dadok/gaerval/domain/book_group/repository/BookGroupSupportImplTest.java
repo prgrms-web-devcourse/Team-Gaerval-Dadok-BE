@@ -21,13 +21,13 @@ class BookGroupSupportImplTest {
 	@Test
 	void findAllBy_query() {
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
-		bookGroupRepository.findAllBy(request, null);
+		bookGroupRepository.findAllBy(request);
 	}
 
 	@DisplayName("findAllByUser 쿼리 테스트")
 	@Test
 	void findAllByUser_query() {
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
-		bookGroupRepository.findAllBy(request, 3L);
+		bookGroupRepository.findAllByUser(request, 3L);
 	}
 }

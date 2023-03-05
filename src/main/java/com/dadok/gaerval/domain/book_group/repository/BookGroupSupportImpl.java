@@ -28,8 +28,50 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 	private final JPAQueryFactory query;
 
 	@Override
-	public BookGroupResponses findAllBy(BookGroupSearchRequest request, Long userId) {
+	public BookGroupResponses findAllBy(BookGroupSearchRequest request) {
 
+		Sort.Direction direction = request.sortDirection().toDirection();
+
+		List<BookGroupResponse> groupResponses = query.select(constructor(BookGroupResponse.class,
+				bookGroup.id.as("bookGroupId"),
+				bookGroup.title.as("title"),
+				bookGroup.introduce.as("introduce"),
+				bookGroup.maxMemberCount.as("maximumMemberCount"),
+
+				groupMember.count().as("memberCount"),
+				groupComment.count().as("commentCount"),
+
+				book.id.as("bookId"),
+				book.imageUrl.as("imageUrl"),
+				user.id.as("ownerId"),
+				user.profileImage.as("ownerProfileUrl"),
+				user.nickname.nickname.as("ownerNickname")
+			))
+			.from(bookGroup)
+			.innerJoin(book).on(book.id.eq(bookGroup.book.id))
+			.innerJoin(user).on(user.id.eq(bookGroup.ownerId))
+			.leftJoin(bookGroup.groupMembers, groupMember)
+			.leftJoin(bookGroup.comments, groupComment)
+			.where(
+				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction),
+				bookGroup.isPublic.isTrue()
+			)
+			.groupBy(bookGroup.id,
+				book.id,
+				user.id
+			)
+			.orderBy(QueryDslUtil.getOrder(bookGroup.id, direction))
+			.limit(request.pageSize() + 1)
+			.fetch();
+
+		Slice<BookGroupResponse> bookGroupResponses = QueryDslUtil.toSlice(groupResponses,
+			PageRequest.of(0, request.pageSize(), Sort.by(direction, "id")));
+
+		return new BookGroupResponses(bookGroupResponses);
+	}
+
+	@Override
+	public BookGroupResponses findAllByUser(BookGroupSearchRequest request, Long userId) {
 		Sort.Direction direction = request.sortDirection().toDirection();
 
 		List<BookGroupResponse> groupResponses = query.select(constructor(BookGroupResponse.class,
@@ -77,5 +119,4 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 		}
 		return groupMember.user.id.eq(userId);
 	}
-
 }

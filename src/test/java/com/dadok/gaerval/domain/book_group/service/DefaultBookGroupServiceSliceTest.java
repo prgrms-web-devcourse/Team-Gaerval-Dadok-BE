@@ -85,7 +85,7 @@ class DefaultBookGroupServiceSliceTest {
 		BookGroupResponses bookGroupResponses = new BookGroupResponses(
 			QueryDslUtil.toSlice(responses, PageRequest.of(0, 10)));
 
-		given(bookGroupRepository.findAllBy(request, null))
+		given(bookGroupRepository.findAllBy(request))
 			.willReturn(bookGroupResponses);
 		//when
 		BookGroupResponses bookGroups = defaultBookGroupService.findAllBookGroups(request);
@@ -102,7 +102,7 @@ class DefaultBookGroupServiceSliceTest {
 
 	}
 
-	@DisplayName("findAllBookGroups - 모임 리스트를 조회한다.")
+	@DisplayName("findAllBookGroupsByUser - 나의 모임 리스트를 조회한다.")
 	@Test
 	void findAllBookGroupsByUser() {
 		//given
@@ -143,7 +143,7 @@ class DefaultBookGroupServiceSliceTest {
 		BookGroupResponses bookGroupResponses = new BookGroupResponses(
 			QueryDslUtil.toSlice(responses, PageRequest.of(0, 10)));
 
-		given(bookGroupRepository.findAllBy(request, 1L))
+		given(bookGroupRepository.findAllByUser(request, 1L))
 			.willReturn(bookGroupResponses);
 
 		//when
