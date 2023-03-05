@@ -18,6 +18,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -128,6 +129,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return ResponseEntity.badRequest()
 			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()));
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<ErrorResponse> handleAccessDeniedException(
+		HttpServletRequest request, AccessDeniedException e) {
+		logInfo(e, request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+			.body(ErrorResponse.of(HttpStatus.FORBIDDEN, e.getMessage(), request.getRequestURI(), null));
 	}
 
 	@ExceptionHandler(Exception.class)
