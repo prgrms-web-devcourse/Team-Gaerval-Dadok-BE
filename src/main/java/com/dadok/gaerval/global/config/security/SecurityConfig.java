@@ -57,7 +57,7 @@ public class SecurityConfig {
 	private final ObjectMapper objectMapper;
 
 	private final String[] allowedApiUrls = {
-		"/docs", "/docs/index.html", "/docs/**"
+		"/docs", "/docs/index.html", "/docs/**", "/favicon.ico", "/favicon.io"
 	};
 
 	@Bean

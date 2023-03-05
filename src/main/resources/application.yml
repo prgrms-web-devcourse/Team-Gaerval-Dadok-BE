@@ -1,4 +1,5 @@
 spring:
+
   profiles:
     include:
       - db
@@ -11,6 +12,8 @@ spring:
     import: optional:file:.env[.properties]
   lifecycle:
     timeout-per-shutdown-phase: 5s
+
+
 server:
   shutdown: graceful
 
