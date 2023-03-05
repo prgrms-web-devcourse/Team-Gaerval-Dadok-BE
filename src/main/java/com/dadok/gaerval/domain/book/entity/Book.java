@@ -61,7 +61,7 @@ public class Book {
 	@Column(length = 20, nullable = false)
 	private String apiProvider;
 
-	@Column(length = 20, nullable = false)
+	@Column(length = 30, nullable = false)
 	private String publisher;
 
 	protected Book(String title, String author, String isbn, String contents, String url,
@@ -84,7 +84,7 @@ public class Book {
 		validateLengthInRange(url, 0, 2083, "URL");
 		validateLengthInRange(imageUrl, 0, 2083, "이미지 URL");
 		validateLengthInRange(apiProvider, 0, 20, "API 제공자");
-		validateLengthInRange(publisher, 1, 20, "출판사");
+		validateLengthInRange(publisher, 1, 30, "출판사");
 	}
 
 	protected Book(String title, String author, String isbn, String contents, String url,
@@ -166,5 +166,11 @@ public class Book {
 	public void changeApiProvider(String apiProvider) {
 		this.apiProvider = apiProvider;
 		validateLengthInRange(apiProvider, 0, 20, "API 제공자");
+	}
+
+
+	public void changePublisher(String publisher) {
+		this.publisher = publisher;
+		validateLengthInRange(publisher, 0, 30, "출판사");
 	}
 }
