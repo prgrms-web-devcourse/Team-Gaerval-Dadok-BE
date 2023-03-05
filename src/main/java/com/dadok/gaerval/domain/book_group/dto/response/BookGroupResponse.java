@@ -16,6 +16,8 @@ public class BookGroupResponse {
 
 	private String introduce;
 
+	private Integer maxMemberCount;
+
 	private Long memberCount;
 
 	private Long commentCount;
@@ -29,6 +31,5 @@ public class BookGroupResponse {
 	private String ownerProfileUrl;
 
 	private String ownerNickname;
-
 
 }

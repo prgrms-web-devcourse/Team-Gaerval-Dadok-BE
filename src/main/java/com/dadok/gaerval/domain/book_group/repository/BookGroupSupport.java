@@ -10,4 +10,6 @@ interface BookGroupSupport {
 
 	BookGroupDetailResponse findBookGroup(Long requestUserId, Long groupId);
 
+	BookGroupResponses findAllByUser(BookGroupSearchRequest request, Long userId);
+
 }

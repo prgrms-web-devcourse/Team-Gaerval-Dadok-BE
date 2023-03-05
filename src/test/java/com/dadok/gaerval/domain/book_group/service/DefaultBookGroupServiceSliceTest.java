@@ -57,31 +57,31 @@ class DefaultBookGroupServiceSliceTest {
 
 		List<BookGroupResponse> responses = List.of(
 			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 2L, 100L, 4452L,
+				999L, "모임999", "모임 999에용", 5, 2L, 100L, 4452L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5L, 2L, 2083L,
+				997L, "모임997", "모임 997에용", 5, 5L, 2L, 2083L,
 				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5L, 0L, 442L,
+				995L, "모임995", "모임 995에용", 5, 5L, 0L, 442L,
 				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 3L, 30L, 44L,
+				994L, "모임994", "모임 994에용", 5, 3L, 30L, 44L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 4L, 4000L, 913452L,
+				993L, "모임993", "모임 993에용", 5, 4L, 4000L, 913452L,
 				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
@@ -94,6 +94,66 @@ class DefaultBookGroupServiceSliceTest {
 			.willReturn(bookGroupResponses);
 		//when
 		BookGroupResponses bookGroups = defaultBookGroupService.findAllBookGroups(request);
+		//then
+		assertThat(bookGroups)
+			.hasFieldOrPropertyWithValue("isFirst", true)
+			.hasFieldOrPropertyWithValue("isLast", true)
+			.hasFieldOrPropertyWithValue("hasNext", false)
+			.hasFieldOrPropertyWithValue("count", 5)
+			.hasFieldOrPropertyWithValue("isEmpty", false);
+
+		assertThat(bookGroups.bookGroups()).isSortedAccordingTo(
+			(o1, o2) -> o2.getBookGroupId().compareTo(o1.getBookGroupId()));
+
+	}
+
+	@DisplayName("findAllBookGroupsByUser - 나의 모임 리스트를 조회한다.")
+	@Test
+	void findAllBookGroupsByUser() {
+		//given
+		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
+
+		List<BookGroupResponse> responses = List.of(
+			new BookGroupResponse(
+				999L, "모임999", "모임 999에용", 5, 2L, 100L, 4452L,
+				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
+				"나는모임장이다1"
+			),
+
+			new BookGroupResponse(
+				997L, "모임997", "모임 997에용", 5, 5L, 2L, 2083L,
+				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
+				"나는모임장이다1"
+			),
+
+			new BookGroupResponse(
+				995L, "모임995", "모임 995에용", 5, 5L, 0L, 442L,
+				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
+				"나는모임장이다1"
+			)
+			,
+			new BookGroupResponse(
+				994L, "모임994", "모임 994에용", 5, 3L, 30L, 44L,
+				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
+				"나는모임장이다1"
+			)
+			,
+			new BookGroupResponse(
+				993L, "모임993", "모임 993에용", 5, 4L, 4000L, 913452L,
+				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
+				"나는모임장이다1"
+			)
+		);
+
+		BookGroupResponses bookGroupResponses = new BookGroupResponses(
+			QueryDslUtil.toSlice(responses, PageRequest.of(0, 10)));
+
+		given(bookGroupRepository.findAllByUser(request, 1L))
+			.willReturn(bookGroupResponses);
+
+		//when
+		BookGroupResponses bookGroups = defaultBookGroupService.findAllBookGroupsByUser(request, 1L);
+
 		//then
 		assertThat(bookGroups)
 			.hasFieldOrPropertyWithValue("isFirst", true)

@@ -51,6 +51,14 @@ public class QueryDslUtil {
 		return cursorField.gt(cursorId);
 	}
 
+	public static BooleanExpression generateIdWhereCondition(NumberPath<Long> entityId, Long id) {
+		if (id == null) {
+			return null;
+		}
+
+		return entityId.eq(id);
+	}
+
 	public static OrderSpecifier<?> getOrder(NumberPath<Long> id, Sort.Direction direction) {
 		return direction.isDescending() ? id.desc() : id.asc();
 	}

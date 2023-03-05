@@ -19,6 +19,7 @@ import com.dadok.gaerval.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class DefaultBookGroupService implements BookGroupService {
@@ -29,7 +30,6 @@ public class DefaultBookGroupService implements BookGroupService {
 
 	private final UserService userService;
 
-	@Transactional(readOnly = true)
 	@Override
 	public BookGroupResponses findAllBookGroups(BookGroupSearchRequest request) {
 		return bookGroupRepository.findAllBy(request);
@@ -46,17 +46,19 @@ public class DefaultBookGroupService implements BookGroupService {
 		return bookGroupRepository.save(bookGroup).getId();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public BookGroupDetailResponse findGroup(Long requestUserId, Long groupId) {
 		return bookGroupRepository.findBookGroup(requestUserId, groupId);
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public Optional<BookGroup> findById(Long groupId) {
 		return bookGroupRepository.findById(groupId);
 	}
 
+	@Override
+	public BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId) {
+		return bookGroupRepository.findAllByUser(request, userId);
+	}
 
 }

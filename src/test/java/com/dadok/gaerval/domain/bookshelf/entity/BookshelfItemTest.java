@@ -66,4 +66,7 @@ class BookshelfItemTest {
 		var bookshelfItem = BookshelfItem.create(bookshelf, book, type);
 		assertTrue(bookshelf.getBookshelfItems().contains(bookshelfItem));
 	}
+
+
+
 }
