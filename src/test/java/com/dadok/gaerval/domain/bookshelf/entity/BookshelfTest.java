@@ -25,6 +25,7 @@ class BookshelfTest {
 			Bookshelf.create(user);
 		});
 	}
+
 	@DisplayName("create - Bookshelf의 필드가 유효 - 성공")
 	@Test
 	void create_success_field_check() {
@@ -38,15 +39,6 @@ class BookshelfTest {
 			.hasFieldOrPropertyWithValue("user", user);
 	}
 
-	@DisplayName("changeName - 성공")
-	@Test
-	void changeName_success() {
-		Bookshelf bookshelf = Bookshelf.create(user);
-		assertDoesNotThrow(() -> {
-			bookshelf.changeName("개발자의 책장");
-		});
-	}
-
 	@DisplayName("changeIsPublic - 성공")
 	@Test
 	void changeIsPublic_success() {
@@ -54,13 +46,6 @@ class BookshelfTest {
 		assertDoesNotThrow(() -> {
 			bookshelf.changeIsPublic(false);
 		});
-	}
-
-	@DisplayName("changeName - name이 null일 경우 - 실패")
-	@Test
-	void changeName_nameNull_fail() {
-		Bookshelf bookshelf = Bookshelf.create(user);
-		assertThrows(InvalidArgumentException.class, () -> bookshelf.changeName(null));
 	}
 
 	@DisplayName("changeIsPublic - isPublic이 null일 경우 - 실패")
