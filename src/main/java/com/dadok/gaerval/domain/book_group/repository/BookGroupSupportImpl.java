@@ -7,15 +7,20 @@ import static com.dadok.gaerval.domain.book_group.entity.QGroupMember.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
+import com.dadok.gaerval.domain.book_group.entity.BookGroup;
+import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -62,8 +67,66 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 		Slice<BookGroupResponse> bookGroupResponses = QueryDslUtil.toSlice(groupResponses,
 			PageRequest.of(0, request.pageSize(), Sort.by(direction, "id")));
 
-
 		return new BookGroupResponses(bookGroupResponses);
+	}
+
+	@Override
+	public BookGroupDetailResponse findBookGroup(Long requestUserId, Long groupId) {
+		Tuple tuple = query
+			.select(
+				bookGroup.id,
+				bookGroup.title,
+				bookGroup.introduce,
+				bookGroup.ownerId,
+
+				bookGroup.startDate,
+				bookGroup.endDate,
+				bookGroup.maxMemberCount,
+
+				book.title,
+				book.imageUrl,
+				book.id,
+
+				groupMember.count(),
+				groupComment.count()
+			)
+			.from(bookGroup)
+			.leftJoin(bookGroup.groupMembers, groupMember)
+			.leftJoin(bookGroup.comments, groupComment)
+			.leftJoin(bookGroup.book, book)
+			.where(bookGroup.id.eq(groupId))
+			.groupBy(bookGroup.id)
+			.fetchOne();
+
+		if (tuple == null) {
+			throw new ResourceNotfoundException(BookGroup.class);
+		}
+
+		boolean isGroupMember =
+			requestUserId != null && query.selectOne()
+				.from(groupMember)
+				.where(groupMember.bookGroup.id.eq(groupId),
+					groupMember.user.id.eq(requestUserId)
+				)
+				.fetchFirst() != null;
+
+		return new BookGroupDetailResponse(
+			tuple.get(bookGroup.id),
+			tuple.get(bookGroup.title),
+			tuple.get(bookGroup.introduce),
+			tuple.get(bookGroup.ownerId),
+			Objects.equals(requestUserId, tuple.get(bookGroup.ownerId)),
+			isGroupMember,
+			tuple.get(bookGroup.startDate),
+			tuple.get(bookGroup.endDate),
+			tuple.get(book.title),
+			tuple.get(book.imageUrl),
+			tuple.get(book.id),
+
+			tuple.get(bookGroup.maxMemberCount),
+			tuple.get(groupMember.count()),
+			tuple.get(groupComment.count())
+		);
 	}
 
 }

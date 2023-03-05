@@ -9,7 +9,6 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
@@ -30,6 +29,7 @@ import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.service.BookGroupService;
@@ -40,7 +40,7 @@ import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WithMockCustomOAuth2LoginUser
 @WebMvcTest(BookGroupController.class)
-class BookGroupControllerTest extends ControllerTest {
+class BookGroupControllerSliceTest extends ControllerTest {
 
 	@MockBean
 	private BookGroupService bookGroupService;
@@ -165,7 +165,6 @@ class BookGroupControllerTest extends ControllerTest {
 				.content(createJson(request))
 			).andExpect(status().isCreated())
 			.andExpect(header().string("Location", containsString("/api/book-groups/1")))
-			.andDo(print())
 			.andDo(this.restDocs.document(
 				requestHeaders(
 					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
@@ -225,9 +224,72 @@ class BookGroupControllerTest extends ControllerTest {
 					)
 				),
 				responseHeaders(
-					headerWithName(HttpHeaders.LOCATION).description("생성된 모임 상세 조회 리다이렉트 uri")
+					headerWithName(HttpHeaders.LOCATION).description("생성된 모임 상세 조회 리소스 uri")
 				)
 			));
+	}
+
+	@DisplayName("findGroup - 모임 디테일 정보를 반환한다.")
+	@Test
+	void findGroup_success() throws Exception {
+		//given
+		long bookGroupId = 999L;
+		String title = "김영한님 JPA 읽으실분";
+		String introduce = "우리모임은 JPA 책 스터디를 하려고 모여있어요";
+		long ownerId = 1L;
+		long bookId = 10L;
+		boolean isOwner = false;
+		boolean isGroupMember = true;
+		LocalDate startDate = LocalDate.now().plusDays(1);
+		LocalDate endDate = LocalDate.now().plusDays(7);
+		String bookTitle = "Java ORM 표준 JPA 프로그래밍";
+		String imageUrl = "http://jpaimage.jpeg";
+		int maxMemberCount = 5;
+		long currentMemberCount = 2L;
+		long commentCount = 5L;
+		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
+			title, introduce,
+			ownerId, isOwner, isGroupMember, startDate, endDate,
+			bookTitle, imageUrl, bookId, maxMemberCount, currentMemberCount, commentCount
+		);
+
+		given(bookGroupService.findGroup(1L, bookGroupId))
+			.willReturn(bookGroupDetailResponse);
+		//when
+
+		mockMvc.perform(get("/api/book-groups/{groupId}", bookGroupId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					),
+					responseFields(
+						fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id"),
+						fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목"),
+						fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글 "),
+						fieldWithPath("ownerId").type(JsonFieldType.NUMBER).description("모임장 Id(user Id)"),
+						fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("책 Id."),
+						fieldWithPath("isOwner").type(JsonFieldType.BOOLEAN).description("요청유저가 모임장인지 여부"),
+						fieldWithPath("isGroupMember").type(JsonFieldType.BOOLEAN).description("요청자가 모임에 속해있는 유저인지 여부"),
+						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작일"),
+						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료일"),
+						fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("모임 책 제목"),
+						fieldWithPath("bookImageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 최대 인원"),
+						fieldWithPath("currentMemberCount").type(JsonFieldType.NUMBER).description("현재 모임 인원"),
+						fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("현재 모임 댓글 수")
+					)
+				)
+			);
+
+		//then
 	}
 
 }

@@ -450,21 +450,67 @@ include::{snippets}/user-controller-slice-test/register-user-job/response-fields
 
 ==== Request
 
-include::{snippets}/book-group-controller-test/create-book-group/http-request.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-controller-test/create-book-group/request-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/request-headers.adoc[]
 
 ==== Request Body
 
-include::{snippets}/book-group-controller-test/create-book-group/request-body.adoc[]
-include::{snippets}/book-group-controller-test/create-book-group/request-fields.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/request-body.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-controller-test/create-book-group/http-response.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/http-response.adoc[]
 
 ==== Response Header
 
-include::{snippets}/book-group-controller-test/create-book-group/response-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/response-headers.adoc[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== 모임 상세 조회
+
+==== Request
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/request-headers.adoc[]
+
+
+==== Path Parameter
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/path-parameters.adoc[]
+
+
+
+==== Response
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/response-fields.adoc[]

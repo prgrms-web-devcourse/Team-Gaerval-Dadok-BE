@@ -17,4 +17,5 @@ public class BookGroupObjectProvider {
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
 		return bookGroup;
 	}
+
 }

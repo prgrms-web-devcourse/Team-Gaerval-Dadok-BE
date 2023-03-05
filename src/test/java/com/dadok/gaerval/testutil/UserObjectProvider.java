@@ -74,6 +74,12 @@ public class UserObjectProvider {
 		return user;
 	}
 
+	public static OAuth2Attribute naverAttribute() {
+		Map<String, Object> attributes = attributes(AuthProvider.NAVER);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.NAVER, NAVER_ATTRIBUTE_KEY, attributes);
+		return oAuth2Attribute;
+	}
+
 	public static User createKakaoUser(Job job) {
 		User kakaoUser = createKakaoUser();
 		kakaoUser.changeJob(job);

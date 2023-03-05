@@ -41,7 +41,7 @@ public class UserAuthority extends BaseTimeColumn {
 	private User user;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "authority", nullable = false)
 	private Authority authority;
 

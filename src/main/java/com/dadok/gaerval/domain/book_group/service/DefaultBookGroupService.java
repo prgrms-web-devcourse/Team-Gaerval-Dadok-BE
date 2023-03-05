@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.book_group.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,6 +9,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
@@ -42,5 +45,18 @@ public class DefaultBookGroupService implements BookGroupService {
 		GroupMember.create(bookGroup, user);
 		return bookGroupRepository.save(bookGroup).getId();
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookGroupDetailResponse findGroup(Long requestUserId, Long groupId) {
+		return bookGroupRepository.findBookGroup(requestUserId, groupId);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Optional<BookGroup> findById(Long groupId) {
+		return bookGroupRepository.findById(groupId);
+	}
+
 
 }

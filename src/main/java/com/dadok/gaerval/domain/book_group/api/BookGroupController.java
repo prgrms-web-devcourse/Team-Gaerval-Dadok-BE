@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.service.BookGroupService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
@@ -60,4 +62,13 @@ public class BookGroupController {
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookGroupId.toString();
 		return ResponseEntity.created(URI.create(redirectUri)).build();
 	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping("/{groupId}")
+	public ResponseEntity<BookGroupDetailResponse> findGroup(
+		@PathVariable Long groupId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+		return ResponseEntity.ok(bookGroupService.findGroup(userPrincipal.getUserId(), groupId));
+	}
+
 }

@@ -1,10 +1,12 @@
 package com.dadok.gaerval.domain.book_group.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,14 +18,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.service.UserService;
+import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
@@ -133,5 +138,83 @@ class DefaultBookGroupServiceSliceTest {
 		verify(bookGroupRepository).save(any());
 		assertThat(bookGroupId).isEqualTo(1L);
 	}
+
+	@DisplayName("findGroup - 없는 그룹이므로 예외를 던진다.")
+	@Test
+	void findGroup_throw() {
+		//given
+		given(bookGroupRepository.findBookGroup(2L, 100L))
+			.willThrow(new ResourceNotfoundException(BookGroup.class));
+		//when
+		assertThrows(ResourceNotfoundException.class,
+			() ->defaultBookGroupService.findGroup(2L, 100L));
+	}
+
+	@DisplayName("findGroup - 그룹을 조회한다.")
+	@Test
+	void findGroup_Success() {
+		//given
+		long bookGroupId = 999L;
+		String title = "김영한님 JPA 읽으실분";
+		String introduce = "우리모임은 JPA 책 스터디를 하려고 모여있어요";
+		long ownerId = 1L;
+		long bookId = 10L;
+		boolean isOwner = false;
+		boolean isGroupMember = true;
+		LocalDate startDate = LocalDate.now().plusDays(1);
+		LocalDate endDate = LocalDate.now().plusDays(7);
+		String bookTitle = "Java ORM 표준 JPA 프로그래밍";
+		String bookImageUrl = "http://jpaimage.jpeg";
+		int maxMemberCount = 5;
+		long currentMemberCount = 2L;
+		long commentCount = 5L;
+		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
+			title, introduce,
+			ownerId, isOwner, isGroupMember, startDate, endDate,
+			bookTitle, bookImageUrl, bookId, maxMemberCount, currentMemberCount,
+			commentCount
+		);
+		//when
+		given(bookGroupRepository.findBookGroup(2L, bookGroupId))
+			.willReturn(bookGroupDetailResponse);
+
+		//then
+		BookGroupDetailResponse response = defaultBookGroupService.findGroup(2L, bookGroupId);
+
+		assertThat(response)
+			.hasFieldOrPropertyWithValue("bookGroupId", bookGroupId)
+			.hasFieldOrPropertyWithValue("title", title)
+			.hasFieldOrPropertyWithValue("introduce", introduce)
+			.hasFieldOrPropertyWithValue("ownerId", ownerId)
+			.hasFieldOrPropertyWithValue("bookId", bookId)
+			.hasFieldOrPropertyWithValue("isOwner", isOwner)
+			.hasFieldOrPropertyWithValue("isGroupMember", isGroupMember)
+			.hasFieldOrPropertyWithValue("startDate", startDate)
+			.hasFieldOrPropertyWithValue("endDate", endDate)
+			.hasFieldOrPropertyWithValue("bookTitle", bookTitle)
+			.hasFieldOrPropertyWithValue("bookImageUrl", bookImageUrl)
+			.hasFieldOrPropertyWithValue("maxMemberCount", maxMemberCount)
+			.hasFieldOrPropertyWithValue("currentMemberCount", currentMemberCount)
+			.hasFieldOrPropertyWithValue("commentCount", commentCount);
+
+	}
+
+	@DisplayName("findById - 북그룹을 반환한다.")
+	@Test
+	void findById_success() {
+		//given
+		Book book = BookObjectProvider.createBook();
+		BookGroup bookGroup = BookGroup.create(1L,
+			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
+			6, "북그룹", "소개합니다", true
+		);
+		given(bookGroupRepository.findById(1L))
+			.willReturn(Optional.of(bookGroup));
+		//when
+		Optional<BookGroup> bookGroupOptional = defaultBookGroupService.findById(1L);
+		//then
+		assertEquals(bookGroupOptional.get(), bookGroup);
+	}
+
 
 }
