@@ -76,11 +76,6 @@ public class Bookshelf extends BaseTimeColumn {
 		bookshelfItems.add(bookshelfItem);
 	}
 
-	public void changeName(String name) {
-		CommonValidator.validateLengthLessThen(name, 30, "name");
-		this.name = name;
-	}
-
 	public void changeIsPublic(Boolean isPublic) {
 		CommonValidator.validateNotnull(isPublic, "isPublic");
 		this.isPublic = isPublic;

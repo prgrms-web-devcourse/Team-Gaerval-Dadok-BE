@@ -1,11 +1,15 @@
 package com.dadok.gaerval.global.config.security.jwt;
 
 import java.util.Collection;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
@@ -48,6 +52,16 @@ public class JwtService {
 		UserPrincipal userPrincipal = UserPrincipal.of(user);
 
 		return new JwtAuthenticationToken(userPrincipal, accessToken);
+	}
+
+	public Optional<String> resolveToken(HttpServletRequest request) {
+		String token = request.getHeader(ACCESS_TOKEN_HEADER_NAME);
+
+		if (StringUtils.hasText(token) && token.startsWith(AUTHENTICATION_TYPE_BEARER)) {
+			return Optional.of(token.substring(7));
+		}
+		return Optional.empty();
+
 	}
 
 }

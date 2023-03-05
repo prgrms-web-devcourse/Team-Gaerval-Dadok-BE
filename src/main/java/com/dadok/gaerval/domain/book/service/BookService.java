@@ -25,6 +25,4 @@ public interface BookService {
 
 	SuggestionsBookFindResponses findSuggestionBooks(SuggestionsBookFindRequest request);
 
-	//
-	// PopularBookOfJobResponses findAllPopularBook(String jobGroup, Pageable pageable);
 }
