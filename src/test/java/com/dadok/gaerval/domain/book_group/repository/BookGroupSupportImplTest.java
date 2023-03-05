@@ -23,5 +23,4 @@ class BookGroupSupportImplTest {
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
 		bookGroupRepository.findAllBy(request);
 	}
-
 }

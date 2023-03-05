@@ -28,7 +28,11 @@ public enum ErrorCode {
 	BOOKSHELF_USER_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "S002", "해당 책장에 올바르지 않은 사용자 접근입니다."),
 
 	// Book
-	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B001", "잘못된 도서 데이터 형식입니다.");
+	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B001", "잘못된 도서 데이터 형식입니다."),
+
+	// BookGroup
+	EXCEED_MAXIMUM_NUMBER_OF_MEMBER(HttpStatus.BAD_REQUEST, "G001", "모임 최대 인원을 초과하였습니다."),
+	ALREADY_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.BAD_REQUEST, "G002", "이미 모임에 참여한 사용자입니다.");
 
 	private final HttpStatus status;
 

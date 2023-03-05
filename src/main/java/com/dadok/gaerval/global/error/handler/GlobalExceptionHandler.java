@@ -29,6 +29,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
+import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.global.error.ErrorCode;
@@ -223,6 +225,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(BookshelfUserNotMatchedException.class)
 	public ResponseEntity<ErrorResponse> handleBookshelfUserNotMatchedException(
 		HttpServletRequest request, BookshelfUserNotMatchedException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
+	@ExceptionHandler(AlreadyContainBookGroupException.class)
+	public ResponseEntity<ErrorResponse> handleAlreadyContainBookGroupException(
+		HttpServletRequest request, AlreadyContainBookGroupException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
+	@ExceptionHandler(ExceedMaximumNumberOfMemberException.class)
+	public ResponseEntity<ErrorResponse> handleExceedMaximumNumberOfMemberException(
+		HttpServletRequest request, ExceedMaximumNumberOfMemberException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
