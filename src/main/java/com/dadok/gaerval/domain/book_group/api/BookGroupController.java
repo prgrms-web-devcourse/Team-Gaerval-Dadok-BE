@@ -55,7 +55,7 @@ public class BookGroupController {
 		@RequestBody @Valid BookGroupCreateRequest request,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
-		Long bookGroupId = bookGroupService.createBookGroup(userPrincipal.getUserEntity(), request);
+		Long bookGroupId = bookGroupService.createBookGroup(userPrincipal.getUserId(), request);
 		String redirectUri =
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookGroupId.toString();
 		return ResponseEntity.created(URI.create(redirectUri)).build();

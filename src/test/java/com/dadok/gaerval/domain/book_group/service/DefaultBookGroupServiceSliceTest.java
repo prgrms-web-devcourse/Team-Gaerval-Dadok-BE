@@ -23,6 +23,7 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
+import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
@@ -39,6 +40,9 @@ class DefaultBookGroupServiceSliceTest {
 
 	@Mock
 	private BookService bookService;
+
+	@Mock
+	private UserService userService;
 
 	@DisplayName("findAllBookGroups - 모임 리스트를 조회한다.")
 	@Test
@@ -114,13 +118,15 @@ class DefaultBookGroupServiceSliceTest {
 			request.maxMemberCount(), request.title(), request.introduce(), request.isPublic());
 		ReflectionTestUtils.setField(bookGroup, "id", 1L);
 
+		given(userService.getById(user.getId()))
+			.willReturn(user);
 		given(bookService.createBook(bookCreateRequest))
 			.willReturn(book);
 		given(bookGroupRepository.save(any()))
 			.willReturn(bookGroup);
 
 		// When
-		var bookGroupId = defaultBookGroupService.createBookGroup(user, request);
+		var bookGroupId = defaultBookGroupService.createBookGroup(user.getId(), request);
 
 		// Then
 		verify(bookService).createBook(bookCreateRequest);
