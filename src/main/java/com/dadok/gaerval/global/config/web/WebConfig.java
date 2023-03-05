@@ -30,6 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/docs/**").addResourceLocations("classpath:/static/docs/");
 		registry.addResourceHandler("/**")
 			.addResourceLocations("classpath:/templates/");
+		registry.addResourceHandler("/favicon.ico")
+			.addResourceLocations("classpath:/static/");
 	}
 
 }

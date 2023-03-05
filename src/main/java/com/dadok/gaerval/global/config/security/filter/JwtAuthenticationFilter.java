@@ -1,7 +1,5 @@
 package com.dadok.gaerval.global.config.security.filter;
 
-import static com.dadok.gaerval.global.config.security.jwt.JwtService.*;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -12,12 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.dadok.gaerval.global.config.security.jwt.JwtAuthenticationException;
 import com.dadok.gaerval.global.config.security.jwt.JwtService;
-import com.dadok.gaerval.global.error.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,26 +26,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		if (SecurityContextHolder.getContext().getAuthentication() == null) {
-			String accessToken = resolveToken(request);
+			Optional<String> tokenOptional = jwtService.resolveToken(request);
 
-			jwtService.validate(accessToken);
+			if (tokenOptional.isPresent()) {
+				String accessToken = tokenOptional.get();
+				jwtService.validate(accessToken);
+				Authentication authentication = jwtService.getAuthentication(accessToken);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 
-			Authentication authentication = jwtService.getAuthentication(accessToken);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-
+			}
 		}
 
 		filterChain.doFilter(request, response);
 	}
 
-	private String resolveToken(HttpServletRequest request) {
-		String bearerToken = request.getHeader(ACCESS_TOKEN_HEADER_NAME);
-
-		return Optional.ofNullable(bearerToken)
-			.filter(t -> StringUtils.hasText(bearerToken) && t.startsWith(AUTHENTICATION_TYPE_BEARER))
-			.map(t -> t.substring(7))
-			.orElseThrow(() ->
-				new JwtAuthenticationException(ErrorCode.INVALID_ACCESS_TOKEN));
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		return false;
 	}
-
 }
