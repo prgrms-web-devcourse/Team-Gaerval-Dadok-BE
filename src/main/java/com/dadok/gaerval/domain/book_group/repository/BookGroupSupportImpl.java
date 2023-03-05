@@ -5,6 +5,7 @@ import static com.dadok.gaerval.domain.book_group.entity.QBookGroup.*;
 import static com.dadok.gaerval.domain.book_group.entity.QGroupComment.*;
 import static com.dadok.gaerval.domain.book_group.entity.QGroupMember.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
+import static com.querydsl.core.types.Projections.*;
 
 import java.util.List;
 
@@ -16,7 +17,6 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.global.util.QueryDslUtil;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -32,9 +32,10 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 
 		Sort.Direction direction = request.sortDirection().toDirection();
 
-		List<BookGroupResponse> groupResponses = query.select(Projections.fields(BookGroupResponse.class,
+		List<BookGroupResponse> groupResponses = query.select(constructor(BookGroupResponse.class,
 				bookGroup.id.as("bookGroupId"),
 				bookGroup.title.as("title"),
+				bookGroup.introduce.as("introduce"),
 				bookGroup.maxMemberCount.as("maximumMemberCount"),
 
 				groupMember.count().as("memberCount"),
