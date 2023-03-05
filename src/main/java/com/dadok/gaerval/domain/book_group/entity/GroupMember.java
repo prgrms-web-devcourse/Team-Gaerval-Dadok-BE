@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 
 import lombok.AccessLevel;
@@ -54,6 +55,7 @@ public class GroupMember extends BaseTimeColumn {
 		return groupMember;
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -64,6 +66,7 @@ public class GroupMember extends BaseTimeColumn {
 		return Objects.equals(user, that.user) && Objects.equals(bookGroup, that.bookGroup);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(user, bookGroup);
