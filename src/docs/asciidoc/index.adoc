@@ -468,3 +468,49 @@ include::{snippets}/book-group-controller-test/create-book-group/http-response.a
 ==== Response Header
 
 include::{snippets}/book-group-controller-test/create-book-group/response-headers.adoc[]
+
+=== 모임 전체 조회
+
+==== Request
+
+include::{snippets}/book-group-controller-test/find-all-book-groups/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-test/find-all-book-groups/request-headers.adoc[]
+
+==== Request Param
+
+include::{snippets}/book-group-controller-test/find-all-book-groups/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-test/find-all-book-groups/http-response.adoc[]
+
+==== Response Body
+
+include::{snippets}/book-group-controller-test/find-all-book-groups/response-body.adoc[]
+include::{snippets}/book-group-controller-test/find-all-book-groups/response-fields.adoc[]
+
+=== 내가 참여한 모임 리스트 조회
+
+==== Request
+
+include::{snippets}/book-group-controller-test/find-my-book-groups/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-test/find-my-book-groups/request-headers.adoc[]
+
+==== Request Param
+
+include::{snippets}/book-group-controller-test/find-my-book-groups/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-test/find-my-book-groups/http-response.adoc[]
+
+==== Response Body
+
+include::{snippets}/book-group-controller-test/find-my-book-groups/response-body.adoc[]
+include::{snippets}/book-group-controller-test/find-my-book-groups/response-fields.adoc[]

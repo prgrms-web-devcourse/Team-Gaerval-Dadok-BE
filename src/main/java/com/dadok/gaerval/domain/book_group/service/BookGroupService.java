@@ -8,5 +8,8 @@ public interface BookGroupService {
 
 	BookGroupResponses findAllBookGroups(BookGroupSearchRequest request);
 
+	BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId);
+
 	Long createBookGroup(Long userId, BookGroupCreateRequest request);
+
 }

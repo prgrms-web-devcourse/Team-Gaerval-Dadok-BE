@@ -60,4 +60,22 @@ public class BookGroupController {
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookGroupId.toString();
 		return ResponseEntity.created(URI.create(redirectUri)).build();
 	}
+
+	/**
+	 * <Pre>
+	 * 내가 참여한 모임 리스트 조회
+	 * </Pre>
+	 *
+	 * @param request       page 관련 파라미터
+	 * @param userPrincipal 해당 유저의 참여 모임 조회
+	 * @return status : ok, BookGroupResponses 조회된 모임 list
+	 */
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(value = "/me", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookGroupResponses> findMyBookGroups(
+		@ModelAttribute @Valid BookGroupSearchRequest request,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		return ResponseEntity.ok().body(bookGroupService.findAllBookGroupsByUser(request, userPrincipal.getUserId()));
+	}
 }

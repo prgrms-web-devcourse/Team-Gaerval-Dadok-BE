@@ -7,4 +7,5 @@ interface BookGroupSupport {
 
 	BookGroupResponses findAllBy(BookGroupSearchRequest request);
 
+	BookGroupResponses findAllByUser(BookGroupSearchRequest request, Long userId);
 }

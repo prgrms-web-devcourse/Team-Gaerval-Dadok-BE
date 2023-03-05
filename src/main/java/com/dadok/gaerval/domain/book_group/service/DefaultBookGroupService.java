@@ -43,4 +43,10 @@ public class DefaultBookGroupService implements BookGroupService {
 		return bookGroupRepository.save(bookGroup).getId();
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId) {
+		return bookGroupRepository.findAllByUser(request, userId);
+	}
+
 }
