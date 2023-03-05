@@ -47,7 +47,7 @@ public class UserObjectProvider {
 				response.put("name", NICKNAME);
 				response.put("email", NAVER_EMAIL);
 				response.put("profile_image", PICTURE_URL);
-				attributes.put("id", oauthId);
+				response.put("id", oauthId);
 				attributes.put("response", response);
 				return attributes;
 			}
@@ -60,6 +60,15 @@ public class UserObjectProvider {
 		UserAuthority userAuthority = UserAuthority.create(Role.USER);
 		Map<String, Object> attributes = attributes(AuthProvider.KAKAO);
 		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, KAKAO_ATTRIBUTE_KEY, attributes);
+		User user = User.createByOAuth(oAuth2Attribute, userAuthority);
+
+		return user;
+	}
+
+	public static User createNaverUser() {
+		UserAuthority userAuthority = UserAuthority.create(Role.USER);
+		Map<String, Object> attributes = attributes(AuthProvider.NAVER);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.NAVER, NAVER_ATTRIBUTE_KEY, attributes);
 		User user = User.createByOAuth(oAuth2Attribute, userAuthority);
 
 		return user;

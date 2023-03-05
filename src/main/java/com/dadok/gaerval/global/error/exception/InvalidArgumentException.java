@@ -12,6 +12,7 @@ public class InvalidArgumentException extends BusinessException {
 
 	public InvalidArgumentException(String message) {
 		super(message);
+		this.message = message;
 	}
 
 	public InvalidArgumentException(Object value, String valueName) {

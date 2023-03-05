@@ -1,4 +1,4 @@
-package com.dadok.gaerval.domain.bookGroup.entity;
+package com.dadok.gaerval.domain.book_group.entity;
 
 import static com.dadok.gaerval.global.util.CommonValidator.*;
 
@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GroupMember extends BaseTimeColumn {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,7 +45,10 @@ public class GroupMember extends BaseTimeColumn {
 	}
 
 	public static GroupMember create(BookGroup bookGroup, User user) {
-		return new GroupMember(user, bookGroup);
+		GroupMember groupMember = new GroupMember(user, bookGroup);
+
+		bookGroup.addMember(groupMember);
+		return groupMember;
 	}
 
 }

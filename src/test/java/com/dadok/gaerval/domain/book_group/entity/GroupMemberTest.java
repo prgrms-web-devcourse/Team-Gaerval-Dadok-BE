@@ -1,4 +1,4 @@
-package com.dadok.gaerval.domain.bookGroup.entity;
+package com.dadok.gaerval.domain.book_group.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,4 +39,16 @@ class GroupMemberTest {
 		assertThrows(InvalidArgumentException.class, () ->
 			GroupMember.create(null, user));
 	}
+
+	@DisplayName("joinGroup - Group에 가입한다.- 성공")
+	@Test
+	void joinGroup_success() {
+		//when
+		GroupMember groupMember = GroupMember.create(bookGroup, user);
+		//then
+		assertEquals(groupMember.getBookGroup(), bookGroup);
+		assertTrue(bookGroup.getGroupMembers().contains(groupMember));
+	}
+
+
 }
