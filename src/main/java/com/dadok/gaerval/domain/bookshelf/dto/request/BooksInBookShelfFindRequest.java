@@ -6,15 +6,10 @@ import javax.validation.constraints.Min;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.global.util.SortDirection;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 public class BooksInBookShelfFindRequest {
 
@@ -26,6 +21,13 @@ public class BooksInBookShelfFindRequest {
 
 	private Long bookCursorId;
 
-	private SortDirection sortDirection = SortDirection.DESC;
+	private SortDirection sortDirection;
 
+	public BooksInBookShelfFindRequest(BookshelfItemType type, Integer pageSize, Long bookCursorId,
+		SortDirection sortDirection) {
+		this.type = type;
+		this.pageSize = pageSize == null ? 10 : pageSize;
+		this.bookCursorId = bookCursorId;
+		this.sortDirection = sortDirection == null ? SortDirection.DESC : sortDirection;
+	}
 }

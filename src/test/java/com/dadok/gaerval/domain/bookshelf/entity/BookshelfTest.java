@@ -35,7 +35,7 @@ class BookshelfTest {
 		assertThat(bookshelf)
 			.hasFieldOrPropertyWithValue("name", user.getOauthNickname() + "님의 책장")
 			.hasFieldOrPropertyWithValue("isPublic", true)
-			.hasFieldOrPropertyWithValue("jobId", JobObjectProvider.backendJob().getId())
+			.hasFieldOrPropertyWithValue("jobId", null)
 			.hasFieldOrPropertyWithValue("user", user);
 	}
 

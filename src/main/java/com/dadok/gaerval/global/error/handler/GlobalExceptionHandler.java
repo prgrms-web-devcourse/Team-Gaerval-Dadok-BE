@@ -13,7 +13,6 @@ import javax.validation.Path;
 
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,6 +35,7 @@ import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedExcep
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.DuplicateException;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
+import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
 import com.dadok.gaerval.global.error.response.ErrorResponse.FieldError;
 import com.dadok.gaerval.infra.slack.SlackException;
@@ -58,11 +58,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
 
+	@ExceptionHandler(value = ResourceNotfoundException.class)
+	public ResponseEntity<ErrorResponse> handleResourceNotfoundException(
+		ResourceNotfoundException e, HttpServletRequest request) {
+
+		logInfo(e, request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+			.body(ErrorResponse.notFound(e.getMessage(), request.getRequestURI(), null));
+	}
+
 	@ExceptionHandler(value = SlackException.class)
 	public ResponseEntity<?> handleSlackException(
 		SlackException e, HttpServletRequest request
 	) {
-
 		logError(e, request.getRequestURI());
 		slackService.sendError(e, request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -268,9 +277,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return bindingResult.getFieldErrors()
 			.stream()
-			.map(DefaultMessageSourceResolvable::getDefaultMessage)
-			.collect(Collectors.joining("\n"));
-
+			.map(fieldError -> fieldError.getField()
+				+ "의 파라미터가 잘못되었습니다. input value : "
+				+ fieldError.getRejectedValue())
+			.collect(Collectors.joining(" ,  "));
 	}
 
 	private List<FieldError> makeFieldErrorsFromConstraintViolations(

@@ -34,4 +34,6 @@ public interface BookshelfService {
 
 	BookShelfDetailResponse findBookShelfWithJob(Long userId);
 
+	void updateJobIdByUserId(Long userId, Long jobId);
+
 }

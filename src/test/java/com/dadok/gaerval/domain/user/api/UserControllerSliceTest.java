@@ -23,9 +23,9 @@ import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
-import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
+import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
-import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.exception.DuplicateNicknameException;
@@ -166,21 +166,21 @@ class UserControllerSliceTest extends ControllerTest {
 
 		Job backendJob = JobObjectProvider.backendJob();
 
-		UserJobRegisterRequest userJobRegisterRequest = new UserJobRegisterRequest(JobGroup.DEVELOPMENT,
+		UserJobChangeRequest userJobChangeRequest = new UserJobChangeRequest(JobGroup.DEVELOPMENT,
 			JobGroup.JobName.BACKEND_DEVELOPER);
 
-		UserJobRegisterResponse userJobRegisterResponse = new UserJobRegisterResponse(userId,
+		UserJobChangeResponse userJobChangeResponse = new UserJobChangeResponse(userId,
 			new UserDetailResponse.JobDetailResponse(backendJob.getJobGroup(), backendJob.getJobName(),
 				backendJob.getSortOrder()));
 
-		given(userService.registerJob(userId, userJobRegisterRequest))
-			.willReturn(userJobRegisterResponse);
+		given(userService.changeJob(userId, userJobChangeRequest))
+			.willReturn(userJobChangeResponse);
 
 		//when
 		mockMvc.perform(patch("/api/users/{userId}/jobs", userId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
-				.content(createJson(userJobRegisterRequest))
+				.content(createJson(userJobChangeRequest))
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
@@ -194,12 +194,12 @@ class UserControllerSliceTest extends ControllerTest {
 						fieldWithPath("jobGroup").description("직군 영어명. 대문자로 요청 :  " +
 								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP))
 							.attributes(
-								constrainsAttribute(UserJobRegisterRequest.class, "jobGroup")
+								constrainsAttribute(UserJobChangeRequest.class, "jobGroup")
 							),
 						fieldWithPath("jobName").description("직업 영어명. 대문자로 요청 :  " +
 								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
 							.attributes(
-								constrainsAttribute(UserJobRegisterRequest.class, "jobName")
+								constrainsAttribute(UserJobChangeRequest.class, "jobName")
 							)
 					),
 
@@ -227,7 +227,7 @@ class UserControllerSliceTest extends ControllerTest {
 			);
 
 		//then
-		verify(userService).registerJob(userId, userJobRegisterRequest);
+		verify(userService).changeJob(userId, userJobChangeRequest);
 	}
 
 	@DisplayName("changeProfile - 유저 프로필 변경에 성공한다.")
@@ -245,7 +245,7 @@ class UserControllerSliceTest extends ControllerTest {
 		String changeNickname = "변경된이름";
 
 		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
-			new UserJobRegisterRequest(development,
+			new UserJobChangeRequest(development,
 				backendDeveloper));
 
 		UserDetailResponse userDetailResponse = new UserDetailResponse(user.getId(), user.getName(),
@@ -348,7 +348,7 @@ class UserControllerSliceTest extends ControllerTest {
 		String changeNickname = "변경된이름";
 
 		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
-			new UserJobRegisterRequest(development,
+			new UserJobChangeRequest(development,
 				backendDeveloper));
 
 		DuplicateNicknameException duplicateNicknameException = new DuplicateNicknameException();

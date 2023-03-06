@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dadok.gaerval.domain.user.dto.request.NicknameChangeRequest;
 import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
-import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
+import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
-import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserNicknameExistsResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -46,13 +46,13 @@ public class UserController {
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN') or (hasAuthority('ROLE_USER') and #userId == #userPrincipal.userId )")
 	@PatchMapping(value = "/{userId}/jobs", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserJobRegisterResponse> registerUserJob(
+	public ResponseEntity<UserJobChangeResponse> registerUserJob(
 		@PathVariable Long userId,
-		@RequestBody @Valid UserJobRegisterRequest request,
+		@RequestBody @Valid UserJobChangeRequest request,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-		UserJobRegisterResponse userJobRegisterResponse = userService.registerJob(userId, request);
-		return ResponseEntity.ok(userJobRegisterResponse);
+		UserJobChangeResponse userJobChangeResponse = userService.changeJob(userId, request);
+		return ResponseEntity.ok(userJobChangeResponse);
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")

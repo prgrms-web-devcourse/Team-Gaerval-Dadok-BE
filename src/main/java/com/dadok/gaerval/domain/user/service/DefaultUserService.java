@@ -11,9 +11,9 @@ import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
-import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
+import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
-import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
@@ -55,6 +55,7 @@ public class DefaultUserService implements UserService {
 			.orElse(authorityRepository.save(Authority.create(Role.USER)));
 
 		User user = User.createByOAuth(attribute, UserAuthority.create(authority));
+		bookshelfService.createBookshelf(user);
 		return userRepository.save(user);
 	}
 
@@ -94,33 +95,32 @@ public class DefaultUserService implements UserService {
 
 	@Transactional
 	@Override
-	public UserJobRegisterResponse registerJob(Long userId, UserJobRegisterRequest request) {
+	public UserJobChangeResponse changeJob(Long userId, UserJobChangeRequest request) {
 		User user = userRepository.getReferenceById(userId);
 		Job job = jobService.getBy(request.jobGroup(), request.jobName());
 
 		user.changeJob(job);
+		bookshelfService.updateJobIdByUserId(userId, job.getId());
 
-		return new UserJobRegisterResponse(user.getId(),
+		return new UserJobChangeResponse(user.getId(),
 			new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
 	}
 
 	@Transactional
 	@Override
 	public UserDetailResponse changeProfile(Long userId, UserChangeProfileRequest request) {
-
 		User user = userRepository.getReferenceById(userId);
 		Nickname nickname = new Nickname(request.nickname());
 		validateExistsNickname(nickname);
 
 		try {
 			user.changeNickname(nickname);
-			UserJobRegisterRequest jobRequest = request.job();
+			UserJobChangeRequest jobRequest = request.job();
 
 			Job job = jobService.getBy(jobRequest.jobGroup(), jobRequest.jobName());
 			user.changeJob(job);
 
-
-			bookshelfService.createBookshelf(user);
+			bookshelfService.updateJobIdByUserId(userId, job.getId());
 
 			return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
 				user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),

@@ -35,6 +35,7 @@ import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
+import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -459,5 +460,47 @@ class DefaultBookshelfServiceSliceTest {
 		assertThrows(ResourceNotfoundException.class,
 			() -> bookshelfService.findBookShelfWithJob(userId));
 	}
+
+	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없어 예외가 발생한다.")
+	@Test
+	void updateJobIdByUserId_throw() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Job job = JobObjectProvider.backendJob();
+		long userId = 1L;
+		ReflectionTestUtils.setField(kakaoUser, "id", userId);
+
+		given(bookshelfRepository.findByUserId(userId))
+			.willThrow(ResourceNotfoundException.class);
+		//when
+		assertThrows(ResourceNotfoundException.class, () -> bookshelfService.updateJobIdByUserId(userId, job.getId()));
+		//then
+		verify(bookshelfRepository).findByUserId(userId);
+	}
+
+	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없어 예외가 발생한다.")
+	@Test
+	void updateJobIdByUserId_success() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Job job = JobObjectProvider.backendJob();
+		ReflectionTestUtils.setField(kakaoUser, "job", job);
+		Long idToUpdate = 10L;
+		long userId = 1L;
+		ReflectionTestUtils.setField(kakaoUser, "id", userId);
+
+		Bookshelf bookShelf = Bookshelf.create(kakaoUser);
+
+		given(bookshelfRepository.findByUserId(userId))
+			.willReturn(Optional.of(bookShelf));
+
+		//when
+		bookshelfService.updateJobIdByUserId(userId, idToUpdate);
+		//then
+		assertThat(bookShelf).hasFieldOrPropertyWithValue("jobId", idToUpdate);
+		verify(bookshelfRepository).findByUserId(userId);
+	}
+
+
 
 }
