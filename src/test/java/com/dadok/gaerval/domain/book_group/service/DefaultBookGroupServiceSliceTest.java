@@ -177,11 +177,11 @@ class DefaultBookGroupServiceSliceTest {
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
 			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 		BookGroupCreateRequest request = new BookGroupCreateRequest(bookCreateRequest,
-			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우"
+			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
-			request.joinQuestion(), request.joinPasswd());
+			request.joinQuestion(), request.joinPasswd(), request.isPublic());
 		ReflectionTestUtils.setField(bookGroup, "id", 1L);
 
 		given(userService.getById(user.getId()))
@@ -231,7 +231,7 @@ class DefaultBookGroupServiceSliceTest {
 		long commentCount = 5L;
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			ownerId, isOwner, isGroupMember, startDate, endDate, true,
+			ownerId, isOwner, isGroupMember, startDate, endDate, true, false,
 			bookTitle, bookImageUrl, bookId, maxMemberCount, currentMemberCount,
 			commentCount
 		);
@@ -267,7 +267,7 @@ class DefaultBookGroupServiceSliceTest {
 		Book book = BookObjectProvider.createBook();
 		BookGroup bookGroup = BookGroup.create(1L,
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우"
+			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
 		);
 		given(bookGroupRepository.findById(1L))
 			.willReturn(Optional.of(bookGroup));

@@ -42,7 +42,7 @@ public class DefaultBookGroupService implements BookGroupService {
 		Book book = bookService.createBook(request.book());
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
-			request.joinQuestion(), request.joinPasswd());
+			request.joinQuestion(), request.joinPasswd(), request.isPublic());
 		GroupMember.create(bookGroup, user);
 		return bookGroupRepository.save(bookGroup).getId();
 	}

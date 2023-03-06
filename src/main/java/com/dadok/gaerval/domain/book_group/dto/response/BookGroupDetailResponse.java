@@ -16,6 +16,7 @@ public record BookGroupDetailResponse(
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	LocalDate endDate,
 	Boolean hasJoinPasswd,
+	Boolean isPublic,
 
 	String bookTitle,
 	String bookImageUrl,

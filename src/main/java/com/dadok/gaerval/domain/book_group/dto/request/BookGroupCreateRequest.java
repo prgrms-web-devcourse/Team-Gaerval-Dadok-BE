@@ -44,6 +44,9 @@ public record BookGroupCreateRequest(
 	String joinQuestion,
 
 	@Size(max = 10, message = "joinPasswd 은 최대 10자까지 입력가능합니다.")
-	String joinPasswd
+	String joinPasswd,
+
+	@NotNull(message = "isPublic 은 null 일수 없습니다.")
+	Boolean isPublic
 ) {
 }

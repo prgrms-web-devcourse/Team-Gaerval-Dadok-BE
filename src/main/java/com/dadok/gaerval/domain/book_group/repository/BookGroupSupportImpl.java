@@ -87,6 +87,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.endDate,
 				bookGroup.maxMemberCount,
 				bookGroup.hasJoinPasswd,
+				bookGroup.isPublic,
 
 				book.title,
 				book.imageUrl,
@@ -125,6 +126,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			tuple.get(bookGroup.startDate),
 			tuple.get(bookGroup.endDate),
 			tuple.get(bookGroup.hasJoinPasswd),
+			tuple.get(bookGroup.isPublic),
 			tuple.get(book.title),
 			tuple.get(book.imageUrl),
 			tuple.get(book.id),

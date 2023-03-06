@@ -256,7 +256,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
 			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 		var request = new BookGroupCreateRequest(bookCreateRequest,
-			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우"
+			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 
 		given(bookGroupService.createBookGroup(any(), eq(request)))
@@ -334,7 +334,10 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("joinPasswd").type(JsonFieldType.STRING).optional()
 						.description("모임 참여 제한 비밀번호 : hasJoinPasswd = true 시 필수사항").attributes(
 							constrainsAttribute(BookGroupCreateRequest.class, "joinPasswd")
-						)
+						),
+					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부").attributes(
+						constrainsAttribute(BookGroupCreateRequest.class, "isPublic")
+					)
 				),
 				responseHeaders(
 					headerWithName(HttpHeaders.LOCATION).description("생성된 모임 상세 조회 리소스 uri")
@@ -363,7 +366,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			ownerId, isOwner, isGroupMember, startDate, endDate, false,
+			ownerId, isOwner, isGroupMember, startDate, endDate, false, true,
 			bookTitle, imageUrl, bookId, maxMemberCount, currentMemberCount, commentCount
 		);
 
@@ -395,6 +398,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작일"),
 						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
+						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("모임 내용 공개 여부"),
 						fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("모임 책 제목"),
 						fieldWithPath("bookImageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
 						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 최대 인원"),
