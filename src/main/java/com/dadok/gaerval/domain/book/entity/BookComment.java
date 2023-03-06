@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.dadok.gaerval.domain.user.entity.User;
 
@@ -18,7 +19,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "book_comments")
+@Table(name = "book_comments", uniqueConstraints = {
+	@UniqueConstraint(name = "user_id_book_id_unique_key",
+		columnNames = {"user_id", "book_id"})
+})
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,11 +33,11 @@ public class BookComment {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, unique = true)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id", nullable = false, unique = true)
+	@JoinColumn(name = "book_id", nullable = false)
 	private Book book;
 
 	@Column(name = "comment", nullable = false, length = 500)
