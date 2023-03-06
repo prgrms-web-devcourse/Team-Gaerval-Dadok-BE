@@ -21,9 +21,4 @@ public interface BookshelfRepository extends JpaRepository<Bookshelf, Long>, Boo
 		""")
 	List<Bookshelf> findAllByJob(@Param("jobGroup") JobGroup jobGroup, Pageable pageable, @Param("user") Long user);
 
-	@Query("""
-		select bs from Bookshelf bs left join fetch bs.bookshelfItems i left join fetch i.book b where bs.user.id = :userId
-		""")
-	Optional<Bookshelf> findByUser(@Param("userId") Long userId);
-
 }

@@ -6,9 +6,9 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.user.entity.User;
 
@@ -28,7 +28,7 @@ public interface BookshelfService {
 
 	Long removeBookSelfItem(Long userId, Long bookshelfId, Long bookId);
 
-	SummaryBookshelfResponse findSummaryBookshelf(Long userId);
+	BookShelfSummaryResponse findSummaryBookshelf(Long userId);
 
 	BookInShelfResponses findAllBooksInShelf(Long bookshelvesId, BooksInBookShelfFindRequest request);
 
