@@ -20,6 +20,8 @@ public class BookGroupResponse {
 
 	private Boolean hasJoinPasswd;
 
+	private Boolean isPublic;
+
 	private Long memberCount;
 
 	private Long commentCount;

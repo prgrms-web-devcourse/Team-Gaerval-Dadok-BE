@@ -42,6 +42,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.introduce.as("introduce"),
 				bookGroup.maxMemberCount.as("maxMemberCount"),
 				bookGroup.hasJoinPasswd.as("hasJoinPasswd"),
+				bookGroup.isPublic.as("isPublic"),
 
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),
@@ -147,6 +148,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.introduce.as("introduce"),
 				bookGroup.maxMemberCount.as("maxMemberCount"),
 				bookGroup.hasJoinPasswd.as("hasJoinPasswd"),
+				bookGroup.isPublic,
 
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),

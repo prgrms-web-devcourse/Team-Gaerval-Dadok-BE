@@ -31,6 +31,7 @@ import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
+import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
@@ -55,37 +56,7 @@ class DefaultBookGroupServiceSliceTest {
 		//given
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
 
-		List<BookGroupResponse> responses = List.of(
-			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 5, true, 2L, 100L, 4452L,
-				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			),
-
-			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5, false, 5L, 2L, 2083L,
-				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			),
-
-			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5, true, 5L, 0L, 442L,
-				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			)
-			,
-			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 5, true, 3L, 30L, 44L,
-				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			)
-			,
-			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 5, false, 4L, 4000L, 913452L,
-				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			)
-		);
+		List<BookGroupResponse> responses = BookGroupObjectProvider.mockBookGroupResponses();
 
 		BookGroupResponses bookGroupResponses = new BookGroupResponses(
 			QueryDslUtil.toSlice(responses, PageRequest.of(0, 10)));
@@ -113,37 +84,7 @@ class DefaultBookGroupServiceSliceTest {
 		//given
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
 
-		List<BookGroupResponse> responses = List.of(
-			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 5, false, 2L, 100L, 4452L,
-				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			),
-
-			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5, true, 5L, 2L, 2083L,
-				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			),
-
-			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5, true, 5L, 0L, 442L,
-				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			)
-			,
-			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 5, false, 3L, 30L, 44L,
-				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			)
-			,
-			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 5, false, 4L, 4000L, 913452L,
-				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
-				"나는모임장이다1"
-			)
-		);
+		List<BookGroupResponse> responses = BookGroupObjectProvider.mockBookGroupResponses();
 
 		BookGroupResponses bookGroupResponses = new BookGroupResponses(
 			QueryDslUtil.toSlice(responses, PageRequest.of(0, 10)));

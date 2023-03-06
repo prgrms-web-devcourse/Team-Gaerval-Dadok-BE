@@ -3198,7 +3198,7 @@ Content-Length: 1405
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/book-groups HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 825
+Content-Length: 937
 Host: localhost:8080
 
 {
@@ -3217,7 +3217,10 @@ Host: localhost:8080
   "endDate" : "2023-03-06",
   "maxMemberCount" : 5,
   "introduce" : "우리끼리 옹기종기",
-  "isPublic" : true
+  "hasJoinPasswd" : true,
+  "joinQuestion" : "월든 작가는?",
+  "joinPasswd" : "헨리데이빗소로우",
+  "isPublic" : false
 }</code></pre>
 </div>
 </div>
@@ -3366,6 +3369,27 @@ Must not be null<br></p></td>
 Must not be blank<br></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasJoinPasswd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 비밀번호(잠김) 여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be null<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>joinQuestion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 참여 제한 질문 : hasJoinPasswd = true 시 필수사항</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Size must be between 0 and 30 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>joinPasswd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 참여 제한 비밀번호 : hasJoinPasswd = true 시 필수사항</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Size must be between 0 and 10 inclusive<br></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>isPublic</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -3478,7 +3502,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 463
+Content-Length: 511
 
 {
   "bookGroupId" : 999,
@@ -3489,6 +3513,8 @@ Content-Length: 463
   "isGroupMember" : true,
   "startDate" : "2023-03-07",
   "endDate" : "2023-03-13",
+  "hasJoinPasswd" : false,
+  "isPublic" : true,
   "bookTitle" : "Java ORM 표준 JPA 프로그래밍",
   "bookImageUrl" : "http://jpaimage.jpeg",
   "bookId" : 10,
@@ -3568,6 +3594,18 @@ Content-Length: 463
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 종료일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasJoinPasswd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 비밀번호(잠김) 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isPublic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 내용 공개 여부</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookTitle</code></p></td>
@@ -3689,7 +3727,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1939
+Content-Length: 2199
 
 {
   "isFirst" : true,
@@ -3702,6 +3740,8 @@ Content-Length: 1939
     "title" : "모임999",
     "introduce" : "모임 999에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : true,
+    "isPublic" : false,
     "memberCount" : 2,
     "commentCount" : 100,
     "bookId" : 4452,
@@ -3714,6 +3754,8 @@ Content-Length: 1939
     "title" : "모임997",
     "introduce" : "모임 997에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : true,
+    "isPublic" : false,
     "memberCount" : 5,
     "commentCount" : 2,
     "bookId" : 2083,
@@ -3726,6 +3768,8 @@ Content-Length: 1939
     "title" : "모임995",
     "introduce" : "모임 995에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : true,
+    "isPublic" : true,
     "memberCount" : 5,
     "commentCount" : 0,
     "bookId" : 442,
@@ -3738,6 +3782,8 @@ Content-Length: 1939
     "title" : "모임994",
     "introduce" : "모임 994에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : false,
+    "isPublic" : true,
     "memberCount" : 3,
     "commentCount" : 30,
     "bookId" : 44,
@@ -3750,6 +3796,8 @@ Content-Length: 1939
     "title" : "모임993",
     "introduce" : "모임 993에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : false,
+    "isPublic" : false,
     "memberCount" : 4,
     "commentCount" : 4000,
     "bookId" : 913452,
@@ -3837,6 +3885,18 @@ Content-Length: 1939
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 멤버 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].hasJoinPasswd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 비밀번호(잠김) 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].isPublic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공개 여부</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].memberCount</code></p></td>
@@ -3970,7 +4030,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1939
+Content-Length: 2199
 
 {
   "isFirst" : true,
@@ -3983,6 +4043,8 @@ Content-Length: 1939
     "title" : "모임999",
     "introduce" : "모임 999에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : true,
+    "isPublic" : false,
     "memberCount" : 2,
     "commentCount" : 100,
     "bookId" : 4452,
@@ -3995,6 +4057,8 @@ Content-Length: 1939
     "title" : "모임997",
     "introduce" : "모임 997에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : true,
+    "isPublic" : false,
     "memberCount" : 5,
     "commentCount" : 2,
     "bookId" : 2083,
@@ -4007,6 +4071,8 @@ Content-Length: 1939
     "title" : "모임995",
     "introduce" : "모임 995에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : true,
+    "isPublic" : true,
     "memberCount" : 5,
     "commentCount" : 0,
     "bookId" : 442,
@@ -4019,6 +4085,8 @@ Content-Length: 1939
     "title" : "모임994",
     "introduce" : "모임 994에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : false,
+    "isPublic" : true,
     "memberCount" : 3,
     "commentCount" : 30,
     "bookId" : 44,
@@ -4031,6 +4099,8 @@ Content-Length: 1939
     "title" : "모임993",
     "introduce" : "모임 993에용",
     "maxMemberCount" : 5,
+    "hasJoinPasswd" : false,
+    "isPublic" : false,
     "memberCount" : 4,
     "commentCount" : 4000,
     "bookId" : 913452,
@@ -4118,6 +4188,24 @@ Content-Length: 1939
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 멤버 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].hasJoinPasswd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 비밀번호(잠김) 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].hasJoinPasswd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 비밀번호(잠김) 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].isPublic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공개 여부</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].memberCount</code></p></td>
@@ -5778,7 +5866,7 @@ Content-Length: 210
 <div id="footer">
 <div id="footer-text">
 Version 0.5.1<br>
-Last updated 2023-03-06 17:29:01 +0900
+Last updated 2023-03-06 18:38:18 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
