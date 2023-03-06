@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.dadok.gaerval.domain.job.dto.response.JobResponse;
+import com.dadok.gaerval.domain.job.dto.response.JobGroupResponse;
+import com.dadok.gaerval.domain.job.dto.response.JobGroupResponse.JobNameResponse;
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -20,27 +21,28 @@ public class JobObjectProvider {
 
 		JobGroup[] jobGroups = JobGroup.values();
 
-		List<JobResponse> jobResponses = new ArrayList<>();
+		List<JobGroupResponse> jobGroupResponses = new ArrayList<>();
 
-		List<JobResponse.JobNameResponse> jobNameResponses = new ArrayList<>();
+		List<JobNameResponse> jobNameResponses;
+
 		for (JobGroup jobGroup : jobGroups) {
 
 			jobNameResponses = new ArrayList<>();
-			JobResponse.JobGroupResponse jobGroupResponse = new JobResponse.JobGroupResponse(jobGroup.getGroupName(),
-				jobGroup.name());
 
 			for (int j = 0; j < jobGroup.getJobNames().size(); j++) {
 				JobGroup.JobName jobName = jobGroup.getJobNames().get(j);
-				JobResponse.JobNameResponse jobNameResponse = new JobResponse.JobNameResponse(jobName.getJobName(),
-					jobName.name(), j + 1);
+				JobNameResponse jobNameResponse = new JobNameResponse(jobName.getJobName(),
+					jobName, j + 1);
 
 				jobNameResponses.add(jobNameResponse);
 			}
 
-			jobResponses.add(new JobResponse(jobGroupResponse, jobNameResponses));
+			JobGroupResponse jobGroupResponse = new JobGroupResponse(jobGroup.getGroupName(), jobGroup, jobNameResponses);
+
+			jobGroupResponses.add(jobGroupResponse);
 		}
 
-		return new JobResponses(jobResponses);
+		return new JobResponses(jobGroupResponses);
 	}
 
 	public static List<Job> findAll() {
