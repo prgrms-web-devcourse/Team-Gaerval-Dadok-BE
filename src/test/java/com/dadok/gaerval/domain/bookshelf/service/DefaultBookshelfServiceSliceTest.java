@@ -29,6 +29,7 @@ import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -335,34 +336,33 @@ class DefaultBookshelfServiceSliceTest {
 	@Test
 	void findSummaryBookshelf_userId_success() {
 		// Given
-		var bookshelf = Bookshelf.create(user);
-		ReflectionTestUtils.setField(bookshelf, "id", 2L);
-		BookshelfItem.create(bookshelf, book);
+		var summaryResponse = new SummaryBookshelfResponse(23L, "영지님의 책장",
+			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+		);
 
-		given(bookshelfRepository.findByUser(user.getId()))
-			.willReturn(Optional.of(bookshelf));
+		given(bookshelfRepository.findSummaryById(user.getId()))
+			.willReturn(Optional.of(summaryResponse));
 
 		// When// Then
 		var response = assertDoesNotThrow(() -> bookshelfService.findSummaryBookshelf(user.getId()));
 
-		verify(bookshelfRepository).findByUser(user.getId());
-		assertThat(response.bookshelfId()).isEqualTo(2L);
-		assertThat(response.bookshelfName()).isEqualTo("책장왕다독이님의 책장");
+		verify(bookshelfRepository).findSummaryById(user.getId());
+		assertThat(response.bookshelfId()).isEqualTo(23L);
 		assertThat(response.books()).hasSize(1);
-		assertThat(response.books().get(0).bookId()).isEqualTo(123L);
 	}
 
 	@DisplayName("findSummaryBookshelf - userId를 입력받야 책장 요약 데이터 조회 - 실패")
 	@Test
 	void findSummaryBookshelf_userId_fail() {
 		// Given
-		given(bookshelfRepository.findByUser(user.getId()))
+		given(bookshelfRepository.findSummaryById(user.getId()))
 			.willReturn(Optional.empty());
 
 		// When// Then
 		assertThrows(ResourceNotfoundException.class, () -> bookshelfService.findSummaryBookshelf(user.getId()));
 
-		verify(bookshelfRepository).findByUser(user.getId());
+		verify(bookshelfRepository).findSummaryById(user.getId());
 	}
 
 	@DisplayName("findAllBooksInShelf - 요청에 맞는 결과가 없으면 빈 응답을 반환한다.")

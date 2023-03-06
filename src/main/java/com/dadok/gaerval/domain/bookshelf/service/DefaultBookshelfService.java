@@ -104,19 +104,8 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	public SummaryBookshelfResponse findSummaryBookshelf(Long userId) {
-		Bookshelf bookshelf = bookshelfRepository.findByUser(userId)
+		return bookshelfRepository.findSummaryById(userId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
-		List<SummaryBookshelfResponse.SummaryBookResponse> bookResponses =
-			bookshelf.getBookshelfItems()
-				.stream()
-				.limit(5)
-				.map(bookshelfItem ->
-					new SummaryBookshelfResponse.SummaryBookResponse(
-						bookshelfItem.getBook().getId(), bookshelfItem.getBook().getTitle(),
-						bookshelfItem.getBook().getImageUrl()
-					)
-				).collect(Collectors.toList());
-		return new SummaryBookshelfResponse(bookshelf.getId(), bookshelf.getName(), bookResponses);
 	}
 
 	@Transactional(readOnly = true)
