@@ -57,31 +57,31 @@ class DefaultBookGroupServiceSliceTest {
 
 		List<BookGroupResponse> responses = List.of(
 			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 5, 2L, 100L, 4452L,
+				999L, "모임999", "모임 999에용", 5, true, 2L, 100L, 4452L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5, 5L, 2L, 2083L,
+				997L, "모임997", "모임 997에용", 5, false, 5L, 2L, 2083L,
 				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5, 5L, 0L, 442L,
+				995L, "모임995", "모임 995에용", 5, true, 5L, 0L, 442L,
 				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 5, 3L, 30L, 44L,
+				994L, "모임994", "모임 994에용", 5, true, 3L, 30L, 44L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 5, 4L, 4000L, 913452L,
+				993L, "모임993", "모임 993에용", 5, false, 4L, 4000L, 913452L,
 				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
@@ -115,31 +115,31 @@ class DefaultBookGroupServiceSliceTest {
 
 		List<BookGroupResponse> responses = List.of(
 			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 5, 2L, 100L, 4452L,
+				999L, "모임999", "모임 999에용", 5, false, 2L, 100L, 4452L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5, 5L, 2L, 2083L,
+				997L, "모임997", "모임 997에용", 5, true, 5L, 2L, 2083L,
 				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5, 5L, 0L, 442L,
+				995L, "모임995", "모임 995에용", 5, true, 5L, 0L, 442L,
 				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 5, 3L, 30L, 44L,
+				994L, "모임994", "모임 994에용", 5, false, 3L, 30L, 44L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 5, 4L, 4000L, 913452L,
+				993L, "모임993", "모임 993에용", 5, false, 4L, 4000L, 913452L,
 				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
@@ -177,10 +177,11 @@ class DefaultBookGroupServiceSliceTest {
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
 			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 		BookGroupCreateRequest request = new BookGroupCreateRequest(bookCreateRequest,
-			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true
+			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
-			request.maxMemberCount(), request.title(), request.introduce(), request.isPublic());
+			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
+			request.joinQuestion(), request.joinPasswd(), request.isPublic());
 		ReflectionTestUtils.setField(bookGroup, "id", 1L);
 
 		given(userService.getById(user.getId()))
@@ -207,7 +208,7 @@ class DefaultBookGroupServiceSliceTest {
 			.willThrow(new ResourceNotfoundException(BookGroup.class));
 		//when
 		assertThrows(ResourceNotfoundException.class,
-			() ->defaultBookGroupService.findGroup(2L, 100L));
+			() -> defaultBookGroupService.findGroup(2L, 100L));
 	}
 
 	@DisplayName("findGroup - 그룹을 조회한다.")
@@ -230,7 +231,7 @@ class DefaultBookGroupServiceSliceTest {
 		long commentCount = 5L;
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			ownerId, isOwner, isGroupMember, startDate, endDate,
+			ownerId, isOwner, isGroupMember, startDate, endDate, true, false,
 			bookTitle, bookImageUrl, bookId, maxMemberCount, currentMemberCount,
 			commentCount
 		);
@@ -266,7 +267,7 @@ class DefaultBookGroupServiceSliceTest {
 		Book book = BookObjectProvider.createBook();
 		BookGroup bookGroup = BookGroup.create(1L,
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true
+			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
 		);
 		given(bookGroupRepository.findById(1L))
 			.willReturn(Optional.of(bookGroup));
@@ -275,6 +276,5 @@ class DefaultBookGroupServiceSliceTest {
 		//then
 		assertEquals(bookGroupOptional.get(), bookGroup);
 	}
-
 
 }

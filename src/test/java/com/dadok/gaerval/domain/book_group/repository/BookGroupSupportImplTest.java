@@ -68,8 +68,8 @@ class BookGroupSupportImplTest {
 		bookRepository.saveAndFlush(book);
 		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			4, "북그룹", "소개합니다", true
-			);
+			4, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
+		);
 
 		bookGroupRepository.saveAndFlush(bookGroup);
 		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
@@ -93,7 +93,7 @@ class BookGroupSupportImplTest {
 		bookRepository.saveAndFlush(book);
 		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true
+			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
 		);
 
 		bookGroupRepository.saveAndFlush(bookGroup);
@@ -123,7 +123,7 @@ class BookGroupSupportImplTest {
 		bookRepository.saveAndFlush(book);
 		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true
+			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
 		);
 
 		bookGroupRepository.saveAndFlush(bookGroup);
@@ -149,7 +149,7 @@ class BookGroupSupportImplTest {
 		bookRepository.saveAndFlush(book);
 		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true
+			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
 		);
 
 		bookGroupRepository.saveAndFlush(bookGroup);

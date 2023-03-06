@@ -18,6 +18,8 @@ public class BookGroupResponse {
 
 	private Integer maxMemberCount;
 
+	private Boolean hasJoinPasswd;
+
 	private Long memberCount;
 
 	private Long commentCount;
@@ -31,5 +33,4 @@ public class BookGroupResponse {
 	private String ownerProfileUrl;
 
 	private String ownerNickname;
-
 }

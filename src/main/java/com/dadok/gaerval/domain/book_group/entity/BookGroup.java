@@ -70,6 +70,15 @@ public class BookGroup extends BaseTimeColumn {
 	@Column(nullable = false, name = "is_public")
 	private Boolean isPublic;
 
+	@Column(nullable = false, name = "has_join_passwd")
+	private Boolean hasJoinPasswd;
+
+	@Column(length = 30)
+	private String joinQuestion;
+
+	@Column(length = 10)
+	private String joinPasswd;
+
 	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<GroupMember> groupMembers = new ArrayList<>();
 
@@ -77,13 +86,15 @@ public class BookGroup extends BaseTimeColumn {
 	private List<GroupComment> comments = new ArrayList<>();
 
 	protected BookGroup(Long ownerId, Book book, LocalDate startDate, LocalDate endDate, Integer maxMemberCount,
-		String introduce, Boolean isPublic, String title) {
+		String introduce, Boolean hasJoinPasswd, String title, String joinQuestion, String joinPasswd,
+		Boolean isPublic) {
 		validateNotnull(ownerId, "ownerId");
 		validateLengthLessThen(title, 30, "title");
 		validateNotnull(book, "book");
 		CommonValidator.validatePeriod(startDate, endDate);
 		validateMaxMemberCount(maxMemberCount);
 		validateLengthLessThen(introduce, 1000, "introduce");
+		validateHasJoinPasswd(hasJoinPasswd, joinQuestion, joinPasswd);
 		validateNotnull(isPublic, "isPublic");
 		this.ownerId = ownerId;
 		this.book = book;
@@ -91,8 +102,19 @@ public class BookGroup extends BaseTimeColumn {
 		this.endDate = endDate;
 		this.maxMemberCount = maxMemberCount;
 		this.introduce = introduce;
-		this.isPublic = isPublic;
+		this.hasJoinPasswd = hasJoinPasswd;
 		this.title = title;
+		this.joinQuestion = joinQuestion;
+		this.joinPasswd = joinPasswd;
+		this.isPublic = isPublic;
+	}
+
+	private void validateHasJoinPasswd(Boolean hasJoinPasswd, String joinQuestion, String joinPasswd) {
+		validateNotnull(hasJoinPasswd, "hasJoinPasswd");
+		if (hasJoinPasswd) {
+			validateLengthLessThen(joinQuestion, 30, "joinQuestion");
+			validateLengthLessThen(joinPasswd, 10, "joinPasswd");
+		}
 	}
 
 	private void validateMaxMemberCount(Integer maxMemberCount) {
@@ -101,10 +123,10 @@ public class BookGroup extends BaseTimeColumn {
 	}
 
 	public static BookGroup create(Long ownerId, Book book, LocalDate startDate, LocalDate endDate,
-		Integer maxMemberCount,
-		String title,
-		String introduce, Boolean isPublic) {
-		return new BookGroup(ownerId, book, startDate, endDate, maxMemberCount, introduce, isPublic, title);
+		Integer maxMemberCount, String title, String introduce, Boolean hasJoinPasswd, String joinQuestion,
+		String joinPasswd, Boolean isPublic) {
+		return new BookGroup(ownerId, book, startDate, endDate, maxMemberCount, introduce, hasJoinPasswd, title,
+			joinQuestion, joinPasswd, isPublic);
 	}
 
 	public void addComment(GroupComment groupComment) {
@@ -138,12 +160,16 @@ public class BookGroup extends BaseTimeColumn {
 			&& Objects.equals(startDate, bookGroup.startDate) && Objects.equals(endDate,
 			bookGroup.endDate) && Objects.equals(maxMemberCount, bookGroup.maxMemberCount)
 			&& Objects.equals(introduce, bookGroup.introduce) && Objects.equals(isPublic,
-			bookGroup.isPublic);
+			bookGroup.isPublic) && Objects.equals(hasJoinPasswd, bookGroup.hasJoinPasswd)
+			&& Objects.equals(joinQuestion, bookGroup.joinQuestion) && Objects.equals(joinPasswd,
+			bookGroup.joinPasswd) && Objects.equals(groupMembers, bookGroup.groupMembers)
+			&& Objects.equals(comments, bookGroup.comments);
 	}
 
 	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, ownerId, book, title, startDate, endDate, maxMemberCount, introduce, isPublic);
+		return Objects.hash(id, ownerId, book, title, startDate, endDate, maxMemberCount, introduce, isPublic,
+			hasJoinPasswd, joinQuestion, joinPasswd, groupMembers, comments);
 	}
 }
