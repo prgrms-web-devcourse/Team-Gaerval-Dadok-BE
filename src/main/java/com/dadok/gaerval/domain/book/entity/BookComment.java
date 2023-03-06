@@ -29,11 +29,11 @@ public class BookComment {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_id", nullable = false)
+	@JoinColumn(name = "book_id", nullable = false, unique = true)
 	private Book book;
 
 	@Column(name = "comment", nullable = false, length = 500)
