@@ -108,11 +108,11 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
-					fieldWithPath("bookGroups[].bookId").type(JsonFieldType.NUMBER).description("모임 책 id"),
-					fieldWithPath("bookGroups[].bookImageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
-					fieldWithPath("bookGroups[].ownerId").type(JsonFieldType.NUMBER).description("모임장 id"),
-					fieldWithPath("bookGroups[].ownerProfileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
-					fieldWithPath("bookGroups[].ownerNickname").type(JsonFieldType.STRING).description("모임장 닉네임"
+					fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
+					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+					fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
+					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
+					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
 			));
@@ -183,11 +183,11 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
-					fieldWithPath("bookGroups[].bookId").type(JsonFieldType.NUMBER).description("모임 책 id"),
-					fieldWithPath("bookGroups[].bookImageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
-					fieldWithPath("bookGroups[].ownerId").type(JsonFieldType.NUMBER).description("모임장 id"),
-					fieldWithPath("bookGroups[].ownerProfileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
-					fieldWithPath("bookGroups[].ownerNickname").type(JsonFieldType.STRING).description("모임장 닉네임"
+					fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
+					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+					fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
+					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
+					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
 			));
@@ -305,15 +305,17 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		LocalDate startDate = LocalDate.now().plusDays(1);
 		LocalDate endDate = LocalDate.now().plusDays(7);
 		String bookTitle = "Java ORM 표준 JPA 프로그래밍";
-		String imageUrl = "http://jpaimage.jpeg";
+		String bookImageUrl = "http://jpaimage.jpeg";
 		int maxMemberCount = 5;
 		long currentMemberCount = 2L;
 		long commentCount = 5L;
 
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			ownerId, isOwner, isGroupMember, startDate, endDate, false, true,
-			bookTitle, imageUrl, bookId, maxMemberCount, currentMemberCount, commentCount
+			startDate, endDate, false, true, maxMemberCount, currentMemberCount, commentCount,
+			new BookGroupDetailResponse.OwnerResponse(ownerId),
+			new BookGroupDetailResponse.BookResponse(bookId, bookImageUrl, bookTitle),
+			isOwner, isGroupMember
 		);
 
 		given(bookGroupService.findGroup(1L, bookGroupId))
@@ -337,23 +339,24 @@ class BookGroupControllerSliceTest extends ControllerTest {
 						fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id"),
 						fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목"),
 						fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글 "),
-						fieldWithPath("ownerId").type(JsonFieldType.NUMBER).description("모임장 Id(user Id)"),
-						fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("책 Id."),
+						fieldWithPath("owner").type(JsonFieldType.OBJECT).description("모임장 정보"),
+						fieldWithPath("owner.id").type(JsonFieldType.NUMBER).description("모임장 Id(user Id)"),
 						fieldWithPath("isOwner").type(JsonFieldType.BOOLEAN).description("요청유저가 모임장인지 여부"),
 						fieldWithPath("isGroupMember").type(JsonFieldType.BOOLEAN).description("요청자가 모임에 속해있는 유저인지 여부"),
 						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작일"),
 						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("모임 내용 공개 여부"),
-						fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("모임 책 제목"),
-						fieldWithPath("bookImageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
 						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 최대 인원"),
 						fieldWithPath("currentMemberCount").type(JsonFieldType.NUMBER).description("현재 모임 인원"),
-						fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("현재 모임 댓글 수")
-					)
+						fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("현재 모임 댓글 수"),
+						fieldWithPath("book").type(JsonFieldType.OBJECT).description("책 정보"),
+						fieldWithPath("book.id").type(JsonFieldType.NUMBER).description("책 Id."),
+						fieldWithPath("book.title").type(JsonFieldType.STRING).description("모임 책 제목"),
+						fieldWithPath("book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url")
+						)
 				)
 			);
-
 		//then
 	}
 

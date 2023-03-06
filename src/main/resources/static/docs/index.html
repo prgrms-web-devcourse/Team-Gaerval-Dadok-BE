@@ -3502,25 +3502,29 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 511
+Content-Length: 537
 
 {
   "bookGroupId" : 999,
   "title" : "김영한님 JPA 읽으실분",
   "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
-  "ownerId" : 1,
-  "isOwner" : false,
-  "isGroupMember" : true,
   "startDate" : "2023-03-08",
   "endDate" : "2023-03-14",
   "hasJoinPasswd" : false,
   "isPublic" : true,
-  "bookTitle" : "Java ORM 표준 JPA 프로그래밍",
-  "bookImageUrl" : "http://jpaimage.jpeg",
-  "bookId" : 10,
   "maxMemberCount" : 5,
   "currentMemberCount" : 2,
-  "commentCount" : 5
+  "commentCount" : 5,
+  "owner" : {
+    "id" : 1
+  },
+  "book" : {
+    "id" : 10,
+    "title" : "http://jpaimage.jpeg",
+    "imageUrl" : "Java ORM 표준 JPA 프로그래밍"
+  },
+  "isOwner" : false,
+  "isGroupMember" : true
 }</code></pre>
 </div>
 </div>
@@ -3560,16 +3564,16 @@ Content-Length: 511
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개글</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ownerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>owner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>owner.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 Id(user Id)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">책 Id.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>isOwner</code></p></td>
@@ -3608,18 +3612,6 @@ Content-Length: 511
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 내용 공개 여부</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookTitle</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookImageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMemberCount</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -3636,6 +3628,30 @@ Content-Length: 511
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 모임 댓글 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책 Id.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
 </tr>
 </tbody>
 </table>
@@ -3727,7 +3743,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2199
+Content-Length: 2349
 
 {
   "isFirst" : true,
@@ -3744,11 +3760,15 @@ Content-Length: 2199
     "isPublic" : false,
     "memberCount" : 2,
     "commentCount" : 100,
-    "bookId" : 4452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 4452,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 1341234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 997,
     "title" : "모임997",
@@ -3758,11 +3778,15 @@ Content-Length: 2199
     "isPublic" : false,
     "memberCount" : 5,
     "commentCount" : 2,
-    "bookId" : 2083,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 941234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 2083,
+      "imageUrl" : "http://bookImageUrl3.com"
+    },
+    "owner" : {
+      "id" : 941234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 995,
     "title" : "모임995",
@@ -3772,11 +3796,15 @@ Content-Length: 2199
     "isPublic" : true,
     "memberCount" : 5,
     "commentCount" : 0,
-    "bookId" : 442,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1334,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 442,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 1334,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 994,
     "title" : "모임994",
@@ -3786,11 +3814,15 @@ Content-Length: 2199
     "isPublic" : true,
     "memberCount" : 3,
     "commentCount" : 30,
-    "bookId" : 44,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 44,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 1341234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 993,
     "title" : "모임993",
@@ -3800,11 +3832,15 @@ Content-Length: 2199
     "isPublic" : false,
     "memberCount" : 4,
     "commentCount" : 4000,
-    "bookId" : 913452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 123234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 913452,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 123234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   } ]
 }</code></pre>
 </div>
@@ -3911,31 +3947,31 @@ Content-Length: 2199
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 댓글 수</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].book.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].book.imageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].owner.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerProfileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].owner.profileUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 프로필 url</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].owner.nickname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 닉네임</p></td>
@@ -4030,7 +4066,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2199
+Content-Length: 2349
 
 {
   "isFirst" : true,
@@ -4047,11 +4083,15 @@ Content-Length: 2199
     "isPublic" : false,
     "memberCount" : 2,
     "commentCount" : 100,
-    "bookId" : 4452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 4452,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 1341234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 997,
     "title" : "모임997",
@@ -4061,11 +4101,15 @@ Content-Length: 2199
     "isPublic" : false,
     "memberCount" : 5,
     "commentCount" : 2,
-    "bookId" : 2083,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 941234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 2083,
+      "imageUrl" : "http://bookImageUrl3.com"
+    },
+    "owner" : {
+      "id" : 941234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 995,
     "title" : "모임995",
@@ -4075,11 +4119,15 @@ Content-Length: 2199
     "isPublic" : true,
     "memberCount" : 5,
     "commentCount" : 0,
-    "bookId" : 442,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1334,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 442,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 1334,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 994,
     "title" : "모임994",
@@ -4089,11 +4137,15 @@ Content-Length: 2199
     "isPublic" : true,
     "memberCount" : 3,
     "commentCount" : 30,
-    "bookId" : 44,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 44,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 1341234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   }, {
     "bookGroupId" : 993,
     "title" : "모임993",
@@ -4103,11 +4155,15 @@ Content-Length: 2199
     "isPublic" : false,
     "memberCount" : 4,
     "commentCount" : 4000,
-    "bookId" : 913452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 123234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
+    "book" : {
+      "id" : 913452,
+      "imageUrl" : "http://bookImageUrl1.com"
+    },
+    "owner" : {
+      "id" : 123234,
+      "profileUrl" : "http://ownerProfile1.com",
+      "nickname" : "나는모임장이다1"
+    }
   } ]
 }</code></pre>
 </div>
@@ -4220,31 +4276,31 @@ Content-Length: 2199
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 댓글 수</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].book.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].book.imageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].owner.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerProfileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].owner.profileUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 프로필 url</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].owner.nickname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임장 닉네임</p></td>

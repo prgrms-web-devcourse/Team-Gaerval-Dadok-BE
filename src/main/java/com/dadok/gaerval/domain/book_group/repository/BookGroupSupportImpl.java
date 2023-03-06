@@ -22,6 +22,7 @@ import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -47,11 +48,16 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),
 
-				book.id.as("bookId"),
-				book.imageUrl.as("imageUrl"),
-				user.id.as("ownerId"),
-				user.profileImage.as("ownerProfileUrl"),
-				user.nickname.nickname.as("ownerNickname")
+				Projections.constructor(BookGroupResponse.BookResponse.class,
+					book.id.as("bookId"),
+					book.imageUrl.as("imageUrl")
+				),
+
+				Projections.constructor(BookGroupResponse.OwnerResponse.class,
+					user.id.as("ownerId"),
+					user.profileImage.as("ownerProfileUrl"),
+					user.nickname.nickname.as("ownerNickname")
+				)
 			))
 			.from(bookGroup)
 			.innerJoin(book).on(book.id.eq(bookGroup.book.id))
@@ -121,20 +127,18 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			tuple.get(bookGroup.id),
 			tuple.get(bookGroup.title),
 			tuple.get(bookGroup.introduce),
-			tuple.get(bookGroup.ownerId),
-			Objects.equals(requestUserId, tuple.get(bookGroup.ownerId)),
-			isGroupMember,
 			tuple.get(bookGroup.startDate),
 			tuple.get(bookGroup.endDate),
 			tuple.get(bookGroup.hasJoinPasswd),
 			tuple.get(bookGroup.isPublic),
-			tuple.get(book.title),
-			tuple.get(book.imageUrl),
-			tuple.get(book.id),
-
 			tuple.get(bookGroup.maxMemberCount),
 			tuple.get(groupMember.count()),
-			tuple.get(groupComment.count())
+			tuple.get(groupComment.count()),
+			new BookGroupDetailResponse.OwnerResponse(tuple.get(bookGroup.ownerId)),
+			new BookGroupDetailResponse.BookResponse(tuple.get(book.id), tuple.get(book.imageUrl),
+				tuple.get(book.title)),
+
+			Objects.equals(requestUserId, tuple.get(bookGroup.ownerId)), isGroupMember
 		);
 	}
 
@@ -152,12 +156,16 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),
+				Projections.constructor(BookGroupResponse.BookResponse.class,
+					book.id.as("bookId"),
+					book.imageUrl.as("imageUrl")
+				),
 
-				book.id.as("bookId"),
-				book.imageUrl.as("imageUrl"),
-				user.id.as("ownerId"),
-				user.profileImage.as("ownerProfileUrl"),
-				user.nickname.nickname.as("ownerNickname")
+				Projections.constructor(BookGroupResponse.OwnerResponse.class,
+					user.id.as("ownerId"),
+					user.profileImage.as("ownerProfileUrl"),
+					user.nickname.nickname.as("ownerNickname")
+				)
 			))
 			.from(bookGroup)
 			.innerJoin(book).on(book.id.eq(bookGroup.book.id))
