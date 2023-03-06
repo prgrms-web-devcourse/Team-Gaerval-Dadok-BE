@@ -23,7 +23,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindReques
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -42,18 +42,18 @@ public class BookshelfController {
 	 * </pre>
 	 *
 	 * @param jobGroup
-	 * @return status : ok , PopularBookshelvesOfJobResponses : 책장과 책장의 일부 책 list
+	 * @return status : ok , SuggestionBookshelvesByJobGroupResponses : 책장과 책장의 일부 책 list
 	 */
 	@GetMapping(value = "/suggestions/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	public ResponseEntity<PopularBookshelvesOfJobResponses> findPopularBookshelvesByJobGroup(
+	public ResponseEntity<SuggestionBookshelvesByJobGroupResponses> findSuggestionBookshelvesByJobGroup(
 		@RequestParam(name = "job_group") String jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		Long userId = userPrincipal.getUserId();
-		PopularBookshelvesOfJobResponses responses =
-			bookshelfService.findPopularBookshelvesByJob(userId, jobGroup);
+		SuggestionBookshelvesByJobGroupResponses responses =
+			bookshelfService.findSuggestionBookshelvesByJobGroup(userId, jobGroup);
 		return ResponseEntity.ok().body(responses);
 	}
 

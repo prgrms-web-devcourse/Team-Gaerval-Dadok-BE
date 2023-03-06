@@ -35,7 +35,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindReques
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -56,20 +56,28 @@ class BookshelfControllerSliceTest extends ControllerTest {
 	@MockBean
 	private BookshelfService bookshelfService;
 
-	@DisplayName("findPopularBookshelvesByJobGroup - 직군별 인기있는 책장 리스트 조회 - 성공")
+	@DisplayName("findSuggestionBookshelvesByJobGroup - 직군별 인기있는 책장 리스트 조회 - 성공")
 	@Test
 	@WithMockCustomOAuth2LoginUser
-	void findBookshelvesByJobGroup() throws Exception {
+	void findSuggestionBookshelvesByJobGroup() throws Exception {
 		// Given
 		String jobGroup = JobGroup.DEVELOPMENT.getDescription();
-		PopularBookshelvesOfJobResponses responses = new PopularBookshelvesOfJobResponses(
+		SuggestionBookshelvesByJobGroupResponses responses = new SuggestionBookshelvesByJobGroupResponses(
 			jobGroup, List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
-			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
-				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		))
+				List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+			),
+			new BookShelfSummaryResponse(13L, "규란님의 책장",
+				List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+			))
 		);
 
-		given(bookshelfService.findPopularBookshelvesByJob(any(), eq(jobGroup)))
+		given(bookshelfService.findSuggestionBookshelvesByJobGroup(any(), eq(jobGroup)))
 			.willReturn(responses);
 
 		// When // Then
@@ -258,8 +266,10 @@ class BookshelfControllerSliceTest extends ControllerTest {
 	void findSummaryBookshelfByUserId() throws Exception {
 		// Given
 		var responses = new BookShelfSummaryResponse(23L, "영지님의 책장",
-			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
-				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+					"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+				new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+					"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		);
 
 		given(bookshelfService.findSummaryBookshelf(5L))

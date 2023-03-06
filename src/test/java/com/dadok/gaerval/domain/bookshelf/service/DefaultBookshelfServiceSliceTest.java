@@ -18,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -294,27 +293,25 @@ class DefaultBookshelfServiceSliceTest {
 		verify(bookshelfItemRepository).findByBookshelfAndBook(bookshelf, book);
 	}
 
-	@DisplayName("findPopularBookshelvesByJob - 직업군에 맞는 책장 리스트 조회 - 성공")
+	@DisplayName("findSuggestionBookshelvesByJobGroup - 직업군에 맞는 책장 리스트 조회 - 성공")
 	@Test
-	void findPopularBookshelvesByJob_success() {
+	void findSuggestionBookshelvesByJobGroup_success() {
 		// Given
 		String jobGroup = JobGroup.HR.getDescription();
-		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size")));
 
-		var bookshelf = Bookshelf.create(user);
-		ReflectionTestUtils.setField(bookshelf, "id", 2L);
-		BookshelfItem.create(bookshelf, book);
+		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+		));
 
-		List<Bookshelf> bookshelves = List.of(bookshelf);
-
-		given(bookshelfRepository.findAllByJob(JobGroup.HR, pageable, 5L))
-			.willReturn(bookshelves);
+		given(bookshelfRepository.findSuggestionsByJobGroup(JobGroup.HR, 5L, 5))
+			.willReturn(expectResponses);
 
 		// When
-		var responses = bookshelfService.findPopularBookshelvesByJob(5L, jobGroup);
+		var responses = bookshelfService.findSuggestionBookshelvesByJobGroup(5L, jobGroup);
 
 		// Then
-		verify(bookshelfRepository).findAllByJob(JobGroup.HR, pageable, 5L);
+		verify(bookshelfRepository).findSuggestionsByJobGroup(JobGroup.HR, 5L, 5);
 
 		assertThat(responses.jobGroup()).isEqualTo(jobGroup);
 		assertThat(responses.bookshelfResponses()).hasSize(1);
@@ -322,13 +319,13 @@ class DefaultBookshelfServiceSliceTest {
 
 	}
 
-	@DisplayName("findPopularBookshelvesByJob- 존재하지 않은 직업군의 책장 리스트 조회 - 실패")
+	@DisplayName("findSuggestionBookshelvesByJobGroup- 존재하지 않은 직업군의 책장 리스트 조회 - 실패")
 	@ParameterizedTest
 	@ValueSource(strings = {"개 발 ", "백수", "노 직군", "영지", "다독"})
-	void findPopularBookshelvesByJob_JobGroupNotExist_fail(String jobGroup) {
+	void findSuggestionBookshelvesByJobGroup_JobGroupNotExist_fail(String jobGroup) {
 
 		assertThrows(InvalidArgumentException.class,
-			() -> bookshelfService.findPopularBookshelvesByJob(user.getId(), jobGroup));
+			() -> bookshelfService.findSuggestionBookshelvesByJobGroup(user.getId(), jobGroup));
 
 	}
 

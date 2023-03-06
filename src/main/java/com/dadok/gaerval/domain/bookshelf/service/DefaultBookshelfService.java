@@ -2,11 +2,8 @@ package com.dadok.gaerval.domain.bookshelf.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +15,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
@@ -67,19 +64,11 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(Long userId, String jobGroup) {
+	public SuggestionBookshelvesByJobGroupResponses findSuggestionBookshelvesByJobGroup(Long userId, String jobGroup) {
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
-		List<Bookshelf> bookshelves = bookshelfRepository.findAllByJob(searchJobGroup,
-			PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size"))), userId);
-		List<BookShelfSummaryResponse> bookShelfSummaryRespons = bookshelves.stream().map(bookshelf ->
-			new BookShelfSummaryResponse(bookshelf.getId(), bookshelf.getName(),
-				bookshelf.getBookshelfItems().stream().limit(5).map(bookshelfItem ->
-					new BookShelfSummaryResponse.BookSummaryResponse(
-						bookshelfItem.getBook().getId(), bookshelfItem.getBook().getTitle(),
-						bookshelfItem.getBook().getImageUrl()
-					)
-				).collect(Collectors.toList()))).collect(Collectors.toList());
-		return new PopularBookshelvesOfJobResponses(jobGroup, bookShelfSummaryRespons);
+
+		return new SuggestionBookshelvesByJobGroupResponses(
+			jobGroup, bookshelfRepository.findSuggestionsByJobGroup(searchJobGroup, userId, 5));
 	}
 
 	@Override
