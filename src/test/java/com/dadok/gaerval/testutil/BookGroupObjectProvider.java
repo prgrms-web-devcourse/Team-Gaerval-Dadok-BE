@@ -12,7 +12,7 @@ public class BookGroupObjectProvider {
 	public static BookGroup createMockBookGroup(Book book, Long ownerId) {
 		BookGroup bookGroup = BookGroup.create(
 			ownerId, book, LocalDate.now(), LocalDate.now(),
-			5, "책읽기 소모임", "책읽기 소모임", true
+			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?", "헨리데이빗소로우"
 		);
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
 		return bookGroup;

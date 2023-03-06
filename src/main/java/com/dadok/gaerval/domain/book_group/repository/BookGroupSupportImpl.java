@@ -21,11 +21,7 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
-
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
-
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -44,7 +40,8 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.id.as("bookGroupId"),
 				bookGroup.title.as("title"),
 				bookGroup.introduce.as("introduce"),
-				bookGroup.maxMemberCount.as("maximumMemberCount"),
+				bookGroup.maxMemberCount.as("maxMemberCount"),
+				bookGroup.hasJoinPasswd.as("hasJoinPasswd"),
 
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),
@@ -61,8 +58,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			.leftJoin(bookGroup.groupMembers, groupMember)
 			.leftJoin(bookGroup.comments, groupComment)
 			.where(
-				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction),
-				bookGroup.isPublic.isTrue()
+				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction)
 			)
 			.groupBy(bookGroup.id,
 				book.id,
@@ -90,6 +86,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.startDate,
 				bookGroup.endDate,
 				bookGroup.maxMemberCount,
+				bookGroup.hasJoinPasswd,
 
 				book.title,
 				book.imageUrl,
@@ -127,6 +124,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			isGroupMember,
 			tuple.get(bookGroup.startDate),
 			tuple.get(bookGroup.endDate),
+			tuple.get(bookGroup.hasJoinPasswd),
 			tuple.get(book.title),
 			tuple.get(book.imageUrl),
 			tuple.get(book.id),
@@ -145,7 +143,8 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.id.as("bookGroupId"),
 				bookGroup.title.as("title"),
 				bookGroup.introduce.as("introduce"),
-				bookGroup.maxMemberCount.as("maximumMemberCount"),
+				bookGroup.maxMemberCount.as("maxMemberCount"),
+				bookGroup.hasJoinPasswd.as("hasJoinPasswd"),
 
 				groupMember.count().as("memberCount"),
 				groupComment.count().as("commentCount"),
@@ -163,7 +162,6 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			.leftJoin(bookGroup.comments, groupComment)
 			.where(
 				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction),
-				bookGroup.isPublic.isTrue(),
 				QueryDslUtil.generateIdWhereCondition(user.id, userId)
 			)
 			.groupBy(bookGroup.id,

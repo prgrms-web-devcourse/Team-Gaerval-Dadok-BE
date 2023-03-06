@@ -26,7 +26,7 @@ class BookGroupTest {
 	void create_success() {
 		assertDoesNotThrow(() -> {
 			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now(),
-				2, "작은 모임", "작은 모임", true);
+				2, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -35,7 +35,7 @@ class BookGroupTest {
 	void create_lessThen1_fail() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now(),
-				0, "작은 모임", "작은 모임", true);
+				0, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -44,7 +44,7 @@ class BookGroupTest {
 	void create_userIdNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(),
-				2, "작은 모임", "작은 모임", true);
+				2, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -53,7 +53,7 @@ class BookGroupTest {
 	void create_titleNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(),
-				2, null, "작은 모임", true);
+				2, null, "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -63,7 +63,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(), 2,
 				"작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임",
-				"작은 모임", true);
+				"작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -72,7 +72,7 @@ class BookGroupTest {
 	void create_bookNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, null, LocalDate.now(), LocalDate.now(),
-				2, "작은 모임", "작은 모임", true);
+				2, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -81,7 +81,7 @@ class BookGroupTest {
 	void create_startDateNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, null, LocalDate.now(),
-				2, "작은 모임", "작은 모임", true);
+				2, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -90,7 +90,7 @@ class BookGroupTest {
 	void create_endDateNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), null,
-				2, "작은 모임", "작은 모임", true);
+				2, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -99,7 +99,7 @@ class BookGroupTest {
 	void create_startDateValid_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now().minusDays(1),
-				LocalDate.now(), 2, "작은 모임", "작은 모임", true);
+				LocalDate.now(), 2, "작은 모임", "작은 모임", true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -109,7 +109,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now().plusDays(1),
 				LocalDate.now().minusDays(1), 2, "작은 모임", "작은 모임",
-				true);
+				true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -118,7 +118,7 @@ class BookGroupTest {
 	void create_introduceNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
-				2, "작은 모임", null, true);
+				2, "작은 모임", null, true, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -127,7 +127,7 @@ class BookGroupTest {
 	void create_isPublicNull_fail() {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
-				2, "작은 모임", "작은 모임", null);
+				2, "작은 모임", "작은 모임", null, "월든 작가는?", "헨리데이빗소로우");
 		});
 	}
 
@@ -173,7 +173,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(book,
 			1L);
 		User kakaoUser = UserObjectProvider.createKakaoUser();
-		
+
 		//when
 		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
 
@@ -205,7 +205,7 @@ class BookGroupTest {
 		Book book = BookObjectProvider.createAllFieldBook();
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now(),
-			1, "책읽기 소모임", "책읽기 소모임", true
+			1, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?", "헨리데이빗소로우"
 		);
 		GroupMember.create(bookGroup, UserObjectProvider.createKakaoUser());
 

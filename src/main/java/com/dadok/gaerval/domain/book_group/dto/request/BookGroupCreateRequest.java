@@ -6,6 +6,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -36,7 +37,13 @@ public record BookGroupCreateRequest(
 	@Length(max = 1000, message = "introduce 최대 1000자까지만 입력가능합니다.")
 	String introduce,
 
-	@NotNull(message = "isPublic 은 null 일수 없습니다.")
-	Boolean isPublic
+	@NotNull(message = "hasJoinPasswd 은 null 일수 없습니다.")
+	Boolean hasJoinPasswd,
+
+	@Size(max = 30, message = "joinQuestion 은 최대 30자까지 입력가능합니다.")
+	String joinQuestion,
+
+	@Size(max = 10, message = "joinPasswd 은 최대 10자까지 입력가능합니다.")
+	String joinPasswd
 ) {
 }

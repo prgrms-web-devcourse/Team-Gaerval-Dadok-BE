@@ -34,8 +34,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "book_groups",
-	indexes = {@Index(name = "owner_id_index", columnList = "owner_id"),
-		@Index(name = "is_public_index", columnList = "is_public")}
+	indexes = {@Index(name = "owner_id_index", columnList = "owner_id")}
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -68,7 +67,13 @@ public class BookGroup extends BaseTimeColumn {
 	private String introduce;
 
 	@Column(nullable = false, name = "is_public")
-	private Boolean isPublic;
+	private Boolean hasJoinPasswd;
+
+	@Column(length = 30)
+	private String joinQuestion;
+
+	@Column(length = 10)
+	private String joinPasswd;
 
 	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<GroupMember> groupMembers = new ArrayList<>();
@@ -77,22 +82,32 @@ public class BookGroup extends BaseTimeColumn {
 	private List<GroupComment> comments = new ArrayList<>();
 
 	protected BookGroup(Long ownerId, Book book, LocalDate startDate, LocalDate endDate, Integer maxMemberCount,
-		String introduce, Boolean isPublic, String title) {
+		String introduce, Boolean hasJoinPasswd, String title, String joinQuestion, String joinPasswd) {
 		validateNotnull(ownerId, "ownerId");
 		validateLengthLessThen(title, 30, "title");
 		validateNotnull(book, "book");
 		CommonValidator.validatePeriod(startDate, endDate);
 		validateMaxMemberCount(maxMemberCount);
 		validateLengthLessThen(introduce, 1000, "introduce");
-		validateNotnull(isPublic, "isPublic");
+		validateHasJoinPasswd(hasJoinPasswd, joinQuestion, joinPasswd);
 		this.ownerId = ownerId;
 		this.book = book;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.maxMemberCount = maxMemberCount;
 		this.introduce = introduce;
-		this.isPublic = isPublic;
+		this.hasJoinPasswd = hasJoinPasswd;
 		this.title = title;
+		this.joinQuestion = joinQuestion;
+		this.joinPasswd = joinPasswd;
+	}
+
+	private void validateHasJoinPasswd(Boolean hasJoinPasswd, String joinQuestion, String joinPasswd) {
+		validateNotnull(hasJoinPasswd, "hasJoinPasswd");
+		if (hasJoinPasswd) {
+			validateLengthLessThen(joinQuestion, 30, "joinQuestion");
+			validateLengthLessThen(joinPasswd, 10, "joinPasswd");
+		}
 	}
 
 	private void validateMaxMemberCount(Integer maxMemberCount) {
@@ -101,10 +116,10 @@ public class BookGroup extends BaseTimeColumn {
 	}
 
 	public static BookGroup create(Long ownerId, Book book, LocalDate startDate, LocalDate endDate,
-		Integer maxMemberCount,
-		String title,
-		String introduce, Boolean isPublic) {
-		return new BookGroup(ownerId, book, startDate, endDate, maxMemberCount, introduce, isPublic, title);
+		Integer maxMemberCount, String title, String introduce, Boolean hasJoinPasswd, String joinQuestion,
+		String joinPasswd) {
+		return new BookGroup(ownerId, book, startDate, endDate, maxMemberCount, introduce, hasJoinPasswd, title,
+			joinQuestion, joinPasswd);
 	}
 
 	public void addComment(GroupComment groupComment) {
@@ -137,13 +152,16 @@ public class BookGroup extends BaseTimeColumn {
 			&& Objects.equals(book, bookGroup.book) && Objects.equals(title, bookGroup.title)
 			&& Objects.equals(startDate, bookGroup.startDate) && Objects.equals(endDate,
 			bookGroup.endDate) && Objects.equals(maxMemberCount, bookGroup.maxMemberCount)
-			&& Objects.equals(introduce, bookGroup.introduce) && Objects.equals(isPublic,
-			bookGroup.isPublic);
+			&& Objects.equals(introduce, bookGroup.introduce) && Objects.equals(hasJoinPasswd,
+			bookGroup.hasJoinPasswd) && Objects.equals(joinQuestion, bookGroup.joinQuestion)
+			&& Objects.equals(joinPasswd, bookGroup.joinPasswd) && Objects.equals(groupMembers,
+			bookGroup.groupMembers) && Objects.equals(comments, bookGroup.comments);
 	}
 
 	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, ownerId, book, title, startDate, endDate, maxMemberCount, introduce, isPublic);
+		return Objects.hash(id, ownerId, book, title, startDate, endDate, maxMemberCount, introduce, hasJoinPasswd,
+			joinQuestion, joinPasswd, groupMembers, comments);
 	}
 }

@@ -15,11 +15,11 @@ public record BookGroupDetailResponse(
 	LocalDate startDate,
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	LocalDate endDate,
+	Boolean hasJoinPasswd,
 
 	String bookTitle,
 	String bookImageUrl,
 	Long bookId,
-
 
 	Integer maxMemberCount,
 	Long currentMemberCount,

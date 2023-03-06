@@ -53,31 +53,31 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 		List<BookGroupResponse> responses = List.of(
 			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 5, 2L, 100L, 4452L,
+				999L, "모임999", "모임 999에용", 5, true, 2L, 100L, 4452L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5, 5L, 2L, 2083L,
+				997L, "모임997", "모임 997에용", 5, true, 5L, 2L, 2083L,
 				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5, 5L, 0L, 442L,
+				995L, "모임995", "모임 995에용", 5, true, 5L, 0L, 442L,
 				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 5, 3L, 30L, 44L,
+				994L, "모임994", "모임 994에용", 5, false, 3L, 30L, 44L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 5, 4L, 4000L, 913452L,
+				993L, "모임993", "모임 993에용", 5, false, 4L, 4000L, 913452L,
 				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
@@ -131,6 +131,8 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
 						.description("모임 최대 멤버 수"),
+					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+						.description("모임 비밀번호(잠김) 여부"),
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
 					fieldWithPath("bookGroups[].bookId").type(JsonFieldType.NUMBER).description("모임 책 id"),
@@ -153,31 +155,31 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 		List<BookGroupResponse> responses = List.of(
 			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", 5, 2L, 100L, 4452L,
+				999L, "모임999", "모임 999에용", 5, true, 2L, 100L, 4452L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				997L, "모임997", "모임 997에용", 5, 5L, 2L, 2083L,
+				997L, "모임997", "모임 997에용", 5, true, 5L, 2L, 2083L,
 				"http://bookImageUrl1.com", 941234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			),
 
 			new BookGroupResponse(
-				995L, "모임995", "모임 995에용", 5, 5L, 0L, 442L,
+				995L, "모임995", "모임 995에용", 5, true, 5L, 0L, 442L,
 				"http://bookImageUrl1.com", 1334L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				994L, "모임994", "모임 994에용", 5, 3L, 30L, 44L,
+				994L, "모임994", "모임 994에용", 5, false, 3L, 30L, 44L,
 				"http://bookImageUrl1.com", 1341234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
 			,
 			new BookGroupResponse(
-				993L, "모임993", "모임 993에용", 5, 4L, 4000L, 913452L,
+				993L, "모임993", "모임 993에용", 5, false, 4L, 4000L, 913452L,
 				"http://bookImageUrl1.com", 123234L, "http://ownerProfile1.com",
 				"나는모임장이다1"
 			)
@@ -231,6 +233,8 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
 						.description("모임 최대 멤버 수"),
+					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+						.description("모임 비밀번호(잠김) 여부"),
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
 					fieldWithPath("bookGroups[].bookId").type(JsonFieldType.NUMBER).description("모임 책 id"),
@@ -252,7 +256,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
 			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
 		var request = new BookGroupCreateRequest(bookCreateRequest,
-			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true
+			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우"
 		);
 
 		given(bookGroupService.createBookGroup(any(), eq(request)))
@@ -320,9 +324,17 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글").attributes(
 						constrainsAttribute(BookGroupCreateRequest.class, "introduce")
 					),
-					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부").attributes(
-						constrainsAttribute(BookGroupCreateRequest.class, "isPublic")
-					)
+					fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부").attributes(
+						constrainsAttribute(BookGroupCreateRequest.class, "hasJoinPasswd")
+					),
+					fieldWithPath("joinQuestion").type(JsonFieldType.STRING).optional()
+						.description("모임 참여 제한 질문 : hasJoinPasswd = true 시 필수사항").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "joinQuestion")
+						),
+					fieldWithPath("joinPasswd").type(JsonFieldType.STRING).optional()
+						.description("모임 참여 제한 비밀번호 : hasJoinPasswd = true 시 필수사항").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "joinPasswd")
+						)
 				),
 				responseHeaders(
 					headerWithName(HttpHeaders.LOCATION).description("생성된 모임 상세 조회 리소스 uri")
@@ -348,9 +360,10 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		int maxMemberCount = 5;
 		long currentMemberCount = 2L;
 		long commentCount = 5L;
+
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			ownerId, isOwner, isGroupMember, startDate, endDate,
+			ownerId, isOwner, isGroupMember, startDate, endDate, false,
 			bookTitle, imageUrl, bookId, maxMemberCount, currentMemberCount, commentCount
 		);
 
@@ -381,6 +394,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 						fieldWithPath("isGroupMember").type(JsonFieldType.BOOLEAN).description("요청자가 모임에 속해있는 유저인지 여부"),
 						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작일"),
 						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료일"),
+						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
 						fieldWithPath("bookTitle").type(JsonFieldType.STRING).description("모임 책 제목"),
 						fieldWithPath("bookImageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
 						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 최대 인원"),
