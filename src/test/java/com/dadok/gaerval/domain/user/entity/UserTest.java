@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.dadok.gaerval.domain.job.entity.Job;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
@@ -109,6 +111,98 @@ class UserTest {
 		//then
 		assertNotEquals(beforeUserJob, user.getJob());
 		assertEquals(user.getJob(), frontEndJob);
+	}
+
+	@DisplayName("isSameNickname - 유저의 Nickname이 null일때 false 이다")
+	@Test
+	void isSameNickname_userNicknameNull_false() {
+	    //given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Nickname nickname = new Nickname("kakaoUser");
+	    // when & then
+		assertFalse(kakaoUser.isSameNickname(nickname));
+	}
+
+	@DisplayName("isSameNickname - 유저의 Nickname이 nickname과 다르다면 false 이다")
+	@Test
+	void isSameNickname_userNickname_notSame_false() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Nickname nickname = new Nickname("kakaoUser");
+		kakaoUser.changeNickname(nickname);
+
+		Nickname diffNickname = new Nickname("diff");
+		// when & then
+		assertFalse(kakaoUser.isSameNickname(diffNickname));
+	}
+
+	@DisplayName("isSameNickname - nickname이 null이면 예외를 던진다")
+	@Test
+	void isSameNickname_nicknameNull_throw() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		// when & then
+		assertThrows(InvalidArgumentException.class,
+			() -> kakaoUser.isSameNickname(null));
+	}
+
+	@DisplayName("isSameNickname - 유저의 Nickname과 Nickname이 같다면 true 이다")
+	@Test
+	void isSameNickname_true() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Nickname nickname = new Nickname("kakaoUser");
+		kakaoUser.changeNickname(nickname);
+
+		Nickname sameNickname = new Nickname("kakaoUser");
+		// when & then
+		assertTrue(kakaoUser.isSameNickname(sameNickname));
+	}
+
+	@DisplayName("isSameJob - Job이 null이면 예외를 던진다.")
+	@Test
+	void isSameJob_jobNull_throw() {
+	    //given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		//when & then
+		assertThrows(InvalidArgumentException.class,
+			() -> kakaoUser.isSameJob(null));
+	}
+
+	@DisplayName("isSameJob - 유저의 Job과 Job이 같다면 true 이다")
+	@Test
+	void isSameJob_true() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Job job = JobObjectProvider.backendJob();
+		kakaoUser.changeJob(job);
+
+		Job sameJob = JobObjectProvider.backendJob();
+		//when & then
+		assertTrue(kakaoUser.isSameJob(sameJob));
+	}
+
+	@DisplayName("isSameJob - 유저의 Job과 Job이 다르다면 false 이다")
+	@Test
+	void isSameJob_false() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Job job = JobObjectProvider.backendJob();
+		kakaoUser.changeJob(job);
+
+		Job diffJob = JobObjectProvider.frontendJob();
+		//when & then
+		assertFalse(kakaoUser.isSameJob(diffJob));
+	}
+
+	@DisplayName("isSameJob - 유저의 Job이 null이라면 false이다. ")
+	@Test
+	void isSameJob_userJobNull_false() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Job diffJob = JobObjectProvider.frontendJob();
+		//when & then
+		assertFalse(kakaoUser.isSameJob(diffJob));
 	}
 
 }

@@ -160,4 +160,13 @@ public class User extends BaseTimeColumn {
 		this.nickname = nickname;
 	}
 
+	public boolean isSameNickname(Nickname nickname) {
+		CommonValidator.validateNotnull(nickname, "nickname");
+		return Objects.equals(this.nickname, nickname);
+	}
+
+	public boolean isSameJob(Job job) {
+		CommonValidator.validateNotnull(job, "job");
+		return Objects.equals(this.job, job);
+	}
 }

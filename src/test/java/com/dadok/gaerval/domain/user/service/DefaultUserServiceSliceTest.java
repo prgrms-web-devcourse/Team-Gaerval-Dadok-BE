@@ -403,6 +403,110 @@ class DefaultUserServiceSliceTest {
 		verify(bookshelfService).updateJobIdByUserId(userId, backendJob.getId());
 	}
 
+	@DisplayName("changeProfile - 변경요청이온 Nickname이 유저의 nickname이 같으면 Job만 바뀐다. ")
+	@Test
+	void changeProfile_onlyChangeJob_success() {
+		//given
+		User user = UserObjectProvider.createKakaoUser();
+		Long userId = 1L;
+		user.changeNickname(new Nickname("nickname"));
+		ReflectionTestUtils.setField(user, "id", userId);
+
+		JobGroup development = JobGroup.DEVELOPMENT;
+		JobGroup.JobName backendDeveloper = JobGroup.JobName.BACKEND_DEVELOPER;
+		Job backendJob = JobObjectProvider.backendJob();
+
+		String changeNickname = "nickname";
+		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
+			new UserJobChangeRequest(development,
+				backendDeveloper));
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(user);
+
+		given(jobService.getBy(backendJob.getJobGroup(), backendJob.getJobName()))
+			.willReturn(backendJob);
+
+		willDoNothing().given(bookshelfService)
+			.updateJobIdByUserId(userId, backendJob.getId());
+
+		//when
+		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
+
+		//then
+		assertThat(user.getJob()).isEqualTo(backendJob);
+
+		assertThat(response)
+			.hasFieldOrPropertyWithValue("userId", userId)
+			.hasFieldOrPropertyWithValue("nickname", changeNickname)
+			.hasFieldOrPropertyWithValue("oauthNickname", user.getOauthNickname())
+			.hasFieldOrPropertyWithValue("email", user.getEmail())
+			.hasFieldOrPropertyWithValue("profileImage", user.getProfileImage())
+			.hasFieldOrPropertyWithValue("gender", user.getGender())
+			.hasFieldOrPropertyWithValue("authProvider", user.getAuthProvider());
+
+		assertThat(response.job())
+			.hasFieldOrPropertyWithValue("jobGroupKoreanName", development.getGroupName())
+			.hasFieldOrPropertyWithValue("jobGroupName", development)
+			.hasFieldOrPropertyWithValue("jobNameKoreanName", backendDeveloper.getJobName())
+			.hasFieldOrPropertyWithValue("jobName", backendDeveloper)
+			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
+
+		verify(userRepository).getReferenceById(userId);
+		verify(jobService).getBy(development, backendDeveloper);
+		verify(bookshelfService).updateJobIdByUserId(userId, backendJob.getId());
+	}
+
+	@DisplayName("changeProfile - 변경요청이온 Job이 유저의 Job과 같고, Nickname만 다르다면 Nickname만 바뀐다. ")
+	@Test
+	void changeProfile_onlyChangeNickname_success() {
+		//given
+		User user = UserObjectProvider.createKakaoUser();
+		Long userId = 1L;
+		user.changeNickname(new Nickname("nickname"));
+		Job backendJob = JobObjectProvider.backendJob();
+		user.changeJob(backendJob);
+		ReflectionTestUtils.setField(user, "id", userId);
+
+		String changeNickname = "diffNick";
+		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
+			new UserJobChangeRequest(backendJob.getJobGroup(), backendJob.getJobName()));
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(user);
+
+		given(jobService.getBy(backendJob.getJobGroup(), backendJob.getJobName()))
+			.willReturn(backendJob);
+
+		Nickname nickname = new Nickname(changeNickname);
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(false);
+
+		//when
+		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
+
+		//then
+		assertThat(user.getJob()).isEqualTo(backendJob);
+
+		assertThat(response)
+			.hasFieldOrPropertyWithValue("userId", userId)
+			.hasFieldOrPropertyWithValue("nickname", changeNickname)
+			.hasFieldOrPropertyWithValue("oauthNickname", user.getOauthNickname())
+			.hasFieldOrPropertyWithValue("email", user.getEmail())
+			.hasFieldOrPropertyWithValue("profileImage", user.getProfileImage())
+			.hasFieldOrPropertyWithValue("gender", user.getGender())
+			.hasFieldOrPropertyWithValue("authProvider", user.getAuthProvider());
+
+		assertThat(response.job())
+			.hasFieldOrPropertyWithValue("jobGroupKoreanName", backendJob.getJobGroup().getGroupName())
+			.hasFieldOrPropertyWithValue("jobGroupName", backendJob.getJobGroup())
+			.hasFieldOrPropertyWithValue("jobNameKoreanName", backendJob.getJobName().getJobName())
+			.hasFieldOrPropertyWithValue("jobName", backendJob.getJobName())
+			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
+
+		verify(userRepository).getReferenceById(userId);
+	}
+
 	@DisplayName("changeProfile - 닉네임 중복 예외가 발생한다. ")
 	@Test
 	void changeProfile_throw() {
@@ -430,6 +534,45 @@ class DefaultUserServiceSliceTest {
 
 		verify(userRepository).getReferenceById(userId);
 		verify(userRepository).existsByNickname(nickname);
+	}
+
+	@DisplayName("changeProfile - 닉네임 중복 예외 - DataIntegrityViolationException 가 발생한다. ")
+	@Test
+	void changeProfile_throw_DataIntegrityViolationException() {
+		//given
+		User kakaoSpyUser = UserObjectProvider.createKakaoUser();
+
+		kakaoSpyUser = spy(kakaoSpyUser);
+		Long userId = 1L;
+		ReflectionTestUtils.setField(kakaoSpyUser, "id", userId);
+
+		Job job = JobObjectProvider.backendJob();
+
+		String changeNickname = "nickname";
+		Nickname nickname = new Nickname(changeNickname);
+		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
+			new UserJobChangeRequest(job.getJobGroup(),
+				job.getJobName()));
+
+		given(userRepository.getReferenceById(userId))
+			.willReturn(kakaoSpyUser);
+
+		given(userRepository.existsByNickname(nickname))
+			.willReturn(false);
+
+		given(kakaoSpyUser.isSameNickname(nickname))
+			.willReturn(false);
+
+		willThrow(DataIntegrityViolationException.class)
+			.given(kakaoSpyUser).changeNickname(nickname);
+
+		//when
+		assertThrows(DuplicateException.class, () -> defaultUserService.changeProfile(userId, request));
+
+		verify(userRepository).getReferenceById(userId);
+		verify(userRepository).existsByNickname(nickname);
+		verify(kakaoSpyUser).changeNickname(nickname);
+		verify(kakaoSpyUser).isSameNickname(nickname);
 	}
 
 	@DisplayName("existsNickname - 닉네임이 존재하면 true 존재하지 않으면 false")
@@ -494,11 +637,10 @@ class DefaultUserServiceSliceTest {
 
 	@DisplayName("changeNickname - 이름 변경중 예외가 발생하여 변경에 실패한다. ")
 	@Test
-	void changeNickname_badNickname_fail() throws Exception {
+	void changeNickname_DuplicateNickname_fail() throws Exception {
 		//given
 		Long userId = 1L;
 		User kakaoSpyUser = UserObjectProvider.createKakaoUser();
-
 
 		kakaoSpyUser = spy(kakaoSpyUser);
 

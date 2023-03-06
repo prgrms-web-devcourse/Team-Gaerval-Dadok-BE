@@ -111,26 +111,30 @@ public class DefaultUserService implements UserService {
 	public UserDetailResponse changeProfile(Long userId, UserChangeProfileRequest request) {
 		User user = userRepository.getReferenceById(userId);
 		Nickname nickname = new Nickname(request.nickname());
-		validateExistsNickname(nickname);
 
-		try {
-			user.changeNickname(nickname);
-			UserJobChangeRequest jobRequest = request.job();
+		if (!user.isSameNickname(nickname)) {
+			validateExistsNickname(nickname);
 
-			Job job = jobService.getBy(jobRequest.jobGroup(), jobRequest.jobName());
-			user.changeJob(job);
-
-			bookshelfService.updateJobIdByUserId(userId, job.getId());
-
-			return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
-				user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),
-				user.getAuthProvider(),
-				new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
-		} catch (DataIntegrityViolationException e) {
-			log.warn("닉네임 중복 예외. {} - {} ", e.getClass().getName(), e.getMessage());
-			throw new DuplicateNicknameException(e);
+			try {
+				user.changeNickname(nickname);
+			} catch (DataIntegrityViolationException e) {
+				log.warn("닉네임 중복 예외. {} - {} ", e.getClass().getName(), e.getMessage());
+				throw new DuplicateNicknameException(e);
+			}
 		}
 
+		UserJobChangeRequest jobRequest = request.job();
+		Job job = jobService.getBy(jobRequest.jobGroup(), jobRequest.jobName());
+
+		if (!user.isSameJob(job)) {
+			user.changeJob(job);
+			bookshelfService.updateJobIdByUserId(userId, job.getId());
+		}
+
+		return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
+			user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),
+			user.getAuthProvider(),
+			new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
 	}
 
 	@Transactional(readOnly = true)
