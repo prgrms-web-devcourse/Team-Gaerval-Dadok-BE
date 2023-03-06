@@ -12,7 +12,7 @@ import static com.querydsl.core.types.Projections.*;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -46,18 +46,18 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 	}
 
 	@Override
-	public Optional<SummaryBookshelfResponse> findSummaryById(Long userId) {
+	public Optional<BookShelfSummaryResponse> findSummaryById(Long userId) {
 		var transform = query.from(bookshelf)
 			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
 			.leftJoin(bookshelfItem.book, book)
 			.where(bookshelf.user.id.eq(userId))
 			.orderBy(bookshelfItem.id.desc())
 			.transform(
-				groupBy(bookshelf.id).list(constructor(SummaryBookshelfResponse.class,
+				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
 					bookshelf.id,
 					bookshelf.name,
 					list(
-						constructor(SummaryBookshelfResponse.SummaryBookResponse.class,
+						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
 							book.id, book.title, book.imageUrl)
 					))));
 

@@ -34,8 +34,8 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -63,8 +63,8 @@ class BookshelfControllerSliceTest extends ControllerTest {
 		// Given
 		String jobGroup = JobGroup.DEVELOPMENT.getDescription();
 		PopularBookshelvesOfJobResponses responses = new PopularBookshelvesOfJobResponses(
-			jobGroup, List.of(new SummaryBookshelfResponse(23L, "영지님의 책장",
-			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+			jobGroup, List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		))
 		);
@@ -215,8 +215,8 @@ class BookshelfControllerSliceTest extends ControllerTest {
 	@WithMockCustomOAuth2LoginUser
 	void findMySummaryBookshelf() throws Exception {
 		// Given
-		var responses = new SummaryBookshelfResponse(23L, "영지님의 책장",
-			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+		var responses = new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		);
 
@@ -257,8 +257,8 @@ class BookshelfControllerSliceTest extends ControllerTest {
 	@WithMockCustomOAuth2LoginUser
 	void findSummaryBookshelfByUserId() throws Exception {
 		// Given
-		var responses = new SummaryBookshelfResponse(23L, "영지님의 책장",
-			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+		var responses = new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		);
 

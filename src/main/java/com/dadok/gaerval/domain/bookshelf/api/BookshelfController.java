@@ -22,8 +22,8 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -62,16 +62,16 @@ public class BookshelfController {
 	 *     자신의 책장 요약 데이터를 조회한다.
 	 * </pre>
 	 *
-	 * @return status : ok , SummaryBookshelfResponse : 책장과 책장의 일부 책 list
+	 * @return status : ok , BookShelfSummaryResponse : 책장과 책장의 일부 책 list
 	 */
 	@GetMapping(value = "/bookshelves/me",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	public ResponseEntity<SummaryBookshelfResponse> findMySummaryBookshelf(
+	public ResponseEntity<BookShelfSummaryResponse> findMySummaryBookshelf(
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		Long userId = userPrincipal.getUserId();
-		SummaryBookshelfResponse responses =
+		BookShelfSummaryResponse responses =
 			bookshelfService.findSummaryBookshelf(userId);
 		return ResponseEntity.ok().body(responses);
 	}
@@ -81,13 +81,13 @@ public class BookshelfController {
 	 *     사용자의 책장 요약 데이터를 조회한다.
 	 * </pre>
 	 *
-	 * @return status : ok , SummaryBookshelfResponse : 책장과 책장의 일부 책 list
+	 * @return status : ok , BookShelfSummaryResponse : 책장과 책장의 일부 책 list
 	 */
 	@GetMapping(value = "/users/{userId}/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	public ResponseEntity<SummaryBookshelfResponse> findSummaryBookshelfByUserId(@PathVariable("userId") Long userId) {
-		SummaryBookshelfResponse responses =
+	public ResponseEntity<BookShelfSummaryResponse> findSummaryBookshelfByUserId(@PathVariable("userId") Long userId) {
+		BookShelfSummaryResponse responses =
 			bookshelfService.findSummaryBookshelf(userId);
 		return ResponseEntity.ok().body(responses);
 	}

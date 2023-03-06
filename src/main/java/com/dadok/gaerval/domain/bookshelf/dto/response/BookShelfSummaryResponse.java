@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record SummaryBookshelfResponse(Long bookshelfId, String bookshelfName, List<SummaryBookResponse> books) {
+public record BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books) {
 
-	public SummaryBookshelfResponse(Long bookshelfId, String bookshelfName, List<SummaryBookResponse> books) {
+	public BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books) {
 		this.bookshelfId = bookshelfId;
 		this.bookshelfName = bookshelfName;
 		if (books == null || books.get(0).bookId == null) {
@@ -16,7 +16,7 @@ public record SummaryBookshelfResponse(Long bookshelfId, String bookshelfName, L
 		}
 	}
 
-	public record SummaryBookResponse(
+	public record BookSummaryResponse(
 		Long bookId, String title, String imageUrl) {
 	}
 }

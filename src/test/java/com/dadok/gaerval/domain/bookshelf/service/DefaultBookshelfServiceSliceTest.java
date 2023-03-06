@@ -29,7 +29,7 @@ import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -336,8 +336,8 @@ class DefaultBookshelfServiceSliceTest {
 	@Test
 	void findSummaryBookshelf_userId_success() {
 		// Given
-		var summaryResponse = new SummaryBookshelfResponse(23L, "영지님의 책장",
-			List.of(new SummaryBookshelfResponse.SummaryBookResponse(1L, "해리포터",
+		var summaryResponse = new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
 		);
 
