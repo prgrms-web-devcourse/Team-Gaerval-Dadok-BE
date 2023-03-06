@@ -176,7 +176,6 @@ include::{snippets}/user-controller-slice-test/user-profile/http-response.adoc[]
 
 ==== Response fields
 
-include::{snippets}/user-controller-slice-test/user-profile/response-body.adoc[]
 include::{snippets}/user-controller-slice-test/user-profile/response-fields.adoc[]
 
 == Bookshelf - 책장(북카이브)
@@ -198,6 +197,8 @@ include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-jo
 ==== Response
 
 include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job/http-response.adoc[]
+
+==== Response fields
 include::{snippets}/bookshelf-controller-slice-test/find-book-shelf-with-user-job/response-fields.adoc[]
 
 === 책장 책 조회
@@ -221,6 +222,8 @@ include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/req
 ==== Response
 
 include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/http-response.adoc[]
+
+==== Response fields
 include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/response-fields.adoc[]
 
 '''
@@ -243,9 +246,8 @@ include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-grou
 
 include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-response.adoc[]
 
-==== Response body
+==== Response fields
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-body.adoc[]
 include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-fields.adoc[]
 
 === 책장 책 넣기
@@ -302,9 +304,8 @@ include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/re
 
 include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/http-response.adoc[]
 
-==== Response body
+==== Response fields
 
-include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-body.adoc[]
 include::{snippets}/bookshelf-controller-slice-test/find-my-summary-bookshelf/response-fields.adoc[]
 
 === 다른 유저 프로필 책장 조회
@@ -325,9 +326,8 @@ include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-us
 
 include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/http-response.adoc[]
 
-==== Response body
+==== Response fields
 
-include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-body.adoc[]
 include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-fields.adoc[]
 
 == Book - 책
@@ -350,9 +350,8 @@ include::{snippets}/book-controller-slice-test/find-book_success/request-headers
 
 include::{snippets}/book-controller-slice-test/find-book_success/http-response.adoc[]
 
-==== Response body
+==== Response fields
 
-include::{snippets}/book-controller-slice-test/find-book_success/response-body.adoc[]
 include::{snippets}/book-controller-slice-test/find-book_success/response-fields.adoc[]
 
 === 책 상세 정보
@@ -369,9 +368,8 @@ include::{snippets}/book-controller-slice-test/find-book-detail_success/request-
 
 include::{snippets}/book-controller-slice-test/find-book-detail_success/http-response.adoc[]
 
-==== Response body
+==== Response fields
 
-include::{snippets}/book-controller-slice-test/find-book-detail_success/response-body.adoc[]
 include::{snippets}/book-controller-slice-test/find-book-detail_success/response-fields.adoc[]
 
 === 책 추천(직군별 많이 꽂혀있는 순)
@@ -392,9 +390,7 @@ include::{snippets}/book-controller-slice-test/find-suggestion-books_success/req
 
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/http-response.adoc[]
 
-==== Response body
-
-include::{snippets}/book-controller-slice-test/find-suggestion-books_success/response-body.adoc[]
+==== Response fields
 
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/response-fields.adoc[]
 
@@ -450,67 +446,90 @@ include::{snippets}/user-controller-slice-test/register-user-job/response-fields
 
 ==== Request
 
-include::{snippets}/book-group-controller-test/create-book-group/http-request.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-controller-test/create-book-group/request-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/request-headers.adoc[]
 
 ==== Request Body
 
-include::{snippets}/book-group-controller-test/create-book-group/request-body.adoc[]
-include::{snippets}/book-group-controller-test/create-book-group/request-fields.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-controller-test/create-book-group/http-response.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/http-response.adoc[]
 
 ==== Response Header
 
-include::{snippets}/book-group-controller-test/create-book-group/response-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/create-book-group/response-headers.adoc[]
+
+
+=== 모임 상세 조회
+
+==== Request
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/request-headers.adoc[]
+
+
+==== Path Parameter
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/book-group-controller-slice-test/find-group_success/response-fields.adoc[]
+
 
 === 모임 전체 조회
 
 ==== Request
 
-include::{snippets}/book-group-controller-test/find-all-book-groups/http-request.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-controller-test/find-all-book-groups/request-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups/request-headers.adoc[]
 
 ==== Request Param
 
-include::{snippets}/book-group-controller-test/find-all-book-groups/request-parameters.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups/request-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-controller-test/find-all-book-groups/http-response.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups/http-response.adoc[]
 
-==== Response Body
+==== Response fields
 
-include::{snippets}/book-group-controller-test/find-all-book-groups/response-body.adoc[]
-include::{snippets}/book-group-controller-test/find-all-book-groups/response-fields.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups/response-fields.adoc[]
 
 === 내가 참여한 모임 리스트 조회
 
 ==== Request
 
-include::{snippets}/book-group-controller-test/find-my-book-groups/http-request.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-my-book-groups/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-controller-test/find-my-book-groups/request-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-my-book-groups/request-headers.adoc[]
 
 ==== Request Param
 
-include::{snippets}/book-group-controller-test/find-my-book-groups/request-parameters.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-my-book-groups/request-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-controller-test/find-my-book-groups/http-response.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-my-book-groups/http-response.adoc[]
 
-==== Response Body
+==== Response fields
 
-include::{snippets}/book-group-controller-test/find-my-book-groups/response-body.adoc[]
-include::{snippets}/book-group-controller-test/find-my-book-groups/response-fields.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-my-book-groups/response-fields.adoc[]
+

@@ -51,7 +51,8 @@ public class BookshelfItem extends BaseTimeColumn {
 		Assert.notNull(book, "BookshelfItem의 book은 null일 수 없습니다.");
 		Assert.notNull(type, "BookshelfItem의 type은 null일 수 없습니다.");
 
-		addBookshelf(bookshelf);
+		this.bookshelf = bookshelf;
+		bookshelf.addBookShelfItem(this);
 		this.book = book;
 		this.type = type;
 	}
@@ -62,13 +63,6 @@ public class BookshelfItem extends BaseTimeColumn {
 
 	public static BookshelfItem create(Bookshelf bookshelf, Book book) {
 		return new BookshelfItem(bookshelf, book, BookshelfItemType.READ);
-	}
-
-	private void addBookshelf(Bookshelf bookshelf) {
-		if (this.bookshelf == null && !bookshelf.getBookshelfItems().contains(this)) {
-			this.bookshelf = bookshelf;
-			bookshelf.addBookShelfItem(this);
-		}
 	}
 
 	@JacocoExcludeGenerated

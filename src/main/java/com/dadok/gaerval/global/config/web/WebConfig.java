@@ -3,11 +3,15 @@ package com.dadok.gaerval.global.config.web;
 import static org.springframework.http.HttpMethod.*;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @EnableConfigurationProperties
 @EnableWebMvc
@@ -32,6 +36,11 @@ public class WebConfig implements WebMvcConfigurer {
 			.addResourceLocations("classpath:/templates/");
 		registry.addResourceHandler("/favicon.ico")
 			.addResourceLocations("classpath:/static/");
+	}
+
+	@Bean
+	public ObjectMapper ObjectMapper() {
+		return new ObjectMapper().registerModule(new JavaTimeModule());
 	}
 
 }

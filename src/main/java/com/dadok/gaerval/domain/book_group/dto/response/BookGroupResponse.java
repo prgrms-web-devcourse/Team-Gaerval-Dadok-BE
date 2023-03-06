@@ -16,7 +16,7 @@ public class BookGroupResponse {
 
 	private String introduce;
 
-	private Integer maximumMemberCount;
+	private Integer maxMemberCount;
 
 	private Long memberCount;
 

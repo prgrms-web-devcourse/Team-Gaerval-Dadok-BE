@@ -31,6 +31,11 @@ public class BookObjectProvider {
 		return book;
 	}
 
+	public static Book createBook() {
+		Book book = Book.create(title, author, isbn, contents, url, imageUrl, apiProvider, publisher);
+		return book;
+	}
+
 	public static Book createAllFieldBook() {
 		Book book = Book.create(title, author, isbn, contents, url, imageUrl, imageKey, apiProvider, publisher);
 		ReflectionTestUtils.setField(book, "id", bookId);
