@@ -26,13 +26,19 @@ public class BookGroupResponse {
 
 	private Long commentCount;
 
-	private Long bookId;
+	private BookResponse book;
+	private OwnerResponse owner;
 
-	private String bookImageUrl;
+	public record BookResponse(
+		Long id,
+		String imageUrl
+	) {
+	}
 
-	private Long ownerId;
-
-	private String ownerProfileUrl;
-
-	private String ownerNickname;
+	public record OwnerResponse(
+		Long id,
+		String profileUrl,
+		String nickname
+	) {
+	}
 }

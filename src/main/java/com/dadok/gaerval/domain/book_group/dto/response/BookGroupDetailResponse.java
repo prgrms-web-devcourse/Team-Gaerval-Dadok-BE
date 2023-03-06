@@ -8,9 +8,6 @@ public record BookGroupDetailResponse(
 	Long bookGroupId,
 	String title,
 	String introduce,
-	Long ownerId,
-	Boolean isOwner,
-	Boolean isGroupMember,
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	LocalDate startDate,
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -18,13 +15,24 @@ public record BookGroupDetailResponse(
 	Boolean hasJoinPasswd,
 	Boolean isPublic,
 
-	String bookTitle,
-	String bookImageUrl,
-	Long bookId,
-
 	Integer maxMemberCount,
 	Long currentMemberCount,
-	Long commentCount
+	Long commentCount,
 
+	OwnerResponse owner,
+	BookResponse book,
+	Boolean isOwner,
+	Boolean isGroupMember
 ) {
+
+	public record BookResponse(
+		Long id,
+		String title,
+		String imageUrl
+	){}
+
+	public record OwnerResponse(
+		Long id
+	) {}
+
 }

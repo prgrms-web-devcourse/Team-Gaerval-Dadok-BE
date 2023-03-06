@@ -170,11 +170,17 @@ class DefaultBookGroupServiceSliceTest {
 		int maxMemberCount = 5;
 		long currentMemberCount = 2L;
 		long commentCount = 5L;
+		BookGroupDetailResponse.BookResponse book = new BookGroupDetailResponse.BookResponse(bookId, bookImageUrl,
+			bookTitle);
+
+		BookGroupDetailResponse.OwnerResponse owner = new BookGroupDetailResponse.OwnerResponse(ownerId);
+
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			ownerId, isOwner, isGroupMember, startDate, endDate, true, false,
-			bookTitle, bookImageUrl, bookId, maxMemberCount, currentMemberCount,
-			commentCount
+			startDate, endDate, false, true, maxMemberCount, currentMemberCount, commentCount,
+			owner,
+			book,
+			isOwner, isGroupMember
 		);
 		//when
 		given(bookGroupRepository.findBookGroup(2L, bookGroupId))
@@ -187,18 +193,16 @@ class DefaultBookGroupServiceSliceTest {
 			.hasFieldOrPropertyWithValue("bookGroupId", bookGroupId)
 			.hasFieldOrPropertyWithValue("title", title)
 			.hasFieldOrPropertyWithValue("introduce", introduce)
-			.hasFieldOrPropertyWithValue("ownerId", ownerId)
-			.hasFieldOrPropertyWithValue("bookId", bookId)
 			.hasFieldOrPropertyWithValue("isOwner", isOwner)
 			.hasFieldOrPropertyWithValue("isGroupMember", isGroupMember)
 			.hasFieldOrPropertyWithValue("startDate", startDate)
 			.hasFieldOrPropertyWithValue("endDate", endDate)
-			.hasFieldOrPropertyWithValue("bookTitle", bookTitle)
-			.hasFieldOrPropertyWithValue("bookImageUrl", bookImageUrl)
 			.hasFieldOrPropertyWithValue("maxMemberCount", maxMemberCount)
 			.hasFieldOrPropertyWithValue("currentMemberCount", currentMemberCount)
 			.hasFieldOrPropertyWithValue("commentCount", commentCount);
 
+		assertThat(response.owner()).isEqualTo(owner);
+		assertThat(response.book()).isEqualTo(book);
 	}
 
 	@DisplayName("findById - 북그룹을 반환한다.")
