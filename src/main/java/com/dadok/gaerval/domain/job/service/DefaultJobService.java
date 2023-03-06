@@ -9,9 +9,8 @@ import java.util.TreeMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dadok.gaerval.domain.job.dto.response.JobResponse;
-import com.dadok.gaerval.domain.job.dto.response.JobResponse.JobGroupResponse;
-import com.dadok.gaerval.domain.job.dto.response.JobResponse.JobNameResponse;
+import com.dadok.gaerval.domain.job.dto.response.JobGroupResponse;
+import com.dadok.gaerval.domain.job.dto.response.JobGroupResponse.JobNameResponse;
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -30,21 +29,23 @@ public class DefaultJobService implements JobService {
 	@Override
 	public JobResponses findAllWithAsc() {
 
-		List<JobResponse> jobResponses = jobRepository.findAll()
+		List<JobGroupResponse> jobGroupResponses = jobRepository.findAll()
 			.stream()
 			.collect(groupingBy(Job::getJobGroup, TreeMap::new, toList()))
 			.entrySet()
 			.stream()
-			.map(e -> new JobResponse(new JobGroupResponse(e.getKey().getGroupName(), e.getKey().name()),
-				e.getValue().stream()
-					.map(jobName -> {
-						JobGroup.JobName name = jobName.getJobName();
-						return new JobNameResponse(name.getJobName(), name.getName(), jobName.getSortOrder());
-					})
-					.collect(toList()
-					))).collect(toList());
+			.map(job -> {
+				JobGroup jobGroup = job.getKey();
+				List<Job> jobs = job.getValue();
 
-		return new JobResponses(jobResponses);
+				return new JobGroupResponse(jobGroup.getGroupName(), jobGroup,
+					jobs.stream().map(j -> {
+						JobGroup.JobName jobName = j.getJobName();
+						return new JobNameResponse(jobName.getJobName(), jobName, j.getSortOrder());
+					}).collect(toList()));
+			}).collect(toList());
+
+		return new JobResponses(jobGroupResponses);
 	}
 
 	@Transactional(readOnly = true)

@@ -42,14 +42,14 @@ class DefaultJobServiceTest {
 		JobResponses jobResponses = defaultJobService.findAllWithAsc();
 
 		//then
-		long jobCount = jobResponses.jobs().stream()
-			.mapToLong(jobResponse -> jobResponse.jobNames().size())
+		long jobCount = jobResponses.jobGroups().stream()
+			.mapToLong(jobResponse -> jobResponse.jobs().size())
 			.sum();
 
 		assertEquals(jobs.size(), jobCount);
 
-		jobResponses.jobs()
-			.forEach(jobResponse -> Assertions.assertThat(jobResponse.jobNames())
+		jobResponses.jobGroups()
+			.forEach(jobResponse -> Assertions.assertThat(jobResponse.jobs())
 				.extracting("order")
 				.isSorted());
 

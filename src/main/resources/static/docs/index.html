@@ -477,7 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>다독다독 API Document</h1>
 <div class="details">
-<span id="revnumber">version 0.0.1</span>
+<span id="revnumber">version 0.5.1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -521,18 +521,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_책_추천직군별_많이_꽂혀있는_순">책 추천(직군별 많이 꽂혀있는 순)</a></li>
 </ul>
 </li>
-<li><a href="#_job_직군_직업">Job - 직군, 직업</a>
-<ul class="sectlevel2">
-<li><a href="#_모든_직업_조회">모든 직업 조회</a></li>
-<li><a href="#_직업_등록_및_수정">직업 등록 및 수정</a></li>
-</ul>
-</li>
 <li><a href="#_bookgroup_모임">BookGroup - 모임</a>
 <ul class="sectlevel2">
 <li><a href="#_모임_생성">모임 생성</a></li>
 <li><a href="#_모임_상세_조회">모임 상세 조회</a></li>
 <li><a href="#_모임_전체_조회">모임 전체 조회</a></li>
 <li><a href="#_내가_참여한_모임_리스트_조회">내가 참여한 모임 리스트 조회</a></li>
+</ul>
+</li>
+<li><a href="#_job_직군_직업">Job - 직군, 직업</a>
+<ul class="sectlevel2">
+<li><a href="#_모든_직업_조회">모든 직업 조회</a></li>
+<li><a href="#_직업_등록_및_수정">직업 등록 및 수정</a></li>
 </ul>
 </li>
 </ul>
@@ -1433,23 +1433,6 @@ Content-Length: 332
 </div>
 <div class="sect3">
 <h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response fields</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "userId" : 1,
-  "nickname" : "임시닉네임",
-  "profileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-  "gender" : "NONE",
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 1
-  }
-}</code></pre>
-</div>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1625,6 +1608,9 @@ Content-Length: 400
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1873,6 +1859,9 @@ Content-Length: 1968
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2067,23 +2056,7 @@ Content-Length: 360
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body"><a class="link" href="#_response_body">Response body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "jobGroup" : "개발",
-  "bookshelfResponses" : [ {
-    "bookshelfId" : 23,
-    "bookshelfName" : "영지님의 책장",
-    "books" : [ {
-      "bookId" : 1,
-      "title" : "해리포터",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    } ]
-  } ]
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2444,20 +2417,7 @@ Content-Length: 286
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body_2"><a class="link" href="#_response_body_2">Response body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "bookshelfId" : 23,
-  "bookshelfName" : "영지님의 책장",
-  "books" : [ {
-    "bookId" : 1,
-    "title" : "해리포터",
-    "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-  } ]
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2590,20 +2550,7 @@ Content-Length: 286
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body_3"><a class="link" href="#_response_body_3">Response body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "bookshelfId" : 23,
-  "bookshelfName" : "영지님의 책장",
-  "books" : [ {
-    "bookId" : 1,
-    "title" : "해리포터",
-    "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-  } ]
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2748,23 +2695,7 @@ Content-Length: 664
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body_4"><a class="link" href="#_response_body_4">Response body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "searchBookResponseList" : [ {
-    "title" : "미움받을 용기",
-    "author" : "기시미 이치로, 고가 후미타케",
-    "isbn" : "9788996991342",
-    "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-    "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-    "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-    "apiProvider" : "KAKAO",
-    "publisher" : "인플루엔셜"
-  } ]
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_10"><a class="link" href="#_response_fields_10">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2903,23 +2834,7 @@ Content-Length: 716
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body_5"><a class="link" href="#_response_body_5">Response body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "title" : "미움받을 용기",
-  "author" : "기시미 이치로, 고가 후미타케",
-  "isbn" : "9788996991342",
-  "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-  "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-  "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-  "apiProvider" : "KAKAO",
-  "publisher" : "인플루엔셜",
-  "imageKey" : "687f74fd-a612-4ec9-9ae5-8f7b7fe8e80f/photo-1606787364406-a3cdf06c6d0c.jpeg",
-  "id" : 123
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_11"><a class="link" href="#_response_fields_11">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3148,64 +3063,7 @@ Content-Length: 1405
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body_6"><a class="link" href="#_response_body_6">Response body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 4,
-  "isEmpty" : false,
-  "jobGroup" : "DEVELOPMENT",
-  "books" : [ {
-    "bookId" : 1,
-    "imageUrl" : "http://imageurl4.com",
-    "title" : "jpa",
-    "author" : "김영한",
-    "isbn" : "123456789",
-    "publisher" : "영진",
-    "url" : "http://이미지링크4.com",
-    "jobGroup" : "개발",
-    "jobName" : "백엔드 개발자",
-    "count" : 10
-  }, {
-    "bookId" : 99,
-    "imageUrl" : "http://imageurl5.com",
-    "title" : "에스큐엘정복",
-    "author" : "김도강",
-    "isbn" : "123456789",
-    "publisher" : "영풍",
-    "url" : "http://이미지링크5.com",
-    "jobGroup" : "개발",
-    "jobName" : "백엔드 개발자",
-    "count" : 8
-  }, {
-    "bookId" : 100,
-    "imageUrl" : "http://imageurl7.com",
-    "title" : "나는 왜이렇게 귀여울까",
-    "author" : "김별",
-    "isbn" : "123456789",
-    "publisher" : "교보",
-    "url" : "http://이미지링크2.com",
-    "jobGroup" : "개발",
-    "jobName" : "백엔드 개발자",
-    "count" : 5
-  }, {
-    "bookId" : 10,
-    "imageUrl" : "http://imageurl4.com",
-    "title" : "세상에서 김별이 제일 귀엽다",
-    "author" : "강형욱",
-    "isbn" : "123456789",
-    "publisher" : "오렐리",
-    "url" : "http://이미지링크3.com",
-    "jobGroup" : "개발",
-    "jobName" : "백엔드 개발자",
-    "count" : 1
-  } ]
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_12"><a class="link" href="#_response_fields_12">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3329,18 +3187,38 @@ Content-Length: 1405
 </div>
 </div>
 <div class="sect1">
-<h2 id="_job_직군_직업"><a class="link" href="#_job_직군_직업">Job - 직군, 직업</a></h2>
+<h2 id="_bookgroup_모임"><a class="link" href="#_bookgroup_모임">BookGroup - 모임</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_모든_직업_조회"><a class="link" href="#_모든_직업_조회">모든 직업 조회</a></h3>
+<h3 id="_모임_생성"><a class="link" href="#_모임_생성">모임 생성</a></h3>
 <div class="sect3">
 <h4 id="_request_17"><a class="link" href="#_request_17">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/book-groups HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Host: localhost:8080</code></pre>
+Content-Length: 825
+Host: localhost:8080
+
+{
+  "book" : {
+    "title" : "미움받을 용기",
+    "author" : "기시미 이치로, 고가 후미타케",
+    "isbn" : "9788996991342",
+    "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
+    "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
+    "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
+    "publisher" : "인플루엔셜",
+    "apiProvider" : "KAKAO"
+  },
+  "title" : "소모임 화이팅",
+  "startDate" : "2023-03-06",
+  "endDate" : "2023-03-06",
+  "maxMemberCount" : 5,
+  "introduce" : "우리끼리 옹기종기",
+  "isPublic" : true
+}</code></pre>
 </div>
 </div>
 </div>
@@ -3370,7 +3248,229 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
+<h4 id="_request_body_2"><a class="link" href="#_request_body_2">Request Body</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 제목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 0 and 500 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.author</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 작가</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.isbn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 isbn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 10 and 20 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.contents</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 0 and 2000 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Size must be between 0 and 2083 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 이미지 url</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 0 and 2083 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.publisher</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">출판사</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 0 and 20 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.apiProvider</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">api 제공사</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 0 and 20 inclusive<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Length must be between 0 and 30 inclusive
+Must not be blank<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 시작 날짜</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be in the future or the present<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 종료 날짜</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be in the future or the present<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMemberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 참여 최대 인원</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1
+Must not be null<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개글</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Length must be between 0 and 1000 inclusive
+Must not be blank<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isPublic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공개 여부</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be null<br></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
 <h4 id="_response_17"><a class="link" href="#_response_17">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Location: http://localhost:8080/api/book-groups/1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_header_2"><a class="link" href="#_response_header_2">Response Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Location</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성된 모임 상세 조회 리소스 uri</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_모임_상세_조회"><a class="link" href="#_모임_상세_조회">모임 상세 조회</a></h3>
+<div class="sect3">
+<h4 id="_request_18"><a class="link" href="#_request_18">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups/999 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_17"><a class="link" href="#_request_header_17">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_path_parameter_3"><a class="link" href="#_path_parameter_3">Path Parameter</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. /api/book-groups/{groupId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 Id (bookGroup)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_18"><a class="link" href="#_response_18">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3378,15 +3478,752 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 33487
+Content-Length: 463
 
 {
-  "jobs" : [ {
-    "jobGroup" : {
-      "koreanName" : "개발",
-      "name" : "DEVELOPMENT"
-    },
-    "jobNames" : [ {
+  "bookGroupId" : 999,
+  "title" : "김영한님 JPA 읽으실분",
+  "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
+  "ownerId" : 1,
+  "isOwner" : false,
+  "isGroupMember" : true,
+  "startDate" : "2023-03-07",
+  "endDate" : "2023-03-13",
+  "bookTitle" : "Java ORM 표준 JPA 프로그래밍",
+  "bookImageUrl" : "http://jpaimage.jpeg",
+  "bookId" : 10,
+  "maxMemberCount" : 5,
+  "currentMemberCount" : 2,
+  "commentCount" : 5
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_13"><a class="link" href="#_response_fields_13">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 Id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개글</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ownerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 Id(user Id)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책 Id.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isOwner</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청유저가 모임장인지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isGroupMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청자가 모임에 속해있는 유저인지 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 시작일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 종료일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMemberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentMemberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 모임 인원</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">현재 모임 댓글 수</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_모임_전체_조회"><a class="link" href="#_모임_전체_조회">모임 전체 조회</a></h3>
+<div class="sect3">
+<h4 id="_request_19"><a class="link" href="#_request_19">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups?pageSize=10&amp;groupCursorId=999&amp;sortDirection=DESC HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_18"><a class="link" href="#_request_header_18">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_param_6"><a class="link" href="#_request_param_6">Request Param</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파라미터명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 데이터 수. default : 10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 0
+Must be at most 100<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupCursorId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sortDirection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방식 : <a href="common/sortDirection.html" class="popup">정렬 방식 코드</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_19"><a class="link" href="#_response_19">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 1939
+
+{
+  "isFirst" : true,
+  "isLast" : true,
+  "hasNext" : false,
+  "count" : 5,
+  "isEmpty" : false,
+  "bookGroups" : [ {
+    "bookGroupId" : 999,
+    "title" : "모임999",
+    "introduce" : "모임 999에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 2,
+    "commentCount" : 100,
+    "bookId" : 4452,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 1341234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 997,
+    "title" : "모임997",
+    "introduce" : "모임 997에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 5,
+    "commentCount" : 2,
+    "bookId" : 2083,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 941234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 995,
+    "title" : "모임995",
+    "introduce" : "모임 995에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 5,
+    "commentCount" : 0,
+    "bookId" : 442,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 1334,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 994,
+    "title" : "모임994",
+    "introduce" : "모임 994에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 3,
+    "commentCount" : 30,
+    "bookId" : 44,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 1341234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 993,
+    "title" : "모임993",
+    "introduce" : "모임 993에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 4,
+    "commentCount" : 4000,
+    "bookId" : 913452,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 123234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_14"><a class="link" href="#_response_fields_14">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">그룹 갯수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isEmpty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 없으면 empty = true</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFirst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫 번째 페이지 여부.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLast</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasNext</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 데이터 존재 여부.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임들 명단</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].introduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].maxMemberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 멤버 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].memberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 멤버 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].commentCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 댓글 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerProfileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 프로필 url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 닉네임</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내가_참여한_모임_리스트_조회"><a class="link" href="#_내가_참여한_모임_리스트_조회">내가 참여한 모임 리스트 조회</a></h3>
+<div class="sect3">
+<h4 id="_request_20"><a class="link" href="#_request_20">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups/me?pageSize=10&amp;groupCursorId=999&amp;sortDirection=DESC HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_19"><a class="link" href="#_request_header_19">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_param_7"><a class="link" href="#_request_param_7">Request Param</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">파라미터명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 데이터 수. default : 10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 0
+Must be at most 100<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupCursorId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sortDirection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방식 : <a href="common/sortDirection.html" class="popup">정렬 방식 코드</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_20"><a class="link" href="#_response_20">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 1939
+
+{
+  "isFirst" : true,
+  "isLast" : true,
+  "hasNext" : false,
+  "count" : 5,
+  "isEmpty" : false,
+  "bookGroups" : [ {
+    "bookGroupId" : 999,
+    "title" : "모임999",
+    "introduce" : "모임 999에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 2,
+    "commentCount" : 100,
+    "bookId" : 4452,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 1341234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 997,
+    "title" : "모임997",
+    "introduce" : "모임 997에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 5,
+    "commentCount" : 2,
+    "bookId" : 2083,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 941234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 995,
+    "title" : "모임995",
+    "introduce" : "모임 995에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 5,
+    "commentCount" : 0,
+    "bookId" : 442,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 1334,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 994,
+    "title" : "모임994",
+    "introduce" : "모임 994에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 3,
+    "commentCount" : 30,
+    "bookId" : 44,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 1341234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  }, {
+    "bookGroupId" : 993,
+    "title" : "모임993",
+    "introduce" : "모임 993에용",
+    "maxMemberCount" : 5,
+    "memberCount" : 4,
+    "commentCount" : 4000,
+    "bookId" : 913452,
+    "bookImageUrl" : "http://bookImageUrl1.com",
+    "ownerId" : 123234,
+    "ownerProfileUrl" : "http://ownerProfile1.com",
+    "ownerNickname" : "나는모임장이다1"
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_15"><a class="link" href="#_response_fields_15">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">그룹 갯수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isEmpty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 없으면 empty = true</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFirst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">첫 번째 페이지 여부.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLast</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasNext</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">다음 데이터 존재 여부.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임들 명단</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].introduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].maxMemberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 멤버 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].memberCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 멤버 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].commentCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 댓글 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerProfileUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 프로필 url</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerNickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 닉네임</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_job_직군_직업"><a class="link" href="#_job_직군_직업">Job - 직군, 직업</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_모든_직업_조회"><a class="link" href="#_모든_직업_조회">모든 직업 조회</a></h3>
+<div class="sect3">
+<h4 id="_request_21"><a class="link" href="#_request_21">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_20"><a class="link" href="#_request_header_20">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_21"><a class="link" href="#_response_21">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 32931
+
+{
+  "jobGroups" : [ {
+    "koreanName" : "개발",
+    "name" : "DEVELOPMENT",
+    "jobs" : [ {
       "koreanName" : "데이터 엔지니어",
       "name" : "DATA_ENGINEER",
       "order" : 1
@@ -3536,11 +4373,9 @@ Content-Length: 33487
       "order" : 37
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "경영/비즈니스",
-      "name" : "MANAGEMENT_BUSINESS"
-    },
-    "jobNames" : [ {
+    "koreanName" : "경영/비즈니스",
+    "name" : "MANAGEMENT_BUSINESS",
+    "jobs" : [ {
       "koreanName" : "비서",
       "name" : "SECRETARY",
       "order" : 1
@@ -3626,11 +4461,9 @@ Content-Length: 33487
       "order" : 21
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "마케팅/광고",
-      "name" : "MARKETING_ADVERTISEMENT"
-    },
-    "jobNames" : [ {
+    "koreanName" : "마케팅/광고",
+    "name" : "MARKETING_ADVERTISEMENT",
+    "jobs" : [ {
       "koreanName" : "브랜드 마케터",
       "name" : "BRAND_MARKETER",
       "order" : 1
@@ -3676,11 +4509,9 @@ Content-Length: 33487
       "order" : 11
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "영업",
-      "name" : "SALES"
-    },
-    "jobNames" : [ {
+    "koreanName" : "영업",
+    "name" : "SALES",
+    "jobs" : [ {
       "koreanName" : "영업",
       "name" : "SALES",
       "order" : 1
@@ -3710,11 +4541,9 @@ Content-Length: 33487
       "order" : 7
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "고객서비스/리테일",
-      "name" : "CUSTOMER_SERVICE_RETAIL"
-    },
-    "jobNames" : [ {
+    "koreanName" : "고객서비스/리테일",
+    "name" : "CUSTOMER_SERVICE_RETAIL",
+    "jobs" : [ {
       "koreanName" : "CS 어드바이저",
       "name" : "CS_ADVISOR",
       "order" : 1
@@ -3800,11 +4629,9 @@ Content-Length: 33487
       "order" : 21
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "미디어",
-      "name" : "MEDIA"
-    },
-    "jobNames" : [ {
+    "koreanName" : "미디어",
+    "name" : "MEDIA",
+    "jobs" : [ {
       "koreanName" : "영상 편집가",
       "name" : "VIDEO_EDITOR",
       "order" : 1
@@ -3862,11 +4689,9 @@ Content-Length: 33487
       "order" : 14
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "게임 제작",
-      "name" : "GAME"
-    },
-    "jobNames" : [ {
+    "koreanName" : "게임 제작",
+    "name" : "GAME",
+    "jobs" : [ {
       "koreanName" : "유니티 개발자",
       "name" : "UNITY_DEVELOPER",
       "order" : 1
@@ -3908,11 +4733,9 @@ Content-Length: 33487
       "order" : 10
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "HR",
-      "name" : "HR"
-    },
-    "jobNames" : [ {
+    "koreanName" : "HR",
+    "name" : "HR",
+    "jobs" : [ {
       "koreanName" : "교사",
       "name" : "TEACHER",
       "order" : 1
@@ -3966,11 +4789,9 @@ Content-Length: 33487
       "order" : 13
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "엔지니어링/설계",
-      "name" : "ENGINEERING_DESIGN"
-    },
-    "jobNames" : [ {
+    "koreanName" : "엔지니어링/설계",
+    "name" : "ENGINEERING_DESIGN",
+    "jobs" : [ {
       "koreanName" : "항공우주 공학자",
       "name" : "AEROSPACE_ENGINEER",
       "order" : 1
@@ -4168,11 +4989,9 @@ Content-Length: 33487
       "order" : 49
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "금융",
-      "name" : "FINANCE"
-    },
-    "jobNames" : [ {
+    "koreanName" : "금융",
+    "name" : "FINANCE",
+    "jobs" : [ {
       "koreanName" : "회계/경리",
       "name" : "ACCOUNTANT",
       "order" : 1
@@ -4266,11 +5085,9 @@ Content-Length: 33487
       "order" : 23
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "제조/생산",
-      "name" : "MANUFACTURING"
-    },
-    "jobNames" : [ {
+    "koreanName" : "제조/생산",
+    "name" : "MANUFACTURING",
+    "jobs" : [ {
       "koreanName" : "조립 기술자",
       "name" : "ASSEMBLY_TECHNICIAN",
       "order" : 1
@@ -4328,11 +5145,9 @@ Content-Length: 33487
       "order" : 14
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "의료/제약/바이오",
-      "name" : "MEDICAL"
-    },
-    "jobNames" : [ {
+    "koreanName" : "의료/제약/바이오",
+    "name" : "MEDICAL",
+    "jobs" : [ {
       "koreanName" : "치과 위생사",
       "name" : "DENTAL_HYGIENIST",
       "order" : 1
@@ -4418,11 +5233,9 @@ Content-Length: 33487
       "order" : 21
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "물류/무역",
-      "name" : "LOGISTICS"
-    },
-    "jobNames" : [ {
+    "koreanName" : "물류/무역",
+    "name" : "LOGISTICS",
+    "jobs" : [ {
       "koreanName" : "배송담당",
       "name" : "SHIPPING_HANDLER",
       "order" : 1
@@ -4504,11 +5317,9 @@ Content-Length: 33487
       "order" : 20
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "교육",
-      "name" : "EDUCATION"
-    },
-    "jobNames" : [ {
+    "koreanName" : "교육",
+    "name" : "EDUCATION",
+    "jobs" : [ {
       "koreanName" : "교재/교육기획",
       "name" : "CURRICULUM_PLANNER",
       "order" : 1
@@ -4538,11 +5349,9 @@ Content-Length: 33487
       "order" : 7
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "식/음료",
-      "name" : "FOOD_BEVERAGE"
-    },
-    "jobNames" : [ {
+    "koreanName" : "식/음료",
+    "name" : "FOOD_BEVERAGE",
+    "jobs" : [ {
       "koreanName" : "영양사",
       "name" : "NUTRITIONIST",
       "order" : 1
@@ -4592,11 +5401,9 @@ Content-Length: 33487
       "order" : 12
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "건설/시설",
-      "name" : "CONSTRUCTION_FACILITY"
-    },
-    "jobNames" : [ {
+    "koreanName" : "건설/시설",
+    "name" : "CONSTRUCTION_FACILITY",
+    "jobs" : [ {
       "koreanName" : "목수",
       "name" : "CARPENTER",
       "order" : 1
@@ -4654,11 +5461,9 @@ Content-Length: 33487
       "order" : 14
     } ]
   }, {
-    "jobGroup" : {
-      "koreanName" : "공공/복지",
-      "name" : "PUBLIC_WELFARE"
-    },
-    "jobNames" : [ {
+    "koreanName" : "공공/복지",
+    "name" : "PUBLIC_WELFARE",
+    "jobs" : [ {
       "koreanName" : "상담사",
       "name" : "COUNSELOR",
       "order" : 1
@@ -4717,7 +5522,7 @@ Content-Length: 33487
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response fields</a></h4>
+<h4 id="_response_fields_16"><a class="link" href="#_response_fields_16">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4733,49 +5538,45 @@ Content-Length: 33487
 <td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[]</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">직군, 직업 목록</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군 직업 목록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobGroup</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">직군명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군 영어명</p>
+<p class="tableblock"> <a href="common/jobGroup.html" class="popup">직군 코드</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobGroup.koreanName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[].koreanName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">직군 한글명</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobGroup.name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">직군 영어명 :  <a href="common/jobGroup.html" class="popup">직군 코드</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[].jobs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">직업명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직군에 속해있는 직업 목록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames[].koreanName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[].jobs[].koreanName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">직업 한글명</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames[].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[].jobs[].name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">직업 영어명 :  <a href="common/jobName.html" class="popup">직업 코드</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">직업 영어명</p>
+<p class="tableblock"> <a href="common/jobName.html" class="popup">직업 코드</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobs[].jobNames[].order</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jobGroups[].jobs[].order</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">정렬 순서</p></td>
@@ -4787,7 +5588,7 @@ Content-Length: 33487
 <div class="sect2">
 <h3 id="_직업_등록_및_수정"><a class="link" href="#_직업_등록_및_수정">직업 등록 및 수정</a></h3>
 <div class="sect3">
-<h4 id="_request_18"><a class="link" href="#_request_18">Request</a></h4>
+<h4 id="_request_22"><a class="link" href="#_request_22">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/users/1/jobs HTTP/1.1
@@ -4804,7 +5605,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_header_17"><a class="link" href="#_request_header_17">Request Header</a></h4>
+<h4 id="_request_header_21"><a class="link" href="#_request_header_21">Request Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4829,9 +5630,9 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_path_parameter_3"><a class="link" href="#_path_parameter_3">Path Parameter</a></h4>
+<h4 id="_path_parameter_4"><a class="link" href="#_path_parameter_4">Path Parameter</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /api/users/{userId}/jobs</caption>
+<caption class="title">Table 8. /api/users/{userId}/jobs</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4851,7 +5652,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_body_2"><a class="link" href="#_request_body_2">Request Body</a></h4>
+<h4 id="_request_body_3"><a class="link" href="#_request_body_3">Request Body</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -4886,7 +5687,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_18"><a class="link" href="#_response_18">Response</a></h4>
+<h4 id="_response_22"><a class="link" href="#_response_22">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -4910,7 +5711,7 @@ Content-Length: 210
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response fields</a></h4>
+<h4 id="_response_fields_17"><a class="link" href="#_response_fields_17">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4973,992 +5774,11 @@ Content-Length: 210
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_bookgroup_모임"><a class="link" href="#_bookgroup_모임">BookGroup - 모임</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_모임_생성"><a class="link" href="#_모임_생성">모임 생성</a></h3>
-<div class="sect3">
-<h4 id="_request_19"><a class="link" href="#_request_19">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/book-groups HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 825
-Host: localhost:8080
-
-{
-  "book" : {
-    "title" : "미움받을 용기",
-    "author" : "기시미 이치로, 고가 후미타케",
-    "isbn" : "9788996991342",
-    "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-    "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-    "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-    "publisher" : "인플루엔셜",
-    "apiProvider" : "KAKAO"
-  },
-  "title" : "소모임 화이팅",
-  "startDate" : "2023-03-06",
-  "endDate" : "2023-03-06",
-  "maxMemberCount" : 5,
-  "introduce" : "우리끼리 옹기종기",
-  "isPublic" : true
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_header_18"><a class="link" href="#_request_header_18">Request Header</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_request_body_3"><a class="link" href="#_request_body_3">Request Body</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서 제목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
-Size must be between 0 and 500 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.author</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서 작가</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.isbn</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서 isbn</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
-Size must be between 10 and 20 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.contents</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서 설명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
-Size must be between 0 and 2000 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.url</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서 url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Size must be between 0 and 2083 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.imageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">도서 이미지 url</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
-Size must be between 0 and 2083 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.publisher</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">출판사</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
-Size must be between 0 and 20 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>book.apiProvider</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">api 제공사</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
-Size must be between 0 and 20 inclusive<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Length must be between 0 and 30 inclusive
-Must not be blank<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 시작 날짜</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be in the future or the present<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 종료 날짜</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be in the future or the present<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMemberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 참여 최대 인원</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1
-Must not be null<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduce</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개글</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Length must be between 0 and 1000 inclusive
-Must not be blank<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isPublic</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">공개 여부</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be null<br></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_19"><a class="link" href="#_response_19">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Location: http://localhost:8080/api/book-groups/1</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_header_2"><a class="link" href="#_response_header_2">Response Header</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Location</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">생성된 모임 상세 조회 리소스 uri</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_모임_상세_조회"><a class="link" href="#_모임_상세_조회">모임 상세 조회</a></h3>
-<div class="sect3">
-<h4 id="_request_20"><a class="link" href="#_request_20">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups/999 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_header_19"><a class="link" href="#_request_header_19">Request Header</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_path_parameter_4"><a class="link" href="#_path_parameter_4">Path Parameter</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /api/book-groups/{groupId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 Id (bookGroup)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_20"><a class="link" href="#_response_20">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=UTF-8
-Content-Length: 463
-
-{
-  "bookGroupId" : 999,
-  "title" : "김영한님 JPA 읽으실분",
-  "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
-  "ownerId" : 1,
-  "isOwner" : false,
-  "isGroupMember" : true,
-  "startDate" : "2023-03-07",
-  "endDate" : "2023-03-13",
-  "bookTitle" : "Java ORM 표준 JPA 프로그래밍",
-  "bookImageUrl" : "http://jpaimage.jpeg",
-  "bookId" : 10,
-  "maxMemberCount" : 5,
-  "currentMemberCount" : 2,
-  "commentCount" : 5
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 Id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduce</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개글</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ownerId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 Id(user Id)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">책 Id.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isOwner</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청유저가 모임장인지 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isGroupMember</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청자가 모임에 속해있는 유저인지 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>startDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 시작일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 종료일</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookTitle</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookImageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxMemberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 인원</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentMemberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 모임 인원</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">현재 모임 댓글 수</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_모임_전체_조회"><a class="link" href="#_모임_전체_조회">모임 전체 조회</a></h3>
-<div class="sect3">
-<h4 id="_request_21"><a class="link" href="#_request_21">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups?pageSize=10&amp;groupCursorId=999&amp;sortDirection=DESC HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Accept: application/json
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_header_20"><a class="link" href="#_request_header_20">Request Header</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_request_param_6"><a class="link" href="#_request_param_6">Request Param</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">파라미터명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청 데이터 수. default : 10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 0
-Must be at most 100<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupCursorId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sortDirection</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방식 : <a href="common/sortDirection.html" class="popup">정렬 방식 코드</a></p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_21"><a class="link" href="#_response_21">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=UTF-8
-Content-Length: 1939
-
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 5,
-  "isEmpty" : false,
-  "bookGroups" : [ {
-    "bookGroupId" : 999,
-    "title" : "모임999",
-    "introduce" : "모임 999에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 2,
-    "commentCount" : 100,
-    "bookId" : 4452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 997,
-    "title" : "모임997",
-    "introduce" : "모임 997에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 5,
-    "commentCount" : 2,
-    "bookId" : 2083,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 941234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 995,
-    "title" : "모임995",
-    "introduce" : "모임 995에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 5,
-    "commentCount" : 0,
-    "bookId" : 442,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1334,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 994,
-    "title" : "모임994",
-    "introduce" : "모임 994에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 3,
-    "commentCount" : 30,
-    "bookId" : 44,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 993,
-    "title" : "모임993",
-    "introduce" : "모임 993에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 4,
-    "commentCount" : 4000,
-    "bookId" : 913452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 123234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  } ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">그룹 갯수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isEmpty</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 없으면 empty = true</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFirst</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">첫 번째 페이지 여부.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLast</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasNext</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">다음 데이터 존재 여부.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임들 명단</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookGroupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].introduce</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].maxMemberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 멤버 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].memberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 멤버 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].commentCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 댓글 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookImageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerProfileUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 프로필 url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerNickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 닉네임</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_내가_참여한_모임_리스트_조회"><a class="link" href="#_내가_참여한_모임_리스트_조회">내가 참여한 모임 리스트 조회</a></h3>
-<div class="sect3">
-<h4 id="_request_22"><a class="link" href="#_request_22">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups/me?pageSize=10&amp;groupCursorId=999&amp;sortDirection=DESC HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Accept: application/json
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_header_21"><a class="link" href="#_request_header_21">Request Header</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_request_param_7"><a class="link" href="#_request_param_7">Request Param</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">파라미터명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청 데이터 수. default : 10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 0
-Must be at most 100<br></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupCursorId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sortDirection</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방식 : <a href="common/sortDirection.html" class="popup">정렬 방식 코드</a></p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_22"><a class="link" href="#_response_22">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=UTF-8
-Content-Length: 1939
-
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 5,
-  "isEmpty" : false,
-  "bookGroups" : [ {
-    "bookGroupId" : 999,
-    "title" : "모임999",
-    "introduce" : "모임 999에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 2,
-    "commentCount" : 100,
-    "bookId" : 4452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 997,
-    "title" : "모임997",
-    "introduce" : "모임 997에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 5,
-    "commentCount" : 2,
-    "bookId" : 2083,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 941234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 995,
-    "title" : "모임995",
-    "introduce" : "모임 995에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 5,
-    "commentCount" : 0,
-    "bookId" : 442,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1334,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 994,
-    "title" : "모임994",
-    "introduce" : "모임 994에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 3,
-    "commentCount" : 30,
-    "bookId" : 44,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 1341234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  }, {
-    "bookGroupId" : 993,
-    "title" : "모임993",
-    "introduce" : "모임 993에용",
-    "maxMemberCount" : 5,
-    "memberCount" : 4,
-    "commentCount" : 4000,
-    "bookId" : 913452,
-    "bookImageUrl" : "http://bookImageUrl1.com",
-    "ownerId" : 123234,
-    "ownerProfileUrl" : "http://ownerProfile1.com",
-    "ownerNickname" : "나는모임장이다1"
-  } ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_body_7"><a class="link" href="#_response_body_7">Response Body</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">그룹 갯수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isEmpty</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">데이터가 없으면 empty = true</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isFirst</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">첫 번째 페이지 여부.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLast</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 페이지 여부.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hasNext</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">다음 데이터 존재 여부.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임들 명단</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookGroupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].introduce</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 소개</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].maxMemberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 멤버 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].memberCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 멤버 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].commentCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 현재 댓글 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].bookImageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 책 image url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerProfileUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 프로필 url</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookGroups[].ownerNickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임장 닉네임</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.0.1<br>
-Last updated 2023-03-06 01:13:26 +0900
+Version 0.5.1<br>
+Last updated 2023-03-06 17:29:01 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

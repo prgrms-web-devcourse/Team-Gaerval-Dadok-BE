@@ -394,52 +394,6 @@ include::{snippets}/book-controller-slice-test/find-suggestion-books_success/htt
 
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/response-fields.adoc[]
 
-== Job - 직군, 직업
-
-=== 모든 직업 조회
-
-==== Request
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
-
-==== Request Header
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/request-headers.adoc[]
-
-==== Response
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
-
-==== Response fields
-
-include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
-
-=== 직업 등록 및 수정
-
-==== Request
-
-include::{snippets}/user-controller-slice-test/register-user-job/http-request.adoc[]
-
-==== Request Header
-
-include::{snippets}/user-controller-slice-test/register-user-job/request-headers.adoc[]
-
-==== Path Parameter
-
-include::{snippets}/user-controller-slice-test/register-user-job/path-parameters.adoc[]
-
-==== Request Body
-
-include::{snippets}/user-controller-slice-test/register-user-job/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/user-controller-slice-test/register-user-job/http-response.adoc[]
-
-==== Response fields
-
-include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
-
 == BookGroup - 모임
 
 === 모임 생성
@@ -533,3 +487,50 @@ include::{snippets}/book-group-controller-slice-test/find-my-book-groups/http-re
 
 include::{snippets}/book-group-controller-slice-test/find-my-book-groups/response-fields.adoc[]
 
+
+
+== Job - 직군, 직업
+
+=== 모든 직업 조회
+
+==== Request
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/job-controller-slice-test/find-all-job-list/response-fields.adoc[]
+
+=== 직업 등록 및 수정
+
+==== Request
+
+include::{snippets}/user-controller-slice-test/register-user-job/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/user-controller-slice-test/register-user-job/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/user-controller-slice-test/register-user-job/path-parameters.adoc[]
+
+==== Request Body
+
+include::{snippets}/user-controller-slice-test/register-user-job/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/user-controller-slice-test/register-user-job/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/user-controller-slice-test/register-user-job/response-fields.adoc[]
