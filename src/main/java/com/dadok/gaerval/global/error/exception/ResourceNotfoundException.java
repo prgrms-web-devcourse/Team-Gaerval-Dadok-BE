@@ -8,14 +8,13 @@ public class ResourceNotfoundException extends BusinessException {
 
 	private Class<?> resource;
 
-	public ResourceNotfoundException() {
-		super(ErrorCode.RESOURCE_NOT_FOUND);
-		this.resource = null;
-	}
-
 	public ResourceNotfoundException(Class<?> resource) {
 		super(ErrorCode.RESOURCE_NOT_FOUND);
 		this.resource = resource;
+	}
+
+	public String getMessage() {
+		return String.format(this.errorCode.getMessage(), resource.getName());
 	}
 
 }

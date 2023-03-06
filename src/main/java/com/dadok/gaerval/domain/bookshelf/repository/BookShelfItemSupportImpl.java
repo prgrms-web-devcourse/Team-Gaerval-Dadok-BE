@@ -26,6 +26,9 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 
 	@Override
 	public Slice<BookshelfItem> findAllInBookShelf(Long bookShelfId, BooksInBookShelfFindRequest request) {
+
+		// SortDirection sortDirection = request.getSortDirection() == null ? SortDirection.DESC,
+
 		Sort.Direction direction = request.getSortDirection().toDirection();
 
 		List<BookshelfItem> bookshelfItems = query.selectFrom(bookshelfItem)
