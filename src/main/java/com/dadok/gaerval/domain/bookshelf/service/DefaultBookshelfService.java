@@ -16,9 +16,9 @@ import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
-import com.dadok.gaerval.domain.bookshelf.dto.response.SummaryBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
@@ -71,15 +71,15 @@ public class DefaultBookshelfService implements BookshelfService {
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
 		List<Bookshelf> bookshelves = bookshelfRepository.findAllByJob(searchJobGroup,
 			PageRequest.of(0, 5, Sort.by(Sort.Order.desc("bookshelfItems.size"))), userId);
-		List<SummaryBookshelfResponse> summaryBookshelfResponses = bookshelves.stream().map(bookshelf ->
-			new SummaryBookshelfResponse(bookshelf.getId(), bookshelf.getName(),
+		List<BookShelfSummaryResponse> bookShelfSummaryRespons = bookshelves.stream().map(bookshelf ->
+			new BookShelfSummaryResponse(bookshelf.getId(), bookshelf.getName(),
 				bookshelf.getBookshelfItems().stream().limit(5).map(bookshelfItem ->
-					new SummaryBookshelfResponse.SummaryBookResponse(
+					new BookShelfSummaryResponse.BookSummaryResponse(
 						bookshelfItem.getBook().getId(), bookshelfItem.getBook().getTitle(),
 						bookshelfItem.getBook().getImageUrl()
 					)
 				).collect(Collectors.toList()))).collect(Collectors.toList());
-		return new PopularBookshelvesOfJobResponses(jobGroup, summaryBookshelfResponses);
+		return new PopularBookshelvesOfJobResponses(jobGroup, bookShelfSummaryRespons);
 	}
 
 	@Override
@@ -103,20 +103,9 @@ public class DefaultBookshelfService implements BookshelfService {
 	}
 
 	@Override
-	public SummaryBookshelfResponse findSummaryBookshelf(Long userId) {
-		Bookshelf bookshelf = bookshelfRepository.findByUser(userId)
+	public BookShelfSummaryResponse findSummaryBookshelf(Long userId) {
+		return bookshelfRepository.findSummaryById(userId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
-		List<SummaryBookshelfResponse.SummaryBookResponse> bookResponses =
-			bookshelf.getBookshelfItems()
-				.stream()
-				.limit(5)
-				.map(bookshelfItem ->
-					new SummaryBookshelfResponse.SummaryBookResponse(
-						bookshelfItem.getBook().getId(), bookshelfItem.getBook().getTitle(),
-						bookshelfItem.getBook().getImageUrl()
-					)
-				).collect(Collectors.toList());
-		return new SummaryBookshelfResponse(bookshelf.getId(), bookshelf.getName(), bookResponses);
 	}
 
 	@Transactional(readOnly = true)
