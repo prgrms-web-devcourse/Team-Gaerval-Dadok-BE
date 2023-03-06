@@ -62,7 +62,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleSlackException(
 		SlackException e, HttpServletRequest request
 	) {
-
 		logError(e, request.getRequestURI());
 		slackService.sendError(e, request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

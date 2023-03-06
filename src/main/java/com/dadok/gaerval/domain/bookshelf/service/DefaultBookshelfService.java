@@ -154,6 +154,14 @@ public class DefaultBookshelfService implements BookshelfService {
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
+	@Transactional
+	@Override
+	public void updateJobIdByUserId(Long userId, Long jobId) {
+		Bookshelf bookshelf = bookshelfRepository.findByUserId(userId)
+			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
+		bookshelf.changeJobId(jobId);
+	}
+
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
 		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));

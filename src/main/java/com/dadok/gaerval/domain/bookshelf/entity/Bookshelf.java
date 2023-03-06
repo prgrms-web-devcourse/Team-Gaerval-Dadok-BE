@@ -50,17 +50,15 @@ public class Bookshelf extends BaseTimeColumn {
 	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<BookshelfItem> bookshelfItems = new ArrayList<>();
 
-	@Column(name = "job_id", nullable = false)
+	@Column(name = "job_id", nullable = true)
 	private Long jobId;
 
 	private Bookshelf(Boolean isPublic, User user) {
 		CommonValidator.validateNotnull(isPublic, "isPublic");
 		CommonValidator.validateNotnull(user, "user");
-		CommonValidator.validateNotnull(user.getJob().getId(), "jobId");
 		this.name = user.getOauthNickname() + "님의 책장";
 		this.isPublic = isPublic;
 		this.user = user;
-		this.jobId = user.getJob().getId();
 	}
 
 	public static Bookshelf create(User user) {
@@ -86,4 +84,10 @@ public class Bookshelf extends BaseTimeColumn {
 			throw new BookshelfUserNotMatchedException();
 		}
 	}
+
+	public void changeJobId(Long jobId) {
+		CommonValidator.validateNotnull(jobId, "jobId");
+		this.jobId = jobId;
+	}
+
 }

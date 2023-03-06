@@ -23,9 +23,9 @@ import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.domain.user.dto.request.UserChangeProfileRequest;
-import com.dadok.gaerval.domain.user.dto.request.UserJobRegisterRequest;
+import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
-import com.dadok.gaerval.domain.user.dto.response.UserJobRegisterResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
@@ -79,6 +79,9 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.save(expectedUser))
 			.willReturn(expectedUser);
 
+		given(bookshelfService.createBookshelf(expectedUser))
+			.willReturn(1L);
+
 		//when
 		User register = defaultUserService.register(oAuth2Attribute);
 		//then
@@ -86,6 +89,7 @@ class DefaultUserServiceSliceTest {
 		assertEquals(register, expectedUser);
 		verify(authorityRepository).findById(roleUser);
 		verify(userRepository).save(expectedUser);
+		verify(bookshelfService).createBookshelf(expectedUser);
 	}
 
 	@DisplayName("register - authority를 새로 저장하고 유저를 저장하고 반환한다 - 성공")
@@ -320,11 +324,11 @@ class DefaultUserServiceSliceTest {
 		given(jobService.getBy(development, backendDeveloper))
 			.willReturn(backendJob);
 
-		UserJobRegisterRequest userJobRegisterRequest = new UserJobRegisterRequest(development, backendDeveloper);
+		UserJobChangeRequest userJobChangeRequest = new UserJobChangeRequest(development, backendDeveloper);
 		//when
 
-		UserJobRegisterResponse response = defaultUserService.registerJob(userId,
-			userJobRegisterRequest);
+		UserJobChangeResponse response = defaultUserService.changeJob(userId,
+			userJobChangeRequest);
 
 		//then
 		assertThat(user.getJob()).isEqualTo(backendJob);
@@ -355,7 +359,7 @@ class DefaultUserServiceSliceTest {
 
 		String changeNickname = "nickname";
 		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
-			new UserJobRegisterRequest(development,
+			new UserJobChangeRequest(development,
 				backendDeveloper));
 
 		given(userRepository.getReferenceById(userId))
@@ -368,8 +372,8 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.existsByNickname(nickname))
 			.willReturn(false);
 
-		given(bookshelfService.createBookshelf(user))
-			.willReturn(1L);
+		willDoNothing().given(bookshelfService)
+			.updateJobIdByUserId(userId, backendJob.getId());
 
 		//when
 		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
@@ -396,7 +400,7 @@ class DefaultUserServiceSliceTest {
 		verify(userRepository).getReferenceById(userId);
 		verify(jobService).getBy(development, backendDeveloper);
 		verify(userRepository).existsByNickname(nickname);
-		verify(bookshelfService).createBookshelf(user);
+		verify(bookshelfService).updateJobIdByUserId(userId, backendJob.getId());
 	}
 
 	@DisplayName("changeProfile - 닉네임 중복 예외가 발생한다. ")
@@ -407,14 +411,13 @@ class DefaultUserServiceSliceTest {
 		Long userId = 1L;
 		ReflectionTestUtils.setField(user, "id", userId);
 
-		JobGroup development = JobGroup.DEVELOPMENT;
-		JobGroup.JobName backendDeveloper = JobGroup.JobName.BACKEND_DEVELOPER;
+		Job job = JobObjectProvider.backendJob();
 
 		String changeNickname = "nickname";
 		Nickname nickname = new Nickname(changeNickname);
 		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
-			new UserJobRegisterRequest(development,
-				backendDeveloper));
+			new UserJobChangeRequest(job.getJobGroup(),
+				job.getJobName()));
 
 		given(userRepository.getReferenceById(userId))
 			.willReturn(user);

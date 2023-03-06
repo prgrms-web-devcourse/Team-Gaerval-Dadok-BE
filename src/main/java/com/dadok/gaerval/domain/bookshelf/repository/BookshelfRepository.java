@@ -13,6 +13,8 @@ import com.dadok.gaerval.domain.job.entity.JobGroup;
 
 public interface BookshelfRepository extends JpaRepository<Bookshelf, Long>, BookshelfSupport {
 
+	Optional<Bookshelf> findByUserId(@Param("userId") Long userId);
+
 	@Query("""
 		select bs from Bookshelf bs join fetch bs.user u join fetch u.job j left join fetch bs.bookshelfItems i left join fetch  i.book b 
 		 where j.jobGroup = :jobGroup and u.id <> :user

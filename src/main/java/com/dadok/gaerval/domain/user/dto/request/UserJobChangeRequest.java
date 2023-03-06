@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 
-public record UserJobRegisterRequest(
+public record UserJobChangeRequest(
 
 	@NotNull(message = "jobGroup은 null이면 안됩니다.")
 	JobGroup jobGroup,
