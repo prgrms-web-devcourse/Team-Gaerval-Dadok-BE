@@ -35,7 +35,9 @@ public enum ErrorCode {
 	ALREADY_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.BAD_REQUEST, "G002", "이미 모임에 참여한 사용자입니다."),
 
 	NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST, "G003", "모임 비밀번호가 틀렸습니다."),
-	BOOK_GROUP_OWNER_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "G003", "해당 모임의 모임장 권한이 없는 사용자입니다.");
+	BOOK_GROUP_OWNER_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "G004", "해당 모임의 모임장 권한이 없는 사용자입니다."),
+
+	EXPIRED_JOIN_GROUP(HttpStatus.BAD_REQUEST, "G005", "가입 기간잉 지났습니다.");
 
 	private final HttpStatus status;
 
