@@ -7,10 +7,10 @@
         <property name="PATH" value="./logs/local.log"/>
     </springProfile>
 
-<!--    &lt;!&ndash; profile이 aws인 경우&ndash;&gt;-->
-<!--    <springProfile name="aws">-->
-<!--        <property name="PATH" value="/var/logs/dev.log"/>-->
-<!--    </springProfile>-->
+    <!-- profile이 develop인 경우-->
+    <springProfile name="develop">
+        <property name="PATH" value="/home/ec2-user/logs/develop.log"/>
+    </springProfile>
 
     <!-- 스프링부트 기본 로깅 패턴 -->
     <conversionRule conversionWord="clr"
