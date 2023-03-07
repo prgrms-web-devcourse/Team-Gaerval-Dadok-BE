@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
+import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
@@ -285,6 +286,36 @@ class BookGroupTest {
 		//when
 		assertThrows(AlreadyContainBookGroupException.class,
 			() -> GroupMember.create(bookGroup, user));
+	}
+
+	@DisplayName("addMembers - 모임의 시간이 지났다면 예외를 던진다.")
+	@Test
+	void addMembers_endDateOver_ExceedThrow() {
+		//given
+		Book book = BookObjectProvider.createAllFieldBook();
+		BookGroup bookGroup = BookGroup.create(
+			1L, book, LocalDate.now(), LocalDate.now().minusDays(2),
+			1, "책읽기 소모임", "책읽기 소모임",
+			false, null, null, false, passwordEncoder
+		);
+		//when
+		assertThrows(ExpiredJoinGroupPeriodException.class,
+			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
+	}
+
+	@DisplayName("addMembers - 모임의 모집 종료시간이 당일이여도 가입된다.")
+	@Test
+	void addMembers_endDateToday_ExceedThrow() {
+		//given
+		Book book = BookObjectProvider.createAllFieldBook();
+		BookGroup bookGroup = BookGroup.create(
+			1L, book, LocalDate.now(), LocalDate.now(),
+			1, "책읽기 소모임", "책읽기 소모임",
+			false, null, null, false, passwordEncoder
+		);
+		//when
+		assertDoesNotThrow(
+			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
 	}
 
 	@DisplayName("checkPasswd - 입력된 패스워드가 빈값이라면 예외를 던진다")

@@ -23,7 +23,6 @@ import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 
 import lombok.RequiredArgsConstructor;
 
-@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class DefaultBookGroupService implements BookGroupService {
@@ -39,6 +38,7 @@ public class DefaultBookGroupService implements BookGroupService {
 	private final GroupMemberRepository groupMemberRepository;
 
 	@Override
+	@Transactional(readOnly = true)
 	public BookGroupResponses findAllBookGroups(BookGroupSearchRequest request) {
 		return bookGroupRepository.findAllBy(request);
 	}
@@ -57,11 +57,13 @@ public class DefaultBookGroupService implements BookGroupService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public BookGroupDetailResponse findGroup(Long requestUserId, Long groupId) {
 		return bookGroupRepository.findBookGroup(requestUserId, groupId);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<BookGroup> findById(Long groupId) {
 		return bookGroupRepository.findById(groupId);
 	}
@@ -89,6 +91,13 @@ public class DefaultBookGroupService implements BookGroupService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public BookGroup getById(Long id) {
+		return bookGroupRepository.findById(id).orElseThrow(()-> new ResourceNotfoundException(BookGroup.class));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId) {
 		return bookGroupRepository.findAllByUser(request, userId);
 	}

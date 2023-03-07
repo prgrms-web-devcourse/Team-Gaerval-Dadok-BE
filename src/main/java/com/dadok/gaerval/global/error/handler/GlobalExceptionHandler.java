@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
+import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
@@ -63,6 +64,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NotMatchedPasswordException.class)
 	public ResponseEntity<ErrorResponse> handleNotMatchedPasswordException(
 		NotMatchedPasswordException e, HttpServletRequest request) {
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return ResponseEntity.status(errorCode.getStatus())
+			.body(ErrorResponse.of(errorCode.getStatus(), e.getMessage(), request.getRequestURI()));
+	}
+
+	@ExceptionHandler(ExpiredJoinGroupPeriodException.class)
+	public ResponseEntity<ErrorResponse> handleExpiredJoinGroupPeriodException(
+		ExpiredJoinGroupPeriodException e, HttpServletRequest request) {
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
 
