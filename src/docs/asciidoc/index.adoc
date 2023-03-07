@@ -230,7 +230,7 @@ include::{snippets}/bookshelf-controller-slice-test/find-books-in-book-shelf/res
 
 '''
 
-=== 전체 책장 요약 리스트 (미로그인 사용자용 추천)
+=== 전체 직군 책장 요약 리스트 (미로그인 사용자용 추천)
 
 ==== Request
 
@@ -248,27 +248,27 @@ include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves/
 
 include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves/response-fields.adoc[]
 
-=== 직군별 책장 요약 리스트 (추천)
+=== 직군별 책장 요약 리스트 (로그인 사용자 추천)
 
 ==== Request
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-request.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-by-job-group/http-request.adoc[]
 
 ==== Request Param
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-parameters.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-by-job-group/request-parameters.adoc[]
 
 ==== Request Header
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/request-headers.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-by-job-group/request-headers.adoc[]
 
 ==== Response
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/http-response.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-by-job-group/http-response.adoc[]
 
 ==== Response fields
 
-include::{snippets}/bookshelf-controller-slice-test/find-bookshelves-by-job-group/response-fields.adoc[]
+include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-by-job-group/response-fields.adoc[]
 
 === 책장 책 넣기
 

@@ -152,7 +152,7 @@ class BookControllerSliceTest extends ControllerTest {
 					fieldWithPath("imageKey").type(JsonFieldType.STRING)
 						.optional()
 						.description("이미지키"),
-					fieldWithPath("id").type(JsonFieldType.NUMBER)
+					fieldWithPath("bookId").type(JsonFieldType.NUMBER)
 						.optional()
 						.description("도서 id")
 				)
