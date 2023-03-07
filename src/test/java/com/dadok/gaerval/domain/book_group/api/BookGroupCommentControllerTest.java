@@ -141,7 +141,10 @@ class BookGroupCommentControllerTest extends ControllerTest {
 					fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("댓글 내용"),
 					fieldWithPath("bookGroupComments[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 ID"),
 					fieldWithPath("bookGroupComments[].parentCommentId").type(JsonFieldType.NUMBER).description("부모 댓 ID"),
-					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID")
+					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
+					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
+					fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.ARRAY).description("생성일"),
+					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.ARRAY).description("수정일")
 				)));
 
 		verify(bookGroupCommentService).findAllBookGroupCommentsByGroup(eq(request), any(), any());

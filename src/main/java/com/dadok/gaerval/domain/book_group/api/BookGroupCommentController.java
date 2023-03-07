@@ -12,8 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -42,8 +42,7 @@ public class BookGroupCommentController {
 	 * @return status : created - 생성된 모임 댓글로 리다이렉트
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@RequestMapping("/{groupId}/comment")
-	@PostMapping(consumes = APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{groupId}/comment", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> createBookGroupComment(
 		@PathVariable Long groupId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,

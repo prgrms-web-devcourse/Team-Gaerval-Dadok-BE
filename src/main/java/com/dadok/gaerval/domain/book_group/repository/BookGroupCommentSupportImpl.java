@@ -45,7 +45,10 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 					groupComment.contents.as("contents"),
 					bookGroup.id.as("booGroupId"),
 					groupComment.parentComment.id.as("parentCommentId"),
-					user.id.as("userId")
+					user.id.as("userId"),
+					user.profileImage.as("userProfileImage"),
+					groupComment.createdAt.as("createdAt"),
+					groupComment.modifiedAt.as("modifiedAt")
 				))
 			.from(groupComment)
 			.innerJoin(user).on(user.id.eq(groupComment.user.id))

@@ -1,5 +1,6 @@
 package com.dadok.gaerval.testutil;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.test.util.ReflectionTestUtils;
@@ -14,19 +15,19 @@ public class BookGroupCommentObjectProvider {
 	public static final String comment2 = "미움받을 용기 그저 그래요";
 	public static final String comment3 = "미움받을 용기 저랑 안 맞아요";
 	public static final Long bookCommentId = 234L;
+	public static final String profileImageUrl = "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg";
 	public static final List<BookGroupCommentResponse> mockCommentResponses = List.of(new BookGroupCommentResponse
-		(bookCommentId, comment1, 234L, 234L, 234L),
+			(bookCommentId, comment1, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now()),
 		new BookGroupCommentResponse
-			(bookCommentId, comment2, 234L, 234L, 234L),
+			(bookCommentId, comment2, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now()),
 		new BookGroupCommentResponse
-			(bookCommentId, comment3, 234L, 234L, 234L)
-		);
+			(bookCommentId, comment3, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now())
+	);
 
 	public static GroupComment createSampleGroupComment(BookGroup bookGroup, User user) {
 		GroupComment groupComment = GroupComment.create(comment1, bookGroup, user);
 		ReflectionTestUtils.setField(groupComment, "id", bookCommentId);
 		return groupComment;
 	}
-
 
 }

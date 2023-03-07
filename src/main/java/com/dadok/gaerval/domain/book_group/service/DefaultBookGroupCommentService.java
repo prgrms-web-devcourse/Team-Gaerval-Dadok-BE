@@ -62,11 +62,13 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public GroupComment getById(Long id) {
 		return bookGroupCommentRepository.findById(id).orElseThrow(()-> new ResourceNotfoundException(GroupComment.class));
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<GroupComment> findById(Long id) {
 		return bookGroupCommentRepository.findById(id);
 	}
