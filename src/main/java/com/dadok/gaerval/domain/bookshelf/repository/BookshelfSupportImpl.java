@@ -9,10 +9,12 @@ import static com.querydsl.core.group.GroupBy.list;
 import static com.querydsl.core.group.GroupBy.*;
 import static com.querydsl.core.types.Projections.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -65,5 +67,28 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			return Optional.empty();
 		}
 		return Optional.of(transform.get(0));
+	}
+
+	@Override
+	public List<BookShelfSummaryResponse> findSuggestionsByJobGroup(JobGroup jobGroup, Long userId, int limit) {
+
+		return query.from(bookshelf)
+			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
+			.leftJoin(bookshelfItem.book, book)
+			.innerJoin(job).on(job.id.eq(bookshelf.jobId))
+			.where(
+				job.jobGroup.eq(jobGroup),
+				bookshelf.user.id.notIn(userId)
+			)
+			.orderBy(bookshelf.bookshelfItems.size().desc())//TODO 인기척도 후에 수정 필요
+			.limit(limit)
+			.transform(
+				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
+					bookshelf.id,
+					bookshelf.name,
+					list(
+						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
+							book.id, book.title, book.imageUrl)
+					))));
 	}
 }

@@ -8,7 +8,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.PopularBookshelvesOfJobResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.user.entity.User;
 
@@ -22,7 +22,7 @@ public interface BookshelfService {
 
 	Long createBookshelf(User user);
 
-	PopularBookshelvesOfJobResponses findPopularBookshelvesByJob(Long userId, String jobGroup);
+	SuggestionBookshelvesByJobGroupResponses findSuggestionBookshelvesByJobGroup(Long userId, String jobGroup);
 
 	Long insertBookSelfItem(Long userId, Long bookshelfId, BookCreateRequest bookCreateRequest);
 
