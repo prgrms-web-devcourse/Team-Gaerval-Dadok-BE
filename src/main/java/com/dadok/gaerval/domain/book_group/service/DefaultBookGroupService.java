@@ -80,6 +80,16 @@ public class DefaultBookGroupService implements BookGroupService {
 		GroupMember.create(bookGroup, user);
 	}
 
+	@Transactional
+	@Override
+	public void deleteBookGroup(Long groupId, Long userId) {
+		BookGroup bookGroup = bookGroupRepository.findById(groupId)
+			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
+		bookGroup.validateOwner(userId);
+		bookGroupRepository.deleteById(groupId);
+
+	}
+
 	@Override
 	public BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId) {
 		return bookGroupRepository.findAllByUser(request, userId);

@@ -23,4 +23,6 @@ public interface BookGroupService {
 
 	void join(Long groupId, Long userId, BookGroupJoinRequest request);
 
+	void deleteBookGroup(Long groupId, Long userId);
+
 }

@@ -70,14 +70,12 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		//when
 		mockMvc.perform(get("/api/book-groups")
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.accept(MediaType.APPLICATION_JSON)
 				.params(params)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				requestParameters(
@@ -297,9 +295,32 @@ class BookGroupControllerSliceTest extends ControllerTest {
 			));
 	}
 
+	@DisplayName("deleteBookGroup - 모임을 삭제한다")
+	@Test
+	void deleteBookGroup() throws Exception {
+		// Given
+		doNothing().when(bookGroupService).deleteBookGroup(eq(1L), any());
+
+		// When // Then
+		mockMvc.perform(delete("/api/book-groups/{groupId}", 1L)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("groupId").description("모임 Id (bookGroup)")
+				)
+			));
+	}
+
 	@DisplayName("findGroup - 모임 디테일 정보를 반환한다.")
 	@Test
-	void findGroup_success() throws Exception {
+	void findBookGroup_success() throws Exception {
 		//given
 		long bookGroupId = 999L;
 		String title = "김영한님 JPA 읽으실분";
@@ -330,12 +351,10 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 		mockMvc.perform(get("/api/book-groups/{groupId}", bookGroupId)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 					requestHeaders(
-						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
 					pathParameters(

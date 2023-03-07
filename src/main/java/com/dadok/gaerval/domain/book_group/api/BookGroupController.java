@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,7 +67,7 @@ public class BookGroupController {
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/{groupId}")
-	public ResponseEntity<BookGroupDetailResponse> findGroup(
+	public ResponseEntity<BookGroupDetailResponse> findBookGroup(
 		@PathVariable Long groupId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 		return ResponseEntity.ok(bookGroupService.findGroup(userPrincipal.getUserId(), groupId));
@@ -98,6 +99,24 @@ public class BookGroupController {
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		bookGroupService.join(groupId, userPrincipal.getUserId(), request);
+		return ResponseEntity.ok().build();
+	}
+	/**
+	 * <Pre>
+	 * 책장을 삭제한다.
+	 * </Pre>
+	 *
+	 * @param groupId       : 삭제할 그룹 id
+	 * @param userPrincipal : 요청 유저
+	 * @return status : ok
+	 */
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@DeleteMapping(value = "/{groupId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deleteBookGroup(
+		@PathVariable("groupId") Long groupId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		bookGroupService.deleteBookGroup(groupId, userPrincipal.getUserId());
 		return ResponseEntity.ok().build();
 	}
 }
