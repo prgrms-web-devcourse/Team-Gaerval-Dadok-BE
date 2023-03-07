@@ -58,3 +58,6 @@ out/
 
 ## tmp file
 /src/main/java/com/dadok/gaerval/domain/user/UserTestController.java
+## log
+/logs
+**/.log
