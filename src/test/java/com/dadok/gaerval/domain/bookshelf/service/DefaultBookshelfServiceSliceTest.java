@@ -25,7 +25,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
-import com.dadok.gaerval.domain.bookshelf.dto.request.InsertBookCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -139,7 +139,7 @@ class DefaultBookshelfServiceSliceTest {
 	void insertBookSelfItem_success() {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var request = new InsertBookCreateRequest(book.getId());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
@@ -162,7 +162,7 @@ class DefaultBookshelfServiceSliceTest {
 	void insertBookSelfItem_bookNotExist_fail() {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var request = new InsertBookCreateRequest(book.getId());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
@@ -183,7 +183,7 @@ class DefaultBookshelfServiceSliceTest {
 	void insertBookSelfItem_bookshelfNotExist_fail() {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var request = new InsertBookCreateRequest(book.getId());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.empty());
@@ -202,7 +202,7 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		ReflectionTestUtils.setField(user, "id", 23L);
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var request = new InsertBookCreateRequest(book.getId());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));

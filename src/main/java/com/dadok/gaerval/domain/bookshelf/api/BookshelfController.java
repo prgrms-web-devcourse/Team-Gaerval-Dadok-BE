@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
-import com.dadok.gaerval.domain.bookshelf.dto.request.InsertBookCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -116,18 +116,18 @@ public class BookshelfController {
 	 *     해당 책장에 입력받은 책을 추가한다.
 	 * </pre>
 	 *
-	 * @param bookshelvesId           책장 id
-	 * @param insertBookCreateRequest 책 id
+	 * @param bookshelvesId              책장 id
+	 * @param bookshelfItemCreateRequest 책 id
 	 * @return status : ok
 	 */
 	@PostMapping(value = "/bookshelves/{bookshelvesId}/books",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<Void> insertBookInBookshelf(@PathVariable("bookshelvesId") Long bookshelvesId,
-		@RequestBody @Valid InsertBookCreateRequest insertBookCreateRequest,
+		@RequestBody @Valid BookshelfItemCreateRequest bookshelfItemCreateRequest,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
 		Long userId = userPrincipal.getUserId();
-		bookshelfService.insertBookSelfItem(userId, bookshelvesId, insertBookCreateRequest);
+		bookshelfService.insertBookSelfItem(userId, bookshelvesId, bookshelfItemCreateRequest);
 		return ResponseEntity.ok().build();
 	}
 

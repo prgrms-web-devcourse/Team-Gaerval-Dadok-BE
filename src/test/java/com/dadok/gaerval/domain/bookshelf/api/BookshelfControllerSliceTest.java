@@ -31,7 +31,7 @@ import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
-import com.dadok.gaerval.domain.bookshelf.dto.request.InsertBookCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -176,7 +176,7 @@ class BookshelfControllerSliceTest extends ControllerTest {
 	@WithMockCustomOAuth2LoginUser
 	void insertBookInBookshelf() throws Exception {
 		// Given
-		InsertBookCreateRequest request = new InsertBookCreateRequest(55L);
+		BookshelfItemCreateRequest request = new BookshelfItemCreateRequest(55L);
 
 		given(bookshelfService.insertBookSelfItem(any(), eq(23L), eq(request)))
 			.willReturn(23L);
@@ -200,7 +200,7 @@ class BookshelfControllerSliceTest extends ControllerTest {
 				requestFields(
 					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 id")
 						.attributes(
-							constrainsAttribute(InsertBookCreateRequest.class, "bookId")
+							constrainsAttribute(BookshelfItemCreateRequest.class, "bookId")
 						)
 				)
 			));
