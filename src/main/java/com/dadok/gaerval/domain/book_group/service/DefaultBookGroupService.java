@@ -75,8 +75,7 @@ public class DefaultBookGroupService implements BookGroupService {
 		bookGroup.checkPasswd(request.joinPassword(), passwordEncoder);
 		User user = userService.getById(userId);
 
-		GroupMember groupMember = GroupMember.create(bookGroup, user);
-		bookGroup.addMember(groupMember);
+		GroupMember.create(bookGroup, user);
 	}
 
 	@Transactional
