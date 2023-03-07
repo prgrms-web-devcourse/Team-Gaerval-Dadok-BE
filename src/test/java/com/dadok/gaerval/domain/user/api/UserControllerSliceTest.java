@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -37,7 +37,7 @@ import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WithMockCustomOAuth2LoginUser(userId = 1L)
 @WebMvcTest(controllers = UserController.class)
-class UserControllerSliceTest extends ControllerTest {
+class UserControllerSliceTest extends ControllerSliceTest {
 
 	@MockBean
 	private UserService userService;

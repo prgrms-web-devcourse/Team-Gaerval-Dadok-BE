@@ -588,47 +588,44 @@ include::{snippets}/book-group-controller-slice-test/join_success/request-fields
 
 include::{snippets}/book-group-controller-slice-test/join_success/http-response.adoc[]
 
-=== 내가 참여한 모임에 댓글 작성
+=== 모임 댓글 작성
 
 ==== Request
 
-include::{snippets}/book-group-comment-controller-test/create-book-group-comment_-should-return-created/http-request.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/create-book-group-comment_-should-return-created/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-comment-controller-test/create-book-group-comment_-should-return-created/request-headers.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/create-book-group-comment_-should-return-created/request-headers.adoc[]
 
-==== Request Body
-
-include::{snippets}/book-group-comment-controller-test/create-book-group-comment_-should-return-created/request-body.adoc[]
-include::{snippets}/book-group-comment-controller-test/create-book-group-comment_-should-return-created/request-fields.adoc[]
+==== Request fields
+include::{snippets}/book-group-comment-controller-slice-test/create-book-group-comment_-should-return-created/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-comment-controller-test/create-book-group-comment_-should-return-created/http-response.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/create-book-group-comment_-should-return-created/http-response.adoc[]
 
-=== 내가 참여한 모임 댓글 리스트 조회
+=== 모임 댓글 리스트 조회
 
 ==== Request
 
-include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/http-request.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-comment_-should-return-ok/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/request-headers.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-comment_-should-return-ok/request-headers.adoc[]
 
 ==== Request Param
 
-include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/request-parameters.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-comment_-should-return-ok/request-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/http-response.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-comment_-should-return-ok/http-response.adoc[]
 
-==== Response Body
+==== Response fields
 
-include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/response-body.adoc[]
-include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/response-fields.adoc[]
+include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-comment_-should-return-ok/response-fields.adoc[]
 
 == Job - 직군, 직업
 

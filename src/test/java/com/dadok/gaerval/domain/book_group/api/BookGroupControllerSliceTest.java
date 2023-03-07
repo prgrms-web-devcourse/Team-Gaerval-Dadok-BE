@@ -25,7 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
 
-import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
@@ -42,7 +42,7 @@ import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WithMockCustomOAuth2LoginUser
 @WebMvcTest(BookGroupController.class)
-class BookGroupControllerSliceTest extends ControllerTest {
+class BookGroupControllerSliceTest extends ControllerSliceTest {
 
 	@MockBean
 	private BookGroupService bookGroupService;

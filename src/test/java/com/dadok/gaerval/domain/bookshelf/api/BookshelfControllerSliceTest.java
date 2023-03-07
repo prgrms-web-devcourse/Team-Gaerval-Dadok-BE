@@ -27,7 +27,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
@@ -52,7 +52,7 @@ import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 import lombok.SneakyThrows;
 
 @WebMvcTest(controllers = BookshelfController.class)
-class BookshelfControllerSliceTest extends ControllerTest {
+class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 	@MockBean
 	private BookshelfService bookshelfService;

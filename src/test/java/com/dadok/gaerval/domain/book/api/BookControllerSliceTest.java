@@ -27,7 +27,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
@@ -40,7 +40,7 @@ import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 
 @WebMvcTest(controllers = BookController.class)
-class BookControllerSliceTest extends ControllerTest {
+class BookControllerSliceTest extends ControllerSliceTest {
 
 	@MockBean
 	private BookService bookService;

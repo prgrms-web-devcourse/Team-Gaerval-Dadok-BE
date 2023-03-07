@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 @TestPropertySource(value = "classpath:application-test.yml")
 @WebMvcTest(controllers = EnumDocsController.class)
-public class EnumDocsControllerTest extends ControllerTest {
+public class EnumDocsControllerTest extends ControllerSliceTest {
 
 	private static final String ENUM_SNIPPET_FILE = "enum-response";
 
