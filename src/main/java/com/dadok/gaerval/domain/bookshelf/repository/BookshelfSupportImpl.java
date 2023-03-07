@@ -77,10 +77,10 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.leftJoin(bookshelfItem.book, book)
 			.innerJoin(job).on(job.id.eq(bookshelf.jobId))
 			.where(
-				bookshelf.user.id.notIn(userId),
-				job.jobGroup.eq(jobGroup) //TODO 인기척도 후에 수정 필요
+				job.jobGroup.eq(jobGroup),
+				bookshelf.user.id.notIn(userId)
 			)
-			.orderBy(bookshelf.bookshelfItems.size().desc())
+			.orderBy(bookshelf.bookshelfItems.size().desc())//TODO 인기척도 후에 수정 필요
 			.limit(limit)
 			.transform(
 				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
