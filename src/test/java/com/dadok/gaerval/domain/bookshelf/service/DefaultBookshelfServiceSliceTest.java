@@ -320,6 +320,30 @@ class DefaultBookshelfServiceSliceTest {
 
 	}
 
+	@DisplayName("findSuggestionBookshelves - 인기 책장 리스트 조회 - 성공")
+	@Test
+	void findSuggestionBookshelves_success() {
+		// Given
+		String jobGroup = JobGroup.HR.getDescription();
+
+		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+		));
+
+		given(bookshelfRepository.findAllSuggestions(5))
+			.willReturn(expectResponses);
+
+		// When
+		var responses = bookshelfService.findSuggestionBookshelves();
+
+		// Then
+		verify(bookshelfRepository).findAllSuggestions(5);
+
+		assertThat(responses.bookshelfResponses()).hasSize(1);
+		assertThat(responses.bookshelfResponses().get(0).books()).hasSize(1);
+	}
+
 	@DisplayName("findSuggestionBookshelvesByJobGroup- 존재하지 않은 직업군의 책장 리스트 조회 - 실패")
 	@ParameterizedTest
 	@ValueSource(strings = {"개 발 ", "백수", "노 직군", "영지", "다독"})
@@ -500,7 +524,5 @@ class DefaultBookshelfServiceSliceTest {
 		assertThat(bookShelf).hasFieldOrPropertyWithValue("jobId", idToUpdate);
 		verify(bookshelfRepository).findByUserId(userId);
 	}
-
-
 
 }

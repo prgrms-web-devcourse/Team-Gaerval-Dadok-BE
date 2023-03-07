@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.bookshelf.api;
 import static org.springframework.http.MediaType.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -35,6 +37,16 @@ import lombok.RequiredArgsConstructor;
 public class BookshelfController {
 
 	private final BookshelfService bookshelfService;
+
+	@GetMapping(value = "/suggestions/bookshelves/default",
+		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<SuggestionBookshelvesResponses> findSuggestionBookshelves(
+	) {
+		SuggestionBookshelvesResponses responses =
+			bookshelfService.findSuggestionBookshelves();
+		return ResponseEntity.ok().body(responses);
+	}
 
 	/**
 	 * <pre>
@@ -48,7 +60,7 @@ public class BookshelfController {
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<SuggestionBookshelvesByJobGroupResponses> findSuggestionBookshelvesByJobGroup(
-		@RequestParam(name = "job_group") String jobGroup,
+		@RequestParam(name = "job_group") @NotBlank String jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		Long userId = userPrincipal.getUserId();
