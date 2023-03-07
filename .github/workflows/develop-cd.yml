@@ -127,8 +127,13 @@ jobs:
           ./gradlew build
           ./gradlew bootjar
 
+      - name : move logback file
+        run: |
+          mv logback-spring.xml /src/main/resources/
+
       - name: docker hub push
         run: |
+          
           cd build/libs
           pwd
           ls -al
