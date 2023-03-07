@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 
 import lombok.AccessLevel;
@@ -168,9 +169,18 @@ public class Book {
 		validateLengthInRange(apiProvider, 0, 20, "API 제공자");
 	}
 
-
 	public void changePublisher(String publisher) {
 		this.publisher = publisher;
 		validateLengthInRange(publisher, 0, 30, "출판사");
+	}
+
+	public void change(BookCreateRequest bookCreateRequest) {
+		this.changeTitle(bookCreateRequest.title());
+		this.changeAuthor(bookCreateRequest.author());
+		this.changeContents(bookCreateRequest.contents());
+		this.changeApiProvider(bookCreateRequest.apiProvider());
+		this.changeUrl(bookCreateRequest.url());
+		this.changeImageUrl(bookCreateRequest.imageUrl());
+		this.changePublisher(bookCreateRequest.publisher());
 	}
 }

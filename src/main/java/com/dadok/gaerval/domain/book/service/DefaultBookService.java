@@ -88,26 +88,11 @@ public class DefaultBookService implements BookService {
 		Optional<Book> existsBook = this.findByIsbn(bookCreateRequest.isbn());
 		if (existsBook.isPresent()) {
 			return existsBook.map(book -> {
-				book.changeUrl(bookCreateRequest.url());
-				book.changeContents(bookCreateRequest.contents());
-				book.changeAuthor(bookCreateRequest.author());
-				book.changeTitle(bookCreateRequest.title());
-				book.changeImageUrl(bookCreateRequest.imageUrl());
-				book.changeApiProvider(bookCreateRequest.apiProvider());
-
+				book.change(bookCreateRequest);
 				return bookRepository.save(book);
 			}).orElseThrow(() -> new IllegalArgumentException("도서 데이터를 찾는데 실패했습니다."));
 		} else {
-			Book newBook = Book.create(
-				bookCreateRequest.title(),
-				bookCreateRequest.author(),
-				bookCreateRequest.isbn(),
-				bookCreateRequest.contents(),
-				bookCreateRequest.url(),
-				bookCreateRequest.imageUrl(),
-				bookCreateRequest.apiProvider(),
-				bookCreateRequest.publisher()
-			);
+			Book newBook = bookMapper.createBookRequestToEntity(bookCreateRequest);
 			return bookRepository.save(newBook);
 		}
 	}
