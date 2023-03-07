@@ -3,6 +3,8 @@ package com.dadok.gaerval.testutil;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.entity.Book;
@@ -14,8 +16,26 @@ public class BookGroupObjectProvider {
 	public static BookGroup createMockBookGroup(Book book, Long ownerId) {
 		BookGroup bookGroup = BookGroup.create(
 			ownerId, book, LocalDate.now(), LocalDate.now(),
-			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?", "헨리데이빗소로우", true
-		);
+			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
+			"헨리데이빗소로우", true, new BCryptPasswordEncoder());
+		ReflectionTestUtils.setField(bookGroup, "id", 234L);
+		return bookGroup;
+	}
+
+	public static BookGroup createBookGroup(Book book, Long ownerId) {
+		BookGroup bookGroup = BookGroup.create(
+			ownerId, book, LocalDate.now(), LocalDate.now(),
+			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
+			"헨리데이빗소로우", true, new BCryptPasswordEncoder());
+
+		return bookGroup;
+	}
+
+	public static BookGroup createMockBookGroup(Book book, Long ownerId, PasswordEncoder passwordEncoder) {
+		BookGroup bookGroup = BookGroup.create(
+			ownerId, book, LocalDate.now(), LocalDate.now(),
+			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
+			"헨리데이빗소로우", true, passwordEncoder);
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
 		return bookGroup;
 	}

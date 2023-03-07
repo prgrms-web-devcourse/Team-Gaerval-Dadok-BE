@@ -28,6 +28,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
@@ -384,4 +385,34 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		//then
 	}
 
+	@DisplayName("join - 그룹에 가입한다. 패스워드 미입력")
+	@Test
+	void join_success() throws Exception {
+		//given
+		Long bookGroupId = 1L;
+		BookGroupJoinRequest request = new BookGroupJoinRequest(null);
+
+		willDoNothing().given(bookGroupService).join(bookGroupId, 1L, request);
+		//when
+		mockMvc.perform(post("/api/book-groups/{groupId}/join", bookGroupId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					),
+					requestFields(fieldWithPath("joinPassword").type(JsonFieldType.STRING).optional()
+						.description("모임 비밀번호. "
+							+ "\n 설정되어있지 않다면 null 가능"))
+				)
+			)
+		;
+	}
 }

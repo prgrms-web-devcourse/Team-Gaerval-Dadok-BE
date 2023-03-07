@@ -52,6 +52,18 @@ public class CommonValidator {
 		}
 	}
 
+	public static void validateWhiteSpaceAndLengthLessThen(String value, int length, String valueName) {
+		validateNotnull(value, valueName);
+		if (org.apache.commons.lang3.StringUtils.containsWhitespace(value) || value.equals("")) {
+			throw new InvalidArgumentException("패스워드에는 공백을 포함할 수 없습니다.", valueName);
+		}
+		if (value.length() > length) {
+			throw new InvalidArgumentException(
+				String.format("%s의 길이는 %s 이하여야 합니다. ", valueName, length));
+		}
+
+	}
+
 	public static void validateLengthLessThenWithNullable(String value, int length, String valueName) {
 		if (value == null) {
 			return;

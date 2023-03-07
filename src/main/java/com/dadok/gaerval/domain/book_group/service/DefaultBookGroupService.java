@@ -2,18 +2,21 @@ package com.dadok.gaerval.domain.book_group.service;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
+import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -31,6 +34,10 @@ public class DefaultBookGroupService implements BookGroupService {
 
 	private final UserService userService;
 
+	private final PasswordEncoder passwordEncoder;
+
+	private final GroupMemberRepository groupMemberRepository;
+
 	@Override
 	public BookGroupResponses findAllBookGroups(BookGroupSearchRequest request) {
 		return bookGroupRepository.findAllBy(request);
@@ -43,8 +50,9 @@ public class DefaultBookGroupService implements BookGroupService {
 		Book book = bookService.createBook(request.book());
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
-			request.joinQuestion(), request.joinPasswd(), request.isPublic());
+			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder);
 		GroupMember.create(bookGroup, user);
+
 		return bookGroupRepository.save(bookGroup).getId();
 	}
 
@@ -60,11 +68,24 @@ public class DefaultBookGroupService implements BookGroupService {
 
 	@Transactional
 	@Override
+	public void join(Long groupId, Long userId, BookGroupJoinRequest request) {
+		BookGroup bookGroup = bookGroupRepository.findByIdWithGroupMembers(groupId)
+			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
+
+		bookGroup.checkPasswd(request.joinPassword(), passwordEncoder);
+		User user = userService.getById(userId);
+
+		GroupMember.create(bookGroup, user);
+	}
+
+	@Transactional
+	@Override
 	public void deleteBookGroup(Long groupId, Long userId) {
 		BookGroup bookGroup = bookGroupRepository.findById(groupId)
 			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
 		bookGroup.validateOwner(userId);
 		bookGroupRepository.deleteById(groupId);
+
 	}
 
 	@Override

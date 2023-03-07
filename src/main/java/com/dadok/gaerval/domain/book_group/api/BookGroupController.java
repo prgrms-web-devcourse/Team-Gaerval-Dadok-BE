@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
@@ -90,13 +91,23 @@ public class BookGroupController {
 		return ResponseEntity.ok().body(bookGroupService.findAllBookGroupsByUser(request, userPrincipal.getUserId()));
 	}
 
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PostMapping(value = "/{groupId}/join", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookGroupResponses> join(
+		@PathVariable Long groupId,
+		@RequestBody BookGroupJoinRequest request,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		bookGroupService.join(groupId, userPrincipal.getUserId(), request);
+		return ResponseEntity.ok().build();
+	}
 	/**
 	 * <Pre>
 	 * 책장을 삭제한다.
 	 * </Pre>
 	 *
-	 * @param groupId       : 삭제할 책장 id
-	 * @param userPrincipal : 책장 오너
+	 * @param groupId       : 삭제할 그룹 id
+	 * @param userPrincipal : 요청 유저
 	 * @return status : ok
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")

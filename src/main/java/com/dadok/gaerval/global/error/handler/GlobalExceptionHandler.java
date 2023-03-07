@@ -30,7 +30,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
-import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
+import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.global.error.ErrorCode;
@@ -58,6 +59,16 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
+
+	@ExceptionHandler(NotMatchedPasswordException.class)
+	public ResponseEntity<ErrorResponse> handleNotMatchedPasswordException(
+		NotMatchedPasswordException e, HttpServletRequest request) {
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return ResponseEntity.status(errorCode.getStatus())
+			.body(ErrorResponse.of(errorCode.getStatus(), e.getMessage(), request.getRequestURI()));
+	}
 
 	@ExceptionHandler(value = ResourceNotfoundException.class)
 	public ResponseEntity<ErrorResponse> handleResourceNotfoundException(
@@ -252,9 +263,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return of(errorCode, request.getRequestURI());
 	}
 
-	@ExceptionHandler(ExceedMaximumNumberOfMemberException.class)
+	@ExceptionHandler(ExceedLimitMemberException.class)
 	public ResponseEntity<ErrorResponse> handleExceedMaximumNumberOfMemberException(
-		HttpServletRequest request, ExceedMaximumNumberOfMemberException e) {
+		HttpServletRequest request, ExceedLimitMemberException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());

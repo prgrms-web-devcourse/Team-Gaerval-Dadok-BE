@@ -544,6 +544,31 @@ include::{snippets}/book-group-controller-slice-test/find-my-book-groups/http-re
 
 include::{snippets}/book-group-controller-slice-test/find-my-book-groups/response-fields.adoc[]
 
+=== 모임 가입
+
+==== Request
+
+include::{snippets}/book-group-controller-slice-test/join_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-slice-test/join_success/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/book-group-controller-slice-test/join_success/path-parameters.adoc[]
+
+
+==== Request Body
+
+include::{snippets}/book-group-controller-slice-test/join_success/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-slice-test/join_success/http-response.adoc[]
+
+
+
 == Job - 직군, 직업
 
 === 모든 직업 조회
