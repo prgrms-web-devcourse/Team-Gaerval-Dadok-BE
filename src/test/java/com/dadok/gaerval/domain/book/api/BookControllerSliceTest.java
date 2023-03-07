@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.book.api;
 
 import static com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator.*;
 import static com.dadok.gaerval.global.config.security.jwt.JwtService.*;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -28,6 +29,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponse;
@@ -260,5 +262,63 @@ class BookControllerSliceTest extends ControllerTest {
 			))
 		;
 		//then
+	}
+
+	@DisplayName("saveBookDetail - 도서를 저장하는데 성공한다.")
+	@Test
+	void saveBookDetail_success() throws Exception {
+		BookCreateRequest bookCreateRequest = BookObjectProvider.createBookCreateRequest();
+
+		mockMvc.perform(post("/api/books")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(objectMapper.writeValueAsString(bookCreateRequest)))
+			.andExpect(status().isCreated())
+			.andExpect(header().string("Location", containsString("/api/books/")))
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				requestFields(
+					fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "title")
+						),
+					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "author")
+						),
+					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "isbn")
+						),
+					fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "contents")
+						),
+					fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "url")
+						),
+					fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "imageUrl")
+						),
+					fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "publisher")
+						),
+					fieldWithPath("apiProvider").type(JsonFieldType.STRING).description("api 제공사")
+						.attributes(
+							constrainsAttribute(BookCreateRequest.class, "apiProvider")
+						)
+					),
+				responseFields(
+					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("생성된 도서 id")
+				)
+				)
+			);
 	}
 }

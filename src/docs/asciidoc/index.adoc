@@ -436,6 +436,28 @@ include::{snippets}/book-controller-slice-test/find-suggestion-books_success/htt
 
 include::{snippets}/book-controller-slice-test/find-suggestion-books_success/response-fields.adoc[]
 
+=== 책 생성
+
+==== Request
+
+include::{snippets}/book-controller-slice-test/save-book-detail_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-controller-slice-test/save-book-detail_success/request-headers.adoc[]
+
+==== Request Body
+
+include::{snippets}/book-controller-slice-test/save-book-detail_success/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/book-controller-slice-test/save-book-detail_success/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/book-controller-slice-test/save-book-detail_success/response-fields.adoc[]
+
 == BookGroup - 모임
 
 === 모임 생성

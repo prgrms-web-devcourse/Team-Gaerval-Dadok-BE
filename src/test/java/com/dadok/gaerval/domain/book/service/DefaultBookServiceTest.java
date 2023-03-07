@@ -105,6 +105,25 @@ class DefaultBookServiceTest {
 		assertEquals(existingBook.getPublisher(), savedBook.getPublisher());
 	}
 
+	@DisplayName("createBookAndReturnId - 도서를 저장하고 도서ID를 얻는데 성공한다.")
+	@Test
+	void createBookAndReturnId() {
+		// given
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		ReflectionTestUtils.setField(book, "id", 1234L);
+
+		given(bookRepository.save(any()))
+			.willReturn(book);
+
+		// when
+		BookCreateRequest bookCreateRequest = BookObjectProvider.createBookCreateRequest();
+		Long savedBookId = defaultBookService.createBookAndReturnId(bookCreateRequest);
+
+		// then
+		verify(bookRepository).save(any());
+		assertEquals(book.getId(), savedBookId);
+	}
+
 	@DisplayName("getById - bookId로 조회에 성공한다.")
 	@Test
 	void getById() {
@@ -247,5 +266,7 @@ class DefaultBookServiceTest {
 		// then
 		assertTrue(actualResponses.searchBookResponseList().isEmpty());
 	}
+
+
 
 }
