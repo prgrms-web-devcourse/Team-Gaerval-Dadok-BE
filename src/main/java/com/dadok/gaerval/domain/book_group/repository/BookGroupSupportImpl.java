@@ -135,8 +135,9 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			tuple.get(groupMember.count()),
 			tuple.get(groupComment.count()),
 			new BookGroupDetailResponse.OwnerResponse(tuple.get(bookGroup.ownerId)),
-			new BookGroupDetailResponse.BookResponse(tuple.get(book.id), tuple.get(book.imageUrl),
-				tuple.get(book.title)),
+			new BookGroupDetailResponse.BookResponse(tuple.get(book.id),
+				tuple.get(book.title),
+				tuple.get(book.imageUrl)),
 
 			Objects.equals(requestUserId, tuple.get(bookGroup.ownerId)), isGroupMember
 		);
