@@ -203,9 +203,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 	void createBookGroup() throws Exception {
 		// Given
 		var book = BookObjectProvider.createRequiredFieldBook();
-		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
-		var request = new BookGroupCreateRequest(bookCreateRequest,
+		var request = new BookGroupCreateRequest(book.getId(),
 			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 
@@ -226,37 +224,9 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				requestFields(
-					fieldWithPath("book.title").type(JsonFieldType.STRING).description("도서 제목")
+					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 id")
 						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "title")
-						),
-					fieldWithPath("book.author").type(JsonFieldType.STRING).description("도서 작가")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "author")
-						),
-					fieldWithPath("book.isbn").type(JsonFieldType.STRING).description("도서 isbn")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "isbn")
-						),
-					fieldWithPath("book.contents").type(JsonFieldType.STRING).description("도서 설명")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "contents")
-						),
-					fieldWithPath("book.url").type(JsonFieldType.STRING).description("도서 url")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "url")
-						),
-					fieldWithPath("book.imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "imageUrl")
-						),
-					fieldWithPath("book.publisher").type(JsonFieldType.STRING).description("출판사")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "publisher")
-						),
-					fieldWithPath("book.apiProvider").type(JsonFieldType.STRING).description("api 제공사")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "apiProvider")
+							constrainsAttribute(BookCreateRequest.class, "bookId")
 						),
 					fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목")
 						.attributes(

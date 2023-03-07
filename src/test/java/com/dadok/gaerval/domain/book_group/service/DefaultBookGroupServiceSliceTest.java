@@ -19,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
@@ -29,13 +28,10 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
-
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
-import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
-
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
-
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -129,9 +125,7 @@ class DefaultBookGroupServiceSliceTest {
 		var user = UserObjectProvider.createKakaoUser();
 		ReflectionTestUtils.setField(user, "id", 1L);
 		var book = BookObjectProvider.createRequiredFieldBook();
-		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
-		BookGroupCreateRequest request = new BookGroupCreateRequest(bookCreateRequest,
+		var request = new BookGroupCreateRequest(book.getId(),
 			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
@@ -141,8 +135,8 @@ class DefaultBookGroupServiceSliceTest {
 
 		given(userService.getById(user.getId()))
 			.willReturn(user);
-		given(bookService.createBook(bookCreateRequest))
-			.willReturn(book);
+		given(bookService.findById(request.bookId()))
+			.willReturn(Optional.of(book));
 		given(bookGroupRepository.save(any()))
 			.willReturn(bookGroup);
 
@@ -150,7 +144,7 @@ class DefaultBookGroupServiceSliceTest {
 		var bookGroupId = defaultBookGroupService.createBookGroup(user.getId(), request);
 
 		// Then
-		verify(bookService).createBook(bookCreateRequest);
+		verify(bookService).findById(request.bookId());
 		verify(bookGroupRepository).save(any());
 		assertThat(bookGroupId).isEqualTo(1L);
 	}
@@ -268,7 +262,6 @@ class DefaultBookGroupServiceSliceTest {
 		verify(userService).getById(userId);
 	}
 
-
 	@DisplayName("join - 비밀번호가 틀리다면 가입에 실패한다.")
 	@Test
 	void join_notMatchedPassword_fail() {
@@ -298,7 +291,6 @@ class DefaultBookGroupServiceSliceTest {
 		//then
 		verify(bookGroupRepository).findByIdWithGroupMembers(groupId);
 	}
-
 
 	@DisplayName("deleteBookGroup - 그룹을 삭제한다.")
 	@Test
@@ -360,7 +352,8 @@ class DefaultBookGroupServiceSliceTest {
 		// given
 		Long userId = 1L;
 		Long bookGroupId = 234L;
-		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), userId);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			userId);
 		given(bookGroupRepository.findById(bookGroupId))
 			.willReturn(Optional.of(bookGroup));
 
@@ -378,7 +371,8 @@ class DefaultBookGroupServiceSliceTest {
 		// given
 		Long userId = 1L;
 		Long bookGroupId = 234L;
-		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), userId);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			userId);
 		given(bookGroupRepository.findById(bookGroupId))
 			.willReturn(Optional.of(bookGroup));
 
