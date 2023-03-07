@@ -141,9 +141,17 @@ public class DefaultBookshelfService implements BookshelfService {
 		bookshelf.changeJobId(jobId);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public SuggestionBookshelvesResponses findSuggestionBookshelves() {
 		return new SuggestionBookshelvesResponses(bookshelfRepository.findAllSuggestions(5));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookShelfDetailResponse findBookShelfById(Long bookshelfId) {
+		return bookshelfRepository.findBookShelfById(bookshelfId)
+			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {

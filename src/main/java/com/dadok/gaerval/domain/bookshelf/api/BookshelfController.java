@@ -170,4 +170,14 @@ public class BookshelfController {
 
 		return ResponseEntity.ok(bookShelf);
 	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(value = "/bookshelves/{bookshelfId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookShelfDetailResponse> findBookshelfById(@PathVariable Long bookshelfId) {
+
+		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfById(bookshelfId);
+
+		return ResponseEntity.ok(bookShelf);
+	}
+
 }
