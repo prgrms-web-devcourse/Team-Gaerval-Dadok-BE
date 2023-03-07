@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
+import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
@@ -150,9 +151,17 @@ public class BookGroup extends BaseTimeColumn {
 			throw new AlreadyContainBookGroupException();
 		}
 
-		checkMemberCount();
+		checkCanJoin();
 
 		this.groupMembers.add(groupMember);
+	}
+
+	private void checkCanJoin() {
+		LocalDate currentDate = LocalDate.now();
+		if (currentDate.isAfter(this.endDate.plusDays(1))) {
+			throw new ExpiredJoinGroupPeriodException();
+		}
+		checkMemberCount();
 	}
 
 	@JacocoExcludeGenerated
