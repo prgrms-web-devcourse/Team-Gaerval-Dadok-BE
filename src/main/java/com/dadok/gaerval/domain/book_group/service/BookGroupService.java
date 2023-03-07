@@ -20,4 +20,5 @@ public interface BookGroupService {
 
 	Optional<BookGroup> findById(Long groupId);
 
+	void deleteBookGroup(Long groupId, Long userId);
 }

@@ -130,6 +130,6 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.where(bookshelf.id.eq(bookshelfId))
 			.fetchOne();
 
-		return Optional.empty();
+		return Optional.ofNullable(bookShelfDetailResponse);
 	}
 }

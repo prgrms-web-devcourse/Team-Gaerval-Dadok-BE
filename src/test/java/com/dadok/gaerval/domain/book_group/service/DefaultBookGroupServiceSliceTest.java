@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
+import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -222,4 +223,57 @@ class DefaultBookGroupServiceSliceTest {
 		assertEquals(bookGroupOptional.get(), bookGroup);
 	}
 
+	@DisplayName("deleteBookGroup - 그룹을 삭제한다.")
+	@Test
+	void deleteBookGroup_Success() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+		doNothing().when(bookGroupRepository).deleteById(2L);
+
+		//when
+		defaultBookGroupService.deleteBookGroup(2L, 1L);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+		verify(bookGroupRepository).deleteById(2L);
+	}
+
+	@DisplayName("deleteBookGroup - 그룹이 존재하지 않을 경우 - 실패")
+	@Test
+	void deleteBookGroup_bookGroupNotExist_fail() {
+		//given
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.empty());
+
+		//when
+		assertThrows(ResourceNotfoundException.class, () ->
+			defaultBookGroupService.deleteBookGroup(2L, 1L)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("deleteBookGroup - 사용자가 모임장이 아닐경우 - 실패")
+	@Test
+	void deleteBookGroup_notOwner_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertThrows(BookGroupOwnerNotMatchedException.class, () ->
+			defaultBookGroupService.deleteBookGroup(2L, 2L)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
 }

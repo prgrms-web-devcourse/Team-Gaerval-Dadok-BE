@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
+import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
@@ -171,5 +172,11 @@ public class BookGroup extends BaseTimeColumn {
 	public int hashCode() {
 		return Objects.hash(id, ownerId, book, title, startDate, endDate, maxMemberCount, introduce, isPublic,
 			hasJoinPasswd, joinQuestion, joinPasswd, groupMembers, comments);
+	}
+
+	public void validateOwner(Long userId) {
+		if (!Objects.equals(userId, this.ownerId)) {
+			throw new BookGroupOwnerNotMatchedException();
+		}
 	}
 }
