@@ -10,12 +10,11 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public record BookGroupCreateRequest(
-	@NotNull(message = "book 은 null 일수 없습니다.")
-	BookCreateRequest book,
+	@NotNull(message = "bookId 은 null 일수 없습니다.")
+	Long bookId,
 
 	@NotBlank(message = "title 입력되지않았습니다.")
 	@Length(max = 30, message = "title은 최대 30자까지 입력 가능합니다.")

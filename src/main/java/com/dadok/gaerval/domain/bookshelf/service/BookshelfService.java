@@ -2,8 +2,8 @@ package com.dadok.gaerval.domain.bookshelf.service;
 
 import java.util.Optional;
 
-import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -25,7 +25,7 @@ public interface BookshelfService {
 
 	SuggestionBookshelvesByJobGroupResponses findSuggestionBookshelvesByJobGroup(Long userId, String jobGroup);
 
-	Long insertBookSelfItem(Long userId, Long bookshelfId, BookCreateRequest bookCreateRequest);
+	Long insertBookSelfItem(Long userId, Long bookshelfId, BookshelfItemCreateRequest bookshelfItemCreateRequest);
 
 	Long removeBookSelfItem(Long userId, Long bookshelfId, Long bookId);
 

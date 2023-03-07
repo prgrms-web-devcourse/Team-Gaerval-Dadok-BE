@@ -55,11 +55,11 @@ class DefaultBookServiceSliceTest {
 
 		// when
 		BookCreateRequest bookCreateRequest = BookObjectProvider.createBookCreateRequest();
-		Book savedBook = defaultBookService.createBook(bookCreateRequest);
+		Long savedBookId = defaultBookService.createBookAndReturnId(bookCreateRequest);
 
 		// then
 		verify(bookRepository).save(any());
-		assertEquals(book.getId(), savedBook.getId());
+		assertEquals(book.getId(), savedBookId);
 	}
 
 	@DisplayName("getById - bookId로 조회에 성공한다.")
@@ -151,7 +151,7 @@ class DefaultBookServiceSliceTest {
 			new SuggestionsBookFindResponse(100L, "http://imageurl7.com"
 				, "나는 왜이렇게 귀여울까", "김별", "123456789", "교보", "http://이미지링크2.com",
 				JobGroup.DEVELOPMENT.getGroupName(),
-				JobGroup.JobName.BACKEND_DEVELOPER.getJobName(),5L),
+				JobGroup.JobName.BACKEND_DEVELOPER.getJobName(), 5L),
 			new SuggestionsBookFindResponse(10L, "http://imageurl4.com"
 				, "세상에서 김별이 제일 귀엽다", "강형욱", "123456789", "오렐리", "http://이미지링크3.com",
 				JobGroup.DEVELOPMENT.getGroupName(),

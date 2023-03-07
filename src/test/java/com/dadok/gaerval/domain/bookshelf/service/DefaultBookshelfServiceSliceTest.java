@@ -22,10 +22,10 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -139,50 +139,43 @@ class DefaultBookshelfServiceSliceTest {
 	void insertBookSelfItem_success() {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
-		given(bookService.findByIsbn(book.getIsbn()))
+		given(bookService.findById(book.getId()))
 			.willReturn(Optional.of(book));
 
 		// When
-		var bookshelfId = bookshelfService.insertBookSelfItem(user.getId(), 1L, bookCreateRequest);
+		var bookshelfId = bookshelfService.insertBookSelfItem(user.getId(), 1L, request);
 
 		// Then
 		assertThat(bookshelfId).isEqualTo(1L);
 		assertThat(bookshelf.getBookshelfItems()).hasSize(1);
 		assertThat(bookshelf.getBookshelfItems().get(0).getBook()).isEqualTo(book);
 		verify(bookshelfRepository).findById(1L);
-		verify(bookService).findByIsbn(book.getIsbn());
+		verify(bookService).findById(book.getId());
 	}
 
-	@DisplayName("insertBookSelfItem - book을 저장하고 책장에 추가한다 - 성공")
+	@DisplayName("insertBookSelfItem - book이 존재하지 않는 경우 - 실패")
 	@Test
-	void insertBookSelfItem_bookSave_success() {
+	void insertBookSelfItem_bookNotExist_fail() {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
-		given(bookService.findByIsbn(book.getIsbn()))
+		given(bookService.findById(book.getId()))
 			.willReturn(Optional.empty());
-		given(bookService.createBook(bookCreateRequest))
-			.willReturn(book);
 
 		// When
-		var bookshelfId = bookshelfService.insertBookSelfItem(user.getId(), 1L, bookCreateRequest);
+		assertThrows(ResourceNotfoundException.class,
+			() -> bookshelfService.insertBookSelfItem(user.getId(), 1L, request));
 
 		// Then
-		assertThat(bookshelfId).isEqualTo(1L);
-		assertThat(bookshelf.getBookshelfItems()).hasSize(1);
-		assertThat(bookshelf.getBookshelfItems().get(0).getBook()).isEqualTo(book);
 		verify(bookshelfRepository).findById(1L);
-		verify(bookService).findByIsbn(book.getIsbn());
-		verify(bookService).createBook(bookCreateRequest);
+		verify(bookService).findById(book.getId());
 	}
 
 	@DisplayName("insertBookSelfItem - 존재하지 않는 책장 id의 경우 - 실패")
@@ -190,15 +183,14 @@ class DefaultBookshelfServiceSliceTest {
 	void insertBookSelfItem_bookshelfNotExist_fail() {
 		// Given
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.empty());
 
 		// When
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.insertBookSelfItem(user.getId(), 1L, bookCreateRequest));
+			() -> bookshelfService.insertBookSelfItem(user.getId(), 1L, request));
 
 		// Then
 		verify(bookshelfRepository).findById(1L);
@@ -210,15 +202,14 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		ReflectionTestUtils.setField(user, "id", 23L);
 		ReflectionTestUtils.setField(bookshelf, "id", 1L);
-		var bookCreateRequest = new BookCreateRequest(book.getTitle(), book.getAuthor(), book.getIsbn(),
-			book.getContents(), book.getUrl(), book.getImageUrl(), book.getPublisher(), book.getApiProvider());
+		var request = new BookshelfItemCreateRequest(book.getId());
 
 		given(bookshelfRepository.findById(1L))
 			.willReturn(Optional.of(bookshelf));
 
 		// When
 		assertThrows(BookshelfUserNotMatchedException.class,
-			() -> bookshelfService.insertBookSelfItem(645L, 1L, bookCreateRequest));
+			() -> bookshelfService.insertBookSelfItem(645L, 1L, request));
 
 		// Then
 		verify(bookshelfRepository).findById(1L);
@@ -524,7 +515,6 @@ class DefaultBookshelfServiceSliceTest {
 		assertThat(bookShelf).hasFieldOrPropertyWithValue("jobId", idToUpdate);
 		verify(bookshelfRepository).findByUserId(userId);
 	}
-
 
 	@DisplayName("findBookShelfById - bookshelfId로 책장과 유저와 직업을 같이 조회해온다.")
 	@Test

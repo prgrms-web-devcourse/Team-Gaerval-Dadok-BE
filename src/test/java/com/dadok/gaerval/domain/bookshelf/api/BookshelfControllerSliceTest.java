@@ -29,9 +29,9 @@ import org.springframework.util.MultiValueMap;
 
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
-import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -176,16 +176,7 @@ class BookshelfControllerSliceTest extends ControllerTest {
 	@WithMockCustomOAuth2LoginUser
 	void insertBookInBookshelf() throws Exception {
 		// Given
-		var title = "미움받을 용기";
-		var author = "기시미 이치로, 고가 후미타케";
-		var isbn = "9788996991342";
-		var contents = "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.";
-		var url = "https://search.daum.net/search?w=bookpage&bookId=1467038&q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0";
-		var imageUrl = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038";
-		var apiProvider = "kakao";
-		var publisher = "인플루엔셜";
-		BookCreateRequest request = new BookCreateRequest(title, author, isbn, contents, url,
-			imageUrl, publisher, apiProvider);
+		BookshelfItemCreateRequest request = new BookshelfItemCreateRequest(55L);
 
 		given(bookshelfService.insertBookSelfItem(any(), eq(23L), eq(request)))
 			.willReturn(23L);
@@ -207,37 +198,9 @@ class BookshelfControllerSliceTest extends ControllerTest {
 					parameterWithName("bookshelvesId").description("첵장 Id")
 				),
 				requestFields(
-					fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목")
+					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 id")
 						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "title")
-						),
-					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "author")
-						),
-					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "isbn")
-						),
-					fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "contents")
-						),
-					fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "url")
-						),
-					fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "imageUrl")
-						),
-					fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "publisher")
-						),
-					fieldWithPath("apiProvider").type(JsonFieldType.STRING).description("api 제공사")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "apiProvider")
+							constrainsAttribute(BookshelfItemCreateRequest.class, "bookId")
 						)
 				)
 			));

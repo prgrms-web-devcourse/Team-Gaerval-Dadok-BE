@@ -7,10 +7,10 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
@@ -73,10 +73,11 @@ public class DefaultBookshelfService implements BookshelfService {
 	}
 
 	@Override
-	public Long insertBookSelfItem(Long userId, Long bookshelfId, BookCreateRequest bookCreateRequest) {
+	public Long insertBookSelfItem(Long userId, Long bookshelfId,
+		BookshelfItemCreateRequest bookshelfItemCreateRequest) {
 		Bookshelf bookshelf = validationBookshelfUser(userId, bookshelfId);
-		Book book = bookService.findByIsbn(bookCreateRequest.isbn())
-			.orElseGet(() -> bookService.createBook(bookCreateRequest));
+		Book book = bookService.findById(bookshelfItemCreateRequest.bookId())
+			.orElseThrow(() -> new ResourceNotfoundException(Book.class));
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, book);
 		bookshelfItemRepository.save(bookshelfItem);
 		return bookshelfId;

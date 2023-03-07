@@ -47,7 +47,7 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Override
 	public Long createBookGroup(Long userId, BookGroupCreateRequest request) {
 		User user = userService.getById(userId);
-		Book book = bookService.createBook(request.book());
+		Book book = bookService.findById(request.bookId()).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
 			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder);
@@ -93,7 +93,7 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Override
 	@Transactional(readOnly = true)
 	public BookGroup getById(Long id) {
-		return bookGroupRepository.findById(id).orElseThrow(()-> new ResourceNotfoundException(BookGroup.class));
+		return bookGroupRepository.findById(id).orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
 	}
 
 	@Override

@@ -61,11 +61,11 @@ class DefaultBookServiceTest {
 
 		// when
 		BookCreateRequest bookCreateRequest = BookObjectProvider.createBookCreateRequest();
-		Book savedBook = defaultBookService.createBook(bookCreateRequest);
+		Long savedBookId = defaultBookService.createBookAndReturnId(bookCreateRequest);
 
 		// then
 		verify(bookRepository).save(any());
-		assertEquals(book.getId(), savedBook.getId());
+		assertEquals(book.getId(), savedBookId);
 	}
 
 	@DisplayName("createBook - 이미 저장된 도서를 수정하는데 성공한다.")
@@ -90,19 +90,12 @@ class DefaultBookServiceTest {
 
 		// when
 		BookCreateRequest bookCreateRequest = BookObjectProvider.createBookCreateRequest();
-		Book savedBook = defaultBookService.createBook(bookCreateRequest);
+		Long savedBookId = defaultBookService.createBookAndReturnId(bookCreateRequest);
 
 		// then
 		verify(bookRepository).findBookByIsbn(bookCreateRequest.isbn());
 		verify(bookRepository).save(existingBook);
-		assertEquals(existingBook.getId(), savedBook.getId());
-		assertEquals(updatedBook.getUrl(), savedBook.getUrl());
-		assertEquals(updatedBook.getContents(), savedBook.getContents());
-		assertEquals(updatedBook.getAuthor(), savedBook.getAuthor());
-		assertEquals(updatedBook.getTitle(), savedBook.getTitle());
-		assertEquals(updatedBook.getImageUrl(), savedBook.getImageUrl());
-		assertEquals(updatedBook.getApiProvider(), savedBook.getApiProvider());
-		assertEquals(existingBook.getPublisher(), savedBook.getPublisher());
+		assertEquals(existingBook.getId(), savedBookId);
 	}
 
 	@DisplayName("createBookAndReturnId - 도서를 저장하고 도서ID를 얻는데 성공한다.")
@@ -258,7 +251,7 @@ class DefaultBookServiceTest {
 
 	@DisplayName("findAllByKeyword - 키워드가 비어있거나 알파벳과 숫자, 공백만 포함하지 않는 경우 빈 결과를 반환한다.")
 	@ParameterizedTest
-	@ValueSource(strings = {"", " ", "!@#$","키워드에@"})
+	@ValueSource(strings = {"", " ", "!@#$", "키워드에@"})
 	void findAllByKeyword_WithInvalidKeyword_ReturnsEmptyList(String keyword) {
 		// when
 		BookResponses actualResponses = defaultBookService.findAllByKeyword(keyword);
@@ -266,7 +259,5 @@ class DefaultBookServiceTest {
 		// then
 		assertTrue(actualResponses.searchBookResponseList().isEmpty());
 	}
-
-
 
 }

@@ -504,23 +504,23 @@ include::{snippets}/book-group-controller-slice-test/delete-book-group/http-resp
 
 ==== Request
 
-include::{snippets}/book-group-controller-slice-test/find-group_success/http-request.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-book-group_success/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-controller-slice-test/find-group_success/request-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-book-group_success/request-headers.adoc[]
 
 ==== Path Parameter
 
-include::{snippets}/book-group-controller-slice-test/find-group_success/path-parameters.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-book-group_success/path-parameters.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-controller-slice-test/find-group_success/http-response.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-book-group_success/http-response.adoc[]
 
 ==== Response fields
 
-include::{snippets}/book-group-controller-slice-test/find-group_success/response-fields.adoc[]
+include::{snippets}/book-group-controller-slice-test/find-book-group_success/response-fields.adoc[]
 
 === 모임 전체 조회
 
@@ -580,7 +580,6 @@ include::{snippets}/book-group-controller-slice-test/join_success/request-header
 
 include::{snippets}/book-group-controller-slice-test/join_success/path-parameters.adoc[]
 
-
 ==== Request Body
 
 include::{snippets}/book-group-controller-slice-test/join_success/request-fields.adoc[]
@@ -608,8 +607,6 @@ include::{snippets}/book-group-comment-controller-test/create-book-group-comment
 
 include::{snippets}/book-group-comment-controller-test/create-book-group-comment_-should-return-created/http-response.adoc[]
 
-
-
 === 내가 참여한 모임 댓글 리스트 조회
 
 ==== Request
@@ -632,7 +629,6 @@ include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_
 
 include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/response-body.adoc[]
 include::{snippets}/book-group-comment-controller-test/find-book-groups-comment_-should-return-ok/response-fields.adoc[]
-
 
 == Job - 직군, 직업
 

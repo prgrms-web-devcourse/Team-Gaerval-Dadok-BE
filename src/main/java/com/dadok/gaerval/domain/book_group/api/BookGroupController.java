@@ -101,13 +101,14 @@ public class BookGroupController {
 		bookGroupService.join(groupId, userPrincipal.getUserId(), request);
 		return ResponseEntity.ok().build();
 	}
+
 	/**
 	 * <Pre>
-	 * 책장을 삭제한다.
+	 * 모임을 삭제한다.
 	 * </Pre>
 	 *
 	 * @param groupId       : 삭제할 그룹 id
-	 * @param userPrincipal : 요청 유저
+	 * @param userPrincipal : 요청 유저(모임장)
 	 * @return status : ok
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")

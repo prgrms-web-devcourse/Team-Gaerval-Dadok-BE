@@ -82,9 +82,7 @@ public class DefaultBookService implements BookService {
 		return new BookResponses(searchBookResponseList);
 	}
 
-	@Override
-	@Transactional
-	public Book createBook(BookCreateRequest bookCreateRequest) {
+	private Book createBook(BookCreateRequest bookCreateRequest) {
 		Optional<Book> existsBook = this.findByIsbn(bookCreateRequest.isbn());
 		if (existsBook.isPresent()) {
 			return existsBook.map(book -> {
@@ -113,6 +111,7 @@ public class DefaultBookService implements BookService {
 	}
 
 	@Override
+	@Transactional
 	public Long createBookAndReturnId(BookCreateRequest bookCreateRequest) {
 		return this.createBook(bookCreateRequest).getId();
 	}

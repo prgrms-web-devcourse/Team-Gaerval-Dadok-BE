@@ -13,8 +13,6 @@ public interface BookService {
 
 	BookResponses findAllByKeyword(String keyword);
 
-	Book createBook(BookCreateRequest bookCreateRequest);
-
 	Long createBookAndReturnId(BookCreateRequest bookCreateRequest);
 
 	Book getById(Long bookId);
