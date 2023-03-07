@@ -454,6 +454,10 @@ include::{snippets}/book-controller-slice-test/save-book-detail_success/request-
 
 include::{snippets}/book-controller-slice-test/save-book-detail_success/http-response.adoc[]
 
+==== Response Fields
+
+include::{snippets}/book-controller-slice-test/save-book-detail_success/response-fields.adoc[]
+
 == BookGroup - 모임
 
 === 모임 생성

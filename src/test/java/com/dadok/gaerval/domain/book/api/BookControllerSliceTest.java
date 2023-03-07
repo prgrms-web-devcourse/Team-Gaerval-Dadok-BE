@@ -314,7 +314,10 @@ class BookControllerSliceTest extends ControllerTest {
 						.attributes(
 							constrainsAttribute(BookCreateRequest.class, "apiProvider")
 						)
-					)
+					),
+				responseFields(
+					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("생성된 도서 id")
+				)
 				)
 			);
 	}

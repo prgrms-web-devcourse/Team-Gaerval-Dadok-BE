@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
@@ -77,12 +78,12 @@ public class BookController {
 	 */
 	@PostMapping(value = "", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	public ResponseEntity<Void> saveBookDetail(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
+	public ResponseEntity<BookIdResponse> saveBookDetail(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
 		log.info("[BookController]-[Void]-bookCreateRequest : {}", bookCreateRequest);
 		Long bookId = bookService.createBookAndReturnId(bookCreateRequest);
 		String redirectUri =
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookId.toString();
-		return ResponseEntity.created(URI.create(redirectUri)).build();
+		return ResponseEntity.created(URI.create(redirectUri)).body(new BookIdResponse(bookId));
 	}
 
 	@GetMapping("/suggestions")
