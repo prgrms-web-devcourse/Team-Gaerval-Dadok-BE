@@ -354,4 +354,41 @@ class DefaultBookGroupServiceSliceTest {
 		verify(bookGroupRepository).findById(2L);
 	}
 
+	@DisplayName("getById - bookGroupId로 조회에 성공한다.")
+	@Test
+	void getById() {
+		// given
+		Long userId = 1L;
+		Long bookGroupId = 234L;
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), userId);
+		given(bookGroupRepository.findById(bookGroupId))
+			.willReturn(Optional.of(bookGroup));
+
+		// when
+		BookGroup findBookGroup = defaultBookGroupService.getById(bookGroupId);
+
+		// then
+		verify(bookGroupRepository).findById(bookGroupId);
+		assertEquals(bookGroup, findBookGroup);
+	}
+
+	@DisplayName("findById - bookGroupId로 조회에 성공한다.")
+	@Test
+	void findById() {
+		// given
+		Long userId = 1L;
+		Long bookGroupId = 234L;
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), userId);
+		given(bookGroupRepository.findById(bookGroupId))
+			.willReturn(Optional.of(bookGroup));
+
+		// when
+		Optional<BookGroup> findBookGroup = defaultBookGroupService.findById(bookGroupId);
+
+		// then
+		verify(bookGroupRepository).findById(bookGroupId);
+		assertTrue(findBookGroup.isPresent());
+		assertEquals(bookGroup, findBookGroup.get());
+	}
+
 }
