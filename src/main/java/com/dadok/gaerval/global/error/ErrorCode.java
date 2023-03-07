@@ -31,11 +31,10 @@ public enum ErrorCode {
 	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B001", "잘못된 도서 데이터 형식입니다."),
 
 	// BookGroup
-	EXCEED_MAXIMUM_NUMBER_OF_MEMBER(HttpStatus.BAD_REQUEST, "G001", "모임 최대 인원을 초과하였습니다."),
+	EXCEED_LIMIT_MEMBER(HttpStatus.BAD_REQUEST, "G001", "모임 최대 인원을 초과하였습니다."),
 	ALREADY_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.BAD_REQUEST, "G002", "이미 모임에 참여한 사용자입니다."),
 
 	NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST, "G003", "모임 비밀번호가 틀렸습니다."),
-	JOIN_LIMIT(HttpStatus.CONFLICT, "G004", "가입이 불가능 합니다. 모임 인원이 꽉 찼습니다."),
 	BOOK_GROUP_OWNER_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "G003", "해당 모임의 모임장 권한이 없는 사용자입니다.");
 
 	private final HttpStatus status;
@@ -43,6 +42,4 @@ public enum ErrorCode {
 	private final String code;
 
 	private final String message;
-	// Cannot comment on child comments
-	// You can't post a child comment if it's not a parent comment.
 }

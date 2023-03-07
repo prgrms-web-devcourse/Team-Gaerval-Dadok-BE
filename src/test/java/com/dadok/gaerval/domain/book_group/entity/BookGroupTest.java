@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
-import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
-import com.dadok.gaerval.domain.book_group.exception.JoinLimitException;
+import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
@@ -269,7 +268,7 @@ class BookGroupTest {
 		GroupMember.create(bookGroup, UserObjectProvider.createKakaoUser());
 
 		//when
-		assertThrows(ExceedMaximumNumberOfMemberException.class,
+		assertThrows(ExceedLimitMemberException.class,
 			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
 	}
 
@@ -307,7 +306,6 @@ class BookGroupTest {
 	@ValueSource(strings = {"12345", "123", "12", "1", "123456", "가나다라", "1232", "1233", "1235", "4321", "라가23"})
 	void checkPasswd_inputPasswdNotMatched_fail(String passwd) {
 		//given
-		//given
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now(),
 			1, "책읽기 소모임", "책읽기 소모임",
@@ -341,37 +339,6 @@ class BookGroupTest {
 		String password = "1234";
 		//when
 		assertDoesNotThrow(()-> bookGroup.checkPasswd(password, passwordEncoder));
-	}
-
-	@DisplayName("checkMemberCount - 인원이 꽉찼다면 예외를 던진다.")
-	@Test
-	void checkMemberCount_throw() {
-		//given
-		User naverUser = UserObjectProvider.createNaverUser();
-		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
-			1, "책읽기 소모임", "책읽기 소모임",
-			false, null, "1234", false, passwordEncoder);
-		String password = "1234";
-		GroupMember.create(bookGroup, naverUser);
-		//when
-		assertThrows(JoinLimitException.class, ()-> bookGroup.checkMemberCount());
-	}
-
-	@DisplayName("checkMemberCount - 가입이 가능하다면 예외를 던지지않는다.")
-	@Test
-	void checkMemberCount_success() {
-		//given
-		User naverUser = UserObjectProvider.createNaverUser();
-		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
-			2, "책읽기 소모임", "책읽기 소모임",
-			false, null, "1234", false, passwordEncoder);
-		String password = "1234";
-		GroupMember.create(bookGroup, naverUser);
-		//when
-		assertDoesNotThrow(()-> bookGroup.checkMemberCount());
-		assertTrue(bookGroup.getMaxMemberCount() > bookGroup.getGroupMembers().size());
 	}
 
 
