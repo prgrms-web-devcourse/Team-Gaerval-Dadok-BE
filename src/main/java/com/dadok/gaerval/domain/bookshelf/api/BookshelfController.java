@@ -38,6 +38,13 @@ public class BookshelfController {
 
 	private final BookshelfService bookshelfService;
 
+	/**
+	 * <Pre>
+	 * 미로그인 사용자 접근용 인기 책장을 조회한다.
+	 * </Pre>
+	 *
+	 * @return status : ok , SuggestionBookshelvesResponses : 책장 5개와 책장의 일부 책 list
+	 */
 	@GetMapping(value = "/suggestions/bookshelves/default",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
@@ -54,7 +61,7 @@ public class BookshelfController {
 	 * </pre>
 	 *
 	 * @param jobGroup
-	 * @return status : ok , SuggestionBookshelvesByJobGroupResponses : 책장과 책장의 일부 책 list
+	 * @return status : ok , SuggestionBookshelvesByJobGroupResponses : 책장 5개와 책장의 일부 책 list
 	 */
 	@GetMapping(value = "/suggestions/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
