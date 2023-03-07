@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest
-public abstract class ControllerTest {
+public abstract class ControllerSliceTest {
 
 	public static final String MOCK_ACCESS_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg";
 

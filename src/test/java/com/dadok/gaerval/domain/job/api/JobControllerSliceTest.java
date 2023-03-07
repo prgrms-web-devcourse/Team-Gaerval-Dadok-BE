@@ -15,14 +15,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 
 @WebMvcTest(controllers = JobController.class)
-class JobControllerSliceTest extends ControllerTest {
+class JobControllerSliceTest extends ControllerSliceTest {
 
 	@MockBean
 	private JobService jobService;

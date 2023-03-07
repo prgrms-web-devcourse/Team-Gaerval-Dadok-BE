@@ -43,7 +43,7 @@ test.env
 !**/src/test/resources/application-test.yml
 src/test/resources/application-test.yml
 src/test/**/*.yml
-
+src/test/resources/logback-test.xml
 ## AWS User-specific
 .idea/**/aws.xml
 

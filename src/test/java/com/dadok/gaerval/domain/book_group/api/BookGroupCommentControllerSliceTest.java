@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import com.dadok.gaerval.controller.ControllerTest;
+import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
@@ -34,17 +33,13 @@ import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookGroupCommentObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(controllers = BookGroupCommentController.class)
 @WithMockCustomOAuth2LoginUser
-class BookGroupCommentControllerTest extends ControllerTest {
+class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 
 	@MockBean
 	private BookGroupCommentService bookGroupCommentService;
-
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	@DisplayName("댓글 저장에 성공한다.")
 	@Test
@@ -63,7 +58,7 @@ class BookGroupCommentControllerTest extends ControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
-				.content(objectMapper.writeValueAsString(request))
+				.content(createJson(request))
 			)
 			.andExpect(status().isCreated())
 			.andDo(print())
@@ -76,8 +71,11 @@ class BookGroupCommentControllerTest extends ControllerTest {
 					parameterWithName("groupId").description("모임 ID")
 				),
 				requestFields(
-					fieldWithPath("parentCommentId").type(JsonFieldType.NUMBER).optional().description("부모댓글 아이디(없으면 null)"),
+					fieldWithPath("parentCommentId").type(JsonFieldType.NUMBER).optional().description("부모댓글 id (없으면 null) null이면 부모댓글"),
 					fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용")
+						.attributes(
+							constrainsAttribute(BookGroupCommentCreateRequest.class, "comment")
+						)
 				)
 			))
 		;
@@ -143,8 +141,8 @@ class BookGroupCommentControllerTest extends ControllerTest {
 					fieldWithPath("bookGroupComments[].parentCommentId").type(JsonFieldType.NUMBER).description("부모 댓 ID"),
 					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
 					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
-					fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.ARRAY).description("생성일"),
-					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.ARRAY).description("수정일")
+					fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.STRING).description("생성일"),
+					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.STRING).description("수정일")
 				)));
 
 		verify(bookGroupCommentService).findAllBookGroupCommentsByGroup(eq(request), any(), any());

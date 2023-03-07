@@ -1,6 +1,6 @@
 package com.dadok.gaerval.oauth;
 
-import static com.dadok.gaerval.controller.ControllerTest.*;
+import static com.dadok.gaerval.controller.ControllerSliceTest.*;
 
 import java.io.IOException;
 
