@@ -108,4 +108,28 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 							book.id, book.title, book.imageUrl)
 					))));
 	}
+
+	@Override
+	public Optional<BookShelfDetailResponse> findBookShelfById(Long bookshelfId) {
+
+		BookShelfDetailResponse bookShelfDetailResponse = query.select(constructor(BookShelfDetailResponse.class,
+					bookshelf.id.as("bookshelfId"),
+					bookshelf.name.as("bookshelfName"),
+					bookshelf.isPublic.as("isPublic"),
+					user.id.as("userId"),
+					user.name.as("username"),
+					user.nickname.nickname.as("userNickname"),
+					user.profileImage.as("userProfileImage"),
+					job.jobGroup, job.jobName, job.sortOrder
+
+				)
+			)
+			.from(bookshelf)
+			.leftJoin(bookshelf.user, user)
+			.leftJoin(user.job, job)
+			.where(bookshelf.id.eq(bookshelfId))
+			.fetchOne();
+
+		return Optional.empty();
+	}
 }

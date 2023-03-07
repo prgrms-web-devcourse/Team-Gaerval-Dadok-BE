@@ -4,12 +4,12 @@
 
     <!-- profile이 local인 경우-->
     <springProfile name="local">
-        <property name="PATH" value="./logs/local.log"/>
+        <property name="PATH" value="/logs/local.log"/>
     </springProfile>
 
     <!-- profile이 develop인 경우-->
     <springProfile name="develop">
-        <property name="PATH" value="/home/ec2-user/logs/develop.log"/>
+        <property name="PATH" value="/logs/develop.log"/>
     </springProfile>
 
     <!-- 스프링부트 기본 로깅 패턴 -->
