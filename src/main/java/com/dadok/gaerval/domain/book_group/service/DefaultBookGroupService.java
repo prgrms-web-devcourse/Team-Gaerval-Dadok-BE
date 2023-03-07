@@ -23,7 +23,6 @@ import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 
 import lombok.RequiredArgsConstructor;
 
-@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class DefaultBookGroupService implements BookGroupService {
@@ -86,6 +85,11 @@ public class DefaultBookGroupService implements BookGroupService {
 		bookGroup.validateOwner(userId);
 		bookGroupRepository.deleteById(groupId);
 
+	}
+
+	@Override
+	public BookGroup getById(Long id) {
+		return bookGroupRepository.findById(id).orElseThrow(()-> new ResourceNotfoundException(BookGroup.class));
 	}
 
 	@Override
