@@ -16,6 +16,7 @@ import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
+import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,6 +56,15 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Override
 	public Optional<BookGroup> findById(Long groupId) {
 		return bookGroupRepository.findById(groupId);
+	}
+
+	@Transactional
+	@Override
+	public void deleteBookGroup(Long groupId, Long userId) {
+		BookGroup bookGroup = bookGroupRepository.findById(groupId)
+			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
+		bookGroup.validateOwner(userId);
+		bookGroupRepository.deleteById(groupId);
 	}
 
 	@Override

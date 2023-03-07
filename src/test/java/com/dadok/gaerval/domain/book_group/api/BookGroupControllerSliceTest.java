@@ -69,14 +69,12 @@ class BookGroupControllerSliceTest extends ControllerTest {
 		//when
 		mockMvc.perform(get("/api/book-groups")
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.accept(MediaType.APPLICATION_JSON)
 				.params(params)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				requestParameters(
@@ -102,16 +100,19 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
 						.description("모임 최대 멤버 수"),
-					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
+					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+						.description("모임 비밀번호(잠김) 여부"),
 
 					fieldWithPath("bookGroups[].isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부"),
 
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
 					fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
-					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING)
+						.description("모임 책 image url"),
 					fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
-					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
+					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING)
+						.description("모임장 프로필 url"),
 					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
@@ -184,9 +185,11 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
 					fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
-					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING)
+						.description("모임 책 image url"),
 					fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
-					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
+					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING)
+						.description("모임장 프로필 url"),
 					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
@@ -291,9 +294,32 @@ class BookGroupControllerSliceTest extends ControllerTest {
 			));
 	}
 
+	@DisplayName("deleteBookGroup - 모임을 삭제한다")
+	@Test
+	void deleteBookGroup() throws Exception {
+		// Given
+		doNothing().when(bookGroupService).deleteBookGroup(eq(1L), any());
+
+		// When // Then
+		mockMvc.perform(delete("/api/book-groups/{groupId}", 1L)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("groupId").description("모임 Id (bookGroup)")
+				)
+			));
+	}
+
 	@DisplayName("findGroup - 모임 디테일 정보를 반환한다.")
 	@Test
-	void findGroup_success() throws Exception {
+	void findBookGroup_success() throws Exception {
 		//given
 		long bookGroupId = 999L;
 		String title = "김영한님 JPA 읽으실분";
@@ -324,12 +350,10 @@ class BookGroupControllerSliceTest extends ControllerTest {
 
 		mockMvc.perform(get("/api/book-groups/{groupId}", bookGroupId)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 					requestHeaders(
-						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
 					pathParameters(
@@ -354,7 +378,7 @@ class BookGroupControllerSliceTest extends ControllerTest {
 						fieldWithPath("book.id").type(JsonFieldType.NUMBER).description("책 Id."),
 						fieldWithPath("book.title").type(JsonFieldType.STRING).description("모임 책 제목"),
 						fieldWithPath("book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url")
-						)
+					)
 				)
 			);
 		//then
