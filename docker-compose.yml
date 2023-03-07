@@ -15,7 +15,7 @@ services:
       - "8080"
     working_dir: /app
     volumes:
-      - /home/ec2-user/logs:/logs
+      - /home/ec2-user/logs:/app/logs
     depends_on:
       - nginx-dev
     restart: always
@@ -62,7 +62,7 @@ services:
       - "8080"
     working_dir: /app
     volumes:
-      - /home/ec2-user/logs:/logs
+      - /home/ec2-user/logs:/app/logs
     depends_on:
       - nginx-dev
     restart: always
