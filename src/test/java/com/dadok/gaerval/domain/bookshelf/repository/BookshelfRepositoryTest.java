@@ -54,9 +54,15 @@ class BookshelfRepositoryTest {
 		assertThat(res.isEmpty()).isTrue();
 	}
 
-	@DisplayName("인기 책장 요약 list 조회 - findSuggestionsByJobGroup 쿼리테스트")
+	@DisplayName("직군별 인기 책장 요약 list 조회 - findSuggestionsByJobGroup 쿼리테스트")
 	@Test
 	void findSuggestionsByJobGroup() {
 		bookshelfRepository.findSuggestionsByJobGroup(JobGroup.DEVELOPMENT, 10L, 1);
+	}
+
+	@DisplayName("인기 책장 요약 list 조회 - findAllSuggestions 쿼리테스트")
+	@Test
+	void findAllSuggestions() {
+		bookshelfRepository.findAllSuggestions(1);
 	}
 }

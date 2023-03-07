@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.bookshelf.api;
 import static org.springframework.http.MediaType.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -37,18 +39,35 @@ public class BookshelfController {
 	private final BookshelfService bookshelfService;
 
 	/**
+	 * <Pre>
+	 * 미로그인 사용자 접근용 인기 책장을 조회한다.
+	 * </Pre>
+	 *
+	 * @return status : ok , SuggestionBookshelvesResponses : 책장 5개와 책장의 일부 책 list
+	 */
+	@GetMapping(value = "/suggestions/bookshelves/default",
+		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<SuggestionBookshelvesResponses> findSuggestionBookshelves(
+	) {
+		SuggestionBookshelvesResponses responses =
+			bookshelfService.findSuggestionBookshelves();
+		return ResponseEntity.ok().body(responses);
+	}
+
+	/**
 	 * <pre>
 	 *     직군을 입력받아 해당 직군 관련 인기 책장을 조회한다.
 	 * </pre>
 	 *
 	 * @param jobGroup
-	 * @return status : ok , SuggestionBookshelvesByJobGroupResponses : 책장과 책장의 일부 책 list
+	 * @return status : ok , SuggestionBookshelvesByJobGroupResponses : 책장 5개와 책장의 일부 책 list
 	 */
 	@GetMapping(value = "/suggestions/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<SuggestionBookshelvesByJobGroupResponses> findSuggestionBookshelvesByJobGroup(
-		@RequestParam(name = "job_group") String jobGroup,
+		@RequestParam(name = "job_group") @NotBlank String jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		Long userId = userPrincipal.getUserId();

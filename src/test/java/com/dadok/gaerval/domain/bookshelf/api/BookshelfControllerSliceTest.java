@@ -36,6 +36,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
+import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -110,6 +111,58 @@ class BookshelfControllerSliceTest extends ControllerTest {
 					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url")
+				)
+			));
+	}
+
+	@DisplayName("findSuggestionBookshelves - 미로그인 사용자 노출용 인기있는 책장 리스트 조회 - 성공")
+	@Test
+	@WithMockCustomOAuth2LoginUser
+	void findSuggestionBookshelves() throws Exception {
+		// Given
+		String jobGroup = JobGroup.DEVELOPMENT.getDescription();
+		var responses = new SuggestionBookshelvesResponses(
+			List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+					List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+				),
+				new BookShelfSummaryResponse(13L, "규란님의 책장",
+					List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+				))
+		);
+
+		given(bookshelfService.findSuggestionBookshelves())
+			.willReturn(responses);
+
+		// When // Then
+		mockMvc.perform(get("/api/suggestions/bookshelves/default")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andExpect(jsonPath("$.bookshelfResponses[*].bookshelfName").exists())
+			.andExpect(jsonPath("$.bookshelfResponses[*].bookshelfId").exists())
+			.andExpect(jsonPath("$.bookshelfResponses[*].books[*].bookId").exists())
+			.andExpect(jsonPath("$.bookshelfResponses[*].books[*].title").exists())
+			.andExpect(jsonPath("$.bookshelfResponses[*].books[*].imageUrl").exists())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				responseFields(
+					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
+						.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
+					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)

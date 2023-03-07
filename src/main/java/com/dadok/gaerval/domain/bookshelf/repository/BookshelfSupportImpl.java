@@ -91,4 +91,21 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 							book.id, book.title, book.imageUrl)
 					))));
 	}
+
+	@Override
+	public List<BookShelfSummaryResponse> findAllSuggestions(int limit) {
+		return query.from(bookshelf)
+			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
+			.leftJoin(bookshelfItem.book, book)
+			.orderBy(bookshelf.bookshelfItems.size().desc()) //TODO 인기척도 후에 수정 필요
+			.limit(limit)
+			.transform(
+				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
+					bookshelf.id,
+					bookshelf.name,
+					list(
+						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
+							book.id, book.title, book.imageUrl)
+					))));
+	}
 }
