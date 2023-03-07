@@ -65,4 +65,10 @@ class BookshelfRepositoryTest {
 	void findAllSuggestions() {
 		bookshelfRepository.findAllSuggestions(1);
 	}
+
+	@DisplayName("findBookShelfById 쿼리 테스트")
+	@Test
+	void findBookShelfById() {
+		bookshelfRepository.findBookShelfById(100L);
+	}
 }

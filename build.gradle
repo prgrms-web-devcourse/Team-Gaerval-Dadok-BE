@@ -265,8 +265,19 @@ build {
     dependsOn copyDocument
 }
 
+// 1. logback-spring.xml 파일이 있는 경로를 설정
+def logbackConfigDir = file('.')
+
+// 2. JAR 파일을 생성하기 전에 logback-spring.xml 파일을 해당 위치에 복사.
+task copyLogbackConfig(type: Copy) {
+    from logbackConfigDir
+    into 'build/resources/main'
+    include 'logback-spring.xml'
+}
+
 bootJar {
     dependsOn asciidoctor
+    dependsOn copyLogbackConfig
 
     println("run bootJar")
     copy {

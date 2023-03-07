@@ -180,7 +180,29 @@ include::{snippets}/user-controller-slice-test/user-profile/response-fields.adoc
 
 == Bookshelf - 책장(북카이브)
 
-=== 책장 정보 조회
+=== 책장 정보 조회 - 책장 Id
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelf-by-id/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelf-by-id//request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelf-by-id/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelf-by-id/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/bookshelf-controller-slice-test/find-bookshelf-by-id/response-fields.adoc[]
+
+=== 책장 정보 조회 - userId
 
 ==== Request
 

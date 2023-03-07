@@ -525,4 +525,37 @@ class DefaultBookshelfServiceSliceTest {
 		verify(bookshelfRepository).findByUserId(userId);
 	}
 
+
+	@DisplayName("findBookShelfById - bookshelfId로 책장과 유저와 직업을 같이 조회해온다.")
+	@Test
+	void findBookShelfById() {
+		//given
+		Long userId = 1L;
+
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, userId,
+			"username", "userNickname",
+			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
+
+		given(bookshelfRepository.findBookShelfById(userId))
+			.willReturn(Optional.of(bookShelfDetailResponse));
+		//when
+
+		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfById(userId);
+
+		//then
+		assertEquals(bookShelfWithJob, bookShelfDetailResponse);
+	}
+
+	@DisplayName("findBookShelfById - bookshelfId로 책장과 유저와 직업을 조회했을 때 없다면 예외를 던진다.")
+	@Test
+	void findBookShelfById_throw() {
+		//given
+		Long userId = 1L;
+
+		given(bookshelfRepository.findBookShelfById(userId))
+			.willReturn(Optional.empty());
+		//when
+		assertThrows(ResourceNotfoundException.class,
+			() -> bookshelfService.findBookShelfById(userId));
+	}
 }

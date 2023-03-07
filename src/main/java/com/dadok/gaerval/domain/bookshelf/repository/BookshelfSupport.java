@@ -16,4 +16,6 @@ public interface BookshelfSupport {
 	List<BookShelfSummaryResponse> findSuggestionsByJobGroup(JobGroup jobGroup, Long userId, int limit);
 
 	List<BookShelfSummaryResponse> findAllSuggestions(int limit);
+
+	Optional<BookShelfDetailResponse> findBookShelfById(Long bookshelfId);
 }

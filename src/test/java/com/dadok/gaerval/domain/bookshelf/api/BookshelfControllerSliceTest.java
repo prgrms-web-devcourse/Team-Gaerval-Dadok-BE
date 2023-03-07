@@ -516,16 +516,77 @@ class BookshelfControllerSliceTest extends ControllerTest {
 							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
 
 					fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
-						.optional()
 						.description("직업 한글명"),
 
-					fieldWithPath("job.jobName").type(JsonFieldType.STRING).optional().description("직업 영어명 :  " +
+					fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
-					fieldWithPath("job.order").type(JsonFieldType.NUMBER).optional().description("직업 정렬 순위")
+					fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
 
 				)
 			));
 		//then
+		verify(bookshelfService).findBookShelfWithJob(userId);
 	}
 
+	@DisplayName("findBookshelfById - 책장 id로 유저와 책장과 직업을 같이 조회해온다.")
+	@Test
+	void findBookshelfById() throws Exception {
+		//given
+
+		Long bookshelfId = 1L;
+
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, bookshelfId,
+			"username", "userNickname",
+			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
+
+		given(bookshelfService.findBookShelfById(bookshelfId))
+			.willReturn(bookShelfDetailResponse);
+		//when
+
+		mockMvc.perform(get("/api/bookshelves/{bookshelfId}", bookshelfId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+
+			)
+			.andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("bookshelfId").description("조회할 책장의 bookshelfId")
+						.attributes(
+							key("constraints").value("Must not be null")
+						)
+
+				),
+				responseFields(
+					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
+					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
+
+					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
+					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
+					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+					fieldWithPath("userProfileImage").type(JsonFieldType.STRING).description("유저 프로필 이미지 url"),
+					fieldWithPath("job").type(JsonFieldType.OBJECT).description("유저의 직업"),
+					fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING)
+						.description("직군 한글명"),
+					fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING)
+						.description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+					fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+						.description("직업 한글명"),
+
+					fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+					fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+				)
+			));
+		//then
+		verify(bookshelfService).findBookShelfById(bookshelfId);
+	}
 }
