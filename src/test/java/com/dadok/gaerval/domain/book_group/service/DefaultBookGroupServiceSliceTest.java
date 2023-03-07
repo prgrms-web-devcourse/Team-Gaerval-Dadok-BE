@@ -15,18 +15,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
+import com.dadok.gaerval.domain.book_group.entity.GroupMember;
+import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
+import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
@@ -49,6 +56,9 @@ class DefaultBookGroupServiceSliceTest {
 
 	@Mock
 	private UserService userService;
+
+	@Mock
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@DisplayName("findAllBookGroups - 모임 리스트를 조회한다.")
 	@Test
@@ -122,7 +132,7 @@ class DefaultBookGroupServiceSliceTest {
 		);
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
-			request.joinQuestion(), request.joinPasswd(), request.isPublic());
+			request.joinQuestion(), request.joinPasswd(), request.isPublic(), new BCryptPasswordEncoder());
 		ReflectionTestUtils.setField(bookGroup, "id", 1L);
 
 		given(userService.getById(user.getId()))
@@ -212,7 +222,8 @@ class DefaultBookGroupServiceSliceTest {
 		Book book = BookObjectProvider.createBook();
 		BookGroup bookGroup = BookGroup.create(1L,
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
+			6, "북그룹", "소개합니다", true,
+			"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder
 		);
 		given(bookGroupRepository.findById(1L))
 			.willReturn(Optional.of(bookGroup));
@@ -221,5 +232,68 @@ class DefaultBookGroupServiceSliceTest {
 		//then
 		assertEquals(bookGroupOptional.get(), bookGroup);
 	}
+
+	@DisplayName("join - 이미 북 그룹에 가입된 멤버라면 가입에 실패한다.")
+	@Test
+	void join_fail() {
+		//given
+		Long userId = 100L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", userId);
+
+		Book book = BookObjectProvider.createBook();
+		BookGroup bookGroup = BookGroup.create(1L,
+			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
+			6, "북그룹", "소개합니다", false,
+			null, null, true, passwordEncoder
+		);
+		long groupId = 99L;
+		ReflectionTestUtils.setField(bookGroup, "id", groupId);
+		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
+		given(bookGroupRepository.findByIdWithGroupMembers(groupId))
+			.willReturn(Optional.of(bookGroup));
+		given(userService.getById(userId))
+			.willReturn(kakaoUser);
+		//when
+		assertThrows(AlreadyContainBookGroupException.class,
+			() -> defaultBookGroupService.join(bookGroup.getId(), userId, new BookGroupJoinRequest(null)));
+
+		//then
+		assertTrue(bookGroup.getGroupMembers().contains(groupMember));
+		verify(bookGroupRepository).findByIdWithGroupMembers(groupId);
+		verify(userService).getById(userId);
+	}
+
+
+	@DisplayName("join - 비밀번호가 틀리다면 가입에 실패한다.")
+	@Test
+	void join_notMatchedPassword_fail() {
+		//given
+		Long userId = 100L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", userId);
+
+		Book book = BookObjectProvider.createBook();
+		BookGroup bookGroup = BookGroup.create(1L,
+			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
+			6, "북그룹", "소개합니다", true,
+			"일이삼사", "1234", true, passwordEncoder
+		);
+		long groupId = 99L;
+		ReflectionTestUtils.setField(bookGroup, "id", groupId);
+
+		given(bookGroupRepository.findByIdWithGroupMembers(groupId))
+			.willReturn(Optional.of(bookGroup));
+
+		String passwd = "12345";
+
+		//when
+		assertThrows(NotMatchedPasswordException.class,
+			() -> defaultBookGroupService.join(bookGroup.getId(), userId, new BookGroupJoinRequest(passwd)));
+
+		//then
+		verify(bookGroupRepository).findByIdWithGroupMembers(groupId);
+	}
+
 
 }

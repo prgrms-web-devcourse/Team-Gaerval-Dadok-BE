@@ -2,8 +2,6 @@ package com.dadok.gaerval.domain.book_group.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
@@ -23,6 +21,7 @@ import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
+import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
@@ -66,10 +65,7 @@ class BookGroupSupportImplTest {
 		userRepository.saveAndFlush(kakaoUser);
 		Book book = BookObjectProvider.createBook();
 		bookRepository.saveAndFlush(book);
-		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
-			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			4, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
-		);
+		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
 		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
@@ -91,10 +87,7 @@ class BookGroupSupportImplTest {
 		userRepository.saveAndFlush(naverUser);
 		Book book = BookObjectProvider.createBook();
 		bookRepository.saveAndFlush(book);
-		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
-			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
-		);
+		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
 		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser);
@@ -121,10 +114,7 @@ class BookGroupSupportImplTest {
 		userRepository.saveAndFlush(naverUser);
 		Book book = BookObjectProvider.createBook();
 		bookRepository.saveAndFlush(book);
-		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
-			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
-		);
+		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
 		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser);
@@ -147,10 +137,7 @@ class BookGroupSupportImplTest {
 		userRepository.saveAndFlush(naverUser);
 		Book book = BookObjectProvider.createBook();
 		bookRepository.saveAndFlush(book);
-		BookGroup bookGroup = BookGroup.create(kakaoUser.getId(),
-			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
-			6, "북그룹", "소개합니다", true, "월든 작가는?", "헨리데이빗소로우", true
-		);
+		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
 		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser);

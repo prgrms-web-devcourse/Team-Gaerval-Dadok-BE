@@ -63,12 +63,15 @@ public class GroupMember extends BaseTimeColumn {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		GroupMember that = (GroupMember)o;
-		return Objects.equals(user, that.user) && Objects.equals(bookGroup, that.bookGroup);
+		return Objects.equals(id, that.id) && Objects.equals(user, that.user)
+			&& Objects.equals(bookGroup, that.bookGroup);
 	}
 
 	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
-		return Objects.hash(user, bookGroup);
+		return Objects.hash(id, user, bookGroup);
 	}
+
+
 }

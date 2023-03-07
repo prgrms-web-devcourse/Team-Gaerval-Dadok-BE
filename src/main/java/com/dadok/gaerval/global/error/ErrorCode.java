@@ -32,7 +32,9 @@ public enum ErrorCode {
 
 	// BookGroup
 	EXCEED_MAXIMUM_NUMBER_OF_MEMBER(HttpStatus.BAD_REQUEST, "G001", "모임 최대 인원을 초과하였습니다."),
-	ALREADY_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.BAD_REQUEST, "G002", "이미 모임에 참여한 사용자입니다.");
+	ALREADY_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.BAD_REQUEST, "G002", "이미 모임에 참여한 사용자입니다."),
+	NOT_MATCHED_PASSWORD(HttpStatus.BAD_REQUEST, "G003", "모임 비밀번호가 틀렸습니다."),
+	JOIN_LIMIT(HttpStatus.CONFLICT, "G004", "가입이 불가능 합니다. 모임 인원이 꽉 찼습니다.");
 
 	private final HttpStatus status;
 

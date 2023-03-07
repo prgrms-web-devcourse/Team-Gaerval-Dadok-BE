@@ -13,6 +13,8 @@ public class RegexHelper {
 
 	public final static String NICKNAME_REGEX = "^[가-힣0-9a-zA-Z]{2,10}$";
 
+	public final static String WHITE_SPACE_REGEX =  "(^\\s*$)|(^.*?(?=\\S)(?<!\\s)$)|(^.*?(?=\\S)(?!\\s$).*$)";;
+
 	public static void validateNickname(String nickname) {
 
 		CommonValidator.validateNotnull(nickname, "nickname");
@@ -24,6 +26,15 @@ public class RegexHelper {
 		if (!matcher.matches()) {
 			throw new InvalidArgumentException(nickname, "nickname");
 		}
+	}
+
+	public static boolean containsWhiteSpace(String value, String valueName) {
+		CommonValidator.validateNotnull(value, valueName);
+
+		Pattern pattern = Pattern.compile(WHITE_SPACE_REGEX);
+		Matcher matcher = pattern.matcher(value);
+
+		return matcher.matches();
 	}
 
 }

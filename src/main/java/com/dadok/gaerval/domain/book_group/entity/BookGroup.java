@@ -20,9 +20,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedMaximumNumberOfMemberException;
+import com.dadok.gaerval.domain.book_group.exception.JoinLimitException;
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
@@ -71,12 +75,16 @@ public class BookGroup extends BaseTimeColumn {
 	private Boolean isPublic;
 
 	@Column(nullable = false, name = "has_join_passwd")
-	private Boolean hasJoinPasswd;
+	private boolean hasJoinPasswd = false;
+
+	public boolean hasJoinPasswd() {
+		return this.hasJoinPasswd;
+	}
 
 	@Column(length = 30)
 	private String joinQuestion;
 
-	@Column(length = 10)
+	@Column(length = 64)
 	private String joinPasswd;
 
 	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -87,7 +95,7 @@ public class BookGroup extends BaseTimeColumn {
 
 	protected BookGroup(Long ownerId, Book book, LocalDate startDate, LocalDate endDate, Integer maxMemberCount,
 		String introduce, Boolean hasJoinPasswd, String title, String joinQuestion, String joinPasswd,
-		Boolean isPublic) {
+		Boolean isPublic, PasswordEncoder passwordEncoder) {
 		validateNotnull(ownerId, "ownerId");
 		validateLengthLessThen(title, 30, "title");
 		validateNotnull(book, "book");
@@ -105,15 +113,14 @@ public class BookGroup extends BaseTimeColumn {
 		this.hasJoinPasswd = hasJoinPasswd;
 		this.title = title;
 		this.joinQuestion = joinQuestion;
-		this.joinPasswd = joinPasswd;
 		this.isPublic = isPublic;
+		this.joinPasswd = Boolean.TRUE.equals(hasJoinPasswd) ? passwordEncoder.encode(joinPasswd) : null;
 	}
 
 	private void validateHasJoinPasswd(Boolean hasJoinPasswd, String joinQuestion, String joinPasswd) {
-		validateNotnull(hasJoinPasswd, "hasJoinPasswd");
-		if (hasJoinPasswd) {
+		if (Boolean.TRUE.equals(hasJoinPasswd)) {
 			validateLengthLessThen(joinQuestion, 30, "joinQuestion");
-			validateLengthLessThen(joinPasswd, 10, "joinPasswd");
+			validateWhiteSpaceAndLengthLessThen(joinPasswd, 10, "joinPasswd");
 		}
 	}
 
@@ -124,9 +131,10 @@ public class BookGroup extends BaseTimeColumn {
 
 	public static BookGroup create(Long ownerId, Book book, LocalDate startDate, LocalDate endDate,
 		Integer maxMemberCount, String title, String introduce, Boolean hasJoinPasswd, String joinQuestion,
-		String joinPasswd, Boolean isPublic) {
+		String joinPasswd, Boolean isPublic, PasswordEncoder passwordEncoder) {
+
 		return new BookGroup(ownerId, book, startDate, endDate, maxMemberCount, introduce, hasJoinPasswd, title,
-			joinQuestion, joinPasswd, isPublic);
+			joinQuestion, joinPasswd, isPublic, passwordEncoder);
 	}
 
 	public void addComment(GroupComment groupComment) {
@@ -162,14 +170,25 @@ public class BookGroup extends BaseTimeColumn {
 			&& Objects.equals(introduce, bookGroup.introduce) && Objects.equals(isPublic,
 			bookGroup.isPublic) && Objects.equals(hasJoinPasswd, bookGroup.hasJoinPasswd)
 			&& Objects.equals(joinQuestion, bookGroup.joinQuestion) && Objects.equals(joinPasswd,
-			bookGroup.joinPasswd) && Objects.equals(groupMembers, bookGroup.groupMembers)
-			&& Objects.equals(comments, bookGroup.comments);
+			bookGroup.joinPasswd);
 	}
 
 	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, ownerId, book, title, startDate, endDate, maxMemberCount, introduce, isPublic,
-			hasJoinPasswd, joinQuestion, joinPasswd, groupMembers, comments);
+			hasJoinPasswd, joinQuestion, joinPasswd);
+	}
+
+	public void checkPasswd(String joinPassword, PasswordEncoder passwordEncoder) {
+		if (this.hasJoinPasswd && !passwordEncoder.matches(this.joinPasswd, joinPassword)) {
+			throw new NotMatchedPasswordException();
+		}
+	}
+
+	public void checkMemberCount() {
+		if (this.maxMemberCount == this.getGroupMembers().size()) {
+			throw new JoinLimitException();
+		}
 	}
 }

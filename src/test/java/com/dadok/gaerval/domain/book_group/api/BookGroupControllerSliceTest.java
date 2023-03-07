@@ -28,6 +28,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import com.dadok.gaerval.controller.ControllerTest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
@@ -102,16 +103,19 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
 						.description("모임 최대 멤버 수"),
-					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
+					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+						.description("모임 비밀번호(잠김) 여부"),
 
 					fieldWithPath("bookGroups[].isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부"),
 
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
 					fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
-					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING)
+						.description("모임 책 image url"),
 					fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
-					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
+					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING)
+						.description("모임장 프로필 url"),
 					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
@@ -184,9 +188,11 @@ class BookGroupControllerSliceTest extends ControllerTest {
 					fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
 					fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
 					fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
-					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url"),
+					fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING)
+						.description("모임 책 image url"),
 					fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
-					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING).description("모임장 프로필 url"),
+					fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING)
+						.description("모임장 프로필 url"),
 					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
@@ -354,10 +360,40 @@ class BookGroupControllerSliceTest extends ControllerTest {
 						fieldWithPath("book.id").type(JsonFieldType.NUMBER).description("책 Id."),
 						fieldWithPath("book.title").type(JsonFieldType.STRING).description("모임 책 제목"),
 						fieldWithPath("book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url")
-						)
+					)
 				)
 			);
 		//then
 	}
 
+	@DisplayName("join - 그룹에 가입한다. 패스워드 미입력")
+	@Test
+	void join_success() throws Exception {
+		//given
+		Long bookGroupId = 1L;
+		BookGroupJoinRequest request = new BookGroupJoinRequest(null);
+
+		willDoNothing().given(bookGroupService).join(bookGroupId, 1L, request);
+		//when
+		mockMvc.perform(post("/api/book-groups/{groupId}/join", bookGroupId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					),
+					requestFields(fieldWithPath("joinPassword").type(JsonFieldType.STRING).optional()
+						.description("모임 비밀번호. "
+							+ "\n 설정되어있지 않다면 null 가능"))
+				)
+			)
+		;
+	}
 }
