@@ -2,6 +2,8 @@ package com.dadok.gaerval.domain.book.api;
 
 import static org.springframework.http.MediaType.*;
 
+import java.net.URI;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -9,10 +11,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
@@ -59,6 +65,24 @@ public class BookController {
 	public ResponseEntity<BookResponse> findBookDetail(@PathVariable(name = "bookId") Long bookId) {
 		log.info("[BookController]-[BookResponse]-bookId : {}", bookId);
 		return ResponseEntity.ok().body(bookService.findDetailById(bookId));
+	}
+
+	/**
+	 * <pre>
+	 *     도서 저장 요청을 통해 도서를 저장한다.
+	 * </pre>
+	 *
+	 * @param bookCreateRequest 책 정보
+	 * @return status : ok
+	 */
+	@PostMapping(value = "", consumes = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<Void> saveBookDetail(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
+		log.info("[BookController]-[Void]-bookCreateRequest : {}", bookCreateRequest);
+		Long bookId = bookService.createBookAndReturnId(bookCreateRequest);
+		String redirectUri =
+			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookId.toString();
+		return ResponseEntity.created(URI.create(redirectUri)).build();
 	}
 
 	@GetMapping("/suggestions")

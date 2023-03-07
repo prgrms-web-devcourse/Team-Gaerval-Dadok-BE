@@ -15,6 +15,8 @@ public interface BookService {
 
 	Book createBook(BookCreateRequest bookCreateRequest);
 
+	Long createBookAndReturnId(BookCreateRequest bookCreateRequest);
+
 	Book getById(Long bookId);
 
 	Optional<Book> findById(Long bookId);

@@ -113,6 +113,11 @@ public class DefaultBookService implements BookService {
 	}
 
 	@Override
+	public Long createBookAndReturnId(BookCreateRequest bookCreateRequest) {
+		return this.createBook(bookCreateRequest).getId();
+	}
+
+	@Override
 	public Book getById(Long bookId) {
 		return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 	}
