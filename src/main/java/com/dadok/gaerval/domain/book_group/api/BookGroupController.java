@@ -90,6 +90,15 @@ public class BookGroupController {
 		return ResponseEntity.ok().body(bookGroupService.findAllBookGroupsByUser(request, userPrincipal.getUserId()));
 	}
 
+	/**
+	 * <Pre>
+	 * 책장을 삭제한다.
+	 * </Pre>
+	 *
+	 * @param groupId       : 삭제할 책장 id
+	 * @param userPrincipal : 책장 오너
+	 * @return status : ok
+	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@DeleteMapping(value = "/{groupId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deleteBookGroup(
