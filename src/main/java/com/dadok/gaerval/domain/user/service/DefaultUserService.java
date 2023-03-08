@@ -128,8 +128,8 @@ public class DefaultUserService implements UserService {
 
 		if (!user.isSameJob(job)) {
 			user.changeJob(job);
-			bookshelfService.updateJobIdByUserId(userId, job.getId());
 		}
+		bookshelfService.updateJobIdByUserId(userId, job.getId());
 
 		return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
 			user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),
