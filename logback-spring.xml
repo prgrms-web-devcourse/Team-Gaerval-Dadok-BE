@@ -55,6 +55,8 @@
     <logger level="debug" name="com.dadok.gaerval"/>
 
     <logger level="debug" name="org.springframework.web"/>
+    <logger level="info" name="org.hibernate.loader.Loader"/>
+    <logger level="info" name="org.hibernate.engine.internal.TwoPhaseLoad"/>
 
     <root level="debug">
         <springProfile name="local,develop">
