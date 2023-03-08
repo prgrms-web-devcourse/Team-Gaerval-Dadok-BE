@@ -15,6 +15,7 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchReq
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.global.util.QueryDslUtil;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,10 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 					groupComment.parentComment.id.as("parentCommentId"),
 					user.id.as("userId"),
 					user.profileImage.as("userProfileImage"),
+					user.nickname.as("nickname"),
 					groupComment.createdAt.as("createdAt"),
-					groupComment.modifiedAt.as("modifiedAt")
+					groupComment.modifiedAt.as("modifiedAt"),
+					Expressions.booleanTemplate("{0} = {1}", user.id, userId).as("writtenByCurrentUser")
 				))
 			.from(groupComment)
 			.innerJoin(user).on(user.id.eq(groupComment.user.id))
