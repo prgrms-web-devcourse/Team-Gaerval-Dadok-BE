@@ -32,9 +32,9 @@ public class BookGroupResponse {
 
 	private Boolean isPublic;
 
-	private Number memberCount;
+	private Long memberCount;
 
-	private Number commentCount;
+	private Long commentCount;
 
 	private BookResponse book;
 	private OwnerResponse owner;
