@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
+import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
@@ -287,6 +288,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(BookGroupOwnerNotMatchedException.class)
 	public ResponseEntity<ErrorResponse> handleBookGroupOwnerNotMatchedException(
 		HttpServletRequest request, BookGroupOwnerNotMatchedException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
+	@ExceptionHandler(CannotDeleteMemberExistException.class)
+	public ResponseEntity<ErrorResponse> handleCannotDeleteMemberExistException(
+		HttpServletRequest request, CannotDeleteMemberExistException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
