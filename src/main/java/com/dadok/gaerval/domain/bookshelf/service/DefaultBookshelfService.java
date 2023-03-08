@@ -14,7 +14,6 @@ import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -49,12 +48,6 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Transactional(readOnly = true)
 	public Optional<Bookshelf> findById(Long bookshelfId) {
 		return bookshelfRepository.findById(bookshelfId);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public DetailBookshelfResponse findDetailById(Long bookshelfId) {
-		return null;
 	}
 
 	@Override
