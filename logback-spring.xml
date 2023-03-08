@@ -57,7 +57,8 @@
     <logger level="debug" name="org.springframework.web"/>
     <logger level="info" name="org.hibernate.loader.Loader"/>
     <logger level="info" name="org.hibernate.engine.internal.TwoPhaseLoad"/>
-
+    <logger level="info" name="org.hibernate.SQL"/>
+    <logger level="info" name="org.hibernate.hql.internal.classic.QueryTranslatorImpl"/>
     <root level="debug">
         <springProfile name="local,develop">
             <appender-ref ref="STDOUT"/>
