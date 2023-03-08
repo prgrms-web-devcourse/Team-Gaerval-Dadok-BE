@@ -47,8 +47,9 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.hasJoinPasswd.as("hasJoinPasswd"),
 				bookGroup.isPublic.as("isPublic"),
 
-				groupMember.count().as("memberCount"),
-				groupComment.count().as("commentCount"),
+				groupMember.countDistinct().as("memberCount"),
+				groupComment.countDistinct().as("commentCount"),
+
 
 				Projections.constructor(BookGroupResponse.BookResponse.class,
 					book.id.as("bookId"),
@@ -69,9 +70,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			.where(
 				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction)
 			)
-			.groupBy(bookGroup.id,
-				book.id,
-				user.id
+			.groupBy(bookGroup.id
 			)
 			.orderBy(QueryDslUtil.getOrder(bookGroup.id, direction))
 			.limit(request.pageSize() + 1)
