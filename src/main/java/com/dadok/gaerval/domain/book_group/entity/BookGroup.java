@@ -202,10 +202,14 @@ public class BookGroup extends BaseTimeColumn {
 		}
 	}
 
-	public void validateDelete(Long userId) {
+	public void validateOwner(Long userId) {
 		if (!Objects.equals(userId, this.ownerId)) {
 			throw new BookGroupOwnerNotMatchedException();
 		}
+	}
+
+	public void validateDelete(Long userId) {
+		validateOwner(userId);
 		if (this.groupMembers.size() > 1) {
 			throw new CannotDeleteMemberExistException();
 		}
