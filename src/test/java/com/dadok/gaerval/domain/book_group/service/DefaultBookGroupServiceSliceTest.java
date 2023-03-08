@@ -24,6 +24,7 @@ import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
@@ -32,10 +33,12 @@ import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
+import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembersException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
@@ -127,7 +130,7 @@ class DefaultBookGroupServiceSliceTest {
 		ReflectionTestUtils.setField(user, "id", 1L);
 		var book = BookObjectProvider.createRequiredFieldBook();
 		var request = new BookGroupCreateRequest(book.getId(),
-			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
+			"소모임 화이팅", LocalDate.now(), LocalDate.now().plusDays(2), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
@@ -367,6 +370,147 @@ class DefaultBookGroupServiceSliceTest {
 		//when
 		assertThrows(CannotDeleteMemberExistException.class, () ->
 			defaultBookGroupService.deleteBookGroup(2L, 1L)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("updateBookGroup - 그룹을 수정한다.")
+	@Test
+	void updateBookGroup_Success() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경된 내용", LocalDate.now().plusDays(3), 5
+		);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertDoesNotThrow(() ->
+			defaultBookGroupService.updateBookGroup(2L, 1L, request)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+		assertThat(bookGroup.getIntroduce()).isEqualTo("변경된 내용");
+		assertThat(bookGroup.getEndDate()).isEqualTo(LocalDate.now().plusDays(3));
+		assertThat(bookGroup.getMaxMemberCount()).isEqualTo(5);
+	}
+
+	@DisplayName("updateBookGroup - 그룹이 존재하지 않을 경우 - 실패")
+	@Test
+	void updateBookGroup_bookGroupNotExist_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경된 내용", LocalDate.now().plusDays(3), 5
+		);
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.empty());
+
+		//when
+		assertThrows(ResourceNotfoundException.class, () ->
+			defaultBookGroupService.updateBookGroup(2L, 1L, request)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("updateBookGroup - 사용자가 모임장이 아닐경우 - 실패")
+	@Test
+	void updateBookGroup_notOwner_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경된 내용", LocalDate.now().plusDays(3), 5
+		);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertThrows(BookGroupOwnerNotMatchedException.class, () ->
+			defaultBookGroupService.updateBookGroup(2L, 2L, request)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("updateBookGroup - endDate가 과거일 경우")
+	@Test
+	void updateBookGroup_EndDateToday_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경된 내용", LocalDate.now().minusDays(1), 5
+		);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertThrows(InvalidArgumentException.class, () ->
+			defaultBookGroupService.updateBookGroup(2L, 1L, request)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("updateBookGroup - endDate가 startDate 보다 빠를 경우")
+	@Test
+	void updateBookGroup_validateEndDateLessStartDate_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		ReflectionTestUtils.setField(bookGroup, "startDate", LocalDate.now().plusDays(10));
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경된 내용", LocalDate.now().plusDays(5), 5
+		);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertThrows(InvalidArgumentException.class, () ->
+			defaultBookGroupService.updateBookGroup(2L, 1L, request)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("updateBookGroup - 수정 최대인원이 현재 인원보다 작을 경우")
+	@Test
+	void updateBookGroup_lessThanCurrentMember_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var kakaoUser = UserObjectProvider.createKakaoUser();
+		var naverUser = UserObjectProvider.createNaverUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
+		ReflectionTestUtils.setField(naverUser, "id", 2L);
+		GroupMember.create(bookGroup, naverUser);
+		GroupMember.create(bookGroup, kakaoUser);
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경된 내용", LocalDate.now().plusDays(3), 1
+		);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertThrows(LessThanCurrentMembersException.class, () ->
+			defaultBookGroupService.updateBookGroup(2L, 1L, request)
 		);
 
 		//then

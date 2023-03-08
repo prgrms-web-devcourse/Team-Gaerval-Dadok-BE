@@ -30,6 +30,7 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
@@ -208,7 +209,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 		// Given
 		var book = BookObjectProvider.createRequiredFieldBook();
 		var request = new BookGroupCreateRequest(book.getId(),
-			"소모임 화이팅", LocalDate.now(), LocalDate.now(), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
+			"소모임 화이팅", LocalDate.now(), LocalDate.now().plusDays(2), 5, "우리끼리 옹기종기", true, "월든 작가는?", "헨리데이빗소로우", false
 		);
 
 		given(bookGroupService.createBookGroup(any(), eq(request)))
@@ -268,6 +269,52 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 				),
 				responseFields(
 					fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id")
+				)
+			));
+	}
+
+	@DisplayName("updateBookGroup - 모임을 수정한다")
+	@Test
+	void updateBookGroup() throws Exception {
+		// Given
+		var book = BookObjectProvider.createRequiredFieldBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var request = new BookGroupUpdateRequest(
+			bookGroup.getTitle(), "변경하고 싶은 내용", LocalDate.now().plusDays(4), 4
+		);
+
+		doNothing().when(bookGroupService).updateBookGroup(eq(bookGroup.getId()), any(), eq(request));
+
+		// When // Then
+		mockMvc.perform(patch("/api/book-groups/{bookGroupId}", bookGroup.getId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("bookGroupId").description("모임 Id (bookGroup)")
+				),
+				requestFields(
+					fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목")
+						.attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "title")
+						),
+					fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글").attributes(
+						constrainsAttribute(BookGroupCreateRequest.class, "introduce")
+					),
+
+					fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료 날짜").attributes(
+						constrainsAttribute(BookGroupCreateRequest.class, "endDate")
+					),
+					fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 참여 최대 인원").attributes(
+						constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
+					)
 				)
 			));
 	}

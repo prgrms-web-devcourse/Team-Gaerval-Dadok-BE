@@ -15,7 +15,7 @@ public class BookGroupObjectProvider {
 
 	public static BookGroup createMockBookGroup(Book book, Long ownerId) {
 		BookGroup bookGroup = BookGroup.create(
-			ownerId, book, LocalDate.now(), LocalDate.now(),
+			ownerId, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
 			"헨리데이빗소로우", true, new BCryptPasswordEncoder());
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
@@ -24,7 +24,7 @@ public class BookGroupObjectProvider {
 
 	public static BookGroup createBookGroup(Book book, Long ownerId) {
 		BookGroup bookGroup = BookGroup.create(
-			ownerId, book, LocalDate.now(), LocalDate.now(),
+			ownerId, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
 			"헨리데이빗소로우", true, new BCryptPasswordEncoder());
 
@@ -33,7 +33,7 @@ public class BookGroupObjectProvider {
 
 	public static BookGroup createMockBookGroup(Book book, Long ownerId, PasswordEncoder passwordEncoder) {
 		BookGroup bookGroup = BookGroup.create(
-			ownerId, book, LocalDate.now(), LocalDate.now(),
+			ownerId, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
 			"헨리데이빗소로우", true, passwordEncoder);
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
@@ -43,7 +43,7 @@ public class BookGroupObjectProvider {
 	public static List<BookGroupResponse> mockBookGroupResponses() {
 		return List.of(
 			new BookGroupResponse(
-				999L, "모임999", "모임 999에용", LocalDate.now(), LocalDate.now(), 5, true, false,
+				999L, "모임999", "모임 999에용", LocalDate.now(), LocalDate.now().plusDays(1), 5, true, false,
 				2L, 100L,
 
 				new BookGroupResponse.BookResponse(4452L, "http://bookImageUrl1.com"),

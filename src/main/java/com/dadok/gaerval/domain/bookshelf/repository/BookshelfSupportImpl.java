@@ -9,12 +9,15 @@ import static com.querydsl.core.group.GroupBy.list;
 import static com.querydsl.core.group.GroupBy.*;
 import static com.querydsl.core.types.Projections.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -71,17 +74,25 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 
 	@Override
 	public List<BookShelfSummaryResponse> findSuggestionsByJobGroup(JobGroup jobGroup, Long userId, int limit) {
-
-		return query.from(bookshelf)
-			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
-			.leftJoin(bookshelfItem.book, book)
+		List<Long> searchBookshelfIds = query.select(bookshelf.id).from(bookshelf)
 			.innerJoin(job).on(job.id.eq(bookshelf.jobId))
 			.where(
 				job.jobGroup.eq(jobGroup),
 				bookshelf.user.id.notIn(userId)
 			)
 			.orderBy(bookshelf.bookshelfItems.size().desc())//TODO 인기척도 후에 수정 필요
-			.limit(limit)
+			.limit(limit).fetch();
+
+		if (searchBookshelfIds.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		return query.from(bookshelf)
+			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
+			.leftJoin(bookshelfItem.book, book)
+			.where(
+				bookshelf.id.in(searchBookshelfIn(searchBookshelfIds))
+			)
 			.transform(
 				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
 					bookshelf.id,
@@ -90,15 +101,25 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
 							book.id, book.title, book.imageUrl)
 					))));
+
 	}
 
 	@Override
 	public List<BookShelfSummaryResponse> findAllSuggestions(int limit) {
+		List<Long> searchBookshelfIds = query.select(bookshelf.id).from(bookshelf)
+			.orderBy(bookshelf.bookshelfItems.size().desc())//TODO 인기척도 후에 수정 필요
+			.limit(limit).fetch();
+
+		if (searchBookshelfIds.isEmpty()) {
+			return new ArrayList<>();
+		}
+
 		return query.from(bookshelf)
 			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
 			.leftJoin(bookshelfItem.book, book)
-			.orderBy(bookshelf.bookshelfItems.size().desc()) //TODO 인기척도 후에 수정 필요
-			.limit(limit)
+			.where(
+				bookshelf.id.in(searchBookshelfIn(searchBookshelfIds))
+			)
 			.transform(
 				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
 					bookshelf.id,
@@ -131,5 +152,13 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.fetchOne();
 
 		return Optional.ofNullable(bookShelfDetailResponse);
+	}
+
+	private Expression[] searchBookshelfIn(List<Long> bookshelfIds) {
+		List<Expression> tuples = new ArrayList<>();
+		bookshelfIds.forEach(
+			id -> tuples.add(Expressions.template(Object.class, "{0}", id))
+		);
+		return tuples.toArray(new Expression[0]);
 	}
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
@@ -36,7 +37,7 @@ class BookGroupTest {
 	void create_success() {
 		assertDoesNotThrow(() -> {
 
-			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now(),
+			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 				2, "작은 모임", "작은 모임", true,
 				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
 		});
@@ -46,7 +47,7 @@ class BookGroupTest {
 	@Test
 	void create_lessThen1_fail() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now(),
+			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 				0, "작은 모임", "작은 모임", true,
 				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
 		});
@@ -262,7 +263,7 @@ class BookGroupTest {
 		//given
 		Book book = BookObjectProvider.createAllFieldBook();
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
 			false, null, null, false, passwordEncoder
 		);
@@ -294,10 +295,12 @@ class BookGroupTest {
 		//given
 		Book book = BookObjectProvider.createAllFieldBook();
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now().minusDays(2),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			1, "책읽기 소모임", "책읽기 소모임",
 			false, null, null, false, passwordEncoder
 		);
+		ReflectionTestUtils.setField(bookGroup, "startDate", LocalDate.now().minusDays(5));
+		ReflectionTestUtils.setField(bookGroup, "endDate", LocalDate.now().minusDays(1));
 		//when
 		assertThrows(ExpiredJoinGroupPeriodException.class,
 			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
@@ -309,7 +312,7 @@ class BookGroupTest {
 		//given
 		Book book = BookObjectProvider.createAllFieldBook();
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			1, "책읽기 소모임", "책읽기 소모임",
 			false, null, null, false, passwordEncoder
 		);
@@ -324,7 +327,7 @@ class BookGroupTest {
 	void checkPasswd_inputPasswdNull_fail(String passwd) {
 		//given
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
 			true, "숫자 일이삼사", "1234", false, passwordEncoder);
 		//when
@@ -338,7 +341,7 @@ class BookGroupTest {
 	void checkPasswd_inputPasswdNotMatched_fail(String passwd) {
 		//given
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
 			true, "숫자 일이삼사", "1234", false, passwordEncoder);
 		//when
@@ -352,11 +355,11 @@ class BookGroupTest {
 	void checkPasswd_hasJoinPasswdFalse(String passwd) {
 		//given
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
 			false, null, "1234", false, passwordEncoder);
 		//when
-		assertDoesNotThrow(()-> bookGroup.checkPasswd(passwd, passwordEncoder));
+		assertDoesNotThrow(() -> bookGroup.checkPasswd(passwd, passwordEncoder));
 	}
 
 	@DisplayName("checkPasswd - 패스워드가 일치하다면 통과한다.")
@@ -364,13 +367,12 @@ class BookGroupTest {
 	void checkPasswd_matched_success() {
 		//given
 		BookGroup bookGroup = BookGroup.create(
-			1L, book, LocalDate.now(), LocalDate.now(),
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
 			false, null, "1234", false, passwordEncoder);
 		String password = "1234";
 		//when
-		assertDoesNotThrow(()-> bookGroup.checkPasswd(password, passwordEncoder));
+		assertDoesNotThrow(() -> bookGroup.checkPasswd(password, passwordEncoder));
 	}
-
 
 }

@@ -486,6 +486,28 @@ include::{snippets}/book-group-controller-slice-test/create-book-group/response-
 
 include::{snippets}/book-group-controller-slice-test/create-book-group/response-fields.adoc[]
 
+=== 모임 수정
+
+==== Request
+
+include::{snippets}/book-group-controller-slice-test/update-book-group/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-slice-test/update-book-group/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/book-group-controller-slice-test/update-book-group/path-parameters.adoc[]
+
+==== Request Body
+
+include::{snippets}/book-group-controller-slice-test/update-book-group/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-slice-test/update-book-group/http-response.adoc[]
+
 === 모임 삭제
 
 ==== Request
