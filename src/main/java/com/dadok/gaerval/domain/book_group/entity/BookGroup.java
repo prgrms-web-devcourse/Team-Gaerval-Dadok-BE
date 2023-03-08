@@ -28,7 +28,7 @@ import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedExc
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
-import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembers;
+import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembersException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
@@ -131,7 +131,7 @@ public class BookGroup extends BaseTimeColumn {
 		validateNotnull(maxMemberCount, "maxMemberCount");
 		Assert.isTrue(maxMemberCount >= 1, "모임의 최대 인원수는 자신 포함 1명 이상이여야합니다.");
 		if (maxMemberCount < this.groupMembers.size()) {
-			throw new LessThanCurrentMembers(this.groupMembers.size());
+			throw new LessThanCurrentMembersException(this.groupMembers.size());
 		}
 	}
 

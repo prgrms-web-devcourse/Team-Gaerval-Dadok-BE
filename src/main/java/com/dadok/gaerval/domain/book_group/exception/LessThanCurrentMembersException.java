@@ -3,12 +3,12 @@ package com.dadok.gaerval.domain.book_group.exception;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.BusinessException;
 
-public class LessThanCurrentMembers extends BusinessException {
+public class LessThanCurrentMembersException extends BusinessException {
 	private final ErrorCode errorCode = ErrorCode.LESS_THAN_CURRENT_MEMBERS;
 
 	private final int currentMembersCount;
 
-	public LessThanCurrentMembers(int currentMembersCount) {
+	public LessThanCurrentMembersException(int currentMembersCount) {
 		super(ErrorCode.LESS_THAN_CURRENT_MEMBERS);
 		this.currentMembersCount = currentMembersCount;
 	}

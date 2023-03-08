@@ -74,7 +74,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 
 	@Override
 	public List<BookShelfSummaryResponse> findSuggestionsByJobGroup(JobGroup jobGroup, Long userId, int limit) {
-		var searchBookshelf = query.select(bookshelf.id).from(bookshelf)
+		List<Long> searchBookshelfIds = query.select(bookshelf.id).from(bookshelf)
 			.innerJoin(job).on(job.id.eq(bookshelf.jobId))
 			.where(
 				job.jobGroup.eq(jobGroup),
@@ -83,7 +83,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.orderBy(bookshelf.bookshelfItems.size().desc())//TODO 인기척도 후에 수정 필요
 			.limit(limit).fetch();
 
-		if (searchBookshelf.isEmpty()) {
+		if (searchBookshelfIds.isEmpty()) {
 			return new ArrayList<>();
 		}
 
@@ -91,7 +91,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
 			.leftJoin(bookshelfItem.book, book)
 			.where(
-				bookshelf.id.in(searchBookshelfIn(searchBookshelf))
+				bookshelf.id.in(searchBookshelfIn(searchBookshelfIds))
 			)
 			.transform(
 				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
@@ -106,11 +106,11 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 
 	@Override
 	public List<BookShelfSummaryResponse> findAllSuggestions(int limit) {
-		var searchBookshelf = query.select(bookshelf.id).from(bookshelf)
+		List<Long> searchBookshelfIds = query.select(bookshelf.id).from(bookshelf)
 			.orderBy(bookshelf.bookshelfItems.size().desc())//TODO 인기척도 후에 수정 필요
 			.limit(limit).fetch();
 
-		if (searchBookshelf.isEmpty()) {
+		if (searchBookshelfIds.isEmpty()) {
 			return new ArrayList<>();
 		}
 
@@ -118,7 +118,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
 			.leftJoin(bookshelfItem.book, book)
 			.where(
-				bookshelf.id.in(searchBookshelfIn(searchBookshelf))
+				bookshelf.id.in(searchBookshelfIn(searchBookshelfIds))
 			)
 			.transform(
 				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
@@ -128,14 +128,6 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
 							book.id, book.title, book.imageUrl)
 					))));
-	}
-
-	private Expression[] searchBookshelfIn(List<Long> bookshelfIds) {
-		List<Expression> tuples = new ArrayList<>();
-		bookshelfIds.forEach(
-			id -> tuples.add(Expressions.template(Object.class, "{0}", id))
-		);
-		return tuples.toArray(new Expression[0]);
 	}
 
 	@Override
@@ -160,5 +152,13 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.fetchOne();
 
 		return Optional.ofNullable(bookShelfDetailResponse);
+	}
+
+	private Expression[] searchBookshelfIn(List<Long> bookshelfIds) {
+		List<Expression> tuples = new ArrayList<>();
+		bookshelfIds.forEach(
+			id -> tuples.add(Expressions.template(Object.class, "{0}", id))
+		);
+		return tuples.toArray(new Expression[0]);
 	}
 }

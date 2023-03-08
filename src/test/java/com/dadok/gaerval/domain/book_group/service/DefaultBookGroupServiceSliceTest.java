@@ -33,7 +33,7 @@ import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
-import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembers;
+import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembersException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -509,7 +509,7 @@ class DefaultBookGroupServiceSliceTest {
 			.willReturn(Optional.of(bookGroup));
 
 		//when
-		assertThrows(LessThanCurrentMembers.class, () ->
+		assertThrows(LessThanCurrentMembersException.class, () ->
 			defaultBookGroupService.updateBookGroup(2L, 1L, request)
 		);
 
