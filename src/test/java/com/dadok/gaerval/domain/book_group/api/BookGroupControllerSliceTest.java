@@ -273,7 +273,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 			));
 	}
 
-	@DisplayName("updateBookGroup - 모임을 생성한다")
+	@DisplayName("updateBookGroup - 모임을 수정한다")
 	@Test
 	void updateBookGroup() throws Exception {
 		// Given

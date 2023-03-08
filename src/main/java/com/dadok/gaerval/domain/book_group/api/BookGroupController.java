@@ -124,6 +124,16 @@ public class BookGroupController {
 		return ResponseEntity.ok().build();
 	}
 
+	/**
+	 * <Pre>
+	 * 모임 수정
+	 * </Pre>
+	 *
+	 * @param groupId                모임 Id
+	 * @param bookGroupUpdateRequest 수정한 내용
+	 * @param userPrincipal          요청 유저(모임장 )
+	 * @return status : ok
+	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@PatchMapping(value = "/{groupId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updateBookGroup(
