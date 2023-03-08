@@ -23,6 +23,7 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupIdResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.service.BookGroupService;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
@@ -55,14 +56,14 @@ public class BookGroupController {
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> createBookGroup(
+	public ResponseEntity<BookGroupIdResponse> createBookGroup(
 		@RequestBody @Valid BookGroupCreateRequest request,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		Long bookGroupId = bookGroupService.createBookGroup(userPrincipal.getUserId(), request);
 		String redirectUri =
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookGroupId.toString();
-		return ResponseEntity.created(URI.create(redirectUri)).build();
+		return ResponseEntity.created(URI.create(redirectUri)).body(new BookGroupIdResponse(bookGroupId));
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")

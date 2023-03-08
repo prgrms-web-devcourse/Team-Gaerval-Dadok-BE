@@ -261,6 +261,9 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 				),
 				responseHeaders(
 					headerWithName(HttpHeaders.LOCATION).description("생성된 모임 상세 조회 리소스 uri")
+				),
+				responseFields(
+					fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id")
 				)
 			));
 	}

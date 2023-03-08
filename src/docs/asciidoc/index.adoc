@@ -482,6 +482,10 @@ include::{snippets}/book-group-controller-slice-test/create-book-group/http-resp
 
 include::{snippets}/book-group-controller-slice-test/create-book-group/response-headers.adoc[]
 
+==== Response fields
+
+include::{snippets}/book-group-controller-slice-test/create-book-group/response-fields.adoc[]
+
 === 모임 삭제
 
 ==== Request
@@ -599,6 +603,7 @@ include::{snippets}/book-group-comment-controller-slice-test/create-book-group-c
 include::{snippets}/book-group-comment-controller-slice-test/create-book-group-comment_-should-return-created/request-headers.adoc[]
 
 ==== Request fields
+
 include::{snippets}/book-group-comment-controller-slice-test/create-book-group-comment_-should-return-created/request-fields.adoc[]
 
 ==== Response
