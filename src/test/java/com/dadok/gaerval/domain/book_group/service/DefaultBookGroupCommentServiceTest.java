@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
@@ -55,9 +59,17 @@ class DefaultBookGroupCommentServiceTest {
 		BookGroupCommentSearchRequest request = new BookGroupCommentSearchRequest(10, null, null);
 		List<BookGroupCommentResponse> bookGroupCommentResponseList = BookGroupCommentObjectProvider.mockCommentResponses;
 
+		List<BookGroupCommentResponse> sortedComments = bookGroupCommentResponseList.stream()
+			.sorted(Comparator.comparing(BookGroupCommentResponse::getCommentId).reversed())
+			.collect(Collectors.toList());
+
+		Slice<BookGroupCommentResponse> commentResponses = QueryDslUtil.toSlice(sortedComments,
+			PageRequest.of(0, request.pageSize(), Sort.by(
+				Sort.Direction.DESC, "book_id"
+			)));
 
 		BookGroupCommentResponses bookGroupCommentResponses = new BookGroupCommentResponses(
-			QueryDslUtil.toSlice(bookGroupCommentResponseList, PageRequest.of(0, 10)));
+			commentResponses);
 
 		given(bookGroupCommentRepository.findAllBy(request, 234L, 234L))
 			.willReturn(bookGroupCommentResponses);

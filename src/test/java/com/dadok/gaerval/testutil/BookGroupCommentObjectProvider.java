@@ -17,11 +17,11 @@ public class BookGroupCommentObjectProvider {
 	public static final Long bookCommentId = 234L;
 	public static final String profileImageUrl = "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg";
 	public static final List<BookGroupCommentResponse> mockCommentResponses = List.of(new BookGroupCommentResponse
-			(bookCommentId, comment1, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now()),
+			(123L, comment1, 234L, 234L, 123L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now(), "티나", Boolean.TRUE),
 		new BookGroupCommentResponse
-			(bookCommentId, comment2, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now()),
+			(234L, comment2, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now(), "0Soo", Boolean.FALSE),
 		new BookGroupCommentResponse
-			(bookCommentId, comment3, 234L, 234L, 234L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now())
+			(456L, comment3, 234L, 234L, 456L, profileImageUrl, LocalDateTime.now(), LocalDateTime.now(), "youngijang", Boolean.FALSE)
 	);
 
 	public static GroupComment createSampleGroupComment(BookGroup bookGroup, User user) {

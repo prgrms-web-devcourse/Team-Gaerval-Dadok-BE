@@ -25,4 +25,6 @@ public class BookGroupCommentResponse{
 	private LocalDateTime createdAt;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime modifiedAt;
+	private String nickname;
+	private Boolean writtenByCurrentUser;
 }

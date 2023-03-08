@@ -142,7 +142,9 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
 					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
 					fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.STRING).description("생성일"),
-					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.STRING).description("수정일")
+					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
+					fieldWithPath("bookGroupComments[].nickname").type(JsonFieldType.STRING).description("닉네임"),
+					fieldWithPath("bookGroupComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN).description("댓글 본인 여부")
 				)));
 
 		verify(bookGroupCommentService).findAllBookGroupCommentsByGroup(eq(request), any(), any());
