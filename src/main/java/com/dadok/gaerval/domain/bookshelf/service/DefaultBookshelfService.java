@@ -129,9 +129,10 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Transactional
 	@Override
-	public void updateJobIdByUserId(Long userId, Long jobId) {
-		Bookshelf bookshelf = bookshelfRepository.findByUserId(userId)
-			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
+	public void updateJobIdByUserId(User user, Long jobId) {
+		Bookshelf bookshelf = bookshelfRepository.findByUserId(user.getId())
+			.orElseGet(() -> bookshelfRepository.save(Bookshelf.create(user)));
+
 		bookshelf.changeJobId(jobId);
 	}
 

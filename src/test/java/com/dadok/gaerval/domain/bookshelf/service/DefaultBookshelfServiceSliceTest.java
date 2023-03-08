@@ -476,24 +476,31 @@ class DefaultBookshelfServiceSliceTest {
 			() -> bookshelfService.findBookShelfWithJob(userId));
 	}
 
-	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없어 예외가 발생한다.")
+	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없으므로 책장을 생성하고 변경에 성공한다. ")
 	@Test
-	void updateJobIdByUserId_throw() {
+	void updateJobIdByUserId_createBook() {
 		//given
 		User kakaoUser = UserObjectProvider.createKakaoUser();
 		Job job = JobObjectProvider.backendJob();
 		long userId = 1L;
 		ReflectionTestUtils.setField(kakaoUser, "id", userId);
+		Bookshelf willBookshelf = Bookshelf.create(kakaoUser);
 
 		given(bookshelfRepository.findByUserId(userId))
-			.willThrow(ResourceNotfoundException.class);
+			.willReturn(Optional.empty());
+
+		given(bookshelfRepository.save(willBookshelf))
+			.willReturn(willBookshelf);
+
 		//when
-		assertThrows(ResourceNotfoundException.class, () -> bookshelfService.updateJobIdByUserId(userId, job.getId()));
+		bookshelfService.updateJobIdByUserId(kakaoUser, job.getId());
+
 		//then
 		verify(bookshelfRepository).findByUserId(userId);
+		assertEquals(willBookshelf.getJobId(), job.getId());
 	}
 
-	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없어 예외가 발생한다.")
+	@DisplayName("updateJobIdByUserId - 책장의 jobId 변경에 성공한다.")
 	@Test
 	void updateJobIdByUserId_success() {
 		//given
@@ -510,7 +517,7 @@ class DefaultBookshelfServiceSliceTest {
 			.willReturn(Optional.of(bookShelf));
 
 		//when
-		bookshelfService.updateJobIdByUserId(userId, idToUpdate);
+		bookshelfService.updateJobIdByUserId(kakaoUser, idToUpdate);
 		//then
 		assertThat(bookShelf).hasFieldOrPropertyWithValue("jobId", idToUpdate);
 		verify(bookshelfRepository).findByUserId(userId);

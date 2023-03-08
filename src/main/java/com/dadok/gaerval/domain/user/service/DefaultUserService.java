@@ -100,7 +100,7 @@ public class DefaultUserService implements UserService {
 		Job job = jobService.getBy(request.jobGroup(), request.jobName());
 
 		user.changeJob(job);
-		bookshelfService.updateJobIdByUserId(userId, job.getId());
+		bookshelfService.updateJobIdByUserId(user, job.getId());
 
 		return new UserJobChangeResponse(user.getId(),
 			new UserDetailResponse.JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder()));
@@ -129,7 +129,8 @@ public class DefaultUserService implements UserService {
 		if (!user.isSameJob(job)) {
 			user.changeJob(job);
 		}
-		bookshelfService.updateJobIdByUserId(userId, job.getId());
+
+		bookshelfService.updateJobIdByUserId(user, job.getId());
 
 		return new UserDetailResponse(user.getId(), user.getName(), user.getNickname().nickname(),
 			user.getOauthNickname(), user.getEmail(), user.getProfileImage(), user.getGender(),

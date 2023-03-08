@@ -373,7 +373,7 @@ class DefaultUserServiceSliceTest {
 			.willReturn(false);
 
 		willDoNothing().given(bookshelfService)
-			.updateJobIdByUserId(userId, backendJob.getId());
+			.updateJobIdByUserId(user, backendJob.getId());
 
 		//when
 		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
@@ -400,7 +400,7 @@ class DefaultUserServiceSliceTest {
 		verify(userRepository).getReferenceById(userId);
 		verify(jobService).getBy(development, backendDeveloper);
 		verify(userRepository).existsByNickname(nickname);
-		verify(bookshelfService).updateJobIdByUserId(userId, backendJob.getId());
+		verify(bookshelfService).updateJobIdByUserId(user, backendJob.getId());
 	}
 
 	@DisplayName("changeProfile - 변경요청이온 Nickname이 유저의 nickname이 같으면 Job만 바뀐다. ")
@@ -428,7 +428,7 @@ class DefaultUserServiceSliceTest {
 			.willReturn(backendJob);
 
 		willDoNothing().given(bookshelfService)
-			.updateJobIdByUserId(userId, backendJob.getId());
+			.updateJobIdByUserId(user, backendJob.getId());
 
 		//when
 		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
@@ -454,7 +454,7 @@ class DefaultUserServiceSliceTest {
 
 		verify(userRepository).getReferenceById(userId);
 		verify(jobService).getBy(development, backendDeveloper);
-		verify(bookshelfService).updateJobIdByUserId(userId, backendJob.getId());
+		verify(bookshelfService).updateJobIdByUserId(user, backendJob.getId());
 	}
 
 	@DisplayName("changeProfile - 변경요청이온 Job이 유저의 Job과 같고, Nickname만 다르다면 Nickname만 바뀐다. ")

@@ -90,4 +90,21 @@ public class Bookshelf extends BaseTimeColumn {
 		this.jobId = jobId;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Bookshelf bookshelf = (Bookshelf)o;
+		return Objects.equals(id, bookshelf.id) && Objects.equals(name, bookshelf.name)
+			&& Objects.equals(isPublic, bookshelf.isPublic) && Objects.equals(user, bookshelf.user)
+			&& Objects.equals(bookshelfItems, bookshelf.bookshelfItems) && Objects.equals(jobId,
+			bookshelf.jobId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, isPublic, user, bookshelfItems, jobId);
+	}
 }
