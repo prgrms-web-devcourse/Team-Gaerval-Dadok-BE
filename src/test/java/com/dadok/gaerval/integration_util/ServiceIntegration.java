@@ -11,6 +11,8 @@ import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.repository.JobRepository;
 import com.dadok.gaerval.domain.job.service.JobService;
+import com.dadok.gaerval.domain.user.entity.Authority;
+import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.repository.AuthorityRepository;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -47,5 +49,8 @@ public abstract class ServiceIntegration {
 	@Autowired
 	protected BookshelfService bookshelfService;
 
+	protected Authority getAuthority(Role role) {
+		return this.authorityRepository.getReferenceById(role);
+	}
 
 }

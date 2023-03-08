@@ -48,7 +48,8 @@ class UserServiceTest extends ServiceIntegration {
 			.get();
 		this.kakaoUser = userRepository.save(kakaoUser);
 		kakaoUser.changeJob(backendJob);
-		bookshelfService.createBookshelf(kakaoUser);
+		Bookshelf bookshelf = Bookshelf.create(kakaoUser);
+		bookshelfRepository.save(bookshelf);
 	}
 
 	@DisplayName("authority를 찾아 유저를 저장하고 반환한다 - 성공")

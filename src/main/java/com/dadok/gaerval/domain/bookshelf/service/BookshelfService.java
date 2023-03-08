@@ -32,7 +32,7 @@ public interface BookshelfService {
 
 	BookShelfDetailResponse findBookShelfWithJob(Long userId);
 
-	void updateJobIdByUserId(Long userId, Long jobId);
+	void updateJobIdByUserId(User user, Long jobId);
 
 	SuggestionBookshelvesResponses findSuggestionBookshelves();
 
