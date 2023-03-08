@@ -45,8 +45,6 @@ src/test/resources/application-test.yml
 src/test/**/*.yml
 src/test/resources/logback-test.xml
 
-=======
->>>>>>> 9e2ef2c0520d6bcbbbe045f705894e886852bd62
 ## AWS User-specific
 .idea/**/aws.xml
 

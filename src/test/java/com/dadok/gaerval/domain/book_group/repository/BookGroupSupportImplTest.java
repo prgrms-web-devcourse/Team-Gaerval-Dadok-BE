@@ -19,6 +19,7 @@ import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.domain.user.repository.AuthorityRepository;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
+import com.dadok.gaerval.global.oauth.OAuth2Attribute;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
@@ -60,9 +61,11 @@ class BookGroupSupportImplTest {
 	@DisplayName("findBookGroup 쿼리 테스트 - 그룹장일시 ")
 	@Test
 	void findBookGroup_query_onwer() {
-
-		User kakaoUser = UserObjectProvider.createKakaoUser();
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
+		User kakaoUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(authority));
 		userRepository.saveAndFlush(kakaoUser);
+
 		Book book = BookObjectProvider.createBook();
 		bookRepository.saveAndFlush(book);
 		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
@@ -77,10 +80,10 @@ class BookGroupSupportImplTest {
 	@DisplayName("findBookGroup 쿼리 테스트 - 그룹장이 아닐시 ")
 	@Test
 	void findBookGroup_query_notOwner() {
-
-		User kakaoUser = UserObjectProvider.createKakaoUser();
-		userRepository.saveAndFlush(kakaoUser);
 		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
+		User kakaoUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(authority));
+		userRepository.saveAndFlush(kakaoUser);
 
 		User naverUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
 
@@ -104,10 +107,10 @@ class BookGroupSupportImplTest {
 	@DisplayName("findBookGroup 쿼리 테스트 - 멤버가 아닐시 ")
 	@Test
 	void findBookGroup_query_notMember() {
-
-		User kakaoUser = UserObjectProvider.createKakaoUser();
-		userRepository.saveAndFlush(kakaoUser);
 		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
+		User kakaoUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(authority));
+		userRepository.saveAndFlush(kakaoUser);
 
 		User naverUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
 
@@ -127,10 +130,10 @@ class BookGroupSupportImplTest {
 	@DisplayName("findBookGroup 쿼리 테스트 - ANONYMOUS일시 ")
 	@Test
 	void findBookGroup_query_anonymous() {
-
-		User kakaoUser = UserObjectProvider.createKakaoUser();
-		userRepository.saveAndFlush(kakaoUser);
 		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
+		User kakaoUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(authority));
+		userRepository.saveAndFlush(kakaoUser);
 
 		User naverUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
 

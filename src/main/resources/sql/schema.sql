@@ -1,7 +1,30 @@
+drop table if exists book_comments cascade;
+
+drop table if exists bookshelf_item cascade;
+
+drop table if exists bookshelves cascade;
+
+drop table if exists group_comments cascade;
+
+drop table if exists group_member cascade;
+
+drop table if exists book_groups cascade;
+
+drop table if exists books cascade;
+
+drop table if exists oauth2_authorized_client cascade;
+
+drop table if exists user_authorities cascade;
+
+drop table if exists authorities cascade;
+
+drop table if exists users cascade;
+
+drop table if exists jobs cascade;
 
 
 
-create table authorities
+create table if not exists authorities
 (
     name        varchar(255) not null
         primary key,
@@ -10,7 +33,7 @@ create table authorities
 );
 
 
-create table jobs
+create table if not exists  jobs
 (
     id          bigint auto_increment
         primary key,
@@ -21,7 +44,7 @@ create table jobs
     sort_order  smallint unsigned not null
 );
 
-create table books
+create table if not exists  books
 (
     id           bigint auto_increment
         primary key,
@@ -39,7 +62,7 @@ create table books
         unique (isbn)
 );
 
-create table book_groups
+create table if not exists  book_groups
 (
     id               bigint auto_increment
         primary key,
@@ -66,7 +89,7 @@ create index is_public_index
 create index owner_id_index
     on book_groups (owner_id);
 
-create table oauth2_authorized_client
+create table if not exists  oauth2_authorized_client
 (
     client_registration_id  varchar(100)                        not null,
     principal_name          varchar(200)                        not null,
@@ -81,7 +104,7 @@ create table oauth2_authorized_client
     primary key (client_registration_id, principal_name)
 );
 
-create table users
+create table if not exists  users
 (
     id             bigint auto_increment
         primary key,
@@ -103,7 +126,7 @@ create table users
         foreign key (job_id) references jobs (id)
 );
 
-create table book_comments
+create table if not exists  book_comments
 (
     id      bigint auto_increment
         primary key,
@@ -118,7 +141,7 @@ create table book_comments
         foreign key (user_id) references users (id)
 );
 
-create table bookshelves
+create table if not exists  bookshelves
 (
     id          bigint auto_increment
         primary key,
@@ -134,7 +157,7 @@ create table bookshelves
         foreign key (user_id) references users (id)
 );
 
-create table bookshelf_item
+create table if not exists  bookshelf_item
 (
     id           bigint auto_increment
         primary key,
@@ -152,7 +175,7 @@ create table bookshelf_item
 create index job_id_index
     on bookshelves (job_id);
 
-create table group_comments
+create table if not exists  group_comments
 (
     id                bigint auto_increment
         primary key,
@@ -170,7 +193,7 @@ create table group_comments
         foreign key (user_id) references users (id)
 );
 
-create table group_member
+create table if not exists  group_member
 (
     id            bigint auto_increment
         primary key,
@@ -184,7 +207,7 @@ create table group_member
         foreign key (book_group_id) references book_groups (id)
 );
 
-create table user_authorities
+create table if not exists  user_authorities
 (
     id          bigint auto_increment
         primary key,
