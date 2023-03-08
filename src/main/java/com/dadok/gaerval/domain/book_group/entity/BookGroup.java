@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
+import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
@@ -204,6 +205,13 @@ public class BookGroup extends BaseTimeColumn {
 	public void validateOwner(Long userId) {
 		if (!Objects.equals(userId, this.ownerId)) {
 			throw new BookGroupOwnerNotMatchedException();
+		}
+	}
+
+	public void validateDelete(Long userId) {
+		validateOwner(userId);
+		if (this.groupMembers.size() > 1) {
+			throw new CannotDeleteMemberExistException();
 		}
 	}
 }

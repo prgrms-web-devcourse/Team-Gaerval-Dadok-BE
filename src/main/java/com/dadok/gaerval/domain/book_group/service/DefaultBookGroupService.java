@@ -16,7 +16,6 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
-import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -35,8 +34,6 @@ public class DefaultBookGroupService implements BookGroupService {
 
 	private final PasswordEncoder passwordEncoder;
 
-	private final GroupMemberRepository groupMemberRepository;
-
 	@Override
 	@Transactional(readOnly = true)
 	public BookGroupResponses findAllBookGroups(BookGroupSearchRequest request) {
@@ -52,7 +49,6 @@ public class DefaultBookGroupService implements BookGroupService {
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
 			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder);
 		GroupMember.create(bookGroup, user);
-
 		return bookGroupRepository.save(bookGroup).getId();
 	}
 
@@ -85,9 +81,8 @@ public class DefaultBookGroupService implements BookGroupService {
 	public void deleteBookGroup(Long groupId, Long userId) {
 		BookGroup bookGroup = bookGroupRepository.findById(groupId)
 			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
-		bookGroup.validateOwner(userId);
+		bookGroup.validateDelete(userId);
 		bookGroupRepository.deleteById(groupId);
-
 	}
 
 	@Override

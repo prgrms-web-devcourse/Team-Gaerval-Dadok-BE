@@ -7,7 +7,6 @@ import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
-import com.dadok.gaerval.domain.bookshelf.dto.response.DetailBookshelfResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -18,8 +17,6 @@ public interface BookshelfService {
 	Bookshelf getById(Long bookshelfId);
 
 	Optional<Bookshelf> findById(Long bookshelfId);
-
-	DetailBookshelfResponse findDetailById(Long bookshelfId);
 
 	Long createBookshelf(User user);
 

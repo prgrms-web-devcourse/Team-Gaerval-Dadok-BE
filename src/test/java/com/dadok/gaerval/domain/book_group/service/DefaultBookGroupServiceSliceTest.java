@@ -31,6 +31,7 @@ import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
+import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -340,6 +341,32 @@ class DefaultBookGroupServiceSliceTest {
 		//when
 		assertThrows(BookGroupOwnerNotMatchedException.class, () ->
 			defaultBookGroupService.deleteBookGroup(2L, 2L)
+		);
+
+		//then
+		verify(bookGroupRepository).findById(2L);
+	}
+
+	@DisplayName("deleteBookGroup - 모임원이 존재할 경우 - 실패")
+	@Test
+	void deleteBookGroup_existMember_fail() {
+		//given
+		var book = BookObjectProvider.createBook();
+		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+		var naverUser = UserObjectProvider.createNaverUser();
+		var kakaoUser = UserObjectProvider.createNaverUser();
+		ReflectionTestUtils.setField(naverUser, "id", 1L);
+		ReflectionTestUtils.setField(kakaoUser, "id", 2L);
+
+		GroupMember.create(bookGroup, kakaoUser);
+		GroupMember.create(bookGroup, naverUser);
+
+		given(bookGroupRepository.findById(2L))
+			.willReturn(Optional.of(bookGroup));
+
+		//when
+		assertThrows(CannotDeleteMemberExistException.class, () ->
+			defaultBookGroupService.deleteBookGroup(2L, 1L)
 		);
 
 		//then
