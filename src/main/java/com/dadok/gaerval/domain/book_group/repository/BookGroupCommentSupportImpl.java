@@ -48,9 +48,9 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 					groupComment.parentComment.id.as("parentCommentId"),
 					user.id.as("userId"),
 					user.profileImage.as("userProfileImage"),
-					user.nickname.as("nickname"),
 					groupComment.createdAt.as("createdAt"),
 					groupComment.modifiedAt.as("modifiedAt"),
+					user.nickname.nickname.as("nickname"),
 					Expressions.booleanTemplate("{0} = {1}", user.id, userId).as("writtenByCurrentUser")
 				))
 			.from(groupComment)
