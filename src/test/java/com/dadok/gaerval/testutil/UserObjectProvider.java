@@ -80,6 +80,12 @@ public class UserObjectProvider {
 		return oAuth2Attribute;
 	}
 
+	public static OAuth2Attribute kakaoAttribute() {
+		Map<String, Object> attributes = attributes(AuthProvider.KAKAO);
+		OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(AuthProvider.KAKAO, KAKAO_ATTRIBUTE_KEY, attributes);
+		return oAuth2Attribute;
+	}
+
 	public static User createKakaoUser(Job job) {
 		User kakaoUser = createKakaoUser();
 		kakaoUser.changeJob(job);

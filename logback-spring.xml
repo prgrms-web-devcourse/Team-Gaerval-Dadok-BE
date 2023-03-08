@@ -55,6 +55,12 @@
     <logger level="debug" name="com.dadok.gaerval"/>
 
     <logger level="debug" name="org.springframework.web"/>
+    <logger level="info" name="org.hibernate.loader.Loader"/>
+    <logger level="info" name="org.hibernate.engine.internal.TwoPhaseLoad"/>
+    <logger level="info" name="org.hibernate.SQL"/>
+    <logger level="info" name="org.hibernate.hql.internal.classic.QueryTranslatorImpl"/>
+    <logger level="info" name="org.hibernate.hql.internal.ast.util.JoinProcessor"/>
+    <logger level="info" name="org.hibernate.hql.internal"/>
 
     <root level="debug">
         <springProfile name="local,develop">
