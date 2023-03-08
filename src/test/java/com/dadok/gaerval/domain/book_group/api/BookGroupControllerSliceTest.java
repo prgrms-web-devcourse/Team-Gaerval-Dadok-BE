@@ -98,7 +98,9 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroups").type(JsonFieldType.ARRAY).description("모임들 명단"),
 					fieldWithPath("bookGroups[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 id"),
 					fieldWithPath("bookGroups[].title").type(JsonFieldType.STRING).description("모임 제목"),
+					fieldWithPath("bookGroups[].startDate").type(JsonFieldType.STRING).description("모임 시작일"),
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
+					fieldWithPath("bookGroups[].endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
 						.description("모임 최대 멤버 수"),
 					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
@@ -175,6 +177,8 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroups[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 id"),
 					fieldWithPath("bookGroups[].title").type(JsonFieldType.STRING).description("모임 제목"),
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
+					fieldWithPath("bookGroups[].startDate").type(JsonFieldType.STRING).description("모임 시작일"),
+					fieldWithPath("bookGroups[].endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
 						.description("모임 최대 멤버 수"),
 					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
