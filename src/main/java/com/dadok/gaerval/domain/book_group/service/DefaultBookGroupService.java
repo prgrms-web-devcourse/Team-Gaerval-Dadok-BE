@@ -11,6 +11,7 @@ import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
@@ -89,6 +90,16 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Transactional(readOnly = true)
 	public BookGroup getById(Long id) {
 		return bookGroupRepository.findById(id).orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
+	}
+
+	@Override
+	@Transactional
+	public void updateBookGroup(Long groupId, Long userId, BookGroupUpdateRequest request) {
+		BookGroup bookGroup = bookGroupRepository.findById(groupId)
+			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
+		bookGroup.validateOwner(userId);
+		bookGroup.changeBookGroupContents(request.title(), request.introduce(), request.endDate(),
+			request.maxMemberCount());
 	}
 
 	@Override

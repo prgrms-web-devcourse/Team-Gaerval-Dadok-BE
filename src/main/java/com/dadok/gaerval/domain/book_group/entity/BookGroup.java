@@ -28,6 +28,7 @@ import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedExc
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
+import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembers;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
@@ -129,6 +130,9 @@ public class BookGroup extends BaseTimeColumn {
 	private void validateMaxMemberCount(Integer maxMemberCount) {
 		validateNotnull(maxMemberCount, "maxMemberCount");
 		Assert.isTrue(maxMemberCount >= 1, "모임의 최대 인원수는 자신 포함 1명 이상이여야합니다.");
+		if (maxMemberCount < this.groupMembers.size()) {
+			throw new LessThanCurrentMembers(this.groupMembers.size());
+		}
 	}
 
 	public static BookGroup create(Long ownerId, Book book, LocalDate startDate, LocalDate endDate,
@@ -151,18 +155,27 @@ public class BookGroup extends BaseTimeColumn {
 		if (this.groupMembers.contains(groupMember)) {
 			throw new AlreadyContainBookGroupException();
 		}
-
 		checkCanJoin();
-
 		this.groupMembers.add(groupMember);
 	}
 
 	private void checkCanJoin() {
 		LocalDate currentDate = LocalDate.now();
-		if (currentDate.isAfter(this.endDate.plusDays(1))) {
+		if (currentDate.isAfter(this.endDate)) {
 			throw new ExpiredJoinGroupPeriodException();
 		}
 		checkMemberCount();
+	}
+
+	public void changeBookGroupContents(String title, String introduce, LocalDate endDate, Integer maxMemberCount) {
+		validateLengthLessThen(title, 30, "title");
+		CommonValidator.validateEndDate(startDate, endDate);
+		validateMaxMemberCount(maxMemberCount);
+		validateLengthLessThen(introduce, 1000, "introduce");
+		this.title = title;
+		this.introduce = introduce;
+		this.endDate = endDate;
+		this.maxMemberCount = maxMemberCount;
 	}
 
 	@JacocoExcludeGenerated

@@ -84,7 +84,7 @@ public class CommonValidator {
 			log.debug("에러 발생. valueName : {}, value : {}, length : {}",
 				valueName, value, value.length());
 			System.out.println("CommonValidator.validateLengthInRange \n"
-			+ String.format("에러 발생. valueName : %s, value : %s, length : %s",
+				+ String.format("에러 발생. valueName : %s, value : %s, length : %s",
 				valueName, value, value.length()));
 
 			throw new InvalidArgumentException(
@@ -129,7 +129,7 @@ public class CommonValidator {
 			return;
 		}
 
-		if ( !localDate.isAfter(currentDate)) {
+		if (!localDate.isAfter(currentDate)) {
 			throw new InvalidArgumentException(
 				String.format("%s는 현재시간보다 이전 입니다.", currentDate));
 		}
@@ -154,22 +154,27 @@ public class CommonValidator {
 		validateNotnull(endDate, "endDate");
 		LocalDate currentDate = LocalDate.now();
 
-		if (startDate.isEqual(currentDate)) {
-			return;
-		}
-
-		if (!startDate.isAfter(LocalDate.now())) {
+		if (!startDate.isEqual(currentDate) && !startDate.isAfter(currentDate)) {
 			throw new InvalidArgumentException(
-				String.format("시작 날짜는 현재시간 이후 부터 가능합니다. startDate : %s , endDate : %s.", startDate, endDate));
+				String.format("시작 날짜는 오늘 날짜부터 가능합니다. startDate : %s , endDate : %s.", startDate, endDate));
 		}
-
-		if (!endDate.isAfter(startDate)) {
-			throw new InvalidArgumentException(
-				String.format(" 종료 날짜는 시작 날짜 이후 부터 가능합니다. startDate : %s , endDate : %s.", startDate, endDate));
-
-		}
-
+		validateEndDate(startDate, endDate);
 	}
 
+	public static void validateEndDate(LocalDate startDate, LocalDate endDate) {
+		validateNotnull(startDate, "startDate");
+		validateNotnull(endDate, "endDate");
+		LocalDate currentDate = LocalDate.now();
+
+		if (!endDate.isEqual(currentDate) && !endDate.isAfter(currentDate)) {
+			throw new InvalidArgumentException(
+				String.format("종료 날짜는 오늘 날짜부터 가능합니다. endDate : %s.", endDate));
+		}
+
+		if (!endDate.isEqual(startDate) && !endDate.isAfter(startDate)) {
+			throw new InvalidArgumentException(
+				String.format(" 종료 날짜는 시작 날짜부터 가능합니다. startDate : %s , endDate : %s.", startDate, endDate));
+		}
+	}
 
 }
