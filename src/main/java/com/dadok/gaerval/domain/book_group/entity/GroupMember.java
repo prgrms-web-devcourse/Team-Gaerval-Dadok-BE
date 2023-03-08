@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
@@ -23,7 +24,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "group_member")
+@Table(name = "group_member",
+	uniqueConstraints = {
+		@UniqueConstraint(name = "userId_authority_unique_key",
+			columnNames = {"user_id", "book_group_id"})
+	})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GroupMember extends BaseTimeColumn {
@@ -33,11 +38,11 @@ public class GroupMember extends BaseTimeColumn {
 	private Long id;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = false, name = "user_id")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = false, name = "book_group_id")
 	private BookGroup bookGroup;
 
 	protected GroupMember(User user, BookGroup bookGroup) {
