@@ -149,6 +149,23 @@ public class DefaultBookshelfService implements BookshelfService {
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
+	@Transactional
+	@Override
+	public Optional<Long> insertIfNotPresent(Long userId, Long bookId) {
+		Bookshelf bookshelf = bookshelfRepository.findByUserId(userId).orElseThrow(
+			() -> new IllegalArgumentException("존재하지 않는 유저입니다")
+		);
+		Book book = bookService.getById(bookId);
+
+		boolean exists = bookshelfItemRepository.existsByBookshelfIdAndBookId(bookshelf.getId(), bookId);
+		if (!exists) {
+			Long bookshelfItemId = bookshelfItemRepository.save(BookshelfItem.create(bookshelf, book)).getId();
+			return Optional.of(bookshelfItemId);
+		}
+
+		return Optional.empty();
+	}
+
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
 		Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));

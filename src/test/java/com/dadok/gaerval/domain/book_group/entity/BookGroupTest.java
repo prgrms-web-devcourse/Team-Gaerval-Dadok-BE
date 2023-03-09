@@ -21,9 +21,11 @@ import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.util.RegexHelper;
+import com.dadok.gaerval.global.util.TimeHolder;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.GroupCommentObjectProvider;
+import com.dadok.gaerval.testutil.TestHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 class BookGroupTest {
@@ -32,6 +34,8 @@ class BookGroupTest {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+	private final TimeHolder timeHolder = TestHolder.now();
+
 	@DisplayName("create - bookGroup 생성 - 성공")
 	@Test
 	void create_success() {
@@ -39,7 +43,7 @@ class BookGroupTest {
 
 			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -49,7 +53,7 @@ class BookGroupTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			BookGroup.create(2L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 				0, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -59,7 +63,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -69,7 +73,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(),
 				2, null, "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -80,7 +84,7 @@ class BookGroupTest {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(), 2,
 				"작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임",
 				"작은 모임", true, "월든 작가는?", "헨리데이빗소로우", true,
-				passwordEncoder);
+				passwordEncoder,timeHolder);
 		});
 	}
 
@@ -90,7 +94,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, null, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -100,7 +104,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, null, LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -110,7 +114,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), null,
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -120,7 +124,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now().minusDays(1),
 				LocalDate.now(), 2, "작은 모임", "작은 모임",
-				true, "월든 작가는?", "헨리데이빗소로우", true, passwordEncoder);
+				true, "월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -131,7 +135,7 @@ class BookGroupTest {
 			BookGroup.create(3L, book, LocalDate.now().plusDays(1),
 				LocalDate.now().minusDays(1), 2, "작은 모임", "작은 모임",
 				true, "월든 작가는?", "헨리데이빗소로우", true,
-				passwordEncoder);
+				passwordEncoder, timeHolder);
 		});
 	}
 
@@ -141,7 +145,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", null, true,
-				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", false, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -151,7 +155,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", "헨리데이빗소로우", null, passwordEncoder);
+				"월든 작가는?", "헨리데이빗소로우", null, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -161,7 +165,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", null, true, passwordEncoder);
+				"월든 작가는?", null, true, passwordEncoder, timeHolder);
 		});
 	}
 
@@ -172,7 +176,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", password, true, passwordEncoder);
+				"월든 작가는?", password, true, passwordEncoder, timeHolder);
 		});
 		assertTrue(RegexHelper.containsWhiteSpace(password, "password"));
 	}
@@ -185,7 +189,7 @@ class BookGroupTest {
 		assertThrows(InvalidArgumentException.class, () -> {
 			BookGroup.create(3L, book, LocalDate.now(), LocalDate.now(),
 				2, "작은 모임", "작은 모임", true,
-				"월든 작가는?", password, true, passwordEncoder);
+				"월든 작가는?", password, true, passwordEncoder, timeHolder);
 		});
 		assertTrue(password.length() > 10);
 	}
@@ -254,7 +258,7 @@ class BookGroupTest {
 		GroupMember groupMember = null;
 		//when
 		assertThrows(InvalidArgumentException.class,
-			() -> bookGroup.addMember(groupMember));
+			() -> bookGroup.addMember(groupMember, timeHolder));
 	}
 
 	@DisplayName("addMembers - maximum 정원 초과시 예외를 던진다.")
@@ -265,7 +269,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
-			false, null, null, false, passwordEncoder
+			false, null, null, false, passwordEncoder, timeHolder
 		);
 		GroupMember.create(bookGroup, UserObjectProvider.createKakaoUser());
 
@@ -297,7 +301,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			1, "책읽기 소모임", "책읽기 소모임",
-			false, null, null, false, passwordEncoder
+			false, null, null, false, passwordEncoder, timeHolder
 		);
 		ReflectionTestUtils.setField(bookGroup, "startDate", LocalDate.now().minusDays(5));
 		ReflectionTestUtils.setField(bookGroup, "endDate", LocalDate.now().minusDays(1));
@@ -314,7 +318,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			1, "책읽기 소모임", "책읽기 소모임",
-			false, null, null, false, passwordEncoder
+			false, null, null, false, passwordEncoder, timeHolder
 		);
 		//when
 		assertDoesNotThrow(
@@ -329,7 +333,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
-			true, "숫자 일이삼사", "1234", false, passwordEncoder);
+			true, "숫자 일이삼사", "1234", false, passwordEncoder, timeHolder);
 		//when
 		assertThrows(NotMatchedPasswordException.class,
 			() -> bookGroup.checkPasswd(passwd, passwordEncoder));
@@ -343,7 +347,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
-			true, "숫자 일이삼사", "1234", false, passwordEncoder);
+			true, "숫자 일이삼사", "1234", false, passwordEncoder, timeHolder);
 		//when
 		assertThrows(NotMatchedPasswordException.class,
 			() -> bookGroup.checkPasswd(passwd, passwordEncoder));
@@ -357,7 +361,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
-			false, null, "1234", false, passwordEncoder);
+			false, null, "1234", false, passwordEncoder, timeHolder);
 		//when
 		assertDoesNotThrow(() -> bookGroup.checkPasswd(passwd, passwordEncoder));
 	}
@@ -369,7 +373,7 @@ class BookGroupTest {
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
 			1, "책읽기 소모임", "책읽기 소모임",
-			false, null, "1234", false, passwordEncoder);
+			false, null, "1234", false, passwordEncoder, timeHolder);
 		String password = "1234";
 		//when
 		assertDoesNotThrow(() -> bookGroup.checkPasswd(password, passwordEncoder));

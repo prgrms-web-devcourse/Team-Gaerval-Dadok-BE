@@ -53,11 +53,20 @@ public class GroupMember extends BaseTimeColumn {
 		this.bookGroup = bookGroup;
 	}
 
+	protected GroupMember(User user) {
+		validateNotnull(user, "user");
+		this.user = user;
+	}
+
 	public static GroupMember create(BookGroup bookGroup, User user) {
 		GroupMember groupMember = new GroupMember(user, bookGroup);
 
-		bookGroup.addMember(groupMember);
+		bookGroup.addMember();
 		return groupMember;
+	}
+
+	public static GroupMember create(User user) {
+		return new GroupMember(user);
 	}
 
 	@JacocoExcludeGenerated
@@ -78,5 +87,9 @@ public class GroupMember extends BaseTimeColumn {
 		return Objects.hash(id, user, bookGroup);
 	}
 
-
+	public void changeGroup(BookGroup bookGroup) {
+		if (this.bookGroup != bookGroup) {
+			this.bookGroup = bookGroup;
+		}
+	}
 }

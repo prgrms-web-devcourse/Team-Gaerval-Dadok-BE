@@ -1,5 +1,6 @@
 package com.dadok.gaerval.global.util;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -161,10 +162,40 @@ public class CommonValidator {
 		validateEndDate(startDate, endDate);
 	}
 
+	// standad : 기준이 되는 시간
+	public static void validatePeriod(LocalDate startDate, LocalDate endDate, Clock standard) {
+		validateNotnull(startDate, "startDate");
+		validateNotnull(endDate, "endDate");
+		validateNotnull(standard, "standard");
+		LocalDate currentDate = LocalDate.now(standard);
+
+		if (!startDate.isEqual(currentDate) && !startDate.isAfter(currentDate)) {
+			throw new InvalidArgumentException(
+				String.format("시작 날짜는 오늘 날짜부터 가능합니다. startDate : %s , endDate : %s.", startDate, endDate));
+		}
+		validateEndDate(startDate, endDate, standard);
+	}
+
 	public static void validateEndDate(LocalDate startDate, LocalDate endDate) {
 		validateNotnull(startDate, "startDate");
 		validateNotnull(endDate, "endDate");
 		LocalDate currentDate = LocalDate.now();
+
+		if (!endDate.isEqual(currentDate) && !endDate.isAfter(currentDate)) {
+			throw new InvalidArgumentException(
+				String.format("종료 날짜는 오늘 날짜부터 가능합니다. endDate : %s.", endDate));
+		}
+
+		if (!endDate.isEqual(startDate) && !endDate.isAfter(startDate)) {
+			throw new InvalidArgumentException(
+				String.format(" 종료 날짜는 시작 날짜부터 가능합니다. startDate : %s , endDate : %s.", startDate, endDate));
+		}
+	}
+
+	public static void validateEndDate(LocalDate startDate, LocalDate endDate, Clock standard) {
+		validateNotnull(startDate, "startDate");
+		validateNotnull(endDate, "endDate");
+		LocalDate currentDate = LocalDate.now(standard);
 
 		if (!endDate.isEqual(currentDate) && !endDate.isAfter(currentDate)) {
 			throw new InvalidArgumentException(

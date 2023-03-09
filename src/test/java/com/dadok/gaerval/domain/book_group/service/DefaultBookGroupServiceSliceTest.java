@@ -42,8 +42,10 @@ import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
+import com.dadok.gaerval.global.util.TimeHolder;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.TestHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +65,9 @@ class DefaultBookGroupServiceSliceTest {
 
 	@Mock
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	@Mock
+	private TimeHolder timeHolder = TestHolder.now();
 
 	@DisplayName("findAllBookGroups - 모임 리스트를 조회한다.")
 	@Test
@@ -134,7 +139,7 @@ class DefaultBookGroupServiceSliceTest {
 		);
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
-			request.joinQuestion(), request.joinPasswd(), request.isPublic(), new BCryptPasswordEncoder());
+			request.joinQuestion(), request.joinPasswd(), request.isPublic(), new BCryptPasswordEncoder(), timeHolder);
 		ReflectionTestUtils.setField(bookGroup, "id", 1L);
 
 		given(userService.getById(user.getId()))
@@ -225,7 +230,7 @@ class DefaultBookGroupServiceSliceTest {
 		BookGroup bookGroup = BookGroup.create(1L,
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
 			6, "북그룹", "소개합니다", true,
-			"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder
+			"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder
 		);
 		given(bookGroupRepository.findById(1L))
 			.willReturn(Optional.of(bookGroup));
@@ -247,7 +252,7 @@ class DefaultBookGroupServiceSliceTest {
 		BookGroup bookGroup = BookGroup.create(1L,
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
 			6, "북그룹", "소개합니다", false,
-			null, null, true, passwordEncoder
+			null, null, true, passwordEncoder, timeHolder
 		);
 		long groupId = 99L;
 		ReflectionTestUtils.setField(bookGroup, "id", groupId);
@@ -278,7 +283,7 @@ class DefaultBookGroupServiceSliceTest {
 		BookGroup bookGroup = BookGroup.create(1L,
 			book, LocalDate.now().plusDays(1), LocalDate.now().plusDays(7),
 			6, "북그룹", "소개합니다", true,
-			"일이삼사", "1234", true, passwordEncoder
+			"일이삼사", "1234", true, passwordEncoder, timeHolder
 		);
 		long groupId = 99L;
 		ReflectionTestUtils.setField(bookGroup, "id", groupId);

@@ -33,12 +33,15 @@ import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
+import com.dadok.gaerval.global.util.TimeHolder;
 
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Entity
 @Table(name = "book_groups",
 	indexes = {@Index(name = "owner_id_index", columnList = "owner_id"),
@@ -90,19 +93,19 @@ public class BookGroup extends BaseTimeColumn {
 	@Column(length = 64)
 	private String joinPasswd;
 
-	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST)
 	private final List<GroupMember> groupMembers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST)
 	private List<GroupComment> comments = new ArrayList<>();
 
 	protected BookGroup(Long ownerId, Book book, LocalDate startDate, LocalDate endDate, Integer maxMemberCount,
 		String introduce, Boolean hasJoinPasswd, String title, String joinQuestion, String joinPasswd,
-		Boolean isPublic, PasswordEncoder passwordEncoder) {
+		Boolean isPublic, PasswordEncoder passwordEncoder, TimeHolder timeHolder) {
 		validateNotnull(ownerId, "ownerId");
 		validateLengthLessThen(title, 30, "title");
 		validateNotnull(book, "book");
-		CommonValidator.validatePeriod(startDate, endDate);
+		CommonValidator.validatePeriod(startDate, endDate, timeHolder.getCurrentClock());
 		validateMaxMemberCount(maxMemberCount);
 		validateLengthLessThen(introduce, 1000, "introduce");
 		validateHasJoinPasswd(hasJoinPasswd, joinQuestion, joinPasswd);
@@ -137,10 +140,10 @@ public class BookGroup extends BaseTimeColumn {
 
 	public static BookGroup create(Long ownerId, Book book, LocalDate startDate, LocalDate endDate,
 		Integer maxMemberCount, String title, String introduce, Boolean hasJoinPasswd, String joinQuestion,
-		String joinPasswd, Boolean isPublic, PasswordEncoder passwordEncoder) {
+		String joinPasswd, Boolean isPublic, PasswordEncoder passwordEncoder, TimeHolder timeHolder) {
 
 		return new BookGroup(ownerId, book, startDate, endDate, maxMemberCount, introduce, hasJoinPasswd, title,
-			joinQuestion, joinPasswd, isPublic, passwordEncoder);
+			joinQuestion, joinPasswd, isPublic, passwordEncoder, timeHolder);
 	}
 
 	public void addComment(GroupComment groupComment) {
@@ -150,26 +153,28 @@ public class BookGroup extends BaseTimeColumn {
 		}
 	}
 
-	public void addMember(GroupMember groupMember) {
+	public void addMember(GroupMember groupMember, TimeHolder timeHolder) {
 		validateNotnull(groupMember, "groupMember");
 		if (this.groupMembers.contains(groupMember)) {
 			throw new AlreadyContainBookGroupException();
 		}
-		checkCanJoin();
+		checkCanJoin(timeHolder);
 		this.groupMembers.add(groupMember);
+		groupMember.changeGroup(this);
 	}
 
-	private void checkCanJoin() {
-		LocalDate currentDate = LocalDate.now();
+	private void checkCanJoin(TimeHolder timeHolder) {
+		LocalDate currentDate = LocalDate.now(timeHolder.getCurrentClock());
 		if (currentDate.isAfter(this.endDate)) {
 			throw new ExpiredJoinGroupPeriodException();
 		}
 		checkMemberCount();
 	}
 
-	public void changeBookGroupContents(String title, String introduce, LocalDate endDate, Integer maxMemberCount) {
+	public void changeBookGroupContents(String title, String introduce, LocalDate endDate, Integer maxMemberCount,
+		TimeHolder timeHolder) {
 		validateLengthLessThen(title, 30, "title");
-		CommonValidator.validateEndDate(startDate, endDate);
+		CommonValidator.validateEndDate(startDate, endDate, timeHolder.getCurrentClock());
 		validateMaxMemberCount(maxMemberCount);
 		validateLengthLessThen(introduce, 1000, "introduce");
 		this.title = title;
@@ -210,7 +215,8 @@ public class BookGroup extends BaseTimeColumn {
 	}
 
 	private void checkMemberCount() {
-		if (this.groupMembers.size() >= this.maxMemberCount) {
+		log.warn("current Member size : {}", this.groupMembers.size());
+		if (this.groupMembers.size() == this.maxMemberCount) {
 			throw new ExceedLimitMemberException();
 		}
 	}
@@ -227,4 +233,5 @@ public class BookGroup extends BaseTimeColumn {
 			throw new CannotDeleteMemberExistException();
 		}
 	}
+
 }
