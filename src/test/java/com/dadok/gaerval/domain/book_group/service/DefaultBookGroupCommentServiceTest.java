@@ -1,9 +1,11 @@
 package com.dadok.gaerval.domain.book_group.service;
 
+import static com.dadok.gaerval.testutil.BookGroupCommentObjectProvider.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +23,9 @@ import org.springframework.data.domain.Sort;
 
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
@@ -159,5 +163,54 @@ class DefaultBookGroupCommentServiceTest {
 		verify(bookGroupCommentRepository).findById(bookCommentId);
 		assertTrue(findBookGroupComment.isPresent());
 		assertEquals(groupComment, findBookGroupComment.get());
+	}
+
+	@DisplayName("updateBookGroupComment - 모임 댓글을 수정하는데 성공한다.")
+	@Test
+	void updateBookGroupComment() {
+		String modifiedComment = "바꾼 댓글이에요";
+		BookGroupCommentUpdateRequest groupCommentUpdateRequest = new BookGroupCommentUpdateRequest(bookCommentId, modifiedComment);
+		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment, 1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12,11)
+			, LocalDateTime.now(), "티나", true);
+
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			1L);
+		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
+			UserObjectProvider.createKakaoUser());
+		given(bookGroupCommentRepository.findById(bookCommentId))
+			.willReturn(Optional.of(groupComment));
+		given(bookGroupService.checkGroupMember(1L, 1L)).willReturn(true);
+		given(bookGroupCommentRepository.findGroupComment(bookCommentId, 1L, 1L))
+			.willReturn(bookGroupCommentResponse);
+
+		//when
+		BookGroupCommentResponse groupCommentUpdateResponse = defaultBookGroupCommentService.updateBookGroupComment(
+			1L, 1L, groupCommentUpdateRequest);
+
+		assertEquals(modifiedComment, groupCommentUpdateResponse.getContents());
+
+	}
+
+
+	@DisplayName("deleteBookGroupComment - 모임 댓글을 삭제하는데 성공한다.")
+	@Test
+	void deleteBookGroupComment() {
+		BookGroupCommentDeleteRequest deleteRequest = new BookGroupCommentDeleteRequest(bookCommentId);
+
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			1L);
+		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
+			UserObjectProvider.createKakaoUser());
+
+		given(bookGroupCommentRepository.findById(bookCommentId))
+			.willReturn(Optional.of(groupComment));
+		given(bookGroupService.checkGroupMember(1L, 1L)).willReturn(true);
+
+		// when
+		defaultBookGroupCommentService.deleteBookGroupComment(1L, 1L, deleteRequest);
+
+		// then
+		verify(bookGroupCommentRepository).findById(bookCommentId);
+		verify(bookGroupCommentRepository).delete(groupComment);
 	}
 }

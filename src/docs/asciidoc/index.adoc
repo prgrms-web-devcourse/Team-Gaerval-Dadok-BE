@@ -526,9 +526,9 @@ include::{snippets}/book-comment-controller-test/modify-book-comment_success/req
 
 include::{snippets}/book-comment-controller-test/modify-book-comment_success/http-response.adoc[]
 
-==== Response Body
+==== Response Fields
 
-include::{snippets}/book-comment-controller-test/modify-book-comment_success/response-body.adoc[]
+include::{snippets}/book-comment-controller-test/modify-book-comment_success/response-fields.adoc[]
 
 
 == BookGroup - 모임
@@ -726,6 +726,45 @@ include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-co
 ==== Response fields
 
 include::{snippets}/book-group-comment-controller-slice-test/find-book-groups-comment_-should-return-ok/response-fields.adoc[]
+
+=== 모임 댓글 수정
+
+==== Request
+
+include::{snippets}/book-group-comment-controller-slice-test/update-book-group-comment_-should-return-ok/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-comment-controller-slice-test/update-book-group-comment_-should-return-ok/request-headers.adoc[]
+
+==== Request Fields
+
+include::{snippets}/book-group-comment-controller-slice-test/update-book-group-comment_-should-return-ok/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-comment-controller-slice-test/update-book-group-comment_-should-return-ok/http-response.adoc[]
+
+
+
+=== 모임 댓글 삭제
+
+==== Request
+
+include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/http-response.adoc[]
+
 
 == Job - 직군, 직업
 

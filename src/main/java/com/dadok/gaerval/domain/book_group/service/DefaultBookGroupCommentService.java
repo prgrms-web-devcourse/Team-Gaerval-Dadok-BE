@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupComment;
@@ -77,5 +80,25 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	@Transactional(readOnly = true)
 	public Optional<GroupComment> findById(Long id) {
 		return bookGroupCommentRepository.findById(id);
+	}
+
+	@Override
+	public BookGroupCommentResponse updateBookGroupComment(Long bookGroupId, Long userId,
+		BookGroupCommentUpdateRequest bookGroupCommentUpdateRequest) {
+		GroupComment groupComment = this.getById(bookGroupCommentUpdateRequest.commentId());
+		groupComment.changeContents(bookGroupCommentUpdateRequest.comment());
+		if (!bookGroupService.checkGroupMember(userId, bookGroupId)) {
+			throw new NotContainBookGroupException();
+		}
+		return bookGroupCommentRepository.findGroupComment(bookGroupCommentUpdateRequest.commentId(), userId, bookGroupId);
+	}
+
+	@Override
+	public void deleteBookGroupComment(Long bookGroupId, Long userId,
+		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
+		if (!bookGroupService.checkGroupMember(userId, bookGroupId)) {
+			throw new NotContainBookGroupException();
+		}
+		bookGroupCommentRepository.delete(this.getById(bookGroupCommentDeleteRequest.commentId()));
 	}
 }
