@@ -10,6 +10,7 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchReq
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupComment;
+import com.dadok.gaerval.domain.book_group.exception.NotContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupCommentRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -29,8 +30,9 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public BookGroupCommentResponses findAllBookGroupCommentsByGroup(BookGroupCommentSearchRequest request, Long userId, Long groupId) {
-		return bookGroupCommentRepository.findAllBy(request,userId, groupId);
+	public BookGroupCommentResponses findAllBookGroupCommentsByGroup(BookGroupCommentSearchRequest request, Long userId,
+		Long groupId) {
+		return bookGroupCommentRepository.findAllBy(request, userId, groupId);
 	}
 
 	@Override
@@ -38,6 +40,9 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	public Long createBookGroupComment(Long groupId, Long userId, BookGroupCommentCreateRequest request) {
 		User user = userService.getById(userId);
 		BookGroup bookGroup = bookGroupService.getById(groupId);
+		if (!bookGroupService.checkGroupMember(userId, bookGroup.getId())) {
+			throw new NotContainBookGroupException();
+		}
 		GroupComment groupComment = GroupComment.create(
 			request.comment(),
 			bookGroup,
@@ -64,7 +69,8 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	@Override
 	@Transactional(readOnly = true)
 	public GroupComment getById(Long id) {
-		return bookGroupCommentRepository.findById(id).orElseThrow(()-> new ResourceNotfoundException(GroupComment.class));
+		return bookGroupCommentRepository.findById(id)
+			.orElseThrow(() -> new ResourceNotfoundException(GroupComment.class));
 	}
 
 	@Override

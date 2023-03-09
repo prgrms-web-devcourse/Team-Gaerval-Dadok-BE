@@ -10,4 +10,9 @@ public class CannotDeleteMemberExistException extends BusinessException {
 	public CannotDeleteMemberExistException() {
 		super(ErrorCode.CANNOT_DELETE_MEMBER_EXIST);
 	}
+
+	@Override
+	public String getMessage() {
+		return errorCode.getMessage();
+	}
 }

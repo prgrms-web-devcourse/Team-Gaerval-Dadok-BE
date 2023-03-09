@@ -11,4 +11,8 @@ public class BookGroupOwnerNotMatchedException extends BusinessException {
 		super(ErrorCode.BOOK_GROUP_OWNER_NOT_MATCHED);
 	}
 
+	@Override
+	public String getMessage() {
+		return errorCode.getMessage();
+	}
 }

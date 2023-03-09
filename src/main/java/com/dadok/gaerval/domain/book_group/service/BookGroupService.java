@@ -29,4 +29,6 @@ public interface BookGroupService {
 	BookGroup getById(Long id);
 
 	void updateBookGroup(Long groupId, Long userId, BookGroupUpdateRequest request);
+
+	boolean checkGroupMember(Long userId, Long bookGroupId);
 }
