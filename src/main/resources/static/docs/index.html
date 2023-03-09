@@ -538,6 +538,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_모임_가입">모임 가입</a></li>
 <li><a href="#_모임_댓글_작성">모임 댓글 작성</a></li>
 <li><a href="#_모임_댓글_리스트_조회">모임 댓글 리스트 조회</a></li>
+<li><a href="#_모임_댓글_수정">모임 댓글 수정</a></li>
+<li><a href="#_모임_댓글_삭제">모임 댓글 삭제</a></li>
 </ul>
 </li>
 <li><a href="#_job_직군_직업">Job - 직군, 직업</a>
@@ -3707,8 +3709,8 @@ Content-Length: 1100
     "bookId" : 1,
     "userId" : 1,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-09 16:22:42",
-    "modifiedAt" : "2023-03-09 16:22:42",
+    "createdAt" : "2023-03-09 18:23:10",
+    "modifiedAt" : "2023-03-09 18:23:10",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -3717,8 +3719,8 @@ Content-Length: 1100
     "bookId" : 1,
     "userId" : 2,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-09 16:22:42",
-    "modifiedAt" : "2023-03-09 16:22:42",
+    "createdAt" : "2023-03-09 18:23:10",
+    "modifiedAt" : "2023-03-09 18:23:10",
     "nickname" : "0soo",
     "writtenByCurrentUser" : false
   }, {
@@ -3727,8 +3729,8 @@ Content-Length: 1100
     "bookId" : 1,
     "userId" : 3,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-09 16:22:42",
-    "modifiedAt" : "2023-03-09 16:22:42",
+    "createdAt" : "2023-03-09 18:23:10",
+    "modifiedAt" : "2023-03-09 18:23:10",
     "nickname" : "foreverYoung",
     "writtenByCurrentUser" : false
   } ]
@@ -4082,7 +4084,7 @@ Content-Length: 323
   "userId" : 1,
   "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
   "createdAt" : "2023-03-07 10:20:00",
-  "modifiedAt" : "2023-03-09 16:22:44",
+  "modifiedAt" : "2023-03-09 18:23:11",
   "nickname" : "티나",
   "writtenByCurrentUser" : true
 }</code></pre>
@@ -4090,22 +4092,77 @@ Content-Length: 323
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_body"><a class="link" href="#_response_body">Response Body</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "commentId" : 1,
-  "contents" : "좋대서 샀어yo(아직 못읽음 ㅜㅜ)",
-  "bookId" : 1,
-  "userId" : 1,
-  "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-  "createdAt" : "2023-03-07 10:20:00",
-  "modifiedAt" : "2023-03-09 16:22:44",
-  "nickname" : "티나",
-  "writtenByCurrentUser" : true
-}</code></pre>
-</div>
-</div>
+<h4 id="_response_fields_18"><a class="link" href="#_response_fields_18">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>contents</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정된 코멘트 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트가 속한 도서 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트 작성자 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userProfileImage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트 작성자 프로필 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트 작성 일자(yyyy-MM-dd HH:mm:ss)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>modifiedAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코멘트 작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writtenByCurrentUser</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 본인 여부</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -4299,7 +4356,7 @@ Content-Length: 23
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_18"><a class="link" href="#_response_fields_18">Response fields</a></h4>
+<h4 id="_response_fields_19"><a class="link" href="#_response_fields_19">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4621,7 +4678,7 @@ Content-Length: 580
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_19"><a class="link" href="#_response_fields_19">Response fields</a></h4>
+<h4 id="_response_fields_20"><a class="link" href="#_response_fields_20">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4949,7 +5006,7 @@ Content-Length: 2659
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_20"><a class="link" href="#_response_fields_20">Response fields</a></h4>
+<h4 id="_response_fields_21"><a class="link" href="#_response_fields_21">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5294,7 +5351,7 @@ Content-Length: 2659
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_21"><a class="link" href="#_response_fields_21">Response fields</a></h4>
+<h4 id="_response_fields_22"><a class="link" href="#_response_fields_22">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5744,8 +5801,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 123,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-09 16:23:14",
-    "modifiedAt" : "2023-03-09 16:23:14",
+    "createdAt" : "2023-03-09 18:23:35",
+    "modifiedAt" : "2023-03-09 18:23:35",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -5755,8 +5812,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 234,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-09 16:23:14",
-    "modifiedAt" : "2023-03-09 16:23:14",
+    "createdAt" : "2023-03-09 18:23:35",
+    "modifiedAt" : "2023-03-09 18:23:35",
     "nickname" : "0Soo",
     "writtenByCurrentUser" : false
   }, {
@@ -5766,8 +5823,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 456,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-09 16:23:14",
-    "modifiedAt" : "2023-03-09 16:23:14",
+    "createdAt" : "2023-03-09 18:23:35",
+    "modifiedAt" : "2023-03-09 18:23:35",
     "nickname" : "youngijang",
     "writtenByCurrentUser" : false
   } ]
@@ -5776,7 +5833,7 @@ Content-Length: 1375
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_22"><a class="link" href="#_response_fields_22">Response fields</a></h4>
+<h4 id="_response_fields_23"><a class="link" href="#_response_fields_23">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5891,21 +5948,22 @@ Content-Length: 1375
 </table>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_job_직군_직업"><a class="link" href="#_job_직군_직업">Job - 직군, 직업</a></h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_모든_직업_조회"><a class="link" href="#_모든_직업_조회">모든 직업 조회</a></h3>
+<h3 id="_모임_댓글_수정"><a class="link" href="#_모임_댓글_수정">모임 댓글 수정</a></h3>
 <div class="sect3">
 <h4 id="_request_32"><a class="link" href="#_request_32">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/book-groups/234/comment HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Host: localhost:8080</code></pre>
+Content-Length: 58
+Host: localhost:8080
+
+{
+  "commentId" : 123,
+  "comment" : "이 책 싫어요"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -5935,7 +5993,196 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
+<h4 id="_request_fields_4"><a class="link" href="#_request_fields_4">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(nullable)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 댓글 아이디</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be null<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>comment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">수정할 댓글 내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank
+Size must be between 0 and 2000 inclusive<br></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
 <h4 id="_response_32"><a class="link" href="#_response_32">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 334
+
+{
+  "commentId" : 234,
+  "contents" : "이 책 싫어요",
+  "bookGroupId" : 234,
+  "parentCommentId" : null,
+  "userId" : 1,
+  "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
+  "createdAt" : "2023-03-07 12:11:00",
+  "modifiedAt" : "2023-03-09 18:23:35",
+  "nickname" : "티나",
+  "writtenByCurrentUser" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_24"><a class="link" href="#_response_fields_24">Response fields</a></h4>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::/Users/tina/DevCourse/Team-Gaerval-Dadok-BE/build/generated-snippets/book-group-comment-controller-slice-test/update-book-group-comment_-should-return-ok/response-fields.adoc[]</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_모임_댓글_삭제"><a class="link" href="#_모임_댓글_삭제">모임 댓글 삭제</a></h3>
+<div class="sect3">
+<h4 id="_request_33"><a class="link" href="#_request_33">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/book-groups/234/comment HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Content-Length: 23
+Host: localhost:8080
+
+{
+  "commentId" : 234
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_32"><a class="link" href="#_request_header_32">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_path_parameter_12"><a class="link" href="#_path_parameter_12">Path Parameter</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 13. /api/book-groups/{groupId}/comment</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_33"><a class="link" href="#_response_33">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_job_직군_직업"><a class="link" href="#_job_직군_직업">Job - 직군, 직업</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_모든_직업_조회"><a class="link" href="#_모든_직업_조회">모든 직업 조회</a></h3>
+<div class="sect3">
+<h4 id="_request_34"><a class="link" href="#_request_34">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_33"><a class="link" href="#_request_header_33">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_34"><a class="link" href="#_response_34">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -7248,7 +7495,7 @@ Content-Length: 32931
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_23"><a class="link" href="#_response_fields_23">Response fields</a></h4>
+<h4 id="_response_fields_25"><a class="link" href="#_response_fields_25">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -7314,7 +7561,7 @@ Content-Length: 32931
 <div class="sect2">
 <h3 id="_직업_등록_및_수정"><a class="link" href="#_직업_등록_및_수정">직업 등록 및 수정</a></h3>
 <div class="sect3">
-<h4 id="_request_33"><a class="link" href="#_request_33">Request</a></h4>
+<h4 id="_request_35"><a class="link" href="#_request_35">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/users/1/jobs HTTP/1.1
@@ -7331,7 +7578,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_header_32"><a class="link" href="#_request_header_32">Request Header</a></h4>
+<h4 id="_request_header_34"><a class="link" href="#_request_header_34">Request Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -7356,9 +7603,9 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_path_parameter_12"><a class="link" href="#_path_parameter_12">Path Parameter</a></h4>
+<h4 id="_path_parameter_13"><a class="link" href="#_path_parameter_13">Path Parameter</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. /api/users/{userId}/jobs</caption>
+<caption class="title">Table 14. /api/users/{userId}/jobs</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -7413,7 +7660,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_33"><a class="link" href="#_response_33">Response</a></h4>
+<h4 id="_response_35"><a class="link" href="#_response_35">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -7437,7 +7684,7 @@ Content-Length: 210
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_24"><a class="link" href="#_response_fields_24">Response fields</a></h4>
+<h4 id="_response_fields_26"><a class="link" href="#_response_fields_26">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -7504,7 +7751,7 @@ Content-Length: 210
 <div id="footer">
 <div id="footer-text">
 Version 0.5.1<br>
-Last updated 2023-03-09 16:00:06 +0900
+Last updated 2023-03-09 18:17:46 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

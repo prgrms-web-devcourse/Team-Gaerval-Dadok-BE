@@ -110,4 +110,8 @@ public class GroupComment extends BaseTimeColumn {
 		return this.parentComment != null;
 	}
 
+	public void changeContents(String contents) {
+		validateLengthLessThen(contents, 2000, "contents");
+		this.contents = contents;
+	}
 }

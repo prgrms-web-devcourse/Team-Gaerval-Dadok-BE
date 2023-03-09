@@ -28,4 +28,10 @@ class BookGroupCommentSupportImplTest {
 		BookGroupCommentSearchRequest request = new BookGroupCommentSearchRequest(10, null, null);
 		bookGroupCommentRepository.findAllBy(request, 123L, 123L);
 	}
+
+	@DisplayName("findGroupComment - commendId, groupId, userId로 코멘트 조회")
+	@Test
+	void findGroupComment() {
+		bookGroupCommentRepository.findGroupComment(1L,1L,1L);
+	}
 }

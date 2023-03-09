@@ -69,4 +69,28 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 
 		return new BookGroupCommentResponses(bookGroupResponses);
 	}
+
+	@Override
+	public BookGroupCommentResponse findGroupComment(Long commentId, Long userId, Long groupId) {
+		return queryFactory.select(
+				constructor(BookGroupCommentResponse.class,
+					groupComment.id.as("commentId"),
+					groupComment.contents.as("contents"),
+					bookGroup.id.as("booGroupId"),
+					groupComment.parentComment.id.as("parentCommentId"),
+					user.id.as("userId"),
+					user.profileImage.as("userProfileImage"),
+					groupComment.createdAt.as("createdAt"),
+					groupComment.modifiedAt.as("modifiedAt"),
+					user.nickname.nickname.as("nickname"),
+					Expressions.booleanTemplate("{0} = {1}", user.id, userId).as("writtenByCurrentUser")
+				))
+			.from(groupComment)
+			.innerJoin(user).on(user.id.eq(groupComment.user.id))
+			.innerJoin(bookGroup).on(bookGroup.id.eq(groupComment.bookGroup.id))
+			.where(
+				bookGroup.id.eq(groupId),
+				groupComment.id.eq(commentId)
+			).fetchFirst();
+	}
 }
