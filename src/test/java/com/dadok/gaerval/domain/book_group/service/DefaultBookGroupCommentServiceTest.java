@@ -75,7 +75,8 @@ class DefaultBookGroupCommentServiceTest {
 			.willReturn(bookGroupCommentResponses);
 
 		//when
-		BookGroupCommentResponses findBookGroupCommentResponses = defaultBookGroupCommentService.findAllBookGroupCommentsByGroup(request, 234L, 234L);
+		BookGroupCommentResponses findBookGroupCommentResponses = defaultBookGroupCommentService.findAllBookGroupCommentsByGroup(
+			request, 234L, 234L);
 
 		//then
 		assertThat(findBookGroupCommentResponses)
@@ -96,7 +97,8 @@ class DefaultBookGroupCommentServiceTest {
 
 		// given
 		Long bookCommentId = BookGroupCommentObjectProvider.bookCommentId;
-		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), 234L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			234L);
 
 		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
 			UserObjectProvider.createKakaoUser());
@@ -107,22 +109,24 @@ class DefaultBookGroupCommentServiceTest {
 			.willReturn(groupComment);
 		given(bookGroupService.getById(234L)).willReturn(bookGroup);
 		given(userService.getById(234L)).willReturn(user);
+		given(bookGroupService.checkGroupMember(234L, 234L)).willReturn(true);
 
 		// when
-		Long savedId = defaultBookGroupCommentService.createBookGroupComment(234L, 234L, new BookGroupCommentCreateRequest(null, BookGroupCommentObjectProvider.comment1));
+		Long savedId = defaultBookGroupCommentService.createBookGroupComment(234L, 234L,
+			new BookGroupCommentCreateRequest(null, BookGroupCommentObjectProvider.comment1));
 
 		// then
 		verify(bookGroupCommentRepository).save(any());
 		assertEquals(bookCommentId, savedId);
 	}
 
-
 	@DisplayName("getById - bookGroupCommentId로 조회에 성공한다.")
 	@Test
 	void getById() {
 		// given
 		Long bookCommentId = BookGroupCommentObjectProvider.bookCommentId;
-		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), 234L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			234L);
 		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
 			UserObjectProvider.createKakaoUser());
 		given(bookGroupCommentRepository.findById(bookCommentId))
@@ -141,7 +145,8 @@ class DefaultBookGroupCommentServiceTest {
 	void findById() {
 		// given
 		Long bookCommentId = BookGroupCommentObjectProvider.bookCommentId;
-		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(), 234L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			234L);
 		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
 			UserObjectProvider.createKakaoUser());
 		given(bookGroupCommentRepository.findById(bookCommentId))
