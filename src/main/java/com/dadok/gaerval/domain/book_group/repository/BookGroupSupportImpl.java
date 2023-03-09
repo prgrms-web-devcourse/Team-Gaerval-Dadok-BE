@@ -101,17 +101,15 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				book.imageUrl,
 				book.id,
 
-				groupMember.countDistinct().as("memberCount"),
-				groupComment.countDistinct().as("commentCount")
+				groupMember.countDistinct(),
+				groupComment.countDistinct()
 			)
 			.from(bookGroup)
 			.leftJoin(bookGroup.groupMembers, groupMember)
 			.leftJoin(bookGroup.comments, groupComment)
 			.leftJoin(bookGroup.book, book)
 			.where(bookGroup.id.eq(groupId))
-			.groupBy(
-				bookGroup.id
-			)
+			.groupBy(bookGroup.id)
 			.fetchOne();
 
 		if (tuple == null) {
@@ -136,8 +134,8 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			tuple.get(bookGroup.joinQuestion),
 			tuple.get(bookGroup.isPublic),
 			tuple.get(bookGroup.maxMemberCount),
-			tuple.get(groupMember.count()),
-			tuple.get(groupComment.count()),
+			tuple.get(groupMember.countDistinct()),
+			tuple.get(groupComment.countDistinct()),
 			new BookGroupDetailResponse.OwnerResponse(tuple.get(bookGroup.ownerId)),
 			new BookGroupDetailResponse.BookResponse(tuple.get(book.id),
 				tuple.get(book.title),
