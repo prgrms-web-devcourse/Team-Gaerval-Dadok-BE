@@ -44,17 +44,17 @@ public class BookCommentController {
 	 * </pre>
 	 *
 	 * @param bookId 검색어
-	 * @return status : ok
+	 * @return status : ok, BookCommentResponses : 코멘트 목록
 	 */
 	@GetMapping(value = "/{bookId}/comments", produces = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS')")
 	public ResponseEntity<BookCommentResponses> findBookComments(
 		@PathVariable(name = "bookId") Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@ModelAttribute  @Valid BookCommentSearchRequest bookCommentSearchRequest
 	) {
 		log.info("[BookCommentController]-[BookCommentResponses]-bookId : {}", bookId);
-		return ResponseEntity.ok().body(bookCommentService.findBookComments(bookId, userPrincipal.getUserId(), bookCommentSearchRequest));
+		return ResponseEntity.ok().body(bookCommentService.findBookCommentsBy(bookId, userPrincipal.getUserId(), bookCommentSearchRequest));
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class BookCommentController {
 	 * </pre>
 	 *
 	 * @param bookCommentUpdateRequest 코멘트 정보
-	 * @return status : ok
+	 * @return status : ok, BookCommentResponse : 코멘트 정보
 	 */
 	@PatchMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")

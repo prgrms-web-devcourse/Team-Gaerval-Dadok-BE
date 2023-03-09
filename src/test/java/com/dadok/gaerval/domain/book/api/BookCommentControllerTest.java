@@ -66,7 +66,7 @@ class BookCommentControllerTest extends ControllerSliceTest {
 
 		BookCommentResponses bookCommentResponses = new BookCommentResponses(bookFindResponses);
 
-		given(bookCommentService.findBookComments(
+		given(bookCommentService.findBookCommentsBy(
 			1L,
 			1L,
 			bookCommentSearchRequest
@@ -119,7 +119,7 @@ class BookCommentControllerTest extends ControllerSliceTest {
 			));
 
 		// then
-		verify(bookCommentService).findBookComments(
+		verify(bookCommentService).findBookCommentsBy(
 			1L,
 			1L,
 			bookCommentSearchRequest

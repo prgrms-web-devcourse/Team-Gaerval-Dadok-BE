@@ -84,7 +84,8 @@ dependencies {
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.9.0'
-
+    // javax.annotation.meta.When runtime에 적용
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
 jacocoTestReport {

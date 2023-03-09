@@ -65,11 +65,11 @@ public class BookCommentSupportImpl implements BookCommentSupport {
 	}
 
 	@Override
-	public boolean existsBy(Long id) {
+	public boolean existsBy(Long bookCommentId) {
 		Integer fetchOne = queryFactory
 			.selectOne()
 			.from(bookComment)
-			.where(bookComment.id.eq(id))
+			.where(bookComment.id.eq(bookCommentId))
 			.fetchFirst();
 
 		return fetchOne != null;

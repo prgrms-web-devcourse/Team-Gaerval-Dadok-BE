@@ -17,7 +17,7 @@ public interface BookCommentService {
 
 	Optional<BookComment> findById(Long bookId);
 
-	BookCommentResponses findBookComments(Long bookId, Long userId, BookCommentSearchRequest bookCommentSearchRequest);
+	BookCommentResponses findBookCommentsBy(Long bookId, Long userId, BookCommentSearchRequest bookCommentSearchRequest);
 
 	BookCommentResponse updateBookComment(Long bookId, Long userId, BookCommentUpdateRequest bookCommentUpdateRequest);
 }

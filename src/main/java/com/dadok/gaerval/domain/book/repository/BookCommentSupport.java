@@ -10,7 +10,7 @@ import com.dadok.gaerval.domain.book.entity.BookComment;
 
 public interface BookCommentSupport {
 
-	boolean existsBy(Long id);
+	boolean existsBy(Long bookCommentId);
 
 	boolean existsByBookIdAndUserId(Long bookId, Long userId);
 

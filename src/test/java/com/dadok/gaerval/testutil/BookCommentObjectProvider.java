@@ -22,16 +22,8 @@ public class BookCommentObjectProvider {
 	public static final String comment2 = "백점 만점에 오십점";
 	public static final String comment3 = "백점 만점에 빵점";
 
-	public static BookComment create1(User user, Book book) {
-		return BookComment.create(user, book, comment1);
-	}
-
-	public static BookComment create2(User user, Book book) {
-		return BookComment.create(user, book, comment2);
-	}
-
-	public static BookComment create3(User user, Book book) {
-		return BookComment.create(user, book, comment3);
+	public static BookComment create(User user, Book book, String comment) {
+		return BookComment.create(user, book, comment);
 	}
 
 	public static BookCommentCreateRequest createBookCommentCreateRequest() {

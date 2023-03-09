@@ -57,12 +57,12 @@ class DefaultBookCommentServiceTest {
 		Book book = BookObjectProvider.createRequiredFieldBook();
 		ReflectionTestUtils.setField(book, "id", 1L);
 		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
-		BookComment comment = BookCommentObjectProvider.create1(user, book);
+		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
 		ReflectionTestUtils.setField(comment, "id", 1L);
 
 		given(userService.getById(1L)).willReturn(user);
 		given(bookService.getById(1L)).willReturn(book);
-		given(bookCommentRepository.findByBookIdAndUserId(1L, 1L)).willReturn(Optional.empty());
+		given(bookCommentRepository.existsByBookIdAndUserId(1L, 1L)).willReturn(false);
 		given(bookCommentRepository.save(any())).willReturn(
 			comment);
 
@@ -73,7 +73,7 @@ class DefaultBookCommentServiceTest {
 		// then
 		verify(userService).getById(1L);
 		verify(bookService).getById(1L);
-		verify(bookCommentRepository).findByBookIdAndUserId(1L, 1L);
+		verify(bookCommentRepository).existsByBookIdAndUserId(1L, 1L);
 		verify(bookCommentRepository).save(any());
 		assertEquals(comment.getId(), savedCommentId);
 	}
@@ -90,7 +90,7 @@ class DefaultBookCommentServiceTest {
 		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
 		BookCommentUpdateRequest bookCommentUpdateRequest = BookCommentObjectProvider.createCommentUpdateRequest();
 
-		BookComment comment = BookCommentObjectProvider.create1(user, book);
+		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
 		comment.changeComment(bookCommentCreateRequest.comment());
 		ReflectionTestUtils.setField(comment, "id", 1L);
 
@@ -114,7 +114,7 @@ class DefaultBookCommentServiceTest {
 		ReflectionTestUtils.setField(user, "id", 1L);
 		Book book = BookObjectProvider.createRequiredFieldBook();
 		ReflectionTestUtils.setField(book, "id", 1L);
-		BookComment existingComment = BookCommentObjectProvider.create1(user, book);
+		BookComment existingComment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
 		ReflectionTestUtils.setField(existingComment, "id", 1L);
 		given(bookCommentRepository.findById(1L)).willReturn(Optional.of(existingComment));
 
@@ -136,7 +136,7 @@ class DefaultBookCommentServiceTest {
 		ReflectionTestUtils.setField(user, "id", 1L);
 		Book book = BookObjectProvider.createRequiredFieldBook();
 		ReflectionTestUtils.setField(book, "id", 1L);
-		BookComment existingComment = BookCommentObjectProvider.create1(user, book);
+		BookComment existingComment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
 		ReflectionTestUtils.setField(existingComment, "id", 1L);
 		given(bookCommentRepository.findById(1L)).willReturn(Optional.of(existingComment));
 
@@ -190,7 +190,7 @@ class DefaultBookCommentServiceTest {
 			new BookCommentResponses(bookFindResponses));
 
 		// when
-		BookCommentResponses result = defaultBookCommentService.findBookComments(book.getId(), user.getId(),
+		BookCommentResponses result = defaultBookCommentService.findBookCommentsBy(book.getId(), user.getId(),
 			bookCommentSearchRequest);
 
 		// then

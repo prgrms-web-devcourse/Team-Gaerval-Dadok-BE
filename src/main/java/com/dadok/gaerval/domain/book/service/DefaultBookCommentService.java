@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book.service;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCommentCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentSearchRequest;
@@ -11,6 +12,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
+import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DefaultBookCommentService implements BookCommentService {
 
 	private final BookCommentRepository bookCommentRepository;
@@ -33,12 +36,9 @@ public class DefaultBookCommentService implements BookCommentService {
 		User user = userService.getById(userId);
 		Book book = bookService.getById(bookId);
 
-		Optional<BookComment> findComment = bookCommentRepository.findByBookIdAndUserId(bookId, userId);
-		if (findComment.isPresent()) {
-			return findComment.map(comment -> {
-				comment.changeComment(bookCommentCreateRequest.comment());
-				return bookCommentRepository.save(comment).getId();
-			}).orElseThrow(() -> new IllegalArgumentException("도서 리뷰 데이터를 찾는데 실패했습니다."));
+		boolean existsComment = bookCommentRepository.existsByBookIdAndUserId(bookId, userId);
+		if (existsComment) {
+			throw new AlreadyContainBookCommentException();
 		} else {
 			BookComment newBookComment = BookComment.create(user, book, bookCommentCreateRequest.comment());
 			return bookCommentRepository.save(newBookComment).getId();
@@ -46,17 +46,20 @@ public class DefaultBookCommentService implements BookCommentService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public BookComment getById(Long bookId) {
 		return bookCommentRepository.findById(bookId).orElseThrow(()-> new ResourceNotfoundException(BookComment.class));
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<BookComment> findById(Long bookId) {
 		return bookCommentRepository.findById(bookId);
 	}
 
 	@Override
-	public BookCommentResponses findBookComments(Long bookId, Long userId, BookCommentSearchRequest bookCommentSearchRequest) {
+	@Transactional(readOnly = true)
+	public BookCommentResponses findBookCommentsBy(Long bookId, Long userId, BookCommentSearchRequest bookCommentSearchRequest) {
 		return bookCommentRepository.findAllComments(bookId, userId, bookCommentSearchRequest);
 	}
 
