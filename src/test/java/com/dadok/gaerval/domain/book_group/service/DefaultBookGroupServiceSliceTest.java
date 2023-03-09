@@ -189,7 +189,7 @@ class DefaultBookGroupServiceSliceTest {
 
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			startDate, endDate, false, true, maxMemberCount, currentMemberCount, commentCount,
+			startDate, endDate, false, "인생책은?", true, maxMemberCount, currentMemberCount, commentCount,
 			owner,
 			book,
 			isOwner, isGroupMember

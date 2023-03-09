@@ -13,6 +13,7 @@ public record BookGroupDetailResponse(
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	LocalDate endDate,
 	Boolean hasJoinPasswd,
+	String joinQuestion,
 	Boolean isPublic,
 
 	Integer maxMemberCount,
@@ -29,10 +30,12 @@ public record BookGroupDetailResponse(
 		Long id,
 		String title,
 		String imageUrl
-	){}
+	) {
+	}
 
 	public record OwnerResponse(
 		Long id
-	) {}
+	) {
+	}
 
 }
