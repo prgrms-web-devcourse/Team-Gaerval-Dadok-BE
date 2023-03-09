@@ -25,7 +25,7 @@ import com.dadok.gaerval.global.util.TimeHolder;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.GroupCommentObjectProvider;
-import com.dadok.gaerval.testutil.TestHolder;
+import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 class BookGroupTest {
@@ -34,7 +34,7 @@ class BookGroupTest {
 
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	private final TimeHolder timeHolder = TestHolder.now();
+	private final TimeHolder timeHolder = TestTimeHolder.now();
 
 	@DisplayName("create - bookGroup 생성 - 성공")
 	@Test
@@ -238,7 +238,7 @@ class BookGroupTest {
 		User kakaoUser = UserObjectProvider.createKakaoUser();
 
 		//when
-		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
+		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser, timeHolder);
 
 		//then
 		assertEquals(1, bookGroup.getGroupMembers().size());
@@ -271,11 +271,11 @@ class BookGroupTest {
 			1, "책읽기 소모임", "책읽기 소모임",
 			false, null, null, false, passwordEncoder, timeHolder
 		);
-		GroupMember.create(bookGroup, UserObjectProvider.createKakaoUser());
+		GroupMember.create(bookGroup, UserObjectProvider.createKakaoUser(), timeHolder);
 
 		//when
 		assertThrows(ExceedLimitMemberException.class,
-			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
+			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser(), timeHolder));
 	}
 
 	@DisplayName("addMembers - 이미 참여한 사용자일 경우 예외를 던진다.")
@@ -286,11 +286,11 @@ class BookGroupTest {
 		User user = UserObjectProvider.createKakaoUser();
 		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(book,
 			1L);
-		GroupMember.create(bookGroup, user);
+		GroupMember.create(bookGroup, user, timeHolder);
 
 		//when
 		assertThrows(AlreadyContainBookGroupException.class,
-			() -> GroupMember.create(bookGroup, user));
+			() -> GroupMember.create(bookGroup, user, timeHolder));
 	}
 
 	@DisplayName("addMembers - 모임의 시간이 지났다면 예외를 던진다.")
@@ -307,7 +307,7 @@ class BookGroupTest {
 		ReflectionTestUtils.setField(bookGroup, "endDate", LocalDate.now().minusDays(1));
 		//when
 		assertThrows(ExpiredJoinGroupPeriodException.class,
-			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
+			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser(), timeHolder));
 	}
 
 	@DisplayName("addMembers - 모임의 모집 종료시간이 당일이여도 가입된다.")
@@ -322,7 +322,7 @@ class BookGroupTest {
 		);
 		//when
 		assertDoesNotThrow(
-			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser()));
+			() -> GroupMember.create(bookGroup, UserObjectProvider.createNaverUser(), timeHolder));
 	}
 
 	@DisplayName("checkPasswd - 입력된 패스워드가 빈값이라면 예외를 던진다")

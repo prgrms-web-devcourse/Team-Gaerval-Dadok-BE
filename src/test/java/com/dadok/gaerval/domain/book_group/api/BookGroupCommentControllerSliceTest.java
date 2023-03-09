@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -25,13 +26,16 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.service.BookGroupCommentService;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookGroupCommentObjectProvider;
+import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WebMvcTest(controllers = BookGroupCommentController.class)
@@ -71,7 +75,9 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					parameterWithName("groupId").description("모임 ID")
 				),
 				requestFields(
-					fieldWithPath("parentCommentId").type(JsonFieldType.NUMBER).optional().description("부모댓글 id (없으면 null) null이면 부모댓글"),
+					fieldWithPath("parentCommentId").type(JsonFieldType.NUMBER)
+						.optional()
+						.description("부모댓글 id (없으면 null) null이면 부모댓글"),
 					fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용")
 						.attributes(
 							constrainsAttribute(BookGroupCommentCreateRequest.class, "comment")
@@ -138,16 +144,111 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroupComments[].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
 					fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("댓글 내용"),
 					fieldWithPath("bookGroupComments[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 ID"),
-					fieldWithPath("bookGroupComments[].parentCommentId").type(JsonFieldType.NUMBER).description("부모 댓 ID"),
+					fieldWithPath("bookGroupComments[].parentCommentId").type(JsonFieldType.NUMBER)
+						.description("부모 댓 ID"),
 					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
-					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING).description("사용자 프로필 이미지"),
+					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING)
+						.description("사용자 프로필 이미지"),
 					fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.STRING).description("생성일"),
 					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
 					fieldWithPath("bookGroupComments[].nickname").type(JsonFieldType.STRING).description("닉네임"),
-					fieldWithPath("bookGroupComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN).description("댓글 본인 여부")
+					fieldWithPath("bookGroupComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN)
+						.description("댓글 본인 여부")
 				)));
 
 		verify(bookGroupCommentService).findAllBookGroupCommentsByGroup(eq(request), any(), any());
 	}
 
+	@DisplayName("댓글 수정에 성공한다.")
+	@Test
+	void updateBookGroupComment_ShouldReturnOk() throws Exception {
+		// given
+		Long groupId = 234L;
+		Long bookGroupCommentId = 234L;
+		String modifiedComment = "이 책 싫어요";
+		BookGroupCommentUpdateRequest request = new BookGroupCommentUpdateRequest(123L,
+			modifiedComment);
+
+		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookGroupCommentId,
+			modifiedComment, groupId, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12, 11)
+			, LocalDateTime.now(), "티나", true);
+
+		given(bookGroupCommentService.updateBookGroupComment(groupId, 1L, request))
+			.willReturn(bookGroupCommentResponse);
+
+		// when then
+		mockMvc.perform(patch("/api/book-groups/{groupId}/comment", groupId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			)
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("groupId").description("모임 ID")
+				),
+				requestFields(
+					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
+						.description("수정할 댓글 아이디")
+						.attributes(
+							constrainsAttribute(BookGroupCommentUpdateRequest.class, "commentId")
+						)
+					,
+					fieldWithPath("comment").type(JsonFieldType.STRING).description("수정할 댓글 내용")
+						.attributes(
+							constrainsAttribute(BookGroupCommentUpdateRequest.class, "comment")
+						)
+				)
+			));
+
+
+	}
+
+
+	@DisplayName("댓글 삭제에 성공한다.")
+	@Test
+	void deleteBookGroupComment_ShouldReturnOk() throws Exception {
+		// given
+		Long groupId = 234L;
+		Long bookGroupCommentId = 234L;
+		String modifiedComment = "이 책 싫어요";
+		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(bookGroupCommentId);
+
+		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, request);
+
+
+		// when then
+		mockMvc.perform(delete("/api/book-groups/{groupId}/comment", groupId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			)
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("groupId").description("모임 ID")
+				),
+				requestFields(
+					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
+						.description("삭제할 댓글 아이디")
+						.attributes(
+							constrainsAttribute(BookGroupCommentDeleteRequest.class, "commentId")
+						)
+				)
+			));
+
+
+	}
 }

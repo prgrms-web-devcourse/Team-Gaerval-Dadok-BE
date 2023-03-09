@@ -14,7 +14,7 @@ import com.dadok.gaerval.global.util.TimeHolder;
 
 public class BookGroupObjectProvider {
 
-	private static TimeHolder timeHolder = TestHolder.now();
+	private static TimeHolder timeHolder = TestTimeHolder.now();
 
 	public static BookGroup createMockBookGroup(Book book, Long ownerId) {
 		BookGroup bookGroup = BookGroup.create(

@@ -50,7 +50,6 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				groupMember.countDistinct().as("memberCount"),
 				groupComment.countDistinct().as("commentCount"),
 
-
 				Projections.constructor(BookGroupResponse.BookResponse.class,
 					book.id.as("bookId"),
 					book.imageUrl.as("imageUrl")
@@ -95,14 +94,15 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.endDate,
 				bookGroup.maxMemberCount,
 				bookGroup.hasJoinPasswd,
+				bookGroup.joinQuestion,
 				bookGroup.isPublic,
 
 				book.title,
 				book.imageUrl,
 				book.id,
 
-				groupMember.count(),
-				groupComment.count()
+				groupMember.countDistinct(),
+				groupComment.countDistinct()
 			)
 			.from(bookGroup)
 			.leftJoin(bookGroup.groupMembers, groupMember)
@@ -131,10 +131,11 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			tuple.get(bookGroup.startDate),
 			tuple.get(bookGroup.endDate),
 			tuple.get(bookGroup.hasJoinPasswd),
+			tuple.get(bookGroup.joinQuestion),
 			tuple.get(bookGroup.isPublic),
 			tuple.get(bookGroup.maxMemberCount),
-			tuple.get(groupMember.count()),
-			tuple.get(groupComment.count()),
+			tuple.get(groupMember.countDistinct()),
+			tuple.get(groupComment.countDistinct()),
 			new BookGroupDetailResponse.OwnerResponse(tuple.get(bookGroup.ownerId)),
 			new BookGroupDetailResponse.BookResponse(tuple.get(book.id),
 				tuple.get(book.title),
@@ -158,8 +159,8 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 				bookGroup.hasJoinPasswd.as("hasJoinPasswd"),
 				bookGroup.isPublic.as("isPublic"),
 
-				groupMember.count().as("memberCount"),
-				groupComment.count().as("commentCount"),
+				groupMember.countDistinct().as("memberCount"),
+				groupComment.countDistinct().as("commentCount"),
 				Projections.constructor(BookGroupResponse.BookResponse.class,
 					book.id.as("bookId"),
 					book.imageUrl.as("imageUrl")

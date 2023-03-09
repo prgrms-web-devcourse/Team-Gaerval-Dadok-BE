@@ -14,7 +14,7 @@ import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 public interface BookGroupRepository extends JpaRepository<BookGroup, Long>, BookGroupSupport {
 
 	@Query("SELECT bg FROM BookGroup bg LEFT JOIN FETCH bg.groupMembers WHERE bg.id = :groupId")
-	Optional<BookGroup> findByIdWithGroupMembers(Long groupId);
+	Optional<BookGroup> findByIdWithGroupMembers(@Param("groupId") Long groupId);
 
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)

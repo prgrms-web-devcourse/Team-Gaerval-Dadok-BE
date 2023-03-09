@@ -16,4 +16,8 @@ public class AlreadyContainBookGroupException extends BusinessException {
 		return errorCode;
 	}
 
+	@Override
+	public String getMessage() {
+		return errorCode.getMessage();
+	}
 }

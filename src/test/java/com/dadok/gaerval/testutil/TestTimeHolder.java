@@ -8,11 +8,11 @@ import java.time.ZoneId;
 
 import com.dadok.gaerval.global.util.TimeHolder;
 
-public class TestHolder implements TimeHolder {
+public class TestTimeHolder implements TimeHolder {
 
 	private Clock clock;
 
-	public TestHolder(Clock clock) {
+	public TestTimeHolder(Clock clock) {
 		this.clock = clock;
 	}
 
@@ -45,11 +45,11 @@ public class TestHolder implements TimeHolder {
 		return Clock.fixed(instant, zoneId);
 	}
 
-	public static TestHolder now() {
-		return new TestHolder(localDateToClockStartOfDay(LocalDate.now()));
+	public static TestTimeHolder now() {
+		return new TestTimeHolder(localDateToClockStartOfDay(LocalDate.now()));
 	}
 
-	public static TestHolder of(LocalDate localDate) {
-		return new TestHolder(localDateToClockStartOfDay(localDate));
+	public static TestTimeHolder of(LocalDate localDate) {
+		return new TestTimeHolder(localDateToClockStartOfDay(localDate));
 	}
 }

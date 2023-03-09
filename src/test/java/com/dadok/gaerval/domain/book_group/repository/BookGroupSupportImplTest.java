@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.book_group.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
@@ -21,9 +22,11 @@ import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
 import com.dadok.gaerval.global.util.SortDirection;
+import com.dadok.gaerval.global.util.TimeHolder;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,15 @@ class BookGroupSupportImplTest {
 	private final GroupMemberRepository groupMemberRepository;
 
 	private final AuthorityRepository authorityRepository;
+
+	private final TimeHolder timeHolder = TestTimeHolder.now();
+
+	private Authority authority;
+
+	@BeforeEach
+	void setUp() {
+		authority = authorityRepository.save(Authority.create(Role.USER));
+	}
 
 	@DisplayName("findAllBy 쿼리 테스트")
 	@Test
@@ -71,7 +83,7 @@ class BookGroupSupportImplTest {
 		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
-		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
+		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser, timeHolder);
 		groupMemberRepository.saveAndFlush(groupMember);
 
 		bookGroupRepository.findBookGroup(kakaoUser.getId(), bookGroup.getId());
@@ -93,10 +105,10 @@ class BookGroupSupportImplTest {
 		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
-		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser);
+		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser, timeHolder);
 		groupMemberRepository.save(kakaoMember);
 
-		GroupMember naverMember = GroupMember.create(bookGroup, naverUser);
+		GroupMember naverMember = GroupMember.create(bookGroup, naverUser, timeHolder);
 		groupMemberRepository.save(naverMember);
 
 		BookGroupDetailResponse group = bookGroupRepository.findBookGroup(naverUser.getId(),
@@ -120,7 +132,7 @@ class BookGroupSupportImplTest {
 		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
-		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser);
+		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser, timeHolder);
 		groupMemberRepository.save(kakaoMember);
 
 		bookGroupRepository.findBookGroup(naverUser.getId(),
@@ -143,7 +155,7 @@ class BookGroupSupportImplTest {
 		BookGroup bookGroup = BookGroupObjectProvider.createBookGroup(book, kakaoUser.getId());
 
 		bookGroupRepository.saveAndFlush(bookGroup);
-		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser);
+		GroupMember kakaoMember = GroupMember.create(bookGroup, kakaoUser, timeHolder);
 		groupMemberRepository.save(kakaoMember);
 
 		bookGroupRepository.findBookGroup(null,

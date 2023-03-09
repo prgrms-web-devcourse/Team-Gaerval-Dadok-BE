@@ -18,4 +18,5 @@ public class ExceedLimitMemberException extends BusinessException {
 	public String getMessage() {
 		return this.message;
 	}
+
 }

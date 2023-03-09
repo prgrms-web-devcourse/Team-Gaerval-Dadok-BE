@@ -29,6 +29,7 @@ public enum ErrorCode {
 
 	// Book
 	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B001", "잘못된 도서 데이터 형식입니다."),
+	ALREADY_CONTAIN_BOOK_COMMENT_MEMBER(HttpStatus.BAD_REQUEST, "B002", "이미 남긴 도서 코멘트에 있습니다"),
 
 	// BookGroup
 	EXCEED_LIMIT_MEMBER(HttpStatus.BAD_REQUEST, "G001", "모임 최대 인원을 초과하였습니다."),
@@ -39,7 +40,8 @@ public enum ErrorCode {
 
 	EXPIRED_JOIN_GROUP(HttpStatus.BAD_REQUEST, "G005", "가입 기간이 지났습니다."),
 	CANNOT_DELETE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "G006", "멤버가 존재하는 모임은 삭제할 수 없습니다."),
-	LESS_THAN_CURRENT_MEMBERS(HttpStatus.BAD_REQUEST, "G007", "모임 최대 인원은 현재 참여 인원(%s 명)보다 작을 수 없습니다");
+	LESS_THAN_CURRENT_MEMBERS(HttpStatus.BAD_REQUEST, "G007", "모임 최대 인원은 현재 참여 인원(%s 명)보다 작을 수 없습니다"),
+	NOT_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.UNAUTHORIZED, "G008", "모임에 참여하지않은 사용자 입니다.");
 
 	private final HttpStatus status;
 

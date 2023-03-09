@@ -25,7 +25,7 @@ import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
 import com.dadok.gaerval.integration_util.ServiceIntegration;
 import com.dadok.gaerval.testutil.BookObjectProvider;
-import com.dadok.gaerval.testutil.TestHolder;
+import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,15 +57,15 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	}
 
 	@Transactional
-	@DisplayName("인원제한이 5명인 모임에 참여할 수 있다.")
+	@DisplayName("모임에 참여할 수 있다.")
 	@Test
 	void join_success() {
 		//given
 		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now(), LocalDate.now().plusDays(7),
 			5, "인원제한이 5명인 그룹", "인원제한이 5명인 그룹",
 			false, null, null, true,
-			new BCryptPasswordEncoder(), TestHolder.now());
-		bookGroup.addMember(GroupMember.create(owner), TestHolder.now());
+			new BCryptPasswordEncoder(), TestTimeHolder.now());
+		bookGroup.addMember(GroupMember.create(owner), TestTimeHolder.now());
 		bookGroupRepository.save(bookGroup);
 
 		User requestUser = saveUser("ysking@naver.com");
@@ -91,8 +91,8 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now(), LocalDate.now().plusDays(7),
 			1, "인원제한이 1명인 그룹", "인원제한이 1명인 그룹",
 			false, null, null, true,
-			new BCryptPasswordEncoder(), TestHolder.now());
-		bookGroup.addMember(GroupMember.create(owner), TestHolder.now());
+			new BCryptPasswordEncoder(), TestTimeHolder.now());
+		bookGroup.addMember(GroupMember.create(owner), TestTimeHolder.now());
 		bookGroupRepository.save(bookGroup);
 
 		User requestUser = saveUser("ysking@naver.com");
@@ -115,12 +115,12 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now(), LocalDate.now().plusDays(7),
 			2, "인원제한이 2명인 그룹", "인원제한이 2명인 그룹",
 			false, null, null, true,
-			new BCryptPasswordEncoder(), TestHolder.now());
-		bookGroup.addMember(GroupMember.create(owner), TestHolder.now());
+			new BCryptPasswordEncoder(), TestTimeHolder.now());
+		bookGroup.addMember(GroupMember.create(owner), TestTimeHolder.now());
 		bookGroupRepository.save(bookGroup);
 
 		User otherUser = saveUser("ysking@naver.com");
-		bookGroup.addMember(GroupMember.create(otherUser), TestHolder.now());
+		bookGroup.addMember(GroupMember.create(otherUser), TestTimeHolder.now());
 
 		User requestUser = saveUser("ysking2@naver.com");
 
@@ -142,8 +142,8 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now().minusDays(7), LocalDate.now().minusDays(1),
 			2, "인원제한이 2명인 그룹", "인원제한이 2명인 그룹",
 			false, null, null, true,
-			new BCryptPasswordEncoder(), new TestHolder(TestHolder.localDateToClockStartOfDay(LocalDate.now().minusDays(8))));
-		bookGroup.addMember(GroupMember.create(owner), TestHolder.of(LocalDate.now().minusDays(5)));
+			new BCryptPasswordEncoder(), new TestTimeHolder(TestTimeHolder.localDateToClockStartOfDay(LocalDate.now().minusDays(8))));
+		bookGroup.addMember(GroupMember.create(owner), TestTimeHolder.of(LocalDate.now().minusDays(5)));
 		bookGroupRepository.save(bookGroup);
 
 		User requestUser = saveUser("ysking2@naver.com");

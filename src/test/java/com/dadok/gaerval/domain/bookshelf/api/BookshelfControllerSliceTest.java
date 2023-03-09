@@ -294,7 +294,6 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		// When // Then
 		mockMvc.perform(get("/api/users/{userId}/bookshelves", 5L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andExpect(jsonPath("$.bookshelfName").exists())
@@ -305,7 +304,6 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 			.andDo(print())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
@@ -381,12 +379,10 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		mockMvc.perform(get("/api/bookshelves/{bookshelvesId}/books", bookShelfId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.params(params)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
@@ -446,13 +442,11 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 		mockMvc.perform(get("/api/bookshelves")
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.param("userId", userId.toString())
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				requestParameters(
@@ -508,13 +502,10 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 		mockMvc.perform(get("/api/bookshelves/{bookshelfId}", bookshelfId)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
-
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(

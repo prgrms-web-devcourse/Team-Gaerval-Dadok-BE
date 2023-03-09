@@ -145,14 +145,13 @@ public class User extends BaseTimeColumn {
 			&& Objects.equals(nickname, user.nickname) && Objects.equals(email, user.email)
 			&& Objects.equals(profileImage, user.profileImage) && gender == user.gender
 			&& authProvider == user.authProvider && Objects.equals(authId, user.authId)
-			&& Objects.equals(birthday, user.birthday) && Objects.equals(authorities, user.authorities);
+			&& Objects.equals(birthday, user.birthday);
 	}
 
 	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, nickname, email, profileImage, gender, authProvider, authId, birthday,
-			authorities);
+		return Objects.hash(id, name, nickname, email, profileImage, gender, authProvider, authId, birthday);
 	}
 
 	public void changeNickname(Nickname nickname) {

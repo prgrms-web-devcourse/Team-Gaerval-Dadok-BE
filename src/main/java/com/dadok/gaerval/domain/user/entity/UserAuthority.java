@@ -74,7 +74,7 @@ public class UserAuthority extends BaseTimeColumn {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		UserAuthority that = (UserAuthority)o;
-		return Objects.equals(id, that.id) && Objects.equals(user.getId(), that.user.getId())
+		return Objects.equals(id, that.id) && Objects.equals(user, that.user)
 			&& Objects.equals(authority, that.authority);
 	}
 

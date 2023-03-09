@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,8 @@ import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistExce
 import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembersException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
+import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
@@ -45,7 +48,7 @@ import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.global.util.TimeHolder;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
-import com.dadok.gaerval.testutil.TestHolder;
+import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,6 +61,9 @@ class DefaultBookGroupServiceSliceTest {
 	private BookGroupRepository bookGroupRepository;
 
 	@Mock
+	private GroupMemberRepository groupMemberRepository;
+
+	@Mock
 	private BookService bookService;
 
 	@Mock
@@ -67,7 +73,16 @@ class DefaultBookGroupServiceSliceTest {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Mock
-	private TimeHolder timeHolder = TestHolder.now();
+	private BookshelfService bookshelfService;
+
+	private TimeHolder timeHolder = TestTimeHolder.now();
+
+	@BeforeEach
+	private void setUp() {
+		defaultBookGroupService =
+			new DefaultBookGroupService(bookGroupRepository, groupMemberRepository, bookService,
+				userService, passwordEncoder, bookshelfService, timeHolder);
+	}
 
 	@DisplayName("findAllBookGroups - 모임 리스트를 조회한다.")
 	@Test
@@ -194,7 +209,7 @@ class DefaultBookGroupServiceSliceTest {
 
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			startDate, endDate, false, true, maxMemberCount, currentMemberCount, commentCount,
+			startDate, endDate, false, "인생책은?", true, maxMemberCount, currentMemberCount, commentCount,
 			owner,
 			book,
 			isOwner, isGroupMember
@@ -256,9 +271,13 @@ class DefaultBookGroupServiceSliceTest {
 		);
 		long groupId = 99L;
 		ReflectionTestUtils.setField(bookGroup, "id", groupId);
-		GroupMember groupMember = GroupMember.create(bookGroup, kakaoUser);
-		given(bookGroupRepository.findByIdWithGroupMembers(groupId))
+
+		GroupMember groupMember = GroupMember.create(kakaoUser);
+		bookGroup.addMember(groupMember, timeHolder);
+
+		given(bookGroupRepository.findByIdWithGroupMembersForUpdate(groupId))
 			.willReturn(Optional.of(bookGroup));
+
 		given(userService.getById(userId))
 			.willReturn(kakaoUser);
 		//when
@@ -267,7 +286,7 @@ class DefaultBookGroupServiceSliceTest {
 
 		//then
 		assertTrue(bookGroup.getGroupMembers().contains(groupMember));
-		verify(bookGroupRepository).findByIdWithGroupMembers(groupId);
+		verify(bookGroupRepository).findByIdWithGroupMembersForUpdate(groupId);
 		verify(userService).getById(userId);
 	}
 
@@ -288,7 +307,7 @@ class DefaultBookGroupServiceSliceTest {
 		long groupId = 99L;
 		ReflectionTestUtils.setField(bookGroup, "id", groupId);
 
-		given(bookGroupRepository.findByIdWithGroupMembers(groupId))
+		given(bookGroupRepository.findByIdWithGroupMembersForUpdate(groupId))
 			.willReturn(Optional.of(bookGroup));
 
 		String passwd = "12345";
@@ -298,7 +317,7 @@ class DefaultBookGroupServiceSliceTest {
 			() -> defaultBookGroupService.join(bookGroup.getId(), userId, new BookGroupJoinRequest(passwd)));
 
 		//then
-		verify(bookGroupRepository).findByIdWithGroupMembers(groupId);
+		verify(bookGroupRepository).findByIdWithGroupMembersForUpdate(groupId);
 	}
 
 	@DisplayName("deleteBookGroup - 그룹을 삭제한다.")
@@ -366,8 +385,8 @@ class DefaultBookGroupServiceSliceTest {
 		ReflectionTestUtils.setField(naverUser, "id", 1L);
 		ReflectionTestUtils.setField(kakaoUser, "id", 2L);
 
-		GroupMember.create(bookGroup, kakaoUser);
-		GroupMember.create(bookGroup, naverUser);
+		GroupMember.create(bookGroup, kakaoUser, timeHolder);
+		GroupMember.create(bookGroup, naverUser, timeHolder);
 
 		given(bookGroupRepository.findById(2L))
 			.willReturn(Optional.of(bookGroup));
@@ -500,12 +519,13 @@ class DefaultBookGroupServiceSliceTest {
 		//given
 		var book = BookObjectProvider.createBook();
 		var bookGroup = BookGroupObjectProvider.createMockBookGroup(book, 1L);
+
 		var kakaoUser = UserObjectProvider.createKakaoUser();
 		var naverUser = UserObjectProvider.createNaverUser();
 		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
 		ReflectionTestUtils.setField(naverUser, "id", 2L);
-		GroupMember.create(bookGroup, naverUser);
-		GroupMember.create(bookGroup, kakaoUser);
+		GroupMember.create(bookGroup, naverUser, timeHolder);
+		GroupMember.create(bookGroup, kakaoUser, timeHolder);
 		var request = new BookGroupUpdateRequest(
 			bookGroup.getTitle(), "변경된 내용", LocalDate.now().plusDays(3), 1
 		);

@@ -6,10 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupComment;
+import com.dadok.gaerval.domain.book_group.exception.NotContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupCommentRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -29,8 +33,9 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public BookGroupCommentResponses findAllBookGroupCommentsByGroup(BookGroupCommentSearchRequest request, Long userId, Long groupId) {
-		return bookGroupCommentRepository.findAllBy(request,userId, groupId);
+	public BookGroupCommentResponses findAllBookGroupCommentsByGroup(BookGroupCommentSearchRequest request, Long userId,
+		Long groupId) {
+		return bookGroupCommentRepository.findAllBy(request, userId, groupId);
 	}
 
 	@Override
@@ -38,6 +43,7 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	public Long createBookGroupComment(Long groupId, Long userId, BookGroupCommentCreateRequest request) {
 		User user = userService.getById(userId);
 		BookGroup bookGroup = bookGroupService.getById(groupId);
+		checkGroupMember(userId, bookGroup.getId());
 		GroupComment groupComment = GroupComment.create(
 			request.comment(),
 			bookGroup,
@@ -64,12 +70,35 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	@Override
 	@Transactional(readOnly = true)
 	public GroupComment getById(Long id) {
-		return bookGroupCommentRepository.findById(id).orElseThrow(()-> new ResourceNotfoundException(GroupComment.class));
+		return bookGroupCommentRepository.findById(id)
+			.orElseThrow(() -> new ResourceNotfoundException(GroupComment.class));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<GroupComment> findById(Long id) {
 		return bookGroupCommentRepository.findById(id);
+	}
+
+	@Override
+	public BookGroupCommentResponse updateBookGroupComment(Long bookGroupId, Long userId,
+		BookGroupCommentUpdateRequest bookGroupCommentUpdateRequest) {
+		GroupComment groupComment = this.getById(bookGroupCommentUpdateRequest.commentId());
+		groupComment.changeContents(bookGroupCommentUpdateRequest.comment());
+		checkGroupMember(userId, bookGroupId);
+		return bookGroupCommentRepository.findGroupComment(bookGroupCommentUpdateRequest.commentId(), userId, bookGroupId);
+	}
+
+	@Override
+	public void deleteBookGroupComment(Long bookGroupId, Long userId,
+		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
+		checkGroupMember(userId, bookGroupId);
+		bookGroupCommentRepository.delete(this.getById(bookGroupCommentDeleteRequest.commentId()));
+	}
+
+	private void checkGroupMember(Long userId, Long groupId) {
+		if (!bookGroupService.checkGroupMember(userId, groupId)) {
+			throw new NotContainBookGroupException();
+		}
 	}
 }

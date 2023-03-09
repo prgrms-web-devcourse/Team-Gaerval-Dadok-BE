@@ -13,4 +13,9 @@ public class ExpiredJoinGroupPeriodException extends BusinessException {
 		super(EXPIRED_JOIN_GROUP);
 	}
 
+	@Override
+	public String getMessage() {
+		return errorCode.getMessage();
+	}
+
 }

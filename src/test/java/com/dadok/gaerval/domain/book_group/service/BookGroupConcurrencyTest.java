@@ -44,7 +44,7 @@ import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.global.config.jpa.JpaConfig;
 import com.dadok.gaerval.global.config.p6spy.P6spyConfiguration;
-import com.dadok.gaerval.testutil.TestHolder;
+import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
@@ -104,10 +104,10 @@ class BookGroupConcurrencyTest {
 
 		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now(), LocalDate.now().plusDays(7),
 			5, "인원제한이 5명인 그룹", "인원제한이 5명인 그룹", false, null, null, true,
-			new BCryptPasswordEncoder(), TestHolder.now());
+			new BCryptPasswordEncoder(), TestTimeHolder.now());
 		this.bookGroup = bookGroupRepository.save(bookGroup);
 		GroupMember groupMember = GroupMember.create(owner);
-		bookGroup.addMember(groupMember, TestHolder.now());
+		bookGroup.addMember(groupMember, TestTimeHolder.now());
 		groupMemberRepository.save(groupMember);
 		TransactionStatus transaction = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
