@@ -33,6 +33,7 @@ import com.dadok.gaerval.domain.book_group.entity.GroupComment;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupCommentRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
+import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.testutil.BookGroupCommentObjectProvider;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
@@ -124,6 +125,67 @@ class DefaultBookGroupCommentServiceTest {
 		assertEquals(bookCommentId, savedId);
 	}
 
+
+	@DisplayName("createBookGroupComment - 자식 groupComment를 생성하는데 성공한다.")
+	@Test
+	void createBookGroupChildComment() {
+
+		// given
+		Long bookCommentId = BookGroupCommentObjectProvider.bookCommentId;
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			234L);
+
+		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
+			UserObjectProvider.createKakaoUser());
+
+		GroupComment parentGroupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
+			UserObjectProvider.createNaverUser());
+
+		User user = UserObjectProvider.createKakaoUser();
+
+		given(bookGroupCommentRepository.save(any()))
+			.willReturn(groupComment);
+		given(bookGroupService.getById(234L)).willReturn(bookGroup);
+		given(userService.getById(234L)).willReturn(user);
+		given(bookGroupService.checkGroupMember(234L, 234L)).willReturn(true);
+		given(bookGroupCommentRepository.existsBy(123L)).willReturn(true);
+		given(defaultBookGroupCommentService.findById(123L)).willReturn(Optional.of(parentGroupComment));
+
+		// when
+		Long savedId = defaultBookGroupCommentService.createBookGroupComment(234L, 234L,
+			new BookGroupCommentCreateRequest(123L, BookGroupCommentObjectProvider.comment1));
+
+		// then
+		verify(bookGroupCommentRepository).save(any());
+		assertEquals(bookCommentId, savedId);
+	}
+
+	@DisplayName("createBookGroupComment - parentComment가 없는 1단계 댓글을 생성하는데 실패한다.")
+	@Test
+	void createBookGroupCommentFailureWithoutParentComment() {
+
+		// given
+		Long bookCommentId = BookGroupCommentObjectProvider.bookCommentId;
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			234L);
+		User user = UserObjectProvider.createKakaoUser();
+		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup, user);
+
+		given(bookGroupService.getById(234L)).willReturn(bookGroup);
+		given(userService.getById(234L)).willReturn(user);
+		given(bookGroupService.checkGroupMember(234L, 234L)).willReturn(true);
+		given(bookGroupCommentRepository.existsBy(any())).willReturn(false);
+
+		// when
+		try {
+			defaultBookGroupCommentService.createBookGroupComment(234L, 234L,
+				new BookGroupCommentCreateRequest(123L, BookGroupCommentObjectProvider.comment1));
+			fail(new ResourceNotfoundException(GroupComment.class));
+		} catch (ResourceNotfoundException ex) {
+			// then
+			verify(bookGroupCommentRepository, never()).save(any());
+		}
+	}
 	@DisplayName("getById - bookGroupCommentId로 조회에 성공한다.")
 	@Test
 	void getById() {

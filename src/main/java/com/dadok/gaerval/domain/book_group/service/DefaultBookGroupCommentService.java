@@ -43,9 +43,7 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	public Long createBookGroupComment(Long groupId, Long userId, BookGroupCommentCreateRequest request) {
 		User user = userService.getById(userId);
 		BookGroup bookGroup = bookGroupService.getById(groupId);
-		if (!bookGroupService.checkGroupMember(userId, bookGroup.getId())) {
-			throw new NotContainBookGroupException();
-		}
+		checkGroupMember(userId, bookGroup.getId());
 		GroupComment groupComment = GroupComment.create(
 			request.comment(),
 			bookGroup,
@@ -87,18 +85,20 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 		BookGroupCommentUpdateRequest bookGroupCommentUpdateRequest) {
 		GroupComment groupComment = this.getById(bookGroupCommentUpdateRequest.commentId());
 		groupComment.changeContents(bookGroupCommentUpdateRequest.comment());
-		if (!bookGroupService.checkGroupMember(userId, bookGroupId)) {
-			throw new NotContainBookGroupException();
-		}
+		checkGroupMember(userId, bookGroupId);
 		return bookGroupCommentRepository.findGroupComment(bookGroupCommentUpdateRequest.commentId(), userId, bookGroupId);
 	}
 
 	@Override
 	public void deleteBookGroupComment(Long bookGroupId, Long userId,
 		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
-		if (!bookGroupService.checkGroupMember(userId, bookGroupId)) {
+		checkGroupMember(userId, bookGroupId);
+		bookGroupCommentRepository.delete(this.getById(bookGroupCommentDeleteRequest.commentId()));
+	}
+
+	private void checkGroupMember(Long userId, Long groupId) {
+		if (!bookGroupService.checkGroupMember(userId, groupId)) {
 			throw new NotContainBookGroupException();
 		}
-		bookGroupCommentRepository.delete(this.getById(bookGroupCommentDeleteRequest.commentId()));
 	}
 }
