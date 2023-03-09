@@ -71,6 +71,15 @@ public class BookController {
 		return ResponseEntity.ok().body(bookService.findDetailById(bookId));
 	}
 
+	/**
+	 * <Pre>
+	 * 도서 ID를 통해 도서를 책장에 꽂은 유저 정보를 가져온다.
+	 * </Pre>
+	 *
+	 * @param bookId        책 Id
+	 * @param userPrincipal 요청 유저
+	 * @return status : ok, UserByBookResponses : 사용자 정보 일부와 총 사용자 수
+	 */
 	@GetMapping(value = "/{bookId}/users", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	public ResponseEntity<UserByBookResponses> findUsersByBook(
