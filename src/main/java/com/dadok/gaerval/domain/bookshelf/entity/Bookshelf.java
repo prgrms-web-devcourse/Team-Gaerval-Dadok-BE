@@ -22,6 +22,7 @@ import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedExcep
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,6 +48,7 @@ public class Bookshelf extends BaseTimeColumn {
 	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<BookshelfItem> bookshelfItems = new ArrayList<>();
 
@@ -99,12 +101,11 @@ public class Bookshelf extends BaseTimeColumn {
 		Bookshelf bookshelf = (Bookshelf)o;
 		return Objects.equals(id, bookshelf.id) && Objects.equals(name, bookshelf.name)
 			&& Objects.equals(isPublic, bookshelf.isPublic) && Objects.equals(user, bookshelf.user)
-			&& Objects.equals(bookshelfItems, bookshelf.bookshelfItems) && Objects.equals(jobId,
-			bookshelf.jobId);
+			&& Objects.equals(jobId, bookshelf.jobId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, isPublic, user, bookshelfItems, jobId);
+		return Objects.hash(id, name, isPublic, user, jobId);
 	}
 }
