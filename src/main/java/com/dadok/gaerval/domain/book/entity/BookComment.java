@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,14 +27,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BookComment {
+public class BookComment extends BaseTimeColumn {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name= "user_id", nullable = false)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
