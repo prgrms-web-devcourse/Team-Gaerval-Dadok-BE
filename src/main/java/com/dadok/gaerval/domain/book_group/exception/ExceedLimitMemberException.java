@@ -10,4 +10,9 @@ public class ExceedLimitMemberException extends BusinessException {
 	public ExceedLimitMemberException() {
 		super(ErrorCode.EXCEED_LIMIT_MEMBER);
 	}
+
+	@Override
+	public String getMessage() {
+		return errorCode.getMessage();
+	}
 }
