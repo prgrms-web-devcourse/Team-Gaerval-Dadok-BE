@@ -46,7 +46,7 @@ public class BookController {
 	 * @return status : ok
 	 */
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	public ResponseEntity<BookResponses> findBooksByQuery(@RequestParam(name = "query") String query) {
 		log.info("[BookController]-[findBooksByQuery]-query : {}", query);
 
@@ -62,7 +62,7 @@ public class BookController {
 	 * @return status : ok
 	 */
 	@GetMapping(value = "/{bookId}", produces = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	public ResponseEntity<BookResponse> findBookDetail(@PathVariable(name = "bookId") Long bookId) {
 		log.info("[BookController]-[BookResponse]-bookId : {}", bookId);
 		return ResponseEntity.ok().body(bookService.findDetailById(bookId));
@@ -87,7 +87,7 @@ public class BookController {
 	}
 
 	@GetMapping("/suggestions")
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	public ResponseEntity<SuggestionsBookFindResponses> findSuggestionsBook(
 		@ModelAttribute @Valid SuggestionsBookFindRequest request
 	) {

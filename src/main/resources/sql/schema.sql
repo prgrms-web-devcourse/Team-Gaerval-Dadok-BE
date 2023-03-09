@@ -133,6 +133,8 @@ create table if not exists  book_comments
     comment varchar(500) not null,
     book_id bigint       not null,
     user_id bigint       not null,
+    created_at  datetime(6) not null,
+    modified_at datetime(6) null,
     constraint user_id_book_id_unique_key
         unique (user_id, book_id),
     constraint FK6xpmpddanwk8vq96sax69c4hu
