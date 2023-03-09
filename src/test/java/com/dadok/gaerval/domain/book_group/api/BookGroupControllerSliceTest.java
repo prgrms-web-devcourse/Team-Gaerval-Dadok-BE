@@ -363,7 +363,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 
 		BookGroupDetailResponse bookGroupDetailResponse = new BookGroupDetailResponse(bookGroupId,
 			title, introduce,
-			startDate, endDate, false, true, maxMemberCount, currentMemberCount, commentCount,
+			startDate, endDate, false, "영한님 생일은?", true, maxMemberCount, currentMemberCount, commentCount,
 			new BookGroupDetailResponse.OwnerResponse(ownerId),
 			new BookGroupDetailResponse.BookResponse(bookId, bookImageUrl, bookTitle),
 			isOwner, isGroupMember
@@ -395,6 +395,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작일"),
 						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
+						fieldWithPath("joinQuestion").type(JsonFieldType.STRING).description("모임 참여용 질문"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("모임 내용 공개 여부"),
 						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 최대 인원"),
 						fieldWithPath("currentMemberCount").type(JsonFieldType.NUMBER).description("현재 모임 인원"),

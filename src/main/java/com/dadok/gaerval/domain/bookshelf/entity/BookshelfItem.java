@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
@@ -34,6 +35,7 @@ public class BookshelfItem extends BaseTimeColumn {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "bookshelf_id")
 	private Bookshelf bookshelf;

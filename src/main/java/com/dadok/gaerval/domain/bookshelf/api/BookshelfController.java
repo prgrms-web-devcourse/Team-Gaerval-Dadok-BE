@@ -104,7 +104,7 @@ public class BookshelfController {
 	 */
 	@GetMapping(value = "/users/{userId}/bookshelves",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookShelfSummaryResponse> findSummaryBookshelfByUserId(@PathVariable("userId") Long userId) {
 		BookShelfSummaryResponse responses =
 			bookshelfService.findSummaryBookshelf(userId);
@@ -153,7 +153,7 @@ public class BookshelfController {
 
 	@GetMapping(value = "/bookshelves/{bookshelvesId}/books",
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookInShelfResponses> findBooksInBookShelf(@PathVariable Long bookshelvesId,
 		@ModelAttribute @Valid BooksInBookShelfFindRequest request
 	) {
@@ -162,7 +162,7 @@ public class BookshelfController {
 		return ResponseEntity.ok(bookInShelfResponses);
 	}
 
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/bookshelves", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookShelfDetailResponse> findBookShelfWithUserJob(@RequestParam @Valid @NotNull Long userId) {
 
@@ -171,7 +171,7 @@ public class BookshelfController {
 		return ResponseEntity.ok(bookShelf);
 	}
 
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/bookshelves/{bookshelfId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookShelfDetailResponse> findBookshelfById(@PathVariable Long bookshelfId) {
 
