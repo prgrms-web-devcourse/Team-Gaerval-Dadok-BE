@@ -68,7 +68,7 @@ public class BookGroupController {
 		return ResponseEntity.created(URI.create(redirectUri)).body(new BookGroupIdResponse(bookGroupId));
 	}
 
-	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/{groupId}")
 	public ResponseEntity<BookGroupDetailResponse> findBookGroup(
 		@PathVariable Long groupId,

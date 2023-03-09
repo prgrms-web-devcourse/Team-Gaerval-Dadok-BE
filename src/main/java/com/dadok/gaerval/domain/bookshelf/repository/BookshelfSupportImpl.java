@@ -52,7 +52,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 
 	@Override
 	public Optional<BookShelfSummaryResponse> findSummaryById(Long userId) {
-		var transform = query.from(bookshelf)
+		List<BookShelfSummaryResponse> transform = query.from(bookshelf)
 			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
 			.leftJoin(bookshelfItem.book, book)
 			.where(bookshelf.user.id.eq(userId))

@@ -25,8 +25,11 @@ import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponse;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.testutil.BookObjectProvider;
@@ -39,6 +42,9 @@ class DefaultBookServiceSliceTest {
 
 	@Mock
 	private BookRepository bookRepository;
+
+	@Mock
+	private BookshelfItemRepository bookshelfItemRepository;
 
 	@Mock
 	private BookMapper bookMapper;
@@ -214,5 +220,22 @@ class DefaultBookServiceSliceTest {
 			.hasFieldOrPropertyWithValue("count", 0)
 			.hasFieldOrPropertyWithValue("isEmpty", true)
 			.hasFieldOrPropertyWithValue("books", Collections.emptyList());
+	}
+
+	@DisplayName("findUserByBookId - 책을 책장에 꽂은 user 정보 찾기 - 성공")
+	@Test
+	void findUserByBookId_success() {
+		// Given
+		var userByBookResponses = new UserByBookResponses(1L, 5, false,
+			List.of(new UserByBookResponse(3L, "image"), new UserByBookResponse(4L, "image")));
+
+		given(bookshelfItemRepository.findBookshelfItemUsersByBook(1L, 1L, 3))
+			.willReturn(userByBookResponses);
+
+		// When
+		var res = defaultBookService.findUserByBookId(1L, 1L);
+
+		// Then
+		verify(bookshelfItemRepository).findBookshelfItemUsersByBook(1L, 1L, 3);
 	}
 }

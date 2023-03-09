@@ -375,10 +375,12 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 
 		mockMvc.perform(get("/api/book-groups/{groupId}", bookGroupId)
 				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
 					pathParameters(

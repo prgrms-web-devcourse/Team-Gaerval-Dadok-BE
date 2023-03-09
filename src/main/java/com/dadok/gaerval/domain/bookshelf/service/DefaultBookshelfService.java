@@ -60,7 +60,6 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Transactional(readOnly = true)
 	public SuggestionBookshelvesByJobGroupResponses findSuggestionBookshelvesByJobGroup(Long userId, String jobGroup) {
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
-
 		return new SuggestionBookshelvesByJobGroupResponses(
 			jobGroup, bookshelfRepository.findSuggestionsByJobGroup(searchJobGroup, userId, 5));
 	}

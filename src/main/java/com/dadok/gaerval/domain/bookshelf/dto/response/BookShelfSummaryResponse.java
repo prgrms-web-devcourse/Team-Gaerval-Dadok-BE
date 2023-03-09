@@ -12,7 +12,7 @@ public record BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, L
 		if (books == null || books.get(0).bookId == null) {
 			this.books = new ArrayList<>();
 		} else {
-			this.books = books.stream().limit(5).collect(Collectors.toList());
+			this.books = books.stream().limit(4).collect(Collectors.toList());
 		}
 	}
 
