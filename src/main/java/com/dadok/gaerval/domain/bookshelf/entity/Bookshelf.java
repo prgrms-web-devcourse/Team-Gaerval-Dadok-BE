@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -69,7 +70,6 @@ public class Bookshelf extends BaseTimeColumn {
 
 	public void addBookShelfItem(BookshelfItem bookshelfItem) {
 		CommonValidator.validateNotnull(bookshelfItem, "bookShelfItem");
-
 		if (bookshelfItems.contains(bookshelfItem)) {
 			throw new AlreadyContainBookshelfItemException();
 		}
@@ -92,6 +92,7 @@ public class Bookshelf extends BaseTimeColumn {
 		this.jobId = jobId;
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -104,6 +105,7 @@ public class Bookshelf extends BaseTimeColumn {
 			&& Objects.equals(jobId, bookshelf.jobId);
 	}
 
+	@JacocoExcludeGenerated
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, isPublic, user, jobId);
