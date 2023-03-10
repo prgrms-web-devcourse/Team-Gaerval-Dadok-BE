@@ -48,6 +48,8 @@ public class DefaultBookService implements BookService {
 
 	private final BookMapper bookMapper;
 
+	static final int USER_VIEW_LIMIT = 3;
+
 	@Override
 	@Transactional
 	public BookResponses findAllByKeyword(String keyword) {
@@ -135,7 +137,7 @@ public class DefaultBookService implements BookService {
 
 	@Override
 	public UserByBookResponses findUserByBookId(Long bookId, Long userId) {
-		return bookshelfItemRepository.findBookshelfItemUsersByBook(bookId, userId, 3);
+		return bookshelfItemRepository.findBookshelfItemUsersByBook(bookId, userId, USER_VIEW_LIMIT);
 	}
 
 }

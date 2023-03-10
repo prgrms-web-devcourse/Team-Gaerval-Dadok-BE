@@ -199,7 +199,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("도서를 꽂은 총 사용자 수"),
 					fieldWithPath("isInMyBookshelf").type(JsonFieldType.BOOLEAN)
 						.description("내가 꽂은 책인지 여부 - 비 회원의 경우 false"),
-					fieldWithPath("users").type(JsonFieldType.ARRAY).description("도서를 꽂은 상용자 정보 - 최대 3명"),
+					fieldWithPath("users").type(JsonFieldType.ARRAY).description("도서를 꽂은 사용자 정보 - 최대 3명"),
 					fieldWithPath("users[].userId").type(JsonFieldType.NUMBER).description("사용자 id"),
 					fieldWithPath("users[].profileImage").type(JsonFieldType.STRING).description("사용자 profileImage")
 				)
