@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book.api;
 import static com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator.*;
 import static com.dadok.gaerval.global.config.security.jwt.JwtService.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -34,10 +35,13 @@ import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponse;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.testutil.BookObjectProvider;
+import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WebMvcTest(controllers = BookController.class)
 class BookControllerSliceTest extends ControllerSliceTest {
@@ -162,6 +166,49 @@ class BookControllerSliceTest extends ControllerSliceTest {
 		verify(bookService).findDetailById(bookId);
 	}
 
+	@DisplayName("findUsersByBook - bookId로 도서를 책장에 꽂은 사용자 정보를 조회한다.")
+	@Test
+	@WithMockCustomOAuth2LoginUser
+	void findUsersByBook() throws Exception {
+		// given
+		var bookId = 123L;
+		var expectedBookResponse = new UserByBookResponses(1L, 5, false,
+			List.of(new UserByBookResponse(3L, "imageUrl"), new UserByBookResponse(4L, "imageUrl"),
+				new UserByBookResponse(5L, "imageUrl")));
+
+		given(bookService.findUserByBookId(eq(bookId), any()))
+			.willReturn(expectedBookResponse);
+
+		// when
+		mockMvc.perform(get("/api/books/{bookId}/users", bookId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.accept(MediaType.APPLICATION_JSON)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("bookId").description("도서 ID")
+				),
+				responseFields(
+					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 id"),
+					fieldWithPath("totalCount").type(JsonFieldType.NUMBER).description("도서를 꽂은 총 사용자 수"),
+					fieldWithPath("isInMyBookshelf").type(JsonFieldType.BOOLEAN)
+						.description("내가 꽂은 책인지 여부 - 비 회원의 경우 false"),
+					fieldWithPath("users").type(JsonFieldType.ARRAY).description("도서를 꽂은 사용자 정보 - 최대 3명"),
+					fieldWithPath("users[].userId").type(JsonFieldType.NUMBER).description("사용자 id"),
+					fieldWithPath("users[].profileImage").type(JsonFieldType.STRING).description("사용자 profileImage")
+				)
+			));
+
+		// then
+		verify(bookService).findUserByBookId(eq(bookId), any());
+	}
+
 	@DisplayName("findSuggestionBooks - JobGroup으로 가장 책장에 많이 꽂힌 책 순으로 가져온다.")
 	@Test
 	void findSuggestionBooks_success() throws Exception {
@@ -274,47 +321,47 @@ class BookControllerSliceTest extends ControllerSliceTest {
 			.andExpect(status().isCreated())
 			.andExpect(header().string("Location", containsString("/api/books/")))
 			.andDo(this.restDocs.document(
-				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
-					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
-				),
-				requestFields(
-					fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "title")
-						),
-					fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "author")
-						),
-					fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "isbn")
-						),
-					fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "contents")
-						),
-					fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "url")
-						),
-					fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "imageUrl")
-						),
-					fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "publisher")
-						),
-					fieldWithPath("apiProvider").type(JsonFieldType.STRING).description("api 제공사")
-						.attributes(
-							constrainsAttribute(BookCreateRequest.class, "apiProvider")
-						)
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
-				responseFields(
-					fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("생성된 도서 id")
-				)
+					requestFields(
+						fieldWithPath("title").type(JsonFieldType.STRING).description("도서 제목")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "title")
+							),
+						fieldWithPath("author").type(JsonFieldType.STRING).description("도서 작가")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "author")
+							),
+						fieldWithPath("isbn").type(JsonFieldType.STRING).description("도서 isbn")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "isbn")
+							),
+						fieldWithPath("contents").type(JsonFieldType.STRING).description("도서 설명")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "contents")
+							),
+						fieldWithPath("url").type(JsonFieldType.STRING).description("도서 url")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "url")
+							),
+						fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("도서 이미지 url")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "imageUrl")
+							),
+						fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "publisher")
+							),
+						fieldWithPath("apiProvider").type(JsonFieldType.STRING).description("api 제공사")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "apiProvider")
+							)
+					),
+					responseFields(
+						fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("생성된 도서 id")
+					)
 				)
 			);
 	}

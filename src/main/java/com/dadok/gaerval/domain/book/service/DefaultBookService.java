@@ -17,9 +17,11 @@ import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.exception.InvalidBookDataException;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -37,9 +39,16 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultBookService implements BookService {
 
 	private final ExternalBookApiOperations externalBookApiOperations;
+
 	private final ObjectMapper objectMapper;
+
 	private final BookRepository bookRepository;
+
+	private final BookshelfItemRepository bookshelfItemRepository;
+
 	private final BookMapper bookMapper;
+
+	static final int USER_VIEW_LIMIT = 3;
 
 	@Override
 	@Transactional
@@ -124,6 +133,11 @@ public class DefaultBookService implements BookService {
 	@Override
 	public SuggestionsBookFindResponses findSuggestionBooks(SuggestionsBookFindRequest request) {
 		return bookRepository.findSuggestionBooks(request);
+	}
+
+	@Override
+	public UserByBookResponses findUserByBookId(Long bookId, Long userId) {
+		return bookshelfItemRepository.findBookshelfItemUsersByBook(bookId, userId, USER_VIEW_LIMIT);
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,9 @@ import com.dadok.gaerval.domain.book.dto.response.BookIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +69,23 @@ public class BookController {
 	public ResponseEntity<BookResponse> findBookDetail(@PathVariable(name = "bookId") Long bookId) {
 		log.info("[BookController]-[BookResponse]-bookId : {}", bookId);
 		return ResponseEntity.ok().body(bookService.findDetailById(bookId));
+	}
+
+	/**
+	 * <Pre>
+	 * 도서 ID를 통해 도서를 책장에 꽂은 유저 정보를 가져온다.
+	 * </Pre>
+	 *
+	 * @param bookId        책 Id
+	 * @param userPrincipal 요청 유저
+	 * @return status : ok, UserByBookResponses : 사용자 정보 일부와 총 사용자 수
+	 */
+	@GetMapping(value = "/{bookId}/users", produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
+	public ResponseEntity<UserByBookResponses> findUsersByBook(
+		@PathVariable(name = "bookId") Long bookId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+		return ResponseEntity.ok().body(bookService.findUserByBookId(bookId, userPrincipal.getUserId()));
 	}
 
 	/**

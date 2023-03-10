@@ -7,6 +7,7 @@ import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
+import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 
 public interface BookService {
@@ -25,4 +26,5 @@ public interface BookService {
 
 	SuggestionsBookFindResponses findSuggestionBooks(SuggestionsBookFindRequest request);
 
+	UserByBookResponses findUserByBookId(Long bookId, Long userId);
 }

@@ -414,6 +414,24 @@ include::{snippets}/book-controller-slice-test/find-book-detail_success/http-res
 
 include::{snippets}/book-controller-slice-test/find-book-detail_success/response-fields.adoc[]
 
+=== 책 상세 유저 정보
+
+==== Request
+
+include::{snippets}/book-controller-slice-test/find-users-by-book/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-controller-slice-test/find-users-by-book/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/book-controller-slice-test/find-users-by-book/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/book-controller-slice-test/find-users-by-book/response-fields.adoc[]
+
 === 책 추천(직군별 많이 꽂혀있는 순)
 
 ==== Request
@@ -457,7 +475,6 @@ include::{snippets}/book-controller-slice-test/save-book-detail_success/http-res
 ==== Response Fields
 
 include::{snippets}/book-controller-slice-test/save-book-detail_success/response-fields.adoc[]
-
 
 === 책 리뷰 목록 조회
 
@@ -503,7 +520,6 @@ include::{snippets}/book-comment-controller-test/save-book-comment_success/http-
 
 include::{snippets}/book-comment-controller-test/save-book-comment_success/response-fields.adoc[]
 
-
 === 책 리뷰 수정
 
 ==== Request
@@ -529,7 +545,6 @@ include::{snippets}/book-comment-controller-test/modify-book-comment_success/htt
 ==== Response Fields
 
 include::{snippets}/book-comment-controller-test/modify-book-comment_success/response-fields.adoc[]
-
 
 == BookGroup - 모임
 
@@ -745,8 +760,6 @@ include::{snippets}/book-group-comment-controller-slice-test/update-book-group-c
 
 include::{snippets}/book-group-comment-controller-slice-test/update-book-group-comment_-should-return-ok/http-response.adoc[]
 
-
-
 === 모임 댓글 삭제
 
 ==== Request
@@ -764,7 +777,6 @@ include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-c
 ==== Response
 
 include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/http-response.adoc[]
-
 
 == Job - 직군, 직업
 

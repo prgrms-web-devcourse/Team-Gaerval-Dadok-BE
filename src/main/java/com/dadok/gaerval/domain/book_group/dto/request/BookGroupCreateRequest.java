@@ -28,7 +28,6 @@ public record BookGroupCreateRequest(
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	LocalDate endDate,
 
-	@NotNull(message = "maxMemberCount 은 null 일수 없습니다.")
 	@Min(value = 1, message = "maxMemberCount는 자신 포함 1명 이상이여야합니다.")
 	Integer maxMemberCount,
 

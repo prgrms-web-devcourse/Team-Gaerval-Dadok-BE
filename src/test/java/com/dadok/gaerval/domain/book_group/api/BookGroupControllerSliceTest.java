@@ -103,7 +103,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
 					fieldWithPath("bookGroups[].endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
-						.description("모임 최대 멤버 수"),
+						.optional().description("모임 최대 인원 : 제한 없을 경우 null"),
 					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
 						.description("모임 비밀번호(잠김) 여부"),
 
@@ -181,7 +181,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroups[].startDate").type(JsonFieldType.STRING).description("모임 시작일"),
 					fieldWithPath("bookGroups[].endDate").type(JsonFieldType.STRING).description("모임 종료일"),
 					fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
-						.description("모임 최대 멤버 수"),
+						.optional().description("모임 최대 인원 : 제한 없을 경우 null"),
 					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
 						.description("모임 비밀번호(잠김) 여부"),
 					fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
@@ -243,9 +243,12 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료 날짜").attributes(
 						constrainsAttribute(BookGroupCreateRequest.class, "endDate")
 					),
-					fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 참여 최대 인원").attributes(
-						constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
-					),
+					fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER)
+						.description("모임 참여 최대 인원 : 제한 없을 경우 null")
+						.optional()
+						.attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
+						),
 					fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글").attributes(
 						constrainsAttribute(BookGroupCreateRequest.class, "introduce")
 					),
@@ -312,9 +315,12 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료 날짜").attributes(
 						constrainsAttribute(BookGroupCreateRequest.class, "endDate")
 					),
-					fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 참여 최대 인원").attributes(
-						constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
-					)
+					fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER)
+						.description("모임 참여 최대 인원 : 제한없을 경우 null")
+						.optional()
+						.attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
+						)
 				)
 			));
 	}
@@ -375,10 +381,12 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 
 		mockMvc.perform(get("/api/book-groups/{groupId}", bookGroupId)
 				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
 					pathParameters(
@@ -397,7 +405,9 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
 						fieldWithPath("joinQuestion").type(JsonFieldType.STRING).description("모임 참여용 질문"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("모임 내용 공개 여부"),
-						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER).description("모임 최대 인원"),
+						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER)
+							.optional()
+							.description("모임 최대 인원 : 제한 없을 경우 null"),
 						fieldWithPath("currentMemberCount").type(JsonFieldType.NUMBER).description("현재 모임 인원"),
 						fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("현재 모임 댓글 수"),
 						fieldWithPath("book").type(JsonFieldType.OBJECT).description("책 정보"),

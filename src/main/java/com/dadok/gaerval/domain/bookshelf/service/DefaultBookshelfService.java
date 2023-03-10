@@ -37,6 +37,8 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	private final BookService bookService;
 
+	final static int BOOKSHELF_VIEW_LIMIT = 5;
+
 	@Override
 	@Transactional(readOnly = true)
 	public Bookshelf getById(Long bookshelfId) {
@@ -60,9 +62,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Transactional(readOnly = true)
 	public SuggestionBookshelvesByJobGroupResponses findSuggestionBookshelvesByJobGroup(Long userId, String jobGroup) {
 		JobGroup searchJobGroup = JobGroup.findJobGroup(jobGroup);
-
 		return new SuggestionBookshelvesByJobGroupResponses(
-			jobGroup, bookshelfRepository.findSuggestionsByJobGroup(searchJobGroup, userId, 5));
+			jobGroup, bookshelfRepository.findSuggestionsByJobGroup(searchJobGroup, userId, BOOKSHELF_VIEW_LIMIT));
 	}
 
 	@Override

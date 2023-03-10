@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -24,7 +23,6 @@ public record BookGroupUpdateRequest(
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	LocalDate endDate,
 
-	@NotNull(message = "maxMemberCount 은 null 일수 없습니다.")
 	@Min(value = 1, message = "maxMemberCount는 자신 포함 1명 이상이여야합니다.")
 	Integer maxMemberCount
 ) {

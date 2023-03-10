@@ -51,6 +51,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookGroup extends BaseTimeColumn {
 
+	public static final Integer NO_LIMIT_MEMBER_COUNT = 1000;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -131,10 +133,13 @@ public class BookGroup extends BaseTimeColumn {
 	}
 
 	private void validateMaxMemberCount(Integer maxMemberCount) {
-		validateNotnull(maxMemberCount, "maxMemberCount");
-		Assert.isTrue(maxMemberCount >= 1, "모임의 최대 인원수는 자신 포함 1명 이상이여야합니다.");
-		if (maxMemberCount < this.groupMembers.size()) {
-			throw new LessThanCurrentMembersException(this.groupMembers.size());
+		if (maxMemberCount == null) {
+			this.maxMemberCount = NO_LIMIT_MEMBER_COUNT;
+		} else {
+			Assert.isTrue(maxMemberCount >= 1, "모임의 최대 인원수는 자신 포함 1명 이상이여야합니다.");
+			if (maxMemberCount < this.groupMembers.size()) {
+				throw new LessThanCurrentMembersException(this.groupMembers.size());
+			}
 		}
 	}
 
