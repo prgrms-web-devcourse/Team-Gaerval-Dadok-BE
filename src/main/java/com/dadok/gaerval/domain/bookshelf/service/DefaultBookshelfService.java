@@ -18,6 +18,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJo
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -72,6 +73,9 @@ public class DefaultBookshelfService implements BookshelfService {
 		Bookshelf bookshelf = validationBookshelfUser(userId, bookshelfId);
 		Book book = bookService.findById(bookshelfItemCreateRequest.bookId())
 			.orElseThrow(() -> new ResourceNotfoundException(Book.class));
+		if (bookshelfItemRepository.existsByBookshelfIdAndBookId(bookshelfId, book.getId())) {
+			throw new AlreadyContainBookshelfItemException();
+		}
 		BookshelfItem bookshelfItem = BookshelfItem.create(bookshelf, book);
 		bookshelfItemRepository.save(bookshelfItem);
 		return bookshelfId;
