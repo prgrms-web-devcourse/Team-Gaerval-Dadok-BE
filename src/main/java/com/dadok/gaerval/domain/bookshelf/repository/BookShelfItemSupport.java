@@ -9,4 +9,6 @@ public interface BookShelfItemSupport {
 
 	Slice<BookshelfItem> findAllInBookShelf(Long bookShelfId, BooksInBookShelfFindRequest request);
 
+	boolean existsByBookshelfIdAndBookId(Long bookshelfId, Long bookId);
+
 }

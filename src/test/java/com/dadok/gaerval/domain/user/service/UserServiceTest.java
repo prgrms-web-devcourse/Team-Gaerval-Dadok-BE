@@ -7,7 +7,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -31,6 +33,9 @@ import com.dadok.gaerval.integration_util.ServiceIntegration;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
+@Sql(scripts = {"/sql/job_data.sql", "/sql/authority_data.sql"})
+@Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Tag("UserService Integration Test")
 @Transactional
 class UserServiceTest extends ServiceIntegration {
 
@@ -300,7 +305,7 @@ class UserServiceTest extends ServiceIntegration {
 		JobGroup jobGroup = beforeJob.getJobGroup();
 		JobGroup.JobName jobName = beforeJob.getJobName();
 
-		String existsNickname = "user1";
+		String existsNickname = "kakaoUser";
 
 		UserChangeProfileRequest request = new UserChangeProfileRequest(existsNickname,
 			new UserJobChangeRequest(jobGroup,
@@ -308,7 +313,6 @@ class UserServiceTest extends ServiceIntegration {
 		//when
 		assertThrows(DuplicateNicknameException.class,
 			() -> userService.changeProfile(userId, request));
-
 	}
 
 	@DisplayName("닉네임이 존재하면 true 존재하지 않으면 false를 반환한다.")

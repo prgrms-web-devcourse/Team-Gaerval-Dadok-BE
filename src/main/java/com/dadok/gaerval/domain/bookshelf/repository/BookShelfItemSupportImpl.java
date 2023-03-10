@@ -26,8 +26,6 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 
 	@Override
 	public Slice<BookshelfItem> findAllInBookShelf(Long bookShelfId, BooksInBookShelfFindRequest request) {
-
-
 		Sort.Direction direction = request.getSortDirection().toDirection();
 
 		List<BookshelfItem> bookshelfItems = query.selectFrom(bookshelfItem)
@@ -46,6 +44,15 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 			Sort.by(direction, "id")));
 	}
 
+	@Override
+	public boolean existsByBookshelfIdAndBookId(Long bookshelfId, Long bookId) {
+		Integer fetchOne = query.selectOne().from(bookshelfItem)
+			.where(bookshelfItem.bookshelf.id.eq(bookshelfId), bookshelfItem.book.id.eq(bookId))
+			.fetchFirst();
+
+		return fetchOne != null;
+	}
+
 	private OrderSpecifier<?> order(Sort.Direction direction) {
 
 		return switch (direction) {
@@ -58,15 +65,4 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 		return type == null ? null : bookshelfItem.type.eq(type);
 	}
 
-	private BooleanExpression generateCursorId(Long cursorId, Sort.Direction direction) {
-		if (cursorId == null) {
-			return null;
-		}
-
-		if (direction == Sort.Direction.DESC) {
-			return book.id.lt(cursorId);
-		}
-
-		return book.id.gt(cursorId);
-	}
 }

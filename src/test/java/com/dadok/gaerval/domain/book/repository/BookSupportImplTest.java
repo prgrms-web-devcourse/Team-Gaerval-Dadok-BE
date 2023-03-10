@@ -45,7 +45,7 @@ class BookSupportImplTest {
 
 	@DisplayName("generateCursorId 테스트 - id = 999 Sort = DESC, PageSize = 10")
 	@Test
-	void generateCursorId_desc_nonNull() {
+	void showgenerateCursorId_desc_nonNull() {
 		BooksInBookShelfFindRequest booksInBookShelfFindRequest = new BooksInBookShelfFindRequest(
 			BookshelfItemType.READ, 10, null, SortDirection.DESC);
 

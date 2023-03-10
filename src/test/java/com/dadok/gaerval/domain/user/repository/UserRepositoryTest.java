@@ -48,7 +48,7 @@ class UserRepositoryTest {
 	@DisplayName("existsByNickname - query 확인 - true")
 	@Test
 	void existsByNickname_query_true() {
-		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		Authority authority = authorityRepository.save(Authority.create(Role.USER));
 		OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
 		User kakaoUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(authority));
 		kakaoUser.changeNickname(new Nickname("change"));

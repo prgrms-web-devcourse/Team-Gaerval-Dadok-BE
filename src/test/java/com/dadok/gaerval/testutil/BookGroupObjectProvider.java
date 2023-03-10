@@ -10,14 +10,17 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponse;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
+import com.dadok.gaerval.global.util.TimeHolder;
 
 public class BookGroupObjectProvider {
+
+	private static TimeHolder timeHolder = TestTimeHolder.now();
 
 	public static BookGroup createMockBookGroup(Book book, Long ownerId) {
 		BookGroup bookGroup = BookGroup.create(
 			ownerId, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
-			"헨리데이빗소로우", true, new BCryptPasswordEncoder());
+			"헨리데이빗소로우", true, new BCryptPasswordEncoder(), timeHolder);
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
 		return bookGroup;
 	}
@@ -26,7 +29,7 @@ public class BookGroupObjectProvider {
 		BookGroup bookGroup = BookGroup.create(
 			ownerId, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
-			"헨리데이빗소로우", true, new BCryptPasswordEncoder());
+			"헨리데이빗소로우", true, new BCryptPasswordEncoder(), timeHolder);
 
 		return bookGroup;
 	}
@@ -35,7 +38,7 @@ public class BookGroupObjectProvider {
 		BookGroup bookGroup = BookGroup.create(
 			ownerId, book, LocalDate.now(), LocalDate.now().plusDays(1),
 			5, "책읽기 소모임", "책읽기 소모임", true, "월든 작가는?",
-			"헨리데이빗소로우", true, passwordEncoder);
+			"헨리데이빗소로우", true, passwordEncoder, timeHolder);
 		ReflectionTestUtils.setField(bookGroup, "id", 234L);
 		return bookGroup;
 	}

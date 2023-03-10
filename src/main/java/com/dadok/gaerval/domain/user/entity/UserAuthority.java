@@ -2,7 +2,6 @@ package com.dadok.gaerval.domain.user.entity;
 
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -41,7 +40,7 @@ public class UserAuthority extends BaseTimeColumn {
 	private User user;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "authority", nullable = false)
 	private Authority authority;
 

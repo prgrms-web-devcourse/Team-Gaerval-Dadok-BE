@@ -53,7 +53,7 @@ public class BookSupportImpl implements BookSupport {
 				job.jobGroup.eq(request.jobGroup())
 			)
 			.limit(request.pageSize() + 1)
-			.groupBy(bookshelfItem.book.id)
+			.groupBy(bookshelfItem.book.id, job.jobName)
 			.orderBy(bookshelfItem.book.id.count().desc())
 			.fetch();
 

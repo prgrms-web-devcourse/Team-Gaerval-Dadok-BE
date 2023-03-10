@@ -121,6 +121,10 @@ jobs:
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
 
+      - name: Set Up With Run MySql Docker Container
+        run: |
+          sudo docker run -d -p 3306:3306 --env MYSQL_DATABASE=dadok_test --env MYSQL_ROOT_PASSWORD=${{ secrets.TEST_DB_PASSWORD }} mysql:8.0.31
+
       - name: build with Gradle
         run: |
           ./gradlew clean

@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.LockTimeoutException;
+import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -61,6 +63,28 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
+
+	@ExceptionHandler(LockTimeoutException.class)
+	public ResponseEntity<ErrorResponse> handleLockTimeoutException(
+		LockTimeoutException e, HttpServletRequest request
+	) {
+		logWarn(e, request.getRequestURI());
+		slackService.sendWarn(e, request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(ErrorResponse.of(HttpStatus.BAD_REQUEST, null, request.getRequestURI()));
+	}
+
+	@ExceptionHandler(PersistenceException.class)
+	public ResponseEntity<ErrorResponse> handlePersistenceException(
+		PersistenceException e, HttpServletRequest request
+	) {
+		logWarn(e, request.getRequestURI());
+		slackService.sendWarn(e, request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(ErrorResponse.of(HttpStatus.BAD_REQUEST, null, request.getRequestURI()));
+	}
 
 	@ExceptionHandler(NotMatchedPasswordException.class)
 	public ResponseEntity<ErrorResponse> handleNotMatchedPasswordException(
