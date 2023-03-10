@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.book_group.dto.response;
 
+import static com.dadok.gaerval.domain.book_group.entity.BookGroup.*;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -47,7 +49,7 @@ public record BookGroupDetailResponse(
 		this.book = book;
 		this.isOwner = isOwner;
 		this.isGroupMember = isGroupMember;
-		this.maxMemberCount = Objects.equals(maxMemberCount, 1000) ? null : maxMemberCount;
+		this.maxMemberCount = Objects.equals(maxMemberCount, NO_LIMIT_MEMBER_COUNT) ? null : maxMemberCount;
 	}
 
 	public record BookResponse(
