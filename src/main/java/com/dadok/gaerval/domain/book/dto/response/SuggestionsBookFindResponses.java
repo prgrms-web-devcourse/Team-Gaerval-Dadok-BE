@@ -20,7 +20,7 @@ public record SuggestionsBookFindResponses(
 	boolean isEmpty, // 반환 값이 0개인가
 
 	JobGroup jobGroup,
-
+	String jobGroupKoreanName,
 	List<SuggestionsBookFindResponse> books
 ) {
 	public SuggestionsBookFindResponses(Slice<SuggestionsBookFindResponse> slice, JobGroup jobGroup) {
@@ -31,6 +31,7 @@ public record SuggestionsBookFindResponses(
 			slice.getNumberOfElements(),
 			slice.isEmpty(),
 			jobGroup,
+			jobGroup.getGroupName(),
 			slice.getContent()
 		);
 	}

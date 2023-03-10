@@ -285,8 +285,9 @@ class BookControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
-					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 한글명 :  " +
+					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 영어명 :  " +
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+					fieldWithPath("jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
 
 					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
