@@ -17,10 +17,14 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
+
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
+
 import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
+import com.dadok.gaerval.global.util.TimeHolder;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +42,10 @@ public class DefaultBookGroupService implements BookGroupService {
 
 	private final PasswordEncoder passwordEncoder;
 
+	private final BookshelfService bookshelfService;
+
+	private final TimeHolder timeHolder;
+
 	@Override
 	@Transactional(readOnly = true)
 	public BookGroupResponses findAllBookGroups(BookGroupSearchRequest request) {
@@ -51,8 +59,8 @@ public class DefaultBookGroupService implements BookGroupService {
 		Book book = bookService.findById(request.bookId()).orElseThrow(() -> new ResourceNotfoundException(Book.class));
 		BookGroup bookGroup = BookGroup.create(user.getId(), book, request.startDate(), request.endDate(),
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
-			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder);
-		GroupMember.create(bookGroup, user);
+			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder, timeHolder);
+		GroupMember.create(bookGroup, user, timeHolder);
 		return bookGroupRepository.save(bookGroup).getId();
 	}
 
@@ -71,13 +79,16 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Transactional
 	@Override
 	public void join(Long groupId, Long userId, BookGroupJoinRequest request) {
-		BookGroup bookGroup = bookGroupRepository.findByIdWithGroupMembers(groupId)
+		BookGroup bookGroup = bookGroupRepository.findByIdWithGroupMembersForUpdate(groupId)
 			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
 
 		bookGroup.checkPasswd(request.joinPassword(), passwordEncoder);
 		User user = userService.getById(userId);
 
-		GroupMember.create(bookGroup, user);
+		GroupMember groupMember = GroupMember.create(user);
+		bookGroup.addMember(groupMember, timeHolder);
+
+		bookshelfService.insertIfNotPresent(user.getId(), bookGroup.getBook().getId());
 	}
 
 	@Transactional
@@ -102,7 +113,7 @@ public class DefaultBookGroupService implements BookGroupService {
 			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
 		bookGroup.validateOwner(userId);
 		bookGroup.changeBookGroupContents(request.title(), request.introduce(), request.endDate(),
-			request.maxMemberCount());
+			request.maxMemberCount(), timeHolder);
 	}
 
 	@Override

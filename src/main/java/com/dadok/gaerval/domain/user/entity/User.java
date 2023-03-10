@@ -80,7 +80,7 @@ public class User extends BaseTimeColumn {
 	private LocalDateTime birthday;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<UserAuthority> authorities = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})

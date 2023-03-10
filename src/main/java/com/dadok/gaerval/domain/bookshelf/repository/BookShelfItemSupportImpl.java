@@ -53,6 +53,15 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 	}
 
 	@Override
+	public boolean existsByBookshelfIdAndBookId(Long bookshelfId, Long bookId) {
+		Integer fetchOne = query.selectOne().from(bookshelfItem)
+			.where(bookshelfItem.bookshelf.id.eq(bookshelfId), bookshelfItem.book.id.eq(bookId))
+			.fetchFirst();
+
+		return fetchOne != null;
+	}
+
+	@Override
 	public UserByBookResponses findBookshelfItemUsersByBook(Long bookId, Long userId, int limit) {
 		List<UserByBookResponse> userByBookResponses = query
 			.select(constructor(UserByBookResponse.class,

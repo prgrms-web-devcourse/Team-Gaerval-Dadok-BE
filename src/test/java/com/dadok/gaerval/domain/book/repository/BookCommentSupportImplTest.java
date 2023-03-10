@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.book.repository;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
@@ -32,6 +33,11 @@ class BookCommentSupportImplTest {
 	private final UserRepository userRepository;
 	private final BookRepository bookRepository;
 	private final AuthorityRepository authorityRepository;
+
+	@BeforeEach
+	void setUp() {
+		authorityRepository.save(Authority.create(Role.USER));
+	}
 
 	@DisplayName("findAllComments - 책에 대한 코멘트 찾는 쿼리 테스트")
 	@Test
@@ -87,4 +93,5 @@ class BookCommentSupportImplTest {
 		bookCommentRepository.updateBookComment(savedBook.getId(), savedUser.getId(),
 			BookCommentObjectProvider.createCommentUpdateRequest());
 	}
+
 }

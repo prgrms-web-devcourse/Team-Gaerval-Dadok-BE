@@ -18,6 +18,7 @@ import javax.persistence.UniqueConstraint;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
+import com.dadok.gaerval.global.util.TimeHolder;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -53,11 +54,20 @@ public class GroupMember extends BaseTimeColumn {
 		this.bookGroup = bookGroup;
 	}
 
-	public static GroupMember create(BookGroup bookGroup, User user) {
+	protected GroupMember(User user) {
+		validateNotnull(user, "user");
+		this.user = user;
+	}
+
+	public static GroupMember create(BookGroup bookGroup, User user, TimeHolder timeHolder) {
 		GroupMember groupMember = new GroupMember(user, bookGroup);
 
-		bookGroup.addMember(groupMember);
+		bookGroup.addMember(groupMember, timeHolder);
 		return groupMember;
+	}
+
+	public static GroupMember create(User user) {
+		return new GroupMember(user);
 	}
 
 	@JacocoExcludeGenerated
@@ -68,8 +78,7 @@ public class GroupMember extends BaseTimeColumn {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		GroupMember that = (GroupMember)o;
-		return Objects.equals(id, that.id) && Objects.equals(user, that.user)
-			&& Objects.equals(bookGroup, that.bookGroup);
+		return Objects.equals(id, that.id) && Objects.equals(user, that.user);
 	}
 
 	@JacocoExcludeGenerated
@@ -78,5 +87,9 @@ public class GroupMember extends BaseTimeColumn {
 		return Objects.hash(id, user, bookGroup);
 	}
 
-
+	public void changeGroup(BookGroup bookGroup) {
+		if (this.bookGroup != bookGroup) {
+			this.bookGroup = bookGroup;
+		}
+	}
 }

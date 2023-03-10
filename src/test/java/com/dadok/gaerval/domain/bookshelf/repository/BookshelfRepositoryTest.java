@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.bookshelf.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
@@ -35,6 +36,13 @@ class BookshelfRepositoryTest {
 	private final AuthorityRepository authorityRepository;
 
 	private final UserRepository userRepository;
+
+	private Authority authority;
+
+	@BeforeEach
+	void setUp() {
+		authority = authorityRepository.save(Authority.create(Role.USER));
+	}
 
 	@DisplayName("findByIdWithUserAndJob 쿼리 테스트")
 	@Test

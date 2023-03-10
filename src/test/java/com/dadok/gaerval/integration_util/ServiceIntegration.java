@@ -7,6 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
+import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
+import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.repository.JobRepository;
@@ -49,8 +52,31 @@ public abstract class ServiceIntegration {
 	@Autowired
 	protected BookshelfService bookshelfService;
 
+	@Autowired
+	protected BookRepository bookRepository;
+
+	@Autowired
+	protected BookGroupRepository bookGroupRepository;
+
+	@Autowired
+	protected GroupMemberRepository groupMemberRepository;
+
 	protected Authority getAuthority(Role role) {
 		return this.authorityRepository.getReferenceById(role);
 	}
+
+	// protected User kakaoUser;
+	//
+	// private OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
+
+	// @BeforeEach
+	// void setUp() {
+	// 	List<Authority> all = authorityRepository.findAll();
+	// 	Authority authority = authorityRepository.getReferenceById(Role.USER);
+	// 	UserAuthority userAuthority = UserAuthority.create(authority);
+	// 	User kakaoUser = User.createByOAuth(oAuth2Attribute, userAuthority);
+	// 	kakaoUser.changeNickname(new Nickname("kakaoUser"));
+	// 	this.kakaoUser = userRepository.save(kakaoUser);
+	// }
 
 }

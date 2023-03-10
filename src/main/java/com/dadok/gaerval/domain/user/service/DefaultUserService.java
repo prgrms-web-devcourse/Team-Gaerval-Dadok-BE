@@ -111,9 +111,8 @@ public class DefaultUserService implements UserService {
 	public UserDetailResponse changeProfile(Long userId, UserChangeProfileRequest request) {
 		User user = userRepository.getReferenceById(userId);
 		Nickname nickname = new Nickname(request.nickname());
-
+		validateExistsNickname(nickname);
 		if (!user.isSameNickname(nickname)) {
-			validateExistsNickname(nickname);
 
 			try {
 				user.changeNickname(nickname);

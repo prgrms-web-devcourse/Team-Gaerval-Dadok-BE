@@ -11,4 +11,6 @@ public interface BookShelfItemSupport {
 	Slice<BookshelfItem> findAllInBookShelf(Long bookShelfId, BooksInBookShelfFindRequest request);
 
 	UserByBookResponses findBookshelfItemUsersByBook(Long bookId, Long userId, int limit);
+
+	boolean existsByBookshelfIdAndBookId(Long bookshelfId, Long bookId);
 }
