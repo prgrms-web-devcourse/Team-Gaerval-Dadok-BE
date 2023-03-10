@@ -60,7 +60,7 @@ public class DefaultBookGroupService implements BookGroupService {
 			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder, timeHolder);
 		GroupMember.create(bookGroup, user, timeHolder);
 		bookGroup = bookGroupRepository.save(bookGroup);
-		bookshelfService.insertIfNotPresent(user.getId(), bookGroup.getBook().getId());
+		bookshelfService.insertIfNotPresent(user.getId(), book.getId());
 		return bookGroup.getId();
 	}
 

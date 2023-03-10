@@ -95,10 +95,10 @@ public class BookGroup extends BaseTimeColumn {
 	@Column(length = 64)
 	private String joinPasswd;
 
-	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private final List<GroupMember> groupMembers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "bookGroup", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<GroupComment> comments = new ArrayList<>();
 
 	protected BookGroup(Long ownerId, Book book, LocalDate startDate, LocalDate endDate, Integer maxMemberCount,
