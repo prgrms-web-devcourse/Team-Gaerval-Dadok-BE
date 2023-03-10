@@ -19,6 +19,11 @@ public class CustomResponseFieldsSnippet extends AbstractFieldsSnippet {
 			subsectionExtractor);
 	}
 
+	public CustomResponseFieldsSnippet(String type, List<FieldDescriptor> descriptors,
+		boolean ignoreUndocumentedFields) {
+		super(type, descriptors, null, ignoreUndocumentedFields);
+	}
+
 	@Override
 	protected MediaType getContentType(Operation operation) {
 		return operation.getResponse().getHeaders().getContentType();

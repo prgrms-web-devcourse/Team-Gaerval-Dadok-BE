@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Enum Document</title>
+<title>ErrorCode Document</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book">
 <div id="header">
-<h1>Enum Document</h1>
+<h1>ErrorCode Document</h1>
 <div class="details">
 <span id="revnumber">version 0.5.1</span>
 </div>
@@ -447,45 +447,145 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div id="provider" class="paragraph">
-<p>Type : provider</p>
-</div>
-<div class="paragraph">
-<p>코드는 상수입니다.</p>
+<div id="ErrorCode" class="paragraph">
+<p>Type : 'code'</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>설명에 특별한 언급이 없는한 대문자로 입력해주셔야 합니다.</p>
+<p>에러 코드.</p>
 </li>
 <li>
-<p>소문자로 입력해야 하는 경우도 있습니다.</p>
+<p>cmd + f 또는 ctrl + f로 검색하셔서 찾을 수 있습니다.</p>
+</li>
+<li>
+<p>Code : 약속된 코드명.</p>
 </li>
 </ul>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">코드</th>
-<th class="tableblock halign-left valign-top">코드명 및 설명</th>
+<th class="tableblock halign-left valign-top">Code</th>
+<th class="tableblock halign-left valign-top">설명 및 메시지</th>
+<th class="tableblock halign-left valign-top">Http 상태 코드</th>
+<th class="tableblock halign-left valign-top">status 설명</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NAVER</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">naver</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BGC1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">naver</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>KAKAO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">U1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 존재하는 닉네임입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">kakao</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">kakao</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%s 리소스가 존재하지 않습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not Found</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">%s 의 입력값이 잘못되었습니다. value : %s</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저가 존재하지 않습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 접근입니다. 유효한 토큰이 아닙니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BS1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 책장에 포함된 아아템입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BS2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 책장에 올바르지 않은 사용자 접근입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 도서 데이터 형식입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal Server Error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BC2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 남긴 도서 코멘트에 있습니다</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 인원을 초과하였습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 모임에 참여한 사용자입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 비밀번호가 틀렸습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 모임의 모임장 권한이 없는 사용자입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 가입 기간이 지났습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버가 존재하는 모임은 삭제할 수 없습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 최대 인원은 현재 참여 인원(%s 명)보다 작을 수 없습니다</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임에 참여하지않은 사용자 입니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
 </tr>
 </tbody>
 </table>
@@ -495,7 +595,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.5.1<br>
-Last updated 2023-03-01 21:37:33 +0900
+Last updated 2023-03-11 02:08:24 +0900
 </div>
 </div>
 </body>

@@ -13,6 +13,7 @@ public class ResourceNotfoundException extends BusinessException {
 		this.resource = resource;
 	}
 
+	@Override
 	public String getMessage() {
 		return String.format(this.errorCode.getMessage(), resource.getName());
 	}

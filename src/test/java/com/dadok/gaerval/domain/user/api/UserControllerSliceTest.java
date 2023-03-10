@@ -390,8 +390,8 @@ class UserControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("status").type(JsonFieldType.NUMBER).description("httpStatus"),
 						fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
 						fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 시간"),
-						fieldWithPath("errors").type(JsonFieldType.STRING).optional().description("에러들"),
-
+						fieldWithPath("errors").type(JsonFieldType.STRING).optional().description("에러 필드들"),
+						fieldWithPath("code").type(JsonFieldType.STRING).description("에러 코드"),
 						fieldWithPath("path").type(JsonFieldType.STRING).description("요청 URL")
 					)
 
