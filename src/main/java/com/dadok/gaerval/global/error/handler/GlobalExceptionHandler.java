@@ -30,6 +30,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
@@ -63,6 +64,23 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
+
+	private static ResponseEntity<ErrorResponse> badRequest(String message, String path) {
+		return ResponseEntity.badRequest().body(ErrorResponse.of(HttpStatus.BAD_REQUEST, message, path));
+	}
+
+	private static ResponseEntity<ErrorResponse> of(ErrorCode errorCode, String path) {
+
+		ErrorResponse errorResponse = ErrorResponse.of(errorCode, path);
+
+		return switch (errorCode.getStatus()) {
+			case NOT_FOUND -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+			case UNAUTHORIZED -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+			case INTERNAL_SERVER_ERROR -> ResponseEntity.internalServerError().body(errorResponse);
+			case BAD_REQUEST -> ResponseEntity.badRequest().body(errorResponse);
+			default -> ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
+		};
+	}
 
 	@ExceptionHandler(LockTimeoutException.class)
 	public ResponseEntity<ErrorResponse> handleLockTimeoutException(
@@ -329,6 +347,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return of(errorCode, request.getRequestURI());
 	}
 
+	@ExceptionHandler(AlreadyContainBookCommentException.class)
+	public ResponseEntity<ErrorResponse> handleAlreadyContainBookCommentException(
+		HttpServletRequest request, AlreadyContainBookCommentException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
 	private List<FieldError> makeFieldErrorsFromBindingResult(BindingResult bindingResult) {
 		List<FieldError> fieldErrors = new ArrayList<>();
 
@@ -363,23 +391,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	private String getFieldFromPath(Path fieldPath) {
 		PathImpl pathImpl = (PathImpl)fieldPath;
 		return pathImpl.getLeafNode().toString();
-	}
-
-	private static ResponseEntity<ErrorResponse> badRequest(String message, String path) {
-		return ResponseEntity.badRequest().body(ErrorResponse.of(HttpStatus.BAD_REQUEST, message, path));
-	}
-
-	private static ResponseEntity<ErrorResponse> of(ErrorCode errorCode, String path) {
-
-		ErrorResponse errorResponse = ErrorResponse.of(errorCode, path);
-
-		return switch (errorCode.getStatus()) {
-			case NOT_FOUND -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-			case UNAUTHORIZED -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-			case INTERNAL_SERVER_ERROR -> ResponseEntity.internalServerError().body(errorResponse);
-			case BAD_REQUEST -> ResponseEntity.badRequest().body(errorResponse);
-			default -> ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
-		};
 	}
 
 	private void logWarn(Exception e, String path) {
