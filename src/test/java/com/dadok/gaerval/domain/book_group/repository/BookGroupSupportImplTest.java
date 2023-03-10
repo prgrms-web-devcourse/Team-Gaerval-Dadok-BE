@@ -166,7 +166,6 @@ class BookGroupSupportImplTest {
 	@Test
 	void findAllByUser_query() {
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
-		bookGroupRepository.findAllByUser(request, 3L);
+		bookGroupRepository.findAllByUser(request, 1L);
 	}
-
 }

@@ -63,7 +63,7 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			))
 			.from(bookGroup)
 			.innerJoin(book).on(book.id.eq(bookGroup.book.id))
-			.innerJoin(user).on(user.id.eq(bookGroup.ownerId))
+			.leftJoin(user).on(user.id.eq(bookGroup.ownerId))
 			.leftJoin(bookGroup.groupMembers, groupMember)
 			.leftJoin(bookGroup.comments, groupComment)
 			.where(
@@ -174,16 +174,14 @@ public class BookGroupSupportImpl implements BookGroupSupport {
 			))
 			.from(bookGroup)
 			.innerJoin(book).on(book.id.eq(bookGroup.book.id))
-			.innerJoin(user).on(user.id.eq(bookGroup.ownerId))
+			.leftJoin(user).on(user.id.eq(bookGroup.ownerId))
 			.leftJoin(bookGroup.groupMembers, groupMember)
 			.leftJoin(bookGroup.comments, groupComment)
 			.where(
 				QueryDslUtil.generateCursorWhereCondition(bookGroup.id, request.groupCursorId(), direction),
-				QueryDslUtil.generateIdWhereCondition(user.id, userId)
+				QueryDslUtil.generateIdWhereCondition(groupMember.user.id, userId)
 			)
-			.groupBy(bookGroup.id,
-				book.id,
-				user.id
+			.groupBy(bookGroup.id
 			)
 			.orderBy(QueryDslUtil.getOrder(bookGroup.id, direction))
 			.limit(request.pageSize() + 1)

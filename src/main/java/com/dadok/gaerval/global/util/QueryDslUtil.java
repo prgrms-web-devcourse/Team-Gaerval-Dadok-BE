@@ -55,7 +55,6 @@ public class QueryDslUtil {
 		if (id == null) {
 			return null;
 		}
-
 		return entityId.eq(id);
 	}
 
