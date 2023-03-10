@@ -31,12 +31,12 @@ class BookShelfItemSupportImplTest {
 
 	private final BookRepository bookRepository;
 
-	@DisplayName("findAllWithBooks - id = null, Type = Read, Sort = DESC, PageSize = 10")
+	@DisplayName("findAllWithBooks - id = 1L, Type = Read, Sort = DESC, PageSize = 10")
 	@Test
 	void findAllWithBooks_() {
 		BooksInBookShelfFindRequest booksInBookShelfFindRequest = new BooksInBookShelfFindRequest(
 			BookshelfItemType.READ, 10, null, SortDirection.DESC);
-		bookshelfItemRepository.findAllInBookShelf(null, booksInBookShelfFindRequest);
+		bookshelfItemRepository.findAllInBookShelf(1L, booksInBookShelfFindRequest);
 	}
 
 	@DisplayName("findAllWithBooks - id = 50L, Type = Read, Sort = DESC, PageSize = 10")
