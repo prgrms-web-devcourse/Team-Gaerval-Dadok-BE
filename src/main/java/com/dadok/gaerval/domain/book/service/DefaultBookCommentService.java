@@ -14,6 +14,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -48,7 +49,8 @@ public class DefaultBookCommentService implements BookCommentService {
 	@Override
 	@Transactional(readOnly = true)
 	public BookComment getById(Long bookId) {
-		return bookCommentRepository.findById(bookId).orElseThrow(()-> new ResourceNotfoundException(BookComment.class));
+		return bookCommentRepository.findById(bookId)
+			.orElseThrow(() -> new ResourceNotfoundException(BookComment.class));
 	}
 
 	@Override
@@ -59,7 +61,8 @@ public class DefaultBookCommentService implements BookCommentService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public BookCommentResponses findBookCommentsBy(Long bookId, Long userId, BookCommentSearchRequest bookCommentSearchRequest) {
+	public BookCommentResponses findBookCommentsBy(Long bookId, Long userId,
+		BookCommentSearchRequest bookCommentSearchRequest) {
 		return bookCommentRepository.findAllComments(bookId, userId, bookCommentSearchRequest);
 	}
 
@@ -67,5 +70,14 @@ public class DefaultBookCommentService implements BookCommentService {
 	public BookCommentResponse updateBookComment(Long bookId, Long userId,
 		BookCommentUpdateRequest bookCommentUpdateRequest) {
 		return bookCommentRepository.updateBookComment(bookId, userId, bookCommentUpdateRequest);
+	}
+
+	@Override
+	public void deleteBookComment(Long bookId, Long userId,
+		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
+		Optional<BookComment> existsComment = bookCommentRepository.findByBookIdAndUserId(bookId, userId);
+		Long byId = this.getById(bookGroupCommentDeleteRequest.commentId()).getId();
+		bookCommentRepository.delete(existsComment.filter(c -> c.getId().equals(byId))
+			.orElseThrow(() -> new ResourceNotfoundException(BookComment.class)));
 	}
 }

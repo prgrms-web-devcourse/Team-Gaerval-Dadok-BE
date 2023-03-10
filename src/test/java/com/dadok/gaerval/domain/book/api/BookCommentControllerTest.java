@@ -7,8 +7,10 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.DisplayName;
@@ -26,12 +28,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentCreateRequest;
+import com.dadok.gaerval.domain.book.dto.request.BookCommentDeleteRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentUpdateRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.util.QueryDslUtil;
@@ -222,6 +226,48 @@ class BookCommentControllerTest extends ControllerSliceTest {
 			1L,
 			bookCommentUpdateRequest
 		);
+	}
+
+
+	@DisplayName("댓글 삭제에 성공한다.")
+	@Test
+	void deleteBookComment_ShouldReturnOk() throws Exception {
+		// given
+		Long bookId = 234L;
+		Long CommentId = 234L;
+
+		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(CommentId);
+
+		doNothing().when(bookCommentService).deleteBookComment(bookId, 1L, request);
+
+
+		// when then
+		mockMvc.perform(delete("/api/books/{bookId}/comment", bookId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.content(createJson(request))
+			)
+			.andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				pathParameters(
+					parameterWithName("bookId").description("도서 ID")
+				),
+				requestFields(
+					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
+						.description("삭제할 댓글 아이디")
+						.attributes(
+							constrainsAttribute(BookCommentDeleteRequest.class, "commentId")
+						)
+				)
+			));
+
+
 	}
 
 }

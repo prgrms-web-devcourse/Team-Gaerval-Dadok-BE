@@ -30,6 +30,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
@@ -317,6 +318,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(CannotDeleteMemberExistException.class)
 	public ResponseEntity<ErrorResponse> handleCannotDeleteMemberExistException(
 		HttpServletRequest request, CannotDeleteMemberExistException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
+	@ExceptionHandler(AlreadyContainBookCommentException.class)
+	public ResponseEntity<ErrorResponse> handleAlreadyContainBookCommentException(
+		HttpServletRequest request, AlreadyContainBookCommentException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
