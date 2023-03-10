@@ -32,6 +32,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
@@ -145,6 +146,8 @@ class DefaultBookshelfServiceSliceTest {
 			.willReturn(Optional.of(bookshelf));
 		given(bookService.findById(book.getId()))
 			.willReturn(Optional.of(book));
+		given(bookshelfItemRepository.existsByBookshelfIdAndBookId(1L, book.getId()))
+			.willReturn(false);
 
 		// When
 		var bookshelfId = bookshelfService.insertBookSelfItem(user.getId(), 1L, request);
@@ -213,6 +216,30 @@ class DefaultBookshelfServiceSliceTest {
 
 		// Then
 		verify(bookshelfRepository).findById(1L);
+	}
+
+	@DisplayName("insertBookSelfItem - 이미 포함된 책 일 경우 - 실패")
+	@Test
+	void insertBookSelfItem_alreadyContain_fail() {
+		// Given
+		ReflectionTestUtils.setField(bookshelf, "id", 1L);
+		var request = new BookshelfItemCreateRequest(book.getId());
+
+		given(bookshelfRepository.findById(1L))
+			.willReturn(Optional.of(bookshelf));
+		given(bookService.findById(book.getId()))
+			.willReturn(Optional.of(book));
+		given(bookshelfItemRepository.existsByBookshelfIdAndBookId(1L, book.getId()))
+			.willReturn(true);
+
+		// When
+		assertThrows(AlreadyContainBookshelfItemException.class, () ->
+			bookshelfService.insertBookSelfItem(user.getId(), 1L, request)
+		);
+
+		// Then
+		verify(bookshelfRepository).findById(1L);
+		verify(bookService).findById(book.getId());
 	}
 
 	@DisplayName("removeBookSelfItem - 성공")

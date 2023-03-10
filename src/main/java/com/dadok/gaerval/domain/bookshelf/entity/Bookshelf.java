@@ -69,7 +69,6 @@ public class Bookshelf extends BaseTimeColumn {
 
 	public void addBookShelfItem(BookshelfItem bookshelfItem) {
 		CommonValidator.validateNotnull(bookshelfItem, "bookShelfItem");
-
 		if (bookshelfItems.contains(bookshelfItem)) {
 			throw new AlreadyContainBookshelfItemException();
 		}
