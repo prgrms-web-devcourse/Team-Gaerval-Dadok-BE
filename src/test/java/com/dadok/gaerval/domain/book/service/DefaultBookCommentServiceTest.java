@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.util.QueryDslUtil;
@@ -104,6 +105,33 @@ class DefaultBookCommentServiceTest {
 
 		// then
 		assertEquals(bookCommentUpdateRequest.comment(), updatedComment.getContents());
+	}
+
+	@DisplayName("deleteBookComment - 도서 리뷰를 삭하는데 성공한다.")
+	@Test
+	void deleteBookComment() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		ReflectionTestUtils.setField(book, "id", 1L);
+
+		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest = new BookGroupCommentDeleteRequest(1L);
+
+		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
+		ReflectionTestUtils.setField(comment, "id", 1L);
+
+		given(bookCommentRepository.findByBookIdAndUserId(1L, 1L)).willReturn(Optional.of(comment));
+		given(bookCommentRepository.findById(1L)).willReturn(Optional.of(comment));
+		given(defaultBookCommentService.findById(1L)).willReturn(Optional.of(comment));
+
+		// when
+		defaultBookCommentService.deleteBookComment(book.getId(), user.getId(),
+			bookGroupCommentDeleteRequest);
+
+		// then
+		verify(bookCommentRepository).findByBookIdAndUserId(1L,1L);
+		verify(bookCommentRepository).delete(comment);
 	}
 
 	@DisplayName("getById - 존재하는 도서 리뷰를 조회하는데 성공한다.")

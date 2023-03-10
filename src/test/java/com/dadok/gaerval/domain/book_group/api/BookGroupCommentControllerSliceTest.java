@@ -93,7 +93,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 
 		// given
 		Long groupId = 234L;
-		Long userId = 234L;
+
 		BookGroupCommentSearchRequest request = new BookGroupCommentSearchRequest(10, 100L, SortDirection.DESC);
 		List<BookGroupCommentResponse> bookGroupCommentResponseList = BookGroupCommentObjectProvider.mockCommentResponses;
 
@@ -217,7 +217,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		// given
 		Long groupId = 234L;
 		Long bookGroupCommentId = 234L;
-		String modifiedComment = "이 책 싫어요";
+
 		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(bookGroupCommentId);
 
 		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, request);

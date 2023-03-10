@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,6 +27,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -96,5 +98,25 @@ public class BookCommentController {
 		log.info("[BookController]-[BookCommentResponse]-bookCommentUpdateRequest : {}", bookCommentUpdateRequest);
 		BookCommentResponse bookCommentResponse = bookCommentService.updateBookComment(bookId, userPrincipal.getUserId(), bookCommentUpdateRequest);
 		return ResponseEntity.ok().body(bookCommentResponse);
+	}
+
+
+	/**
+	 * <pre>
+	 *     수정 요청을 통해 도서 코멘트를 삭제한다.
+	 * </pre>
+	 *
+	 * @param bookGroupCommentDeleteRequest 코멘트 아이디
+	 * @return status : ok, BookCommentResponse : 코멘트 정보
+	 */
+	@DeleteMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<Void> deleteBookComment(
+		@PathVariable Long bookId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal,
+		@Valid @RequestBody BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
+		log.info("[BookController]-[BookCommentResponse]-bookGroupCommentDeleteRequest : {}", bookGroupCommentDeleteRequest);
+		bookCommentService.deleteBookComment(bookId, userPrincipal.getUserId(), bookGroupCommentDeleteRequest);
+		return ResponseEntity.ok().build();
 	}
 }
