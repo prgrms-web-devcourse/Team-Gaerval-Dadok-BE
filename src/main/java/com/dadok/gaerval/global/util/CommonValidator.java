@@ -162,7 +162,6 @@ public class CommonValidator {
 		validateEndDate(startDate, endDate);
 	}
 
-	// standad : 기준이 되는 시간
 	public static void validatePeriod(LocalDate startDate, LocalDate endDate, Clock standard) {
 		validateNotnull(startDate, "startDate");
 		validateNotnull(endDate, "endDate");
