@@ -37,7 +37,7 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	private final BookService bookService;
 
-	final static int BOOKSHELF_VIEW_LIMIT = 5;
+	private static final int BOOKSHELF_VIEW_LIMIT = 5;
 
 	@Override
 	@Transactional(readOnly = true)

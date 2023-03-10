@@ -40,6 +40,7 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 			.leftJoin(bookshelfItem.book, book)
 			.fetchJoin()
 			.where(
+				bookshelfItem.bookshelf.id.eq(bookShelfId),
 				QueryDslUtil.generateCursorWhereCondition(book.id,
 					request.getBookCursorId(), direction),
 				bookShelfItemType(request.getType())
