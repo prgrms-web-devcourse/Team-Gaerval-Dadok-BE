@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
@@ -26,7 +27,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table
+@Table(name = "Bookshelf_item",
+	uniqueConstraints = {
+		@UniqueConstraint(name = "bookshelf_id_book_id_unique_key",
+			columnNames = {"bookshelf_id", "book_id"})
+	}
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookshelfItem extends BaseTimeColumn {

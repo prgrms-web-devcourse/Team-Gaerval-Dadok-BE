@@ -17,10 +17,8 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
-
-import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
-
 import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -61,7 +59,9 @@ public class DefaultBookGroupService implements BookGroupService {
 			request.maxMemberCount(), request.title(), request.introduce(), request.hasJoinPasswd(),
 			request.joinQuestion(), request.joinPasswd(), request.isPublic(), passwordEncoder, timeHolder);
 		GroupMember.create(bookGroup, user, timeHolder);
-		return bookGroupRepository.save(bookGroup).getId();
+		bookGroup = bookGroupRepository.save(bookGroup);
+		bookshelfService.insertIfNotPresent(user.getId(), bookGroup.getBook().getId());
+		return bookGroup.getId();
 	}
 
 	@Override
