@@ -70,9 +70,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	) {
 		logWarn(e, request.getRequestURI());
 		slackService.sendWarn(e, request.getRequestURI());
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-			.body(ErrorResponse.of(HttpStatus.BAD_REQUEST, null, request.getRequestURI()));
+		return badRequest(null, request.getRequestURI());
 	}
 
 	@ExceptionHandler(PersistenceException.class)
@@ -82,8 +80,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		logWarn(e, request.getRequestURI());
 		slackService.sendWarn(e, request.getRequestURI());
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-			.body(ErrorResponse.of(HttpStatus.BAD_REQUEST, null, request.getRequestURI()));
+		return badRequest(null, request.getRequestURI());
 	}
 
 	@ExceptionHandler(NotMatchedPasswordException.class)
@@ -92,8 +89,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
 
-		return ResponseEntity.status(errorCode.getStatus())
-			.body(ErrorResponse.of(errorCode.getStatus(), e.getMessage(), request.getRequestURI()));
+		return of(errorCode, request.getRequestURI());
 	}
 
 	@ExceptionHandler(ExpiredJoinGroupPeriodException.class)
@@ -102,8 +98,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
 
-		return ResponseEntity.status(errorCode.getStatus())
-			.body(ErrorResponse.of(errorCode.getStatus(), e.getMessage(), request.getRequestURI()));
+		return of(errorCode, request.getRequestURI());
 	}
 
 	@ExceptionHandler(value = ResourceNotfoundException.class)
@@ -113,11 +108,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		logInfo(e, request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
-			.body(ErrorResponse.notFound(e.getMessage(), request.getRequestURI(), null));
+			.body(ErrorResponse.of(e.getErrorCode(), e.getMessage(), request.getRequestURI()));
 	}
 
 	@ExceptionHandler(value = SlackException.class)
-	public ResponseEntity<?> handleSlackException(
+	public ResponseEntity<Void> handleSlackException(
 		SlackException e, HttpServletRequest request
 	) {
 		logError(e, request.getRequestURI());
@@ -196,7 +191,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		logInfo(e, request.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.FORBIDDEN)
-			.body(ErrorResponse.of(HttpStatus.FORBIDDEN, e.getMessage(), request.getRequestURI(), null));
+			.body(ErrorResponse.forbidden(e.getMessage(), request.getRequestURI(), null));
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -366,20 +361,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	private static ResponseEntity<ErrorResponse> badRequest(String message, String path) {
-		return ResponseEntity.badRequest().body(ErrorResponse.of(HttpStatus.BAD_REQUEST, message, path));
+		return ResponseEntity.badRequest()
+			.body(ErrorResponse.of(HttpStatus.BAD_REQUEST, message, path));
 	}
 
 	private static ResponseEntity<ErrorResponse> of(ErrorCode errorCode, String path) {
 
 		ErrorResponse errorResponse = ErrorResponse.of(errorCode, path);
 
-		return switch (errorCode.getStatus()) {
-			case NOT_FOUND -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-			case UNAUTHORIZED -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-			case INTERNAL_SERVER_ERROR -> ResponseEntity.internalServerError().body(errorResponse);
-			case BAD_REQUEST -> ResponseEntity.badRequest().body(errorResponse);
-			default -> ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
-		};
+		return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
 	}
 
 	private void logWarn(Exception e, String path) {

@@ -95,7 +95,8 @@ public class EnumDocsControllerTest extends ControllerSliceTest {
 	}
 
 	// 커스텀 템플릿 사용을 위한 함수
-	public static CustomResponseFieldsSnippet customResponseFields(String type,
+	public static CustomResponseFieldsSnippet customResponseFields(
+		String type,
 		PayloadSubsectionExtractor<?> subsectionExtractor,
 		Map<String, Object> attributes, FieldDescriptor... descriptors) {
 		return new CustomResponseFieldsSnippet(type, subsectionExtractor, Arrays.asList(descriptors), attributes

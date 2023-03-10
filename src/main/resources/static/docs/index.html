@@ -486,6 +486,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#common">공통 사항</a>
 <ul class="sectlevel2">
 <li><a href="#_domain">Domain</a></li>
+<li><a href="#_에러_코드">에러 코드</a></li>
 <li><a href="#_공통_에러_응답_errorresponse">공통 에러 응답 - ErrorResponse</a></li>
 </ul>
 </li>
@@ -604,6 +605,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="sect2">
+<h3 id="_에러_코드"><a class="link" href="#_에러_코드">에러 코드</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>약속된 에러 코드입니다.</p>
+</li>
+<li>
+<p><a href="common/errorCode.html" class="popup">에러 코드</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_공통_에러_응답_errorresponse"><a class="link" href="#_공통_에러_응답_errorresponse">공통 에러 응답 - ErrorResponse</a></h3>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -614,6 +628,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">에러 코드 - <a href="common/errorCode.html" class="popup">에러 코드</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
@@ -633,7 +651,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">요청 URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 URL 경로</p></td>
 </tr>
 </tbody>
 </table>
@@ -3837,8 +3855,8 @@ Content-Length: 1100
     "bookId" : 1,
     "userId" : 1,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-10 15:50:22",
-    "modifiedAt" : "2023-03-10 15:50:22",
+    "createdAt" : "2023-03-11 03:41:23",
+    "modifiedAt" : "2023-03-11 03:41:23",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -3847,8 +3865,8 @@ Content-Length: 1100
     "bookId" : 1,
     "userId" : 2,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-10 15:50:22",
-    "modifiedAt" : "2023-03-10 15:50:22",
+    "createdAt" : "2023-03-11 03:41:23",
+    "modifiedAt" : "2023-03-11 03:41:23",
     "nickname" : "0soo",
     "writtenByCurrentUser" : false
   }, {
@@ -3857,8 +3875,8 @@ Content-Length: 1100
     "bookId" : 1,
     "userId" : 3,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-10 15:50:22",
-    "modifiedAt" : "2023-03-10 15:50:22",
+    "createdAt" : "2023-03-11 03:41:23",
+    "modifiedAt" : "2023-03-11 03:41:23",
     "nickname" : "foreverYoung",
     "writtenByCurrentUser" : false
   } ]
@@ -4212,7 +4230,7 @@ Content-Length: 323
   "userId" : 1,
   "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
   "createdAt" : "2023-03-07 10:20:00",
-  "modifiedAt" : "2023-03-10 15:50:22",
+  "modifiedAt" : "2023-03-11 03:41:23",
   "nickname" : "티나",
   "writtenByCurrentUser" : true
 }</code></pre>
@@ -4313,8 +4331,8 @@ Host: localhost:8080
 {
   "bookId" : 123,
   "title" : "소모임 화이팅",
-  "startDate" : "2023-03-10",
-  "endDate" : "2023-03-12",
+  "startDate" : "2023-03-11",
+  "endDate" : "2023-03-13",
   "maxMemberCount" : 5,
   "introduce" : "우리끼리 옹기종기",
   "hasJoinPasswd" : true,
@@ -4523,7 +4541,7 @@ Host: localhost:8080
 {
   "title" : "책읽기 소모임",
   "introduce" : "변경하고 싶은 내용",
-  "endDate" : "2023-03-14",
+  "endDate" : "2023-03-15",
   "maxMemberCount" : 4
 }</code></pre>
 </div>
@@ -4786,8 +4804,8 @@ Content-Length: 580
   "bookGroupId" : 999,
   "title" : "김영한님 JPA 읽으실분",
   "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
-  "startDate" : "2023-03-11",
-  "endDate" : "2023-03-17",
+  "startDate" : "2023-03-12",
+  "endDate" : "2023-03-18",
   "hasJoinPasswd" : false,
   "joinQuestion" : "영한님 생일은?",
   "isPublic" : true,
@@ -5035,8 +5053,8 @@ Content-Length: 2659
     "bookGroupId" : 999,
     "title" : "모임999",
     "introduce" : "모임 999에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5055,8 +5073,8 @@ Content-Length: 2659
     "bookGroupId" : 997,
     "title" : "모임997",
     "introduce" : "모임 997에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5075,8 +5093,8 @@ Content-Length: 2659
     "bookGroupId" : 995,
     "title" : "모임995",
     "introduce" : "모임 995에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : true,
@@ -5095,8 +5113,8 @@ Content-Length: 2659
     "bookGroupId" : 994,
     "title" : "모임994",
     "introduce" : "모임 994에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : true,
@@ -5115,8 +5133,8 @@ Content-Length: 2659
     "bookGroupId" : 993,
     "title" : "모임993",
     "introduce" : "모임 993에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : false,
@@ -5380,8 +5398,8 @@ Content-Length: 2659
     "bookGroupId" : 999,
     "title" : "모임999",
     "introduce" : "모임 999에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5400,8 +5418,8 @@ Content-Length: 2659
     "bookGroupId" : 997,
     "title" : "모임997",
     "introduce" : "모임 997에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5420,8 +5438,8 @@ Content-Length: 2659
     "bookGroupId" : 995,
     "title" : "모임995",
     "introduce" : "모임 995에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : true,
@@ -5440,8 +5458,8 @@ Content-Length: 2659
     "bookGroupId" : 994,
     "title" : "모임994",
     "introduce" : "모임 994에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : true,
@@ -5460,8 +5478,8 @@ Content-Length: 2659
     "bookGroupId" : 993,
     "title" : "모임993",
     "introduce" : "모임 993에용",
-    "startDate" : "2023-03-10",
-    "endDate" : "2023-03-10",
+    "startDate" : "2023-03-11",
+    "endDate" : "2023-03-11",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : false,
@@ -5932,8 +5950,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 123,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-10 15:50:29",
-    "modifiedAt" : "2023-03-10 15:50:29",
+    "createdAt" : "2023-03-11 03:41:28",
+    "modifiedAt" : "2023-03-11 03:41:28",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -5943,8 +5961,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 234,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-10 15:50:29",
-    "modifiedAt" : "2023-03-10 15:50:29",
+    "createdAt" : "2023-03-11 03:41:28",
+    "modifiedAt" : "2023-03-11 03:41:28",
     "nickname" : "0Soo",
     "writtenByCurrentUser" : false
   }, {
@@ -5954,8 +5972,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 456,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-10 15:50:29",
-    "modifiedAt" : "2023-03-10 15:50:29",
+    "createdAt" : "2023-03-11 03:41:28",
+    "modifiedAt" : "2023-03-11 03:41:28",
     "nickname" : "youngijang",
     "writtenByCurrentUser" : false
   } ]
@@ -6178,7 +6196,7 @@ Content-Length: 334
   "userId" : 1,
   "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
   "createdAt" : "2023-03-07 12:11:00",
-  "modifiedAt" : "2023-03-10 15:50:29",
+  "modifiedAt" : "2023-03-11 03:41:28",
   "nickname" : "티나",
   "writtenByCurrentUser" : true
 }</code></pre>
@@ -7876,7 +7894,7 @@ Content-Length: 210
 <div id="footer">
 <div id="footer-text">
 Version 0.5.1<br>
-Last updated 2023-03-10 15:48:00 +0900
+Last updated 2023-03-11 03:37:28 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

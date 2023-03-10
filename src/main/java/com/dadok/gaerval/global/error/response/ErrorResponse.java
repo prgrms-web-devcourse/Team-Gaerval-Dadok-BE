@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public record ErrorResponse(
 	int status,
 	String message,
-
+	String code,
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	LocalDateTime timestamp,
 	List<FieldError> errors,
@@ -29,40 +29,46 @@ public record ErrorResponse(
 		}
 	}
 
-
 	public static ErrorResponse of(ErrorCode errorCode, String path) {
-		return new ErrorResponse(errorCode.getStatus().value(), errorCode.getMessage(), LocalDateTime.now(), null, path);
+		return new ErrorResponse(errorCode.getStatus().value(), errorCode.getMessage(), errorCode.getCode(),
+			LocalDateTime.now(), null, path);
+	}
+
+	public static ErrorResponse of(ErrorCode errorCode, List<FieldError> errors, String path) {
+		return new ErrorResponse(errorCode.getStatus().value(), errorCode.getMessage(), errorCode.getCode(),
+			LocalDateTime.now(), errors, path);
 	}
 
 	public static ErrorResponse of(HttpStatus status, String message, String path) {
-		return new ErrorResponse(status.value(), message, LocalDateTime.now(), null, path);
+		return new ErrorResponse(status.value(), message, null, LocalDateTime.now(), null, path);
 	}
 
-	public static ErrorResponse of(HttpStatus status, String message, String path,
-		List<FieldError> errors) {
-		return new ErrorResponse(status.value(), message, LocalDateTime.now(), errors, path);
+	public static ErrorResponse of(ErrorCode errorCode, String message, String path) {
+		return new ErrorResponse(errorCode.getStatus().value(), message, errorCode.getCode(),
+			LocalDateTime.now(), null, path);
 	}
+
 
 	public static ErrorResponse badRequest(String message, String path, List<FieldError> errors) {
-		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message,
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message, null,
 			LocalDateTime.now(), errors, path);
 	}
 
 	public static ErrorResponse badRequest(String message, String path) {
-		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message,
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message, null,
 			LocalDateTime.now(), null, path);
 	}
 
 	public static ErrorResponse notFound(String message, String path, List<FieldError> errors) {
-		return new ErrorResponse(HttpStatus.NOT_FOUND.value(), message, LocalDateTime.now(), errors, path);
+		return new ErrorResponse(HttpStatus.NOT_FOUND.value(), message, null, LocalDateTime.now(), errors, path);
 	}
 
 	public static ErrorResponse unAuthorized(String message, String path, List<FieldError> errors) {
-		return new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), message, LocalDateTime.now(), errors, path);
+		return new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), message, null, LocalDateTime.now(), errors, path);
 	}
 
 	public static ErrorResponse forbidden(String message, String path, List<FieldError> errors) {
-		return new ErrorResponse(HttpStatus.FORBIDDEN.value(), message, LocalDateTime.now(), errors, path);
+		return new ErrorResponse(HttpStatus.FORBIDDEN.value(), message, null, LocalDateTime.now(), errors, path);
 	}
 
 }

@@ -1,0 +1,16 @@
+Type : 'code'
+
+- 에러 코드.
+- cmd + f 또는 ctrl + f로 검색하셔서 찾을 수 있습니다.
+- Code : 약속된 코드명.
+
+|===
+| Code | 설명 및 메시지 | Http 상태 코드 | status 설명
+
+{{#fields}}
+|{{#tableCellContent}}{{code}}{{/tableCellContent}}
+|{{#tableCellContent}}{{message}}{{/tableCellContent}}
+|{{#tableCellContent}}{{statusCode}}{{/tableCellContent}}
+|{{#tableCellContent}}{{status}}{{/tableCellContent}}
+{{/fields}}
+|===

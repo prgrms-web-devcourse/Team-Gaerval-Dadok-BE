@@ -32,10 +32,18 @@
 | 배포 예정
 |===
 
+
+=== 에러 코드
+- 약속된 에러 코드입니다.
+
+- link:common/errorCode.html[에러 코드,role="popup"]
+
 === 공통 에러 응답 - ErrorResponse
 
 |===
 | 필드명 | 설명
+| `+code+`
+| 에러 코드 - link:common/errorCode.html[에러 코드,role="popup"]
 | `+status+`
 | HTTP Status
 | `+timestamp+`
@@ -46,7 +54,7 @@
 | 여러 필드가 잘못 되었을때의 필드 에러 정보
 
 | `+path+`
-| 요청 URL
+| 요청 URL 경로
 |===
 
 == Auth - 인증

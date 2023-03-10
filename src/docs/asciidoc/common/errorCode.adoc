@@ -1,0 +1,6 @@
+= ErrorCode Document
+:doctype: book
+:icons: font
+
+[[ErrorCode]]
+include::{snippets}/errorcode-response/errorcode-response-fields.adoc[]
