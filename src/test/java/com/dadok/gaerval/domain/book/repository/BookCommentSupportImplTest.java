@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.book.repository;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -51,10 +53,15 @@ class BookCommentSupportImplTest {
 
 		Book book = BookObjectProvider.createBook();
 		Book savedBook = bookRepository.save(book);
-		bookCommentRepository.save(BookCommentObjectProvider.create(savedUser, savedBook, BookCommentObjectProvider.comment1));
+		bookCommentRepository.save(
+			BookCommentObjectProvider.create(savedUser, savedBook, BookCommentObjectProvider.comment1));
 
 		BookCommentSearchRequest request = new BookCommentSearchRequest(10, null, null);
-		bookCommentRepository.findAllComments(savedBook.getId(), savedUser.getId(), request);
+		var res = bookCommentRepository.findAllComments(savedBook.getId(), savedUser.getId(), request);
+		assertEquals(res.bookComments().size(), 1);
+
+		res = bookCommentRepository.findAllComments(55L, savedUser.getId(), request);
+		assertEquals(res.bookComments().size(), 0);
 	}
 
 	@DisplayName("existsBy - 코멘트 존재 찾는 쿼리 테스트")
@@ -88,7 +95,8 @@ class BookCommentSupportImplTest {
 
 		Book book = BookObjectProvider.createBook();
 		Book savedBook = bookRepository.save(book);
-		bookCommentRepository.save(BookCommentObjectProvider.create(savedUser, savedBook, BookCommentObjectProvider.comment1));
+		bookCommentRepository.save(
+			BookCommentObjectProvider.create(savedUser, savedBook, BookCommentObjectProvider.comment1));
 
 		bookCommentRepository.updateBookComment(savedBook.getId(), savedUser.getId(),
 			BookCommentObjectProvider.createCommentUpdateRequest());
