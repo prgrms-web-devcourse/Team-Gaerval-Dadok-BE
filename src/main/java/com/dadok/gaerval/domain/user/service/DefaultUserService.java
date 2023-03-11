@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.service.JobService;
@@ -120,6 +121,8 @@ public class DefaultUserService implements UserService {
 				log.warn("닉네임 중복 예외. {} - {} ", e.getClass().getName(), e.getMessage());
 				throw new DuplicateNicknameException(e);
 			}
+			Bookshelf bookshelf = bookshelfService.getByUserId(user.getId());
+			bookshelf.changeName(user.getNickname());
 		}
 
 		UserJobChangeRequest jobRequest = request.job();

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.user.entity.User;
+import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.util.CommonValidator;
@@ -110,4 +111,10 @@ public class Bookshelf extends BaseTimeColumn {
 	public int hashCode() {
 		return Objects.hash(id, name, isPublic, user, jobId);
 	}
+
+	public void changeName(Nickname nickname) {
+		CommonValidator.validateNotnull(nickname, "nickname");
+		this.name = nickname.nickname() + "님의 책장";
+	}
+
 }

@@ -3,6 +3,8 @@ package com.dadok.gaerval.domain.bookshelf.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -170,6 +172,13 @@ public class DefaultBookshelfService implements BookshelfService {
 		}
 
 		return Optional.empty();
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Bookshelf getByUserId(Long userId) {
+		return bookshelfRepository.findByUserId(userId)
+			.orElseThrow(EntityNotFoundException::new);
 	}
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {

@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -351,8 +352,9 @@ class DefaultUserServiceSliceTest {
 		//given
 		User user = UserObjectProvider.createKakaoUser();
 		Long userId = 1L;
+		user.changeNickname(new Nickname("다독이에요"));
 		ReflectionTestUtils.setField(user, "id", userId);
-
+		Bookshelf bookshelf = Bookshelf.create(user);
 		JobGroup development = JobGroup.DEVELOPMENT;
 		JobGroup.JobName backendDeveloper = JobGroup.JobName.BACKEND_DEVELOPER;
 		Job backendJob = JobObjectProvider.backendJob();
@@ -371,6 +373,9 @@ class DefaultUserServiceSliceTest {
 		Nickname nickname = new Nickname(changeNickname);
 		given(userRepository.existsByNickname(nickname))
 			.willReturn(false);
+
+		given(bookshelfService.getByUserId(userId))
+			.willReturn(bookshelf);
 
 		willDoNothing().given(bookshelfService)
 			.updateJobIdByUserId(user, backendJob.getId());
@@ -397,10 +402,12 @@ class DefaultUserServiceSliceTest {
 			.hasFieldOrPropertyWithValue("jobName", backendDeveloper)
 			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
 
+		assertEquals(bookshelf.getName(), user.getNickname().nickname() + "님의 책장");
 		verify(userRepository).getReferenceById(userId);
 		verify(jobService).getBy(development, backendDeveloper);
 		verify(userRepository).existsByNickname(nickname);
 		verify(bookshelfService).updateJobIdByUserId(user, backendJob.getId());
+		verify(bookshelfService).getByUserId(userId);
 	}
 
 	@DisplayName("changeProfile - 변경요청이온 Nickname이 유저의 nickname이 같으면 Job만 바뀐다. ")
@@ -467,6 +474,7 @@ class DefaultUserServiceSliceTest {
 		Job backendJob = JobObjectProvider.backendJob();
 		user.changeJob(backendJob);
 		ReflectionTestUtils.setField(user, "id", userId);
+		Bookshelf bookshelf = Bookshelf.create(user);
 
 		String changeNickname = "diffNick";
 		UserChangeProfileRequest request = new UserChangeProfileRequest(changeNickname,
@@ -482,6 +490,8 @@ class DefaultUserServiceSliceTest {
 		given(userRepository.existsByNickname(nickname))
 			.willReturn(false);
 
+		given(bookshelfService.getByUserId(userId))
+			.willReturn(bookshelf);
 		//when
 		UserDetailResponse response = defaultUserService.changeProfile(userId, request);
 
@@ -504,7 +514,12 @@ class DefaultUserServiceSliceTest {
 			.hasFieldOrPropertyWithValue("jobName", backendJob.getJobName())
 			.hasFieldOrPropertyWithValue("order", backendJob.getSortOrder());
 
+		assertEquals(bookshelf.getName(), user.getNickname().nickname() + "님의 책장");
 		verify(userRepository).getReferenceById(userId);
+		verify(jobService).getBy(backendJob.getJobGroup(), backendJob.getJobName());
+
+		verify(userRepository).existsByNickname(nickname);
+		verify(bookshelfService).getByUserId(userId);
 	}
 
 	@DisplayName("changeProfile - 닉네임 중복 예외가 발생한다. ")

@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.LockTimeoutException;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +66,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
 
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleEntityNotFoundException(
+		EntityNotFoundException e, HttpServletRequest request
+	) {
+		logError(e, request.getRequestURI());
+		slackService.sendError(e, request.getRequestURI());
+
+		return badRequest("관리자에게 문의하세요", request.getRequestURI());
+	}
 	@ExceptionHandler(LockTimeoutException.class)
 	public ResponseEntity<ErrorResponse> handleLockTimeoutException(
 		LockTimeoutException e, HttpServletRequest request

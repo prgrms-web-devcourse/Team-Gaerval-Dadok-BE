@@ -40,4 +40,6 @@ public interface BookshelfService {
 	BookShelfDetailResponse findBookShelfById(Long bookshelfId);
 
 	Optional<Long> insertIfNotPresent(Long userId, Long bookId);
+
+	Bookshelf getByUserId(Long userId);
 }
