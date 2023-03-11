@@ -40,6 +40,7 @@ import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.global.util.QueryDslUtil;
+import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
@@ -213,7 +214,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 	@Test
 	void findSuggestionBooks_success() throws Exception {
 		SuggestionsBookFindRequest request = new SuggestionsBookFindRequest(JobGroup.DEVELOPMENT, 10,
-			null, null);
+			95L, SortDirection.DESC);
 
 		List<SuggestionsBookFindResponse> suggestionsBookFindResponses = List.of(
 			new SuggestionsBookFindResponse(1L, "http://imageurl4.com"
@@ -249,7 +250,8 @@ class BookControllerSliceTest extends ControllerSliceTest {
 
 		params.add("jobGroup", JobGroup.DEVELOPMENT.name());
 		params.add("pageSize", request.pageSize().toString());
-		params.add("bookCursorId", null);
+		params.add("bookCursorId", String.valueOf(95));
+		params.add("sortDirection", SortDirection.DESC.name());
 
 		//when
 		mockMvc.perform(get("/api/books/suggestions")
@@ -272,7 +274,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							constrainsAttribute(SuggestionsBookFindRequest.class, "pageSize")
 						),
-					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
+					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 null이고 DESC면 가장 최근 데이터.").optional(),
 					parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
 						.description("정렬 방식 : " +
 							generateLinkCode(DocUrl.SORT_DIRECTION)
