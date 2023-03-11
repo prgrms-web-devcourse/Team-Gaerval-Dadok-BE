@@ -62,7 +62,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 	@WithMockCustomOAuth2LoginUser
 	void findSuggestionBookshelvesByJobGroup() throws Exception {
 		// Given
-		String jobGroup = JobGroup.DEVELOPMENT.getDescription();
+		var jobGroup = JobGroup.DEVELOPMENT;
 		SuggestionBookshelvesByJobGroupResponses responses = new SuggestionBookshelvesByJobGroupResponses(
 			jobGroup, List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 				List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
@@ -86,10 +86,10 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.accept(MediaType.APPLICATION_JSON)
-				.param("job_group", jobGroup)
+				.param("job_group", jobGroup.getName())
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
-			.andExpect(jsonPath("$.jobGroup").value(jobGroup))
+			.andExpect(jsonPath("$.jobGroup").value(jobGroup.getName()))
 			.andExpect(jsonPath("$.bookshelfResponses[*].bookshelfName").exists())
 			.andExpect(jsonPath("$.bookshelfResponses[*].bookshelfId").exists())
 			.andExpect(jsonPath("$.bookshelfResponses[*].books[*].bookId").exists())
@@ -104,7 +104,6 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				requestParameters(
 					parameterWithName("job_group").description(
 						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)
-							+ " (한글 코드명 입력)"
 					)
 				),
 				responseFields(

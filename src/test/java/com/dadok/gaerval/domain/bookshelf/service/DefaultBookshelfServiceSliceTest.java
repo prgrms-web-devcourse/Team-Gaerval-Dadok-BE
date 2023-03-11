@@ -12,8 +12,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -40,7 +38,6 @@ import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
-import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookObjectProvider;
@@ -316,7 +313,7 @@ class DefaultBookshelfServiceSliceTest {
 	@Test
 	void findSuggestionBookshelvesByJobGroup_success() {
 		// Given
-		String jobGroup = JobGroup.HR.getDescription();
+		var jobGroup = JobGroup.HR;
 
 		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
@@ -360,16 +357,6 @@ class DefaultBookshelfServiceSliceTest {
 
 		assertThat(responses.bookshelfResponses()).hasSize(1);
 		assertThat(responses.bookshelfResponses().get(0).books()).hasSize(1);
-	}
-
-	@DisplayName("findSuggestionBookshelvesByJobGroup- 존재하지 않은 직업군의 책장 리스트 조회 - 실패")
-	@ParameterizedTest
-	@ValueSource(strings = {"개 발 ", "백수", "노 직군", "영지", "다독"})
-	void findSuggestionBookshelvesByJobGroup_JobGroupNotExist_fail(String jobGroup) {
-
-		assertThrows(InvalidArgumentException.class,
-			() -> bookshelfService.findSuggestionBookshelvesByJobGroup(user.getId(), jobGroup));
-
 	}
 
 	@DisplayName("findSummaryBookshelf - userId를 입력받야 책장 요약 데이터 조회 - 성공")
