@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegexHelper {
 
-	public final static String NICKNAME_REGEX = "^[가-힣0-9a-zA-Z]{2,10}$";
+	public static final String NICKNAME_REGEX = "^[가-힣0-9a-zA-Z]{2,10}$";
 
-	public final static String WHITE_SPACE_REGEX =  "(^\\s*$)|(^.*?(?=\\S)(?<!\\s)$)|(^.*?(?=\\S)(?!\\s$).*$)";;
+	public static final String WHITE_SPACE_REGEX = "(^\\s*$)|(^.*?(?=\\S)(?<!\\s)$)|(^.*?(?=\\S)(?!\\s$).*$)";
+	;
 
 	public static void validateNickname(String nickname) {
 

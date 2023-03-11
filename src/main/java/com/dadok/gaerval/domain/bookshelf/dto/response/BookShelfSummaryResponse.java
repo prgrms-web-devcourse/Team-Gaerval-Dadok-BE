@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public record BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books) {
 
-	final static int BOOK_VIEW_LIMIT = 4;
+	static final int BOOK_VIEW_LIMIT = 4;
 
 	public BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books) {
 		this.bookshelfId = bookshelfId;

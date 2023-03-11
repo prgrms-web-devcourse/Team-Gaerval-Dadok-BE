@@ -116,7 +116,7 @@ public class BookGroup extends BaseTimeColumn {
 		this.book = book;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.maxMemberCount = maxMemberCount;
+		this.maxMemberCount = maxMemberCount == null ? NO_LIMIT_MEMBER_COUNT : maxMemberCount;
 		this.introduce = introduce;
 		this.hasJoinPasswd = hasJoinPasswd;
 		this.title = title;
@@ -133,9 +133,7 @@ public class BookGroup extends BaseTimeColumn {
 	}
 
 	private void validateMaxMemberCount(Integer maxMemberCount) {
-		if (maxMemberCount == null) {
-			this.maxMemberCount = NO_LIMIT_MEMBER_COUNT;
-		} else {
+		if (maxMemberCount != null) {
 			Assert.isTrue(maxMemberCount >= 1, "모임의 최대 인원수는 자신 포함 1명 이상이여야합니다.");
 			if (maxMemberCount < this.groupMembers.size()) {
 				throw new LessThanCurrentMembersException(this.groupMembers.size());
