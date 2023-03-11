@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.book_group.service;
 
+import static com.dadok.gaerval.domain.book_group.entity.BookGroup.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -14,6 +16,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
@@ -23,6 +26,7 @@ import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
+import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
 import com.dadok.gaerval.integration_util.ServiceIntegration;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.TestTimeHolder;
@@ -58,6 +62,69 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	}
 
 	@Transactional
+	@DisplayName("모임을 생성할 수 있다.")
+	@Test
+	void create_success() {
+		//given
+		BookGroupCreateRequest bookGroupCreateRequest =
+			new BookGroupCreateRequest(book.getId(), "영지네", LocalDate.now(), LocalDate.now().plusDays(7), 5, "영지랑 놀아요",
+				false, null, null, true);
+
+		User requestUser = saveUser("yougnji804@naver.com");
+
+		//when
+		Long bookGroupId = defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
+
+		//then
+		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroupId);
+
+		assertThat(findBookGroup.getTitle()).isEqualTo("영지네");
+		assertThat(findBookGroup.getMaxMemberCount()).isEqualTo(5);
+		assertThat(findBookGroup.getIntroduce()).isEqualTo("영지랑 놀아요");
+	}
+
+	@Transactional
+	@DisplayName("인원 제한 없음 모임을 생성할 수 있다.")
+	@Test
+	void create_noLimit_success() {
+		//given
+		BookGroupCreateRequest bookGroupCreateRequest =
+			new BookGroupCreateRequest(book.getId(), "영지네", LocalDate.now(), LocalDate.now().plusDays(7), null,
+				"영지랑 놀아요",
+				false, null, null, true);
+
+		User requestUser = saveUser("yougnji804@naver.com");
+
+		//when
+		Long bookGroupId = defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
+
+		//then
+		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroupId);
+
+		assertThat(findBookGroup.getTitle()).isEqualTo("영지네");
+		assertThat(findBookGroup.getMaxMemberCount()).isEqualTo(NO_LIMIT_MEMBER_COUNT);
+		assertThat(findBookGroup.getIntroduce()).isEqualTo("영지랑 놀아요");
+	}
+
+	@Transactional
+	@DisplayName("create - 잠금 모임 생성시 비밀번호, 질문 없을 경우 - 실패")
+	@Test
+	void create_noJoinQnA_fail() {
+		//given
+		BookGroupCreateRequest bookGroupCreateRequest =
+			new BookGroupCreateRequest(book.getId(), "영지네", LocalDate.now(), LocalDate.now().plusDays(7), null,
+				"영지랑 놀아요",
+				true, null, null, true);
+
+		User requestUser = saveUser("yougnji804@naver.com");
+
+		//when // then
+		assertThrows(InvalidArgumentException.class, () -> {
+			defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
+		});
+	}
+
+	@Transactional
 	@DisplayName("모임에 참여할 수 있다.")
 	@Test
 	void join_success() {
@@ -85,7 +152,7 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	}
 
 	@Transactional
-	@DisplayName("모임에 참여할 수 있다.")
+	@DisplayName("모임에 참여할 수 있다. - 비밀번호 ")
 	@Test
 	void join_passwd_success() {
 		//given
