@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,11 +37,12 @@ import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Tag("Integration Test")
 @Sql(scripts = {"/sql/job_data.sql", "/sql/authority_data.sql"})
 @Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Slf4j
 @Transactional
-class DefaultBookGroupServiceTest extends ServiceIntegration {
+class BookGroupServiceTest extends ServiceIntegration {
 
 	@Autowired
 	private DefaultBookGroupService defaultBookGroupService;
@@ -77,11 +80,12 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		Long bookGroupId = defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
 
 		//then
-		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroupId);
+		Optional<BookGroup> findBookGroup = bookGroupRepository.findById(bookGroupId);
 
-		assertThat(findBookGroup.getTitle()).isEqualTo("영지네");
-		assertThat(findBookGroup.getMaxMemberCount()).isEqualTo(5);
-		assertThat(findBookGroup.getIntroduce()).isEqualTo("영지랑 놀아요");
+		assertThat(findBookGroup.isPresent()).isTrue();
+		assertThat(findBookGroup.get().getTitle()).isEqualTo("영지네");
+		assertThat(findBookGroup.get().getMaxMemberCount()).isEqualTo(5);
+		assertThat(findBookGroup.get().getIntroduce()).isEqualTo("영지랑 놀아요");
 	}
 
 	@Transactional
@@ -100,11 +104,12 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		Long bookGroupId = defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
 
 		//then
-		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroupId);
+		Optional<BookGroup> findBookGroup = bookGroupRepository.findById(bookGroupId);
 
-		assertThat(findBookGroup.getTitle()).isEqualTo("영지네");
-		assertThat(findBookGroup.getMaxMemberCount()).isEqualTo(NO_LIMIT_MEMBER_COUNT);
-		assertThat(findBookGroup.getIntroduce()).isEqualTo("영지랑 놀아요");
+		assertThat(findBookGroup.isPresent()).isTrue();
+		assertThat(findBookGroup.get().getTitle()).isEqualTo("영지네");
+		assertThat(findBookGroup.get().getMaxMemberCount()).isEqualTo(NO_LIMIT_MEMBER_COUNT);
+		assertThat(findBookGroup.get().getIntroduce()).isEqualTo("영지랑 놀아요");
 	}
 
 	@Transactional
@@ -168,11 +173,13 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		defaultBookGroupService.join(bookGroup.getId(), requestUser.getId(), bookGroupJoinRequest);
 
 		//then
-		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroup.getId());
+		Optional<BookGroup> findBookGroup = bookGroupRepository.findById(bookGroup.getId());
 
-		int memberCount = findBookGroup.getGroupMembers().size();
+		assertThat(findBookGroup.isPresent()).isTrue();
+		int memberCount = findBookGroup.get().getGroupMembers().size();
 		assertEquals(2, memberCount);
-		boolean exists = groupMemberRepository.existsByBookGroupIdAndUserId(findBookGroup.getId(), requestUser.getId());
+		boolean exists = groupMemberRepository.existsByBookGroupIdAndUserId(findBookGroup.get().getId(),
+			requestUser.getId());
 		assertTrue(exists);
 	}
 
@@ -195,11 +202,13 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		defaultBookGroupService.join(bookGroup.getId(), requestUser.getId(), bookGroupJoinRequest);
 
 		//then
-		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroup.getId());
+		Optional<BookGroup> findBookGroup = bookGroupRepository.findById(bookGroup.getId());
 
-		int memberCount = findBookGroup.getGroupMembers().size();
+		assertThat(findBookGroup.isPresent()).isTrue();
+		int memberCount = findBookGroup.get().getGroupMembers().size();
 		assertEquals(2, memberCount);
-		boolean exists = groupMemberRepository.existsByBookGroupIdAndUserId(findBookGroup.getId(), requestUser.getId());
+		boolean exists = groupMemberRepository.existsByBookGroupIdAndUserId(findBookGroup.get().getId(),
+			requestUser.getId());
 		assertTrue(exists);
 	}
 
