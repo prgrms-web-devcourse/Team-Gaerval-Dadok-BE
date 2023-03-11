@@ -108,6 +108,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				),
 				responseFields(
 					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군"),
+					fieldWithPath("JobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
