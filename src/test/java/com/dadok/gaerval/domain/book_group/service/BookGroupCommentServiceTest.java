@@ -29,7 +29,6 @@ import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @Tag("Integration Test")
-@Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class BookGroupCommentServiceTest extends ServiceIntegration {
 
 	@Autowired
@@ -69,6 +68,7 @@ class BookGroupCommentServiceTest extends ServiceIntegration {
 		}
 	}
 
+	@Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 	@DisplayName("코멘트의 내용이 바뀐다.")
 	@Test
 	void updateBookGroupComment_success() {
@@ -82,7 +82,7 @@ class BookGroupCommentServiceTest extends ServiceIntegration {
 		GroupComment findGroupComment = groupCommentRepository.findById(groupComment.getId()).get();
 		assertEquals(findGroupComment.getContents(), changedContents);
 	}
-
+	@Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 	@DisplayName("작성자가 아닌 사람이 요청하면, 예외를 던진다")
 	@Test
 	void updateBookGroupComment_throw() {
