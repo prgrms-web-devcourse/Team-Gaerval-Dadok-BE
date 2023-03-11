@@ -443,7 +443,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					pathParameters(
 						parameterWithName("groupId").description("모임 Id (bookGroup)")
 					),
-					requestFields(fieldWithPath("joinPassword").type(JsonFieldType.STRING).optional()
+					requestFields(fieldWithPath("joinPasswd").type(JsonFieldType.STRING).optional()
 						.description("모임 비밀번호. "
 							+ "\n 설정되어있지 않다면 null 가능"))
 				)

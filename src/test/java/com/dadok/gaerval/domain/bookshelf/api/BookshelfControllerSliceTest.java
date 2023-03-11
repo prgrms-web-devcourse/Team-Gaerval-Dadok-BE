@@ -64,7 +64,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		// Given
 		var jobGroup = JobGroup.DEVELOPMENT;
 		SuggestionBookshelvesByJobGroupResponses responses = new SuggestionBookshelvesByJobGroupResponses(
-			jobGroup, List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+			jobGroup, jobGroup.getGroupName(), List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 				List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
@@ -108,6 +108,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				),
 				responseFields(
 					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군"),
+					fieldWithPath("JobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),

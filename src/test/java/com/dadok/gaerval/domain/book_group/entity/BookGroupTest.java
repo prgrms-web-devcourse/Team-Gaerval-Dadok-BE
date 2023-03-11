@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -84,7 +85,7 @@ class BookGroupTest {
 			BookGroup.create(null, book, LocalDate.now(), LocalDate.now(), 2,
 				"작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임 작은 모임",
 				"작은 모임", true, "월든 작가는?", "헨리데이빗소로우", true,
-				passwordEncoder,timeHolder);
+				passwordEncoder, timeHolder);
 		});
 	}
 
@@ -327,8 +328,8 @@ class BookGroupTest {
 
 	@DisplayName("checkPasswd - 입력된 패스워드가 빈값이라면 예외를 던진다")
 	@ParameterizedTest
-	@NullAndEmptySource
-	void checkPasswd_inputPasswdNull_fail(String passwd) {
+	@EmptySource
+	void checkPasswd_inputPasswdBlank_fail(String passwd) {
 		//given
 		BookGroup bookGroup = BookGroup.create(
 			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
@@ -336,6 +337,20 @@ class BookGroupTest {
 			true, "숫자 일이삼사", "1234", false, passwordEncoder, timeHolder);
 		//when
 		assertThrows(NotMatchedPasswordException.class,
+			() -> bookGroup.checkPasswd(passwd, passwordEncoder));
+	}
+
+	@DisplayName("checkPasswd - 입력된 패스워드가 null값이라면 예외를 던진다")
+	@ParameterizedTest
+	@NullSource
+	void checkPasswd_inputPasswdNull_fail(String passwd) {
+		//given
+		BookGroup bookGroup = BookGroup.create(
+			1L, book, LocalDate.now(), LocalDate.now().plusDays(2),
+			1, "책읽기 소모임", "책읽기 소모임",
+			true, "숫자 일이삼사", "1234", false, passwordEncoder, timeHolder);
+		//when
+		assertThrows(IllegalArgumentException.class,
 			() -> bookGroup.checkPasswd(passwd, passwordEncoder));
 	}
 

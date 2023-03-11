@@ -49,7 +49,8 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	void setUp() {
 		Book book = BookObjectProvider.createBook();
 		this.book = bookRepository.save(book);
-		User owner = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(getAuthority(Role.USER)));
+		User owner = User.createByOAuth(UserObjectProvider.naverAttribute(),
+			UserAuthority.create(getAuthority(Role.USER)));
 		ReflectionTestUtils.setField(owner, "email", "testEmail1234@naver.com");
 		this.owner = userRepository.save(owner);
 		Bookshelf bookshelf = Bookshelf.create(owner);
@@ -84,6 +85,33 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	}
 
 	@Transactional
+	@DisplayName("모임에 참여할 수 있다.")
+	@Test
+	void join_passwd_success() {
+		//given
+		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now(), LocalDate.now().plusDays(7),
+			5, "인원제한이 5명인 그룹", "인원제한이 5명인 그룹",
+			true, "질문", "답변", true,
+			new BCryptPasswordEncoder(), TestTimeHolder.now());
+		bookGroup.addMember(GroupMember.create(owner), TestTimeHolder.now());
+		bookGroupRepository.save(bookGroup);
+
+		User requestUser = saveUser("ysking@naver.com");
+
+		BookGroupJoinRequest bookGroupJoinRequest = new BookGroupJoinRequest("답변");
+		//when
+		defaultBookGroupService.join(bookGroup.getId(), requestUser.getId(), bookGroupJoinRequest);
+
+		//then
+		BookGroup findBookGroup = bookGroupRepository.getReferenceById(bookGroup.getId());
+
+		int memberCount = findBookGroup.getGroupMembers().size();
+		assertEquals(2, memberCount);
+		boolean exists = groupMemberRepository.existsByBookGroupIdAndUserId(findBookGroup.getId(), requestUser.getId());
+		assertTrue(exists);
+	}
+
+	@Transactional
 	@DisplayName("인원이 가득 찬 모임에 참여할 수 없다.")
 	@Test
 	void cant_join_success() {
@@ -100,8 +128,8 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		BookGroupJoinRequest bookGroupJoinRequest = new BookGroupJoinRequest(null);
 		//when
 		assertThrows(ExceedLimitMemberException.class, () ->
-				defaultBookGroupService.join(bookGroup.getId(), requestUser.getId(), bookGroupJoinRequest)
-			);
+			defaultBookGroupService.join(bookGroup.getId(), requestUser.getId(), bookGroupJoinRequest)
+		);
 
 		//then
 		assertEquals(bookGroup.getGroupMembers().size(), bookGroup.getMaxMemberCount());
@@ -139,10 +167,12 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	@Test
 	void cant_join_expiration() {
 		//given
-		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now().minusDays(7), LocalDate.now().minusDays(1),
+		BookGroup bookGroup = BookGroup.create(owner.getId(), book, LocalDate.now().minusDays(7),
+			LocalDate.now().minusDays(1),
 			2, "인원제한이 2명인 그룹", "인원제한이 2명인 그룹",
 			false, null, null, true,
-			new BCryptPasswordEncoder(), new TestTimeHolder(TestTimeHolder.localDateToClockStartOfDay(LocalDate.now().minusDays(8))));
+			new BCryptPasswordEncoder(),
+			new TestTimeHolder(TestTimeHolder.localDateToClockStartOfDay(LocalDate.now().minusDays(8))));
 		bookGroup.addMember(GroupMember.create(owner), TestTimeHolder.of(LocalDate.now().minusDays(5)));
 		bookGroupRepository.save(bookGroup);
 
@@ -159,7 +189,8 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 	}
 
 	private User saveUser(String email) {
-		User requestUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(getAuthority(Role.USER)));
+		User requestUser = User.createByOAuth(UserObjectProvider.naverAttribute(),
+			UserAuthority.create(getAuthority(Role.USER)));
 		ReflectionTestUtils.setField(requestUser, "email", email);
 		userRepository.save(requestUser);
 		Bookshelf requestUserBookshelf = Bookshelf.create(requestUser);

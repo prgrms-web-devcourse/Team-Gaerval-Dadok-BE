@@ -214,7 +214,7 @@ public class BookGroup extends BaseTimeColumn {
 	}
 
 	public void checkPasswd(String joinPassword, PasswordEncoder passwordEncoder) {
-		if (this.hasJoinPasswd && !passwordEncoder.matches(this.joinPasswd, joinPassword)) {
+		if (this.hasJoinPasswd && !passwordEncoder.matches(joinPassword, this.joinPasswd)) {
 			throw new NotMatchedPasswordException();
 		}
 	}
