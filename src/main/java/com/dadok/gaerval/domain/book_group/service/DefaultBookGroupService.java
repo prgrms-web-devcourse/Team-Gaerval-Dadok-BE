@@ -82,7 +82,7 @@ public class DefaultBookGroupService implements BookGroupService {
 		BookGroup bookGroup = bookGroupRepository.findByIdWithGroupMembersForUpdate(groupId)
 			.orElseThrow(() -> new ResourceNotfoundException(BookGroup.class));
 
-		bookGroup.checkPasswd(request.joinPassword(), passwordEncoder);
+		bookGroup.checkPasswd(request.joinPasswd(), passwordEncoder);
 		User user = userService.getById(userId);
 
 		GroupMember groupMember = GroupMember.create(user);
