@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
+import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
@@ -122,6 +123,30 @@ class DefaultBookGroupServiceTest extends ServiceIntegration {
 		assertThrows(InvalidArgumentException.class, () -> {
 			defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
 		});
+	}
+
+	@Transactional
+	@DisplayName("인원 제한 없음 모임을 조회할 수 있다.")
+	@Test
+	void findGroup_success() {
+		//given
+		BookGroupCreateRequest bookGroupCreateRequest =
+			new BookGroupCreateRequest(book.getId(), "영지네", LocalDate.now(), LocalDate.now().plusDays(7), null,
+				"영지랑 놀아요",
+				false, null, null, true);
+
+		User requestUser = saveUser("yougnji804@naver.com");
+		Long bookGroupId = defaultBookGroupService.createBookGroup(requestUser.getId(), bookGroupCreateRequest);
+
+		//when
+		BookGroupDetailResponse bookGroupDetailResponse =
+			defaultBookGroupService.findGroup(requestUser.getId(), bookGroupId);
+
+		//then
+		assertThat(bookGroupDetailResponse.title()).isEqualTo("영지네");
+		assertThat(bookGroupDetailResponse.maxMemberCount()).isNull();
+		assertThat(bookGroupDetailResponse.isGroupMember()).isTrue();
+		assertThat(bookGroupDetailResponse.currentMemberCount()).isEqualTo(1);
 	}
 
 	@Transactional
