@@ -11,7 +11,7 @@ public record BookCommentResponses(
 	int count, // 결과 총 갯수
 	boolean isEmpty, // 반환 값이 0개인가
 
-	List<BookCommentResponse> bookGroupComments) {
+	List<BookCommentResponse> bookComments) {
 
 	public BookCommentResponses(Slice<BookCommentResponse> slice) {
 		this(slice.isFirst(), slice.isLast(), slice.hasNext(), slice.getNumberOfElements(), slice.isEmpty(),

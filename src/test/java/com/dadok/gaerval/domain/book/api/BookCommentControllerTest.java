@@ -108,16 +108,20 @@ class BookCommentControllerTest extends ControllerSliceTest {
 					fieldWithPath("isFirst").description("첫 번째 페이지 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
-					fieldWithPath("bookGroupComments[]").type(JsonFieldType.ARRAY).description("리뷰 목록"),
-					fieldWithPath("bookGroupComments[].commentId").type(JsonFieldType.NUMBER).description("코멘트 ID"),
-					fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("코멘트 내용"),
-					fieldWithPath("bookGroupComments[].bookId").type(JsonFieldType.NUMBER).description("코멘트가 속한 도서 ID"),
-					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("코멘트 작성자 ID"),
-					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING).description("코멘트 작성자 프로필 이미지 URL"),
-					fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.STRING).description("코멘트 작성 일자(yyyy-MM-dd HH:mm:ss)"),
-					fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.STRING).description("코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)"),
-					fieldWithPath("bookGroupComments[].nickname").type(JsonFieldType.STRING).description("코멘트 작성자 닉네임"),
-					fieldWithPath("bookGroupComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN).description("댓글 본인 여부")
+					fieldWithPath("bookComments[]").type(JsonFieldType.ARRAY).description("리뷰 목록"),
+					fieldWithPath("bookComments[].commentId").type(JsonFieldType.NUMBER).description("코멘트 ID"),
+					fieldWithPath("bookComments[].contents").type(JsonFieldType.STRING).description("코멘트 내용"),
+					fieldWithPath("bookComments[].bookId").type(JsonFieldType.NUMBER).description("코멘트가 속한 도서 ID"),
+					fieldWithPath("bookComments[].userId").type(JsonFieldType.NUMBER).description("코멘트 작성자 ID"),
+					fieldWithPath("bookComments[].userProfileImage").type(JsonFieldType.STRING)
+						.description("코멘트 작성자 프로필 이미지 URL"),
+					fieldWithPath("bookComments[].createdAt").type(JsonFieldType.STRING)
+						.description("코멘트 작성 일자(yyyy-MM-dd HH:mm:ss)"),
+					fieldWithPath("bookComments[].modifiedAt").type(JsonFieldType.STRING)
+						.description("코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)"),
+					fieldWithPath("bookComments[].nickname").type(JsonFieldType.STRING).description("코멘트 작성자 닉네임"),
+					fieldWithPath("bookComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN)
+						.description("댓글 본인 여부")
 				)
 			));
 
@@ -128,7 +132,6 @@ class BookCommentControllerTest extends ControllerSliceTest {
 			bookCommentSearchRequest
 		);
 	}
-
 
 	@DisplayName("saveBookComment - 새로운 책 댓글을 저장한다.")
 	@Test
@@ -173,14 +176,13 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		);
 	}
 
-
 	@DisplayName("modifyBookComment - 도서 댓글을 수정한다.")
 	@Test
 	void modifyBookComment_success() throws Exception {
 		// given
 		BookCommentUpdateRequest bookCommentUpdateRequest = new BookCommentUpdateRequest(1L, "좋대서 샀어yo(아직 못읽음 ㅜㅜ)");
 		BookCommentResponse expectedBookCommentResponse = new BookCommentResponse(1L, "좋대서 샀어yo(아직 못읽음 ㅜㅜ)", 1L, 1L,
-			UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3,7,10,20), LocalDateTime.now(), "티나", true);
+			UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 10, 20), LocalDateTime.now(), "티나", true);
 
 		given(bookCommentService.updateBookComment(
 			1L,
@@ -214,7 +216,8 @@ class BookCommentControllerTest extends ControllerSliceTest {
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("코멘트 작성자 ID"),
 					fieldWithPath("userProfileImage").type(JsonFieldType.STRING).description("코멘트 작성자 프로필 이미지 URL"),
 					fieldWithPath("createdAt").type(JsonFieldType.STRING).description("코멘트 작성 일자(yyyy-MM-dd HH:mm:ss)"),
-					fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)"),
+					fieldWithPath("modifiedAt").type(JsonFieldType.STRING)
+						.description("코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)"),
 					fieldWithPath("nickname").type(JsonFieldType.STRING).description("코멘트 작성자 닉네임"),
 					fieldWithPath("writtenByCurrentUser").type(JsonFieldType.BOOLEAN).description("댓글 본인 여부")
 				)
@@ -228,7 +231,6 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		);
 	}
 
-
 	@DisplayName("댓글 삭제에 성공한다.")
 	@Test
 	void deleteBookComment_ShouldReturnOk() throws Exception {
@@ -239,7 +241,6 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(CommentId);
 
 		doNothing().when(bookCommentService).deleteBookComment(bookId, 1L, request);
-
 
 		// when then
 		mockMvc.perform(delete("/api/books/{bookId}/comment", bookId)
@@ -266,7 +267,6 @@ class BookCommentControllerTest extends ControllerSliceTest {
 						)
 				)
 			));
-
 
 	}
 

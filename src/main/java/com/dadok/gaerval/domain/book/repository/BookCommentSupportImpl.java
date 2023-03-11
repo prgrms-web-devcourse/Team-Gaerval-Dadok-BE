@@ -52,7 +52,9 @@ public class BookCommentSupportImpl implements BookCommentSupport {
 			.innerJoin(user).on(user.id.eq(bookComment.user.id))
 			.innerJoin(book).on(book.id.eq(bookComment.book.id))
 			.where(
-				QueryDslUtil.generateCursorWhereCondition(bookComment.id, bookCommentSearchRequest.bookCommentCursorId(), direction)
+				QueryDslUtil.generateCursorWhereCondition(bookComment.id,
+					bookCommentSearchRequest.bookCommentCursorId(), direction),
+				QueryDslUtil.generateIdWhereCondition(book.id, bookId)
 			)
 			.orderBy(QueryDslUtil.getOrder(bookComment.id, direction))
 			.limit(bookCommentSearchRequest.pageSize() + 1)
@@ -104,7 +106,6 @@ public class BookCommentSupportImpl implements BookCommentSupport {
 
 		BooleanExpression commentBelongsToUser = bookComment.id.eq(bookCommentUpdateRequest.commentId())
 			.and(bookComment.user.id.eq(userId));
-
 
 		long updatedRows = queryFactory.update(bookComment)
 			.set(bookComment.comment, bookCommentUpdateRequest.comment())
