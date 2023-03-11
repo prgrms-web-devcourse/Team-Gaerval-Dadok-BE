@@ -27,6 +27,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
+import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -67,7 +68,7 @@ public class BookshelfController {
 		consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<SuggestionBookshelvesByJobGroupResponses> findSuggestionBookshelvesByJobGroup(
-		@RequestParam(name = "job_group") @NotBlank String jobGroup,
+		@RequestParam(name = "job_group") @NotBlank JobGroup jobGroup,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		Long userId = userPrincipal.getUserId();
