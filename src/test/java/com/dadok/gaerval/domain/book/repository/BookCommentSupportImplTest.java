@@ -53,12 +53,13 @@ class BookCommentSupportImplTest {
 
 		Book book = BookObjectProvider.createBook();
 		Book savedBook = bookRepository.save(book);
-		bookCommentRepository.save(
+		var comment = bookCommentRepository.save(
 			BookCommentObjectProvider.create(savedUser, savedBook, BookCommentObjectProvider.comment1));
 
 		BookCommentSearchRequest request = new BookCommentSearchRequest(10, null, null);
 		var res = bookCommentRepository.findAllComments(savedBook.getId(), savedUser.getId(), request);
 		assertEquals(res.bookComments().size(), 1);
+		assertEquals(res.bookComments().get(0).getContents(), comment.getComment());
 
 		res = bookCommentRepository.findAllComments(55L, savedUser.getId(), request);
 		assertEquals(res.bookComments().size(), 0);
