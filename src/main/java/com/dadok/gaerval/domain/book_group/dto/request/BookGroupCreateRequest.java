@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,8 @@ public record BookGroupCreateRequest(
 	LocalDate endDate,
 
 	@Nullable
-	@Min(value = 1, message = "maxMemberCount는 자신 포함 1명 이상이여야합니다.")
+	@Min(value = 1, message = "maxMemberCount는 자신 포함 최소 1명 이상이여야합니다.")
+	@Max(value = 9999, message = "maxMemberCount는 자신 포함 최대 9999명까지 가능합니다.")
 	Integer maxMemberCount,
 
 	@NotBlank(message = "introduce 입력되지않았습니다.")
