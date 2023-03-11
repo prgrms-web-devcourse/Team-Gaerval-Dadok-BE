@@ -42,6 +42,7 @@ class UserServiceTest extends ServiceIntegration {
 	private User kakaoUser;
 	private OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();
 	private Job backendJob;
+	private User naverUser;
 
 	@BeforeEach
 	void setUp() {
@@ -55,6 +56,20 @@ class UserServiceTest extends ServiceIntegration {
 		kakaoUser.changeJob(backendJob);
 		Bookshelf bookshelf = Bookshelf.create(kakaoUser);
 		bookshelfRepository.save(bookshelf);
+
+		User naverUser = User.createByOAuth(UserObjectProvider.dumAttributes(
+			AuthProvider.NAVER,
+			"cutedadok@naver.com", "cutedadok",
+			"https://image.dadokcdn.dadok.io/cute.jpg", "oauthId123"
+		), UserAuthority.create(authority));
+		naverUser.changeNickname(new Nickname("naverUser"));
+		Job frontendJob = jobRepository.findByJobGroupAndJobName(JobGroup.DEVELOPMENT,
+				JobGroup.JobName.FRONTEND_DEVELOPER)
+			.get();
+		naverUser.changeJob(frontendJob);
+		this.naverUser = userRepository.save(naverUser);
+		Bookshelf naverUserBookshelf = Bookshelf.create(naverUser);
+		bookshelfRepository.save(naverUserBookshelf);
 	}
 
 	@DisplayName("authority를 찾아 유저를 저장하고 반환한다 - 성공")
@@ -305,7 +320,7 @@ class UserServiceTest extends ServiceIntegration {
 		JobGroup jobGroup = beforeJob.getJobGroup();
 		JobGroup.JobName jobName = beforeJob.getJobName();
 
-		String existsNickname = "kakaoUser";
+		String existsNickname = naverUser.getNickname().nickname();
 
 		UserChangeProfileRequest request = new UserChangeProfileRequest(existsNickname,
 			new UserJobChangeRequest(jobGroup,

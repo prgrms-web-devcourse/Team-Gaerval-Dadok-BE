@@ -15,7 +15,6 @@ public class UserObjectProvider {
 	public static final String KAKAO_ATTRIBUTE_KEY = "id";
 	public static final String NAVER_ATTRIBUTE_KEY = "response";
 
-
 	public static final String USERNAME = "김다독";
 	public static final String NICKNAME = "책장왕다독이";
 	public static final String KAKAO_EMAIL = "dadok@kakao.com";
@@ -54,6 +53,50 @@ public class UserObjectProvider {
 		}
 
 		return attributes;
+	}
+
+	public static OAuth2Attribute dumAttributes(
+		AuthProvider authProvider,
+		String oauthEmail,
+		String nickname,
+		String profileImageUrl,
+		String oauthId) {
+
+		Map<String, Object> attributes = new HashMap<>();
+
+		switch (authProvider) {
+			case KAKAO -> {
+				Map<String, Object> kakaoAccount = new HashMap<>();
+				Map<String, Object> kakaoProfile = new HashMap<>();
+
+				kakaoAccount.put("email", oauthEmail);
+
+				kakaoProfile.put("nickname", nickname);
+				kakaoProfile.put("profile_image_url", profileImageUrl);
+
+				attributes.put("kakao_account", kakaoAccount);
+				kakaoAccount.put("profile", kakaoProfile);
+				attributes.put("id", oauthId);
+
+			}
+			case NAVER -> {
+				Map<String, Object> response = new HashMap<>();
+				response.put("name", nickname);
+				response.put("email", oauthEmail);
+				response.put("profile_image", profileImageUrl);
+				response.put("id", oauthId);
+				attributes.put("response", response);
+
+			}
+		}
+
+		String attributeKey =
+			switch (authProvider) {
+				case KAKAO -> "id";
+				case NAVER -> "response";
+			};
+
+		return OAuth2Attribute.of(authProvider, attributeKey, attributes);
 	}
 
 	public static User createKakaoUser() {
