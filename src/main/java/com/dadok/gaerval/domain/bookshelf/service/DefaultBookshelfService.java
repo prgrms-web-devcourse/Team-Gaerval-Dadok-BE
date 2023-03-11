@@ -64,7 +64,8 @@ public class DefaultBookshelfService implements BookshelfService {
 	public SuggestionBookshelvesByJobGroupResponses findSuggestionBookshelvesByJobGroup(Long userId,
 		JobGroup jobGroup) {
 		return new SuggestionBookshelvesByJobGroupResponses(
-			jobGroup, bookshelfRepository.findSuggestionsByJobGroup(jobGroup, userId, BOOKSHELF_VIEW_LIMIT));
+			jobGroup, jobGroup.getGroupName(),
+			bookshelfRepository.findSuggestionsByJobGroup(jobGroup, userId, BOOKSHELF_VIEW_LIMIT));
 	}
 
 	@Override
