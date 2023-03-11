@@ -1,5 +1,6 @@
 package com.dadok.gaerval.domain.book_group.entity;
 
+import static com.dadok.gaerval.domain.book_group.entity.BookGroup.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -55,7 +56,7 @@ class BookGroupTest {
 			null, "작은 모임", "작은 모임", true,
 			"월든 작가는?", "헨리데이빗소로우", true, passwordEncoder, timeHolder);
 
-		assertEquals(bookGroup.getMaxMemberCount(), 1000);
+		assertEquals(bookGroup.getMaxMemberCount(), NO_LIMIT_MEMBER_COUNT);
 	}
 
 	@DisplayName("create - maxCount가 1보다 작을경우 생성 - 실패")

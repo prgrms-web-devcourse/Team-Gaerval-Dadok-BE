@@ -51,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookGroup extends BaseTimeColumn {
 
-	public static final Integer NO_LIMIT_MEMBER_COUNT = 1000;
+	public static final Integer NO_LIMIT_MEMBER_COUNT = 9999;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
