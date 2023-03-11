@@ -26,9 +26,7 @@ class BookSupportImplTest {
 	void findSuggestionBooks_success() {
 		SuggestionsBookFindRequest suggestionsBookFindRequest = new SuggestionsBookFindRequest(JobGroup.DEVELOPMENT, 50,
 			null, null);
-
 		SuggestionsBookFindResponses suggestionBooks = bookRepository.findSuggestionBooks(suggestionsBookFindRequest);
-
 	}
 
 	@DisplayName("generateCursorId 테스트 - id = 999 Sort = null, PageSize = 10")

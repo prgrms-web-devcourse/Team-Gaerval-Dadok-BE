@@ -42,24 +42,23 @@ public class BookSupportImpl implements BookSupport {
 					book.publisher.as("publisher"),
 					book.url.as("url"),
 					job.jobGroup.as("jobGroup"),
-					job.jobName.as("jobName"),
 					bookshelfItem.book.id.count().as("count")
 				))
 			.from(bookshelfItem)
-			.innerJoin(bookshelfItem.book, book)
 			.innerJoin(bookshelfItem.bookshelf, bookshelf)
+			.innerJoin(bookshelfItem.book, book)
 			.innerJoin(job).on(job.id.eq(bookshelf.jobId))
 			.where(generateCursorId(request.bookCursorId(), direction),
 				job.jobGroup.eq(request.jobGroup())
 			)
 			.limit(request.pageSize() + 1)
-			.groupBy(bookshelfItem.book.id, job.jobName)
+			.groupBy(bookshelfItem.book.id, job.jobGroup)
 			.orderBy(bookshelfItem.book.id.count().desc())
 			.fetch();
 
 		Slice<SuggestionsBookFindResponse> books = QueryDslUtil.toSlice(bookFindResponses,
 			PageRequest.of(0, request.pageSize(),
-				Sort.by(direction, "book_id")));
+				Sort.by(direction, "bookshelfItem.book_id")));
 
 
 		return new SuggestionsBookFindResponses(books, request.jobGroup());
@@ -71,10 +70,10 @@ public class BookSupportImpl implements BookSupport {
 		}
 
 		if (direction == Sort.Direction.DESC) {
-			return book.id.lt(cursorId);
+			return bookshelfItem.book.id.lt(cursorId);
 		}
 
-		return book.id.gt(cursorId);
+		return bookshelfItem.book.id.gt(cursorId);
 	}
 
 }

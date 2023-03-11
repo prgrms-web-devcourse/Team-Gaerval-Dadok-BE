@@ -148,20 +148,16 @@ class DefaultBookServiceSliceTest {
 		List<SuggestionsBookFindResponse> suggestionsBookFindResponses = List.of(
 			new SuggestionsBookFindResponse(1L, "http://imageurl4.com"
 				, "jpa", "김영한", "123456789", "영진", "http://이미지링크4.com",
-				JobGroup.DEVELOPMENT.getGroupName(),
-				JobGroup.JobName.BACKEND_DEVELOPER.getJobName(), 10L),
+				JobGroup.DEVELOPMENT.getGroupName(),10L),
 			new SuggestionsBookFindResponse(99L, "http://imageurl5.com"
 				, "에스큐엘정복", "김도강", "123456789", "영풍", "http://이미지링크5.com",
-				JobGroup.DEVELOPMENT.getGroupName(),
-				JobGroup.JobName.BACKEND_DEVELOPER.getJobName(), 8L),
+				JobGroup.DEVELOPMENT.getGroupName(),8L),
 			new SuggestionsBookFindResponse(100L, "http://imageurl7.com"
 				, "나는 왜이렇게 귀여울까", "김별", "123456789", "교보", "http://이미지링크2.com",
-				JobGroup.DEVELOPMENT.getGroupName(),
-				JobGroup.JobName.BACKEND_DEVELOPER.getJobName(), 5L),
+				JobGroup.DEVELOPMENT.getGroupName(), 5L),
 			new SuggestionsBookFindResponse(10L, "http://imageurl4.com"
 				, "세상에서 김별이 제일 귀엽다", "강형욱", "123456789", "오렐리", "http://이미지링크3.com",
-				JobGroup.DEVELOPMENT.getGroupName(),
-				JobGroup.JobName.BACKEND_DEVELOPER.getJobName(), 1L)
+				JobGroup.DEVELOPMENT.getGroupName(), 1L)
 		);
 
 		Slice<SuggestionsBookFindResponse> bookFindResponses = QueryDslUtil.toSlice(suggestionsBookFindResponses,
