@@ -5,9 +5,11 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 
 import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.domain.book_group.repository.BookGroupCommentRepository;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfRepository;
@@ -64,6 +66,13 @@ public abstract class ServiceIntegration {
 	protected Authority getAuthority(Role role) {
 		return this.authorityRepository.getReferenceById(role);
 	}
+
+	@Autowired
+	protected PasswordEncoder passwordEncoder;
+
+	@Autowired
+	protected BookGroupCommentRepository groupCommentRepository;
+
 
 	// protected User kakaoUser;
 	//

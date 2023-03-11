@@ -9,7 +9,6 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateReq
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
-import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupComment;
@@ -80,15 +79,16 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 		return bookGroupCommentRepository.findById(id);
 	}
 
+	@Transactional
 	@Override
-	public BookGroupCommentResponse updateBookGroupComment(Long bookGroupId, Long userId,
-		BookGroupCommentUpdateRequest bookGroupCommentUpdateRequest) {
-		GroupComment groupComment = this.getById(bookGroupCommentUpdateRequest.commentId());
-		groupComment.changeContents(bookGroupCommentUpdateRequest.comment());
-		checkGroupMember(userId, bookGroupId);
-		return bookGroupCommentRepository.findGroupComment(bookGroupCommentUpdateRequest.commentId(), userId, bookGroupId);
+	public void updateBookGroupComment(Long bookGroupId, Long requestUserId,
+		Long commentId, BookGroupCommentUpdateRequest bookGroupCommentUpdateRequest) {
+
+		GroupComment groupComment = this.getById(commentId);
+		groupComment.changeContents(requestUserId, bookGroupCommentUpdateRequest.comment());
 	}
 
+	@Transactional
 	@Override
 	public void deleteBookGroupComment(Long bookGroupId, Long userId,
 		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {

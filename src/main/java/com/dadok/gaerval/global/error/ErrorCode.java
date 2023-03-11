@@ -42,7 +42,10 @@ public enum ErrorCode {
 	EXPIRED_JOIN_GROUP(HttpStatus.BAD_REQUEST, "BG5", "모임 가입 기간이 지났습니다."),
 	CANNOT_DELETE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "BG6", "멤버가 존재하는 모임은 삭제할 수 없습니다."),
 	LESS_THAN_CURRENT_MEMBERS(HttpStatus.BAD_REQUEST, "BG7", "모임 최대 인원은 현재 참여 인원(%s 명)보다 작을 수 없습니다"),
-	NOT_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.UNAUTHORIZED, "BG8", "모임에 참여하지않은 사용자 입니다.");
+	NOT_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.UNAUTHORIZED, "BG8", "모임에 참여하지않은 사용자 입니다."),
+	NOT_MATCHED_COMMENT_AUTHOR(HttpStatus.FORBIDDEN, "BGC9", "요청자가 작성한 코멘트가 아닙니다.")
+
+	;
 
 	private final HttpStatus status;
 
