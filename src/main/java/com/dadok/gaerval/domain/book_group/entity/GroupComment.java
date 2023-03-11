@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dadok.gaerval.domain.book_group.exception.InvalidCommentException;
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
 import com.dadok.gaerval.global.error.ErrorCode;
@@ -110,8 +111,11 @@ public class GroupComment extends BaseTimeColumn {
 		return this.parentComment != null;
 	}
 
-	public void changeContents(String contents) {
+	public void changeContents(Long requestUserId, String contents) {
 		validateLengthLessThen(contents, 2000, "contents");
+		if (!Objects.equals(this.user.getId(), requestUserId)) {
+			throw new NotMatchedCommentAuthorException();
+		}
 		this.contents = contents;
 	}
 }

@@ -90,18 +90,19 @@ public class BookGroupCommentController {
 	 * @return status : ok, BookGroupCommentResponse : 수정된 댓글 정보
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@PatchMapping(value = "/{groupId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PatchMapping(value = "/{groupId}/comments/{commentId}", consumes = APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookGroupCommentResponse> updateBookGroupComment(
 		@PathVariable Long groupId,
+		@PathVariable Long commentId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@RequestBody @Valid BookGroupCommentUpdateRequest bookGroupCommentUpdateRequest
 	) {
-		BookGroupCommentResponse bookGroupComment = bookGroupCommentService.updateBookGroupComment(groupId, userPrincipal.getUserId(),
+		bookGroupCommentService.updateBookGroupComment(groupId, userPrincipal.getUserId(),
+			commentId,
 			bookGroupCommentUpdateRequest);
 
-		return ResponseEntity.ok().body(bookGroupComment);
+		return ResponseEntity.ok().build();
 	}
-
 
 	/**
 	 * <Pre>
@@ -113,7 +114,7 @@ public class BookGroupCommentController {
 	 * @return status : ok
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@DeleteMapping(value = "/{groupId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/{groupId}/comments", consumes = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updateBookGroupComment(
 		@PathVariable Long groupId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,

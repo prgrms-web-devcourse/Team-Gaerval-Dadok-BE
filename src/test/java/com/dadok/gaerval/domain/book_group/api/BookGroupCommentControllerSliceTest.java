@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +34,6 @@ import com.dadok.gaerval.domain.book_group.service.BookGroupCommentService;
 import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookGroupCommentObjectProvider;
-import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
 
 @WebMvcTest(controllers = BookGroupCommentController.class)
@@ -166,18 +164,14 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		Long groupId = 234L;
 		Long bookGroupCommentId = 234L;
 		String modifiedComment = "이 책 싫어요";
-		BookGroupCommentUpdateRequest request = new BookGroupCommentUpdateRequest(123L,
-			modifiedComment);
+		BookGroupCommentUpdateRequest request = new BookGroupCommentUpdateRequest(modifiedComment);
 
-		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookGroupCommentId,
-			modifiedComment, groupId, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12, 11)
-			, LocalDateTime.now(), "티나", true);
+		willDoNothing().given(bookGroupCommentService)
+			.updateBookGroupComment(groupId, 1L, bookGroupCommentId, request);
 
-		given(bookGroupCommentService.updateBookGroupComment(groupId, 1L, request))
-			.willReturn(bookGroupCommentResponse);
 
 		// when then
-		mockMvc.perform(patch("/api/book-groups/{groupId}/comment", groupId)
+		mockMvc.perform(patch("/api/book-groups/{groupId}/comments/{commentId}", groupId, bookGroupCommentId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
@@ -191,22 +185,16 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
-					parameterWithName("groupId").description("모임 ID")
+					parameterWithName("groupId").description("모임 Id"),
+					parameterWithName("commentId").description("모임 댓글 Id")
 				),
 				requestFields(
-					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
-						.description("수정할 댓글 아이디")
-						.attributes(
-							constrainsAttribute(BookGroupCommentUpdateRequest.class, "commentId")
-						)
-					,
 					fieldWithPath("comment").type(JsonFieldType.STRING).description("수정할 댓글 내용")
 						.attributes(
 							constrainsAttribute(BookGroupCommentUpdateRequest.class, "comment")
 						)
 				)
 			));
-
 
 	}
 
@@ -224,7 +212,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 
 
 		// when then
-		mockMvc.perform(delete("/api/book-groups/{groupId}/comment", groupId)
+		mockMvc.perform(delete("/api/book-groups/{groupId}/comments", groupId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)

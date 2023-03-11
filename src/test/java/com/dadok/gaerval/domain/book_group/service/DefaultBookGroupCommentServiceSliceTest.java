@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
@@ -30,6 +31,7 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupComment;
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupCommentRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -41,7 +43,7 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBookGroupCommentServiceTest {
+class DefaultBookGroupCommentServiceSliceTest {
 
 	@InjectMocks
 	private DefaultBookGroupCommentService defaultBookGroupCommentService;
@@ -231,25 +233,53 @@ class DefaultBookGroupCommentServiceTest {
 	@Test
 	void updateBookGroupComment() {
 		String modifiedComment = "바꾼 댓글이에요";
-		BookGroupCommentUpdateRequest groupCommentUpdateRequest = new BookGroupCommentUpdateRequest(bookCommentId, modifiedComment);
+		BookGroupCommentUpdateRequest groupCommentUpdateRequest = new BookGroupCommentUpdateRequest(modifiedComment);
 		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment, 1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12,11)
 			, LocalDateTime.now(), "티나", true);
 
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
 		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
 			1L);
+
 		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
-			UserObjectProvider.createKakaoUser());
+			kakaoUser);
+
 		given(bookGroupCommentRepository.findById(bookCommentId))
 			.willReturn(Optional.of(groupComment));
-		given(bookGroupService.checkGroupMember(1L, 1L)).willReturn(true);
-		given(bookGroupCommentRepository.findGroupComment(bookCommentId, 1L, 1L))
-			.willReturn(bookGroupCommentResponse);
 
 		//when
-		BookGroupCommentResponse groupCommentUpdateResponse = defaultBookGroupCommentService.updateBookGroupComment(
-			1L, 1L, groupCommentUpdateRequest);
+		defaultBookGroupCommentService.updateBookGroupComment(
+			1L, kakaoUser.getId(), bookCommentId, groupCommentUpdateRequest);
 
-		assertEquals(modifiedComment, groupCommentUpdateResponse.getContents());
+		assertEquals(groupComment.getContents(), modifiedComment);
+	}
+
+	@DisplayName("updateBookGroupComment - 작성자가 아니므로 모임 댓글을 수정하는데 실패한다.")
+	@Test
+	void updateBookGroupComment_fail() {
+		String modifiedComment = "바꾼 댓글이에요";
+		BookGroupCommentUpdateRequest groupCommentUpdateRequest = new BookGroupCommentUpdateRequest(modifiedComment);
+		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment, 1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12,11)
+			, LocalDateTime.now(), "티나", true);
+
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		User naverUser = UserObjectProvider.createNaverUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
+		ReflectionTestUtils.setField(naverUser, "id", 2L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			1L);
+
+		GroupComment groupComment = BookGroupCommentObjectProvider.createSampleGroupComment(bookGroup,
+			kakaoUser);
+
+		given(bookGroupCommentRepository.findById(bookCommentId))
+			.willReturn(Optional.of(groupComment));
+
+		//when
+		assertThrows(NotMatchedCommentAuthorException.class,
+			() -> defaultBookGroupCommentService.updateBookGroupComment(
+				1L, naverUser.getId(), bookCommentId, groupCommentUpdateRequest));
 
 	}
 
