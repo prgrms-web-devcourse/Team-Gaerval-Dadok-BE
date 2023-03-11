@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Tag("Concurrency Integration Test")
 @Sql({"/sql/job_data.sql", "/sql/bookgroup/data-book_group_service.sql"})
-@Sql(scripts = {"/sql/bookgroup/clean.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Slf4j
 @SpringBootTest(properties = "spring.jpa.show-sql=false")
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration.class)
