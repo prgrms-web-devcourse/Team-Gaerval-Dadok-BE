@@ -32,8 +32,8 @@
 | 배포 예정
 |===
 
-
 === 에러 코드
+
 - 약속된 에러 코드입니다.
 
 - link:common/errorCode.html[에러 코드,role="popup"]
@@ -89,6 +89,7 @@ include::{snippets}/oauth2-test/oauth2-login/response-headers.adoc[]
 include::{snippets}/auth-controller-slice-test/refresh-access-token/http-request.adoc[]
 
 ==== Request Header Cookie
+
 include::{snippets}/auth-controller-slice-test/refresh-access-token/request-headers.adoc[]
 
 ==== Response
@@ -100,6 +101,7 @@ include::{snippets}/auth-controller-slice-test/refresh-access-token/http-respons
 include::{snippets}/auth-controller-slice-test/refresh-access-token/response-headers.adoc[]
 
 === 로그아웃 - logout
+
 - 로그아웃시 리프레시 토큰이 만료됩니다.
 - 액세스 토큰과 리프레시 토큰을 같이 보내주셔야 합니다.
 
@@ -108,9 +110,11 @@ include::{snippets}/auth-controller-slice-test/refresh-access-token/response-hea
 include::{snippets}/auth-controller-slice-test/logout/http-request.adoc[]
 
 ==== Request Header
+
 include::{snippets}/auth-controller-slice-test/logout/request-headers.adoc[]
 
 ==== Request Header Cookie
+
 include::{snippets}/auth-controller-slice-test/logout/cookie-request-headers.adoc[]
 
 ==== Response
@@ -120,7 +124,6 @@ include::{snippets}/auth-controller-slice-test/logout/http-response.adoc[]
 ==== Response Header
 
 include::{snippets}/auth-controller-slice-test/logout/response-headers.adoc[]
-
 
 == User - 유저
 
@@ -594,7 +597,6 @@ include::{snippets}/book-comment-controller-test/modify-book-comment_success/htt
 
 include::{snippets}/book-comment-controller-test/modify-book-comment_success/response-fields.adoc[]
 
-
 === 책 리뷰 삭제
 
 ==== Request
@@ -609,14 +611,9 @@ include::{snippets}/book-comment-controller-test/delete-book-comment_-should-ret
 
 include::{snippets}/book-comment-controller-test/delete-book-comment_-should-return-ok/path-parameters.adoc[]
 
-==== Request Body
-
-include::{snippets}/book-comment-controller-test/delete-book-comment_-should-return-ok/request-fields.adoc[]
-
 ==== Response
 
 include::{snippets}/book-comment-controller-test/delete-book-comment_-should-return-ok/http-response.adoc[]
-
 
 == BookGroup - 모임
 
