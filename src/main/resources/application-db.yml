@@ -9,7 +9,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: ${HIBERNATE_DDL_AUTO}
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         dialect: ${HIBERNATE_DIALECT}
@@ -22,7 +22,6 @@ spring:
     init:
       schema-locations:
         - classpath:sql/oauth2_authorized_client.sql
-#        - classpath:org/springframework/security/oauth2/client/oauth2-client-schema.sql
       encoding: UTF-8
       mode: always
 
