@@ -61,12 +61,12 @@ public class BookCommentServiceTest extends IntegrationTest {
 		BookCommentSearchRequest request = new BookCommentSearchRequest(5, null, SortDirection.DESC);
 		//when
 		BookCommentResponses responses = bookCommentService.findBookCommentsBy(book.getId(),
-			user.getId(), request);
+			null, request);
 		//then
 		assertEquals(responses.count(), 1);
 		assertEquals(responses.bookComments().get(0).getContents(), bookComment.getComment());
 		assertEquals(responses.bookComments().get(0).getNickname(), user.getNickname().nickname());
-		assertEquals(responses.bookComments().get(0).getWrittenByCurrentUser(), true);
+		assertEquals(responses.bookComments().get(0).getWrittenByCurrentUser(), false);
 	}
 
 }
