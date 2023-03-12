@@ -28,6 +28,7 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupIdResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.service.BookGroupService;
+import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -68,11 +69,11 @@ public class BookGroupController {
 		return ResponseEntity.created(URI.create(redirectUri)).body(new BookGroupIdResponse(bookGroupId));
 	}
 
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/{groupId}")
 	public ResponseEntity<BookGroupDetailResponse> findBookGroup(
 		@PathVariable Long groupId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+		@CurrentUserPrincipal UserPrincipal userPrincipal) {
 		return ResponseEntity.ok(bookGroupService.findGroup(userPrincipal.getUserId(), groupId));
 	}
 

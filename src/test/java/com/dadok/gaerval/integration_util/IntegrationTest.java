@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.auth.repository.RefreshTokenRepository;
 import com.dadok.gaerval.domain.auth.service.RefreshTokenService;
+import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupCommentRepository;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
@@ -70,6 +71,9 @@ public abstract class IntegrationTest {
 	protected BookRepository bookRepository;
 
 	@Autowired
+	protected BookCommentRepository bookCommentRepository;
+
+	@Autowired
 	protected BookGroupRepository bookGroupRepository;
 
 	@Autowired
@@ -93,7 +97,6 @@ public abstract class IntegrationTest {
 
 	@Autowired
 	private RedisConnectionFactory redisConnectionFactory;
-
 
 	protected void redisCleanUp() {
 		RedisConnection connection = redisConnectionFactory.getConnection();

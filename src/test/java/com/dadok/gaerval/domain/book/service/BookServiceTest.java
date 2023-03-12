@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBookServiceTest {
+class BookServiceTest {
 
 	@Mock
 	private ExternalBookApiOperations externalBookApiOperations;

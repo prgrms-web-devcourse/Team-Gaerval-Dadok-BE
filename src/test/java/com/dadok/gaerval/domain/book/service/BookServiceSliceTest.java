@@ -35,7 +35,7 @@ import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBookServiceSliceTest {
+class BookServiceSliceTest {
 
 	@InjectMocks
 	private DefaultBookService defaultBookService;

@@ -20,13 +20,13 @@ public class UserPrincipal
 
 	private Map<String, Object> attributes;
 
-	private UserPrincipal(Long userId, Collection<GrantedAuthority> authorities) {
+	protected UserPrincipal(Long userId, Collection<GrantedAuthority> authorities) {
 		super(userId.toString(), "", authorities);
 		this.userId = userId;
 		this.authorities = authorities;
 	}
 
-	private UserPrincipal(Long userId, String accessToken, Collection<GrantedAuthority> authorities) {
+	protected UserPrincipal(Long userId, String accessToken, Collection<GrantedAuthority> authorities) {
 		super(userId.toString(), "", authorities);
 		this.userId = userId;
 		this.authorities = authorities;

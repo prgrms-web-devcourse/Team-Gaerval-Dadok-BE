@@ -1,4 +1,4 @@
- package com.dadok.gaerval.domain.book.service;
+package com.dadok.gaerval.domain.book.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -35,7 +35,7 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBookCommentServiceTest {
+class BookCommentServiceSliceTest {
 
 	@Mock
 	private BookCommentRepository bookCommentRepository;
@@ -130,7 +130,7 @@ class DefaultBookCommentServiceTest {
 			bookGroupCommentDeleteRequest);
 
 		// then
-		verify(bookCommentRepository).findByBookIdAndUserId(1L,1L);
+		verify(bookCommentRepository).findByBookIdAndUserId(1L, 1L);
 		verify(bookCommentRepository).delete(comment);
 	}
 
@@ -207,14 +207,12 @@ class DefaultBookCommentServiceTest {
 
 		List<BookCommentResponse> bookComments = BookCommentObjectProvider.createMockResponses();
 
-
 		Slice<BookCommentResponse> bookFindResponses = QueryDslUtil.toSlice(bookComments,
 			PageRequest.of(0, 50, Sort.by(
 				Sort.Direction.DESC, "comment_id"
 			)));
 
-
-		given(bookCommentRepository.findAllComments(1L, 1L,bookCommentSearchRequest)).willReturn(
+		given(bookCommentRepository.findAllComments(1L, 1L, bookCommentSearchRequest)).willReturn(
 			new BookCommentResponses(bookFindResponses));
 
 		// when

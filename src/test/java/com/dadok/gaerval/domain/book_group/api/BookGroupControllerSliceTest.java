@@ -386,7 +386,6 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 					requestHeaders(
-						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
 					pathParameters(

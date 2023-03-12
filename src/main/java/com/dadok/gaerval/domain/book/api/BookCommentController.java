@@ -28,6 +28,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
+import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BookCommentController {
 
 	private final BookCommentService bookCommentService;
+
 	/**
 	 * <pre>
 	 *     도서 ID를 통해 코멘트 목록을 가져온다.
@@ -52,11 +54,12 @@ public class BookCommentController {
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS')")
 	public ResponseEntity<BookCommentResponses> findBookComments(
 		@PathVariable(name = "bookId") Long bookId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal,
-		@ModelAttribute  @Valid BookCommentSearchRequest bookCommentSearchRequest
+		@CurrentUserPrincipal UserPrincipal userPrincipal,
+		@ModelAttribute @Valid BookCommentSearchRequest bookCommentSearchRequest
 	) {
 		log.info("[BookCommentController]-[BookCommentResponses]-bookId : {}", bookId);
-		return ResponseEntity.ok().body(bookCommentService.findBookCommentsBy(bookId, userPrincipal.getUserId(), bookCommentSearchRequest));
+		return ResponseEntity.ok()
+			.body(bookCommentService.findBookCommentsBy(bookId, userPrincipal.getUserId(), bookCommentSearchRequest));
 	}
 
 	/**
@@ -73,13 +76,14 @@ public class BookCommentController {
 		@PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@Valid @RequestBody BookCommentCreateRequest bookCommentCreateRequest) {
-		log.info("[BookCommentController]-[BookCommentIdResponse]-bookCommentCreateRequest : {}", bookCommentCreateRequest);
-		Long commentId = bookCommentService.createBookComment(bookId, userPrincipal.getUserId(), bookCommentCreateRequest);
+		log.info("[BookCommentController]-[BookCommentIdResponse]-bookCommentCreateRequest : {}",
+			bookCommentCreateRequest);
+		Long commentId = bookCommentService.createBookComment(bookId, userPrincipal.getUserId(),
+			bookCommentCreateRequest);
 		String redirectUri =
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + commentId.toString();
 		return ResponseEntity.created(URI.create(redirectUri)).body(new BookCommentIdResponse(commentId));
 	}
-
 
 	/**
 	 * <pre>
@@ -96,10 +100,10 @@ public class BookCommentController {
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@Valid @RequestBody BookCommentUpdateRequest bookCommentUpdateRequest) {
 		log.info("[BookController]-[BookCommentResponse]-bookCommentUpdateRequest : {}", bookCommentUpdateRequest);
-		BookCommentResponse bookCommentResponse = bookCommentService.updateBookComment(bookId, userPrincipal.getUserId(), bookCommentUpdateRequest);
+		BookCommentResponse bookCommentResponse = bookCommentService.updateBookComment(bookId,
+			userPrincipal.getUserId(), bookCommentUpdateRequest);
 		return ResponseEntity.ok().body(bookCommentResponse);
 	}
-
 
 	/**
 	 * <pre>
@@ -115,7 +119,8 @@ public class BookCommentController {
 		@PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@Valid @RequestBody BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
-		log.info("[BookController]-[BookCommentResponse]-bookGroupCommentDeleteRequest : {}", bookGroupCommentDeleteRequest);
+		log.info("[BookController]-[BookCommentResponse]-bookGroupCommentDeleteRequest : {}",
+			bookGroupCommentDeleteRequest);
 		bookCommentService.deleteBookComment(bookId, userPrincipal.getUserId(), bookGroupCommentDeleteRequest);
 		return ResponseEntity.ok().build();
 	}
