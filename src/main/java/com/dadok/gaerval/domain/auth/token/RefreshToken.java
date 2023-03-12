@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @RedisHash(value = "refreshToken")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken {
 
 	@Id

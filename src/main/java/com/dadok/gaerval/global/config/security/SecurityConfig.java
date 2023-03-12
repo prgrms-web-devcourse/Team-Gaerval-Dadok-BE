@@ -151,7 +151,7 @@ public class SecurityConfig {
 			ErrorCode errorCode = e.getErrorCode();
 			httpStatus = errorCode.getStatus();
 
-			errorResponse = ErrorResponse.of(httpStatus, e.getMessage(), request.getRequestURI());
+			errorResponse = ErrorResponse.of(errorCode, request.getRequestURI());
 		} else {
 			if (re instanceof AccessDeniedException e) {
 				httpStatus = HttpStatus.FORBIDDEN;
