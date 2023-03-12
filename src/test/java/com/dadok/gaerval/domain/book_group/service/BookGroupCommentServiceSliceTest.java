@@ -77,7 +77,7 @@ class BookGroupCommentServiceSliceTest {
 			)));
 
 		BookGroupCommentResponses bookGroupCommentResponses = new BookGroupCommentResponses(
-			true, true,
+			true,
 			commentResponses);
 
 		given(bookGroupCommentRepository.findAllBy(request, 234L, 234L))

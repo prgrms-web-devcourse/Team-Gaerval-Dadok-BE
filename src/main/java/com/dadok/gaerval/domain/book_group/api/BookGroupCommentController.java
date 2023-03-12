@@ -49,7 +49,7 @@ public class BookGroupCommentController {
 	 * @return status : created - 생성된 모임 댓글로 리다이렉트
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@PostMapping(value = "/{groupId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/{groupId}/comments", consumes = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> createBookGroupComment(
 		@PathVariable Long groupId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,

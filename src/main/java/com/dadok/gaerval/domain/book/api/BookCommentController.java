@@ -70,7 +70,7 @@ public class BookCommentController {
 	 * @param bookCommentCreateRequest 코멘트 정보
 	 * @return status : ok
 	 */
-	@PostMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookCommentIdResponse> saveBookComment(
 		@PathVariable Long bookId,
@@ -93,7 +93,7 @@ public class BookCommentController {
 	 * @param bookCommentUpdateRequest 코멘트 정보
 	 * @return status : ok, BookCommentResponse : 코멘트 정보
 	 */
-	@PatchMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PatchMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookCommentResponse> modifyBookComment(
 		@PathVariable Long bookId,
@@ -113,7 +113,7 @@ public class BookCommentController {
 	 * @param bookGroupCommentDeleteRequest 코멘트 아이디
 	 * @return status : ok, BookCommentResponse : 코멘트 정보
 	 */
-	@DeleteMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<Void> deleteBookComment(
 		@PathVariable Long bookId,

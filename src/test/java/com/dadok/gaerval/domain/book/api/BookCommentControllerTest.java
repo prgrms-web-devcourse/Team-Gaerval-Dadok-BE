@@ -145,7 +145,7 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		)).willReturn(1L);
 
 		// when
-		mockMvc.perform(post("/api/books/{bookId}/comment", 1L)
+		mockMvc.perform(post("/api/books/{bookId}/comments", 1L)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.content(objectMapper.writeValueAsString(bookCommentCreateRequest))
@@ -190,7 +190,7 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		)).willReturn(expectedBookCommentResponse);
 
 		// when
-		mockMvc.perform(patch("/api/books/{bookId}/comment", 1L)
+		mockMvc.perform(patch("/api/books/{bookId}/comments", 1L)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.content(objectMapper.writeValueAsString(bookCommentUpdateRequest))
@@ -242,7 +242,7 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		doNothing().when(bookCommentService).deleteBookComment(bookId, 1L, request);
 
 		// when then
-		mockMvc.perform(delete("/api/books/{bookId}/comment", bookId)
+		mockMvc.perform(delete("/api/books/{bookId}/comments", bookId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
