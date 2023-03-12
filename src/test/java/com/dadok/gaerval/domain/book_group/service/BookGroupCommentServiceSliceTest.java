@@ -2,6 +2,7 @@ package com.dadok.gaerval.domain.book_group.service;
 
 import static com.dadok.gaerval.testutil.BookGroupCommentObjectProvider.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
@@ -43,7 +44,7 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBookGroupCommentServiceSliceTest {
+class BookGroupCommentServiceSliceTest {
 
 	@InjectMocks
 	private DefaultBookGroupCommentService defaultBookGroupCommentService;
@@ -127,7 +128,6 @@ class DefaultBookGroupCommentServiceSliceTest {
 		assertEquals(bookCommentId, savedId);
 	}
 
-
 	@DisplayName("createBookGroupComment - 자식 groupComment를 생성하는데 성공한다.")
 	@Test
 	void createBookGroupChildComment() {
@@ -188,6 +188,7 @@ class DefaultBookGroupCommentServiceSliceTest {
 			verify(bookGroupCommentRepository, never()).save(any());
 		}
 	}
+
 	@DisplayName("getById - bookGroupCommentId로 조회에 성공한다.")
 	@Test
 	void getById() {
@@ -234,7 +235,8 @@ class DefaultBookGroupCommentServiceSliceTest {
 	void updateBookGroupComment() {
 		String modifiedComment = "바꾼 댓글이에요";
 		BookGroupCommentUpdateRequest groupCommentUpdateRequest = new BookGroupCommentUpdateRequest(modifiedComment);
-		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment, 1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12,11)
+		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment,
+			1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12, 11)
 			, LocalDateTime.now(), "티나", true);
 
 		User kakaoUser = UserObjectProvider.createKakaoUser();
@@ -260,7 +262,8 @@ class DefaultBookGroupCommentServiceSliceTest {
 	void updateBookGroupComment_fail() {
 		String modifiedComment = "바꾼 댓글이에요";
 		BookGroupCommentUpdateRequest groupCommentUpdateRequest = new BookGroupCommentUpdateRequest(modifiedComment);
-		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment, 1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12,11)
+		BookGroupCommentResponse bookGroupCommentResponse = new BookGroupCommentResponse(bookCommentId, modifiedComment,
+			1L, null, 1L, UserObjectProvider.PICTURE_URL, LocalDateTime.of(2023, 3, 7, 12, 11)
 			, LocalDateTime.now(), "티나", true);
 
 		User kakaoUser = UserObjectProvider.createKakaoUser();
@@ -282,7 +285,6 @@ class DefaultBookGroupCommentServiceSliceTest {
 				1L, naverUser.getId(), bookCommentId, groupCommentUpdateRequest));
 
 	}
-
 
 	@DisplayName("deleteBookGroupComment - 모임 댓글을 삭제하는데 성공한다.")
 	@Test

@@ -52,7 +52,7 @@ import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBookGroupServiceSliceTest {
+class BookGroupServiceSliceTest {
 
 	@InjectMocks
 	private DefaultBookGroupService defaultBookGroupService;
