@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 
 import lombok.AccessLevel;
@@ -60,6 +61,13 @@ public class QueryDslUtil {
 
 	public static OrderSpecifier<?> getOrder(NumberPath<Long> id, Sort.Direction direction) {
 		return direction.isDescending() ? id.desc() : id.asc();
+	}
+
+	public static BooleanExpression generateNullableBooleanExpression(NumberPath<Long> entityId, Long id) {
+		if (id == null) {
+			return Expressions.asBoolean(false);
+		}
+		return Expressions.booleanTemplate("{0} = {1}", entityId, id);
 	}
 
 }

@@ -27,6 +27,7 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateReq
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.domain.book_group.service.BookGroupCommentService;
+import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -66,19 +67,20 @@ public class BookGroupCommentController {
 	 * 모임의 댓글 조회
 	 * </Pre>
 	 *
-	 * @param groupId   모임 아이디
+	 * @param groupId 모임 아이디
 	 * @return status : ok, BookGroupCommentResponses 조회된 모임 댓글 list
 	 */
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/{groupId}/comments", produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookGroupCommentResponses> findBookGroupsComment(
 		@PathVariable Long groupId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal,
+		@CurrentUserPrincipal UserPrincipal userPrincipal,
 		@ModelAttribute @Valid BookGroupCommentSearchRequest bookGroupCommentSearchRequest
 	) {
-		return ResponseEntity.ok().body(bookGroupCommentService.findAllBookGroupCommentsByGroup(bookGroupCommentSearchRequest,userPrincipal.getUserId(), groupId));
+		return ResponseEntity.ok()
+			.body(bookGroupCommentService.findAllBookGroupCommentsByGroup(bookGroupCommentSearchRequest,
+				userPrincipal.getUserId(), groupId));
 	}
-
 
 	/**
 	 * <Pre>

@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +26,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
 import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,6 @@ public class BookController {
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	public ResponseEntity<BookResponses> findBooksByQuery(@RequestParam(name = "query") String query) {
 		log.info("[BookController]-[findBooksByQuery]-query : {}", query);
-
 		return ResponseEntity.ok().body(bookService.findAllByKeyword(query));
 	}
 
@@ -84,7 +83,7 @@ public class BookController {
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	public ResponseEntity<UserByBookResponses> findUsersByBook(
 		@PathVariable(name = "bookId") Long bookId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+		@CurrentUserPrincipal UserPrincipal userPrincipal) {
 		return ResponseEntity.ok().body(bookService.findUserByBookId(bookId, userPrincipal.getUserId()));
 	}
 

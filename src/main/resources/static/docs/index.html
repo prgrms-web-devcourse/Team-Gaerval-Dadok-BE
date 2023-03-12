@@ -735,7 +735,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=5eb3793e-10c1-4c01-a485-e3c1282be770; Path=/; Max-Age=1209600; Expires=Sun, 26 Mar 2023 11:16:50 GMT; HttpOnly
+Set-Cookie: RefreshToken=18257d57-bc12-4e8c-8f9c-ebd341fe04a0; Path=/; Max-Age=1209600; Expires=Sun, 26 Mar 2023 15:26:34 GMT; HttpOnly
 Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg</code></pre>
 </div>
 </div>
@@ -774,30 +774,15 @@ Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJI
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/token HTTP/1.1
 Host: localhost:8080
-Cookie: RefreshToken=0f4a8b1c-08df-4e0f-ae12-a56a92c34062</code></pre>
+Cookie: RefreshToken=f4567e9f-e546-47e8-bd27-83e9aea71b57</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_request_header_cookie"><a class="link" href="#_request_header_cookie">Request Header Cookie</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰 쿠키 이름</p></td>
-</tr>
-</tbody>
-</table>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::/Users/jang-yeongji/Documents/dev-workspace/Team-Gaerval-Dadok-BE/build/generated-snippets/auth-controller-slice-test/refresh-access-token/request-headers.adoc[]</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_response_2"><a class="link" href="#_response_2">Response</a></h4>
@@ -807,7 +792,7 @@ Cookie: RefreshToken=0f4a8b1c-08df-4e0f-ae12-a56a92c34062</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2Nzg2MTk3NjIsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjc4NjI1NzYyfQ.3iOb-vp6ANKlsJk4X1PFAa08SLyskJ_FGnGqlHG_AIc</code></pre>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2Nzg2MzQ3MjUsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjc4NjQwNzI1fQ.IRzTUnY8z4tgKErCf9pvt8h2PI01ngX1HEaL91wC2RE</code></pre>
 </div>
 </div>
 </div>
@@ -850,7 +835,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiO
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjc4NjE5NzYyLCJpc3MiOiJkYWRvayIsImV4cCI6MTY3ODYyNTc2Mn0.QqgQqLb9TttyyIYNDIknd8Ae57NSML34YqlKPwLDv3E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjc4NjM0NzI1LCJpc3MiOiJkYWRvayIsImV4cCI6MTY3ODY0MDcyNX0.sFtVbc82Cdm6NdueJjUK48GPD5f9FE68XU7dvB_Y1rI
 Host: localhost:8080
 Cookie: RefreshToken=null</code></pre>
 </div>
@@ -3938,7 +3923,6 @@ Content-Length: 18
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/books/1/comments HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -4026,8 +4010,8 @@ Content-Length: 1095
     "bookId" : 1,
     "userId" : 1,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-12 20:16:10",
-    "modifiedAt" : "2023-03-12 20:16:10",
+    "createdAt" : "2023-03-13 00:25:43",
+    "modifiedAt" : "2023-03-13 00:25:43",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -4036,8 +4020,8 @@ Content-Length: 1095
     "bookId" : 1,
     "userId" : 2,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-12 20:16:10",
-    "modifiedAt" : "2023-03-12 20:16:10",
+    "createdAt" : "2023-03-13 00:25:43",
+    "modifiedAt" : "2023-03-13 00:25:43",
     "nickname" : "0soo",
     "writtenByCurrentUser" : false
   }, {
@@ -4046,8 +4030,8 @@ Content-Length: 1095
     "bookId" : 1,
     "userId" : 3,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-12 20:16:10",
-    "modifiedAt" : "2023-03-12 20:16:10",
+    "createdAt" : "2023-03-13 00:25:43",
+    "modifiedAt" : "2023-03-13 00:25:43",
     "nickname" : "foreverYoung",
     "writtenByCurrentUser" : false
   } ]
@@ -4401,7 +4385,7 @@ Content-Length: 323
   "userId" : 1,
   "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
   "createdAt" : "2023-03-07 10:20:00",
-  "modifiedAt" : "2023-03-12 20:16:10",
+  "modifiedAt" : "2023-03-13 00:25:43",
   "nickname" : "티나",
   "writtenByCurrentUser" : true
 }</code></pre>
@@ -4608,8 +4592,8 @@ Host: localhost:8080
 {
   "bookId" : 123,
   "title" : "소모임 화이팅",
-  "startDate" : "2023-03-12",
-  "endDate" : "2023-03-14",
+  "startDate" : "2023-03-13",
+  "endDate" : "2023-03-15",
   "maxMemberCount" : 5,
   "introduce" : "우리끼리 옹기종기",
   "hasJoinPasswd" : true,
@@ -4819,7 +4803,7 @@ Host: localhost:8080
 {
   "title" : "책읽기 소모임",
   "introduce" : "변경하고 싶은 내용",
-  "endDate" : "2023-03-16",
+  "endDate" : "2023-03-17",
   "maxMemberCount" : 4
 }</code></pre>
 </div>
@@ -5083,8 +5067,8 @@ Content-Length: 580
   "bookGroupId" : 999,
   "title" : "김영한님 JPA 읽으실분",
   "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
-  "startDate" : "2023-03-13",
-  "endDate" : "2023-03-19",
+  "startDate" : "2023-03-14",
+  "endDate" : "2023-03-20",
   "hasJoinPasswd" : false,
   "joinQuestion" : "영한님 생일은?",
   "isPublic" : true,
@@ -5332,8 +5316,8 @@ Content-Length: 2659
     "bookGroupId" : 999,
     "title" : "모임999",
     "introduce" : "모임 999에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-13",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-14",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5352,8 +5336,8 @@ Content-Length: 2659
     "bookGroupId" : 997,
     "title" : "모임997",
     "introduce" : "모임 997에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5372,8 +5356,8 @@ Content-Length: 2659
     "bookGroupId" : 995,
     "title" : "모임995",
     "introduce" : "모임 995에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : true,
@@ -5392,8 +5376,8 @@ Content-Length: 2659
     "bookGroupId" : 994,
     "title" : "모임994",
     "introduce" : "모임 994에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : true,
@@ -5412,8 +5396,8 @@ Content-Length: 2659
     "bookGroupId" : 993,
     "title" : "모임993",
     "introduce" : "모임 993에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : false,
@@ -5677,8 +5661,8 @@ Content-Length: 2659
     "bookGroupId" : 999,
     "title" : "모임999",
     "introduce" : "모임 999에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-13",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-14",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5697,8 +5681,8 @@ Content-Length: 2659
     "bookGroupId" : 997,
     "title" : "모임997",
     "introduce" : "모임 997에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5717,8 +5701,8 @@ Content-Length: 2659
     "bookGroupId" : 995,
     "title" : "모임995",
     "introduce" : "모임 995에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : true,
@@ -5737,8 +5721,8 @@ Content-Length: 2659
     "bookGroupId" : 994,
     "title" : "모임994",
     "introduce" : "모임 994에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : true,
@@ -5757,8 +5741,8 @@ Content-Length: 2659
     "bookGroupId" : 993,
     "title" : "모임993",
     "introduce" : "모임 993에용",
-    "startDate" : "2023-03-12",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-13",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : false,
@@ -6229,8 +6213,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 123,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-12 20:16:15",
-    "modifiedAt" : "2023-03-12 20:16:15",
+    "createdAt" : "2023-03-13 00:25:53",
+    "modifiedAt" : "2023-03-13 00:25:53",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -6240,8 +6224,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 234,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-12 20:16:15",
-    "modifiedAt" : "2023-03-12 20:16:15",
+    "createdAt" : "2023-03-13 00:25:53",
+    "modifiedAt" : "2023-03-13 00:25:53",
     "nickname" : "0Soo",
     "writtenByCurrentUser" : false
   }, {
@@ -6251,8 +6235,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 456,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-12 20:16:15",
-    "modifiedAt" : "2023-03-12 20:16:15",
+    "createdAt" : "2023-03-13 00:25:53",
+    "modifiedAt" : "2023-03-13 00:25:53",
     "nickname" : "youngijang",
     "writtenByCurrentUser" : false
   } ]
@@ -8150,7 +8134,7 @@ Content-Length: 210
 <div id="footer">
 <div id="footer-text">
 Version 0.8.1<br>
-Last updated 2023-03-12 20:00:21 +0900
+Last updated 2023-03-12 21:51:42 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

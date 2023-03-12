@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book.repository;
 import static com.dadok.gaerval.domain.book.entity.QBook.*;
 import static com.dadok.gaerval.domain.book.entity.QBookComment.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
+import static com.dadok.gaerval.global.util.QueryDslUtil.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class BookCommentSupportImpl implements BookCommentSupport {
 					bookComment.createdAt.as("createdAt"),
 					bookComment.modifiedAt.as("modifiedAt"),
 					user.nickname.nickname.as("nickname"),
-					Expressions.booleanTemplate("{0} = {1}", user.id, userId).as("writtenByCurrentUser")
+					generateNullableBooleanExpression(user.id, userId).as("writtenByCurrentUser")
 				))
 			.from(bookComment)
 			.innerJoin(user).on(user.id.eq(bookComment.user.id))

@@ -113,7 +113,6 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 			.andDo(print())
 			.andDo(this.restDocs.document(
 				requestHeaders(
-					headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
@@ -169,7 +168,6 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		willDoNothing().given(bookGroupCommentService)
 			.updateBookGroupComment(groupId, 1L, bookGroupCommentId, request);
 
-
 		// when then
 		mockMvc.perform(patch("/api/book-groups/{groupId}/comments/{commentId}", groupId, bookGroupCommentId)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -198,7 +196,6 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 
 	}
 
-
 	@DisplayName("댓글 삭제에 성공한다.")
 	@Test
 	void deleteBookGroupComment_ShouldReturnOk() throws Exception {
@@ -209,7 +206,6 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(bookGroupCommentId);
 
 		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, request);
-
 
 		// when then
 		mockMvc.perform(delete("/api/book-groups/{groupId}/comments", groupId)
@@ -236,7 +232,6 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 						)
 				)
 			));
-
 
 	}
 }

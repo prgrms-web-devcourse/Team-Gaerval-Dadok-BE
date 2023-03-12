@@ -79,7 +79,6 @@ class BookCommentControllerTest extends ControllerSliceTest {
 		// when
 		mockMvc.perform(get("/api/books/{bookId}/comments", 1L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.accept(MediaType.APPLICATION_JSON)
 			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
