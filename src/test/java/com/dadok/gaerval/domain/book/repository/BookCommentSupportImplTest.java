@@ -78,10 +78,10 @@ class BookCommentSupportImplTest {
 			BookCommentObjectProvider.userId);
 	}
 
-	@DisplayName("findByBookIdAndUserId - 도서 id와 유저 id로 코멘트 찾는 쿼리 테스트")
+	@DisplayName("findByBookId - 도서 id로 코멘트 찾는 쿼리 테스트")
 	@Test
 	void findByBookIdAndUserId() {
-		bookCommentRepository.findByBookIdAndUserId(BookCommentObjectProvider.bookId, BookCommentObjectProvider.userId);
+		bookCommentRepository.findByBookId(BookCommentObjectProvider.bookId, BookCommentObjectProvider.commentId1);
 	}
 
 	@DisplayName("updateBookComment - 도서 id와 유저 id로 코멘트 바꾸는 쿼리 테스트")

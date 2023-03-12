@@ -14,7 +14,7 @@ public interface BookCommentSupport {
 
 	boolean existsByBookIdAndUserId(Long bookId, Long userId);
 
-	Optional<BookComment> findByBookIdAndUserId(Long bookId, Long userId);
+	Optional<BookComment> findByBookId(Long bookId, Long commentId);
 
 	BookCommentResponses findAllComments(Long bookId, Long userId, BookCommentSearchRequest bookCommentSearchRequest);
 

@@ -92,11 +92,13 @@ public class BookCommentSupportImpl implements BookCommentSupport {
 	}
 
 	@Override
-	public Optional<BookComment> findByBookIdAndUserId(Long bookId, Long userId) {
+	public Optional<BookComment> findByBookId(Long bookId, Long commentId) {
 		BookComment bookComment = queryFactory
 			.selectFrom(QBookComment.bookComment)
-			.where(QBookComment.bookComment.book.id.eq(bookId),
-				QBookComment.bookComment.user.id.eq(userId))
+			.where(
+				QBookComment.bookComment.book.id.eq(bookId),
+				QBookComment.bookComment.id.eq(commentId)
+			)
 			.fetchFirst();
 		return Optional.ofNullable(bookComment);
 	}

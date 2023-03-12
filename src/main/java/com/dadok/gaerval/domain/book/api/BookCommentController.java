@@ -27,7 +27,6 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -70,7 +69,7 @@ public class BookCommentController {
 	 * @param bookCommentCreateRequest 코멘트 정보
 	 * @return status : ok
 	 */
-	@PostMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookCommentIdResponse> saveBookComment(
 		@PathVariable Long bookId,
@@ -93,7 +92,7 @@ public class BookCommentController {
 	 * @param bookCommentUpdateRequest 코멘트 정보
 	 * @return status : ok, BookCommentResponse : 코멘트 정보
 	 */
-	@PatchMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@PatchMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookCommentResponse> modifyBookComment(
 		@PathVariable Long bookId,
@@ -110,18 +109,17 @@ public class BookCommentController {
 	 *     수정 요청을 통해 도서 코멘트를 삭제한다.
 	 * </pre>
 	 *
-	 * @param bookGroupCommentDeleteRequest 코멘트 아이디
+	 * @param commentId 코멘트 아이디
 	 * @return status : ok, BookCommentResponse : 코멘트 정보
 	 */
-	@DeleteMapping(value = "/{bookId}/comment", consumes = APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/{bookId}/comments/{commentId}", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<Void> deleteBookComment(
-		@PathVariable Long bookId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal,
-		@Valid @RequestBody BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
-		log.info("[BookController]-[BookCommentResponse]-bookGroupCommentDeleteRequest : {}",
-			bookGroupCommentDeleteRequest);
-		bookCommentService.deleteBookComment(bookId, userPrincipal.getUserId(), bookGroupCommentDeleteRequest);
+		@PathVariable Long bookId, @PathVariable Long commentId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+		log.info("[BookController]-[BookCommentResponse]-commentId : {}",
+			commentId);
+		bookCommentService.deleteBookComment(bookId, userPrincipal.getUserId(), commentId);
 		return ResponseEntity.ok().build();
 	}
 }

@@ -2,7 +2,6 @@ package com.dadok.gaerval.domain.book_group.repository;
 
 import static com.dadok.gaerval.domain.book_group.entity.QBookGroup.*;
 import static com.dadok.gaerval.domain.book_group.entity.QGroupComment.*;
-import static com.dadok.gaerval.domain.book_group.entity.QGroupMember.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
 import static com.querydsl.core.types.Projections.*;
 
@@ -82,25 +81,16 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 		).toList();
 
 		Boolean isPublic = null;
-		Boolean isGroupMember = null;
 
 		if (!groupCommentTuples.isEmpty()) {
 			Tuple tuple = groupCommentTuples.get(0);
 			isPublic = tuple.get(bookGroup.isPublic);
-
-			isGroupMember =
-				userId != null && queryFactory.selectOne()
-					.from(groupMember)
-					.where(groupMember.bookGroup.id.eq(groupId),
-						groupMember.user.id.eq(userId)
-					)
-					.fetchFirst() != null;
 		}
 
 		Slice<BookGroupCommentResponse> bookGroupResponses = QueryDslUtil.toSlice(bookGroupCommentResponses,
 			PageRequest.of(0, request.pageSize(), Sort.by(direction, "id")));
 
-		return new BookGroupCommentResponses(isPublic, isGroupMember, bookGroupResponses);
+		return new BookGroupCommentResponses(isPublic, bookGroupResponses);
 	}
 
 	@Override

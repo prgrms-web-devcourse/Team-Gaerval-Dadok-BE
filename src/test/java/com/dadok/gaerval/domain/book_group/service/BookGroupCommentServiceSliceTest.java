@@ -25,7 +25,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
@@ -77,7 +76,7 @@ class BookGroupCommentServiceSliceTest {
 			)));
 
 		BookGroupCommentResponses bookGroupCommentResponses = new BookGroupCommentResponses(
-			true, true,
+			true,
 			commentResponses);
 
 		given(bookGroupCommentRepository.findAllBy(request, 234L, 234L))
@@ -290,7 +289,6 @@ class BookGroupCommentServiceSliceTest {
 	@DisplayName("deleteBookGroupComment - 모임 댓글을 삭제하는데 성공한다.")
 	@Test
 	void deleteBookGroupComment() {
-		BookGroupCommentDeleteRequest deleteRequest = new BookGroupCommentDeleteRequest(bookCommentId);
 
 		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
 			1L);
@@ -302,7 +300,7 @@ class BookGroupCommentServiceSliceTest {
 		given(bookGroupService.checkGroupMember(1L, 1L)).willReturn(true);
 
 		// when
-		defaultBookGroupCommentService.deleteBookGroupComment(1L, 1L, deleteRequest);
+		defaultBookGroupCommentService.deleteBookGroupComment(1L, 1L, bookCommentId);
 
 		// then
 		verify(bookGroupCommentRepository).findById(bookCommentId);

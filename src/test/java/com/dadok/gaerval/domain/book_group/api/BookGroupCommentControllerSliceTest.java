@@ -25,7 +25,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
@@ -56,7 +55,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 			.willReturn(bookGroupCommentId);
 
 		// when then
-		mockMvc.perform(post("/api/book-groups/{groupId}/comment", groupId)
+		mockMvc.perform(post("/api/book-groups/{groupId}/comments", groupId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
@@ -96,7 +95,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		List<BookGroupCommentResponse> bookGroupCommentResponseList = BookGroupCommentObjectProvider.mockCommentResponses;
 
 		BookGroupCommentResponses bookGroupCommentResponses = new BookGroupCommentResponses(
-			true, true,
+			true,
 			QueryDslUtil.toSlice(bookGroupCommentResponseList, PageRequest.of(0, 10)));
 
 		given(bookGroupCommentService.findAllBookGroupCommentsByGroup(eq(request), any(), any()))
@@ -139,9 +138,6 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("bookGroup.isPublic").description("모임 공개 여부").optional().type(JsonFieldType.BOOLEAN),
-					fieldWithPath("bookGroup.isGroupMember").description("요청자가 모임에 속해있는 유저인지 여부")
-						.optional()
-						.type(JsonFieldType.BOOLEAN),
 					fieldWithPath("bookGroupComments[]").type(JsonFieldType.ARRAY).description("댓글 목록"),
 					fieldWithPath("bookGroupComments[].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
 					fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -208,16 +204,13 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		Long groupId = 234L;
 		Long bookGroupCommentId = 234L;
 
-		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(bookGroupCommentId);
-
-		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, request);
+		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, bookGroupCommentId);
 
 		// when then
-		mockMvc.perform(delete("/api/book-groups/{groupId}/comments", groupId)
+		mockMvc.perform(delete("/api/book-groups/{groupId}/comments/{commentId}", groupId, bookGroupCommentId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
-				.content(createJson(request))
 			)
 			.andExpect(status().isOk())
 			.andDo(print())
@@ -227,14 +220,8 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
-					parameterWithName("groupId").description("모임 ID")
-				),
-				requestFields(
-					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
-						.description("삭제할 댓글 아이디")
-						.attributes(
-							constrainsAttribute(BookGroupCommentDeleteRequest.class, "commentId")
-						)
+					parameterWithName("groupId").description("모임 ID"),
+					parameterWithName("commentId").description("댓글 ID")
 				)
 			));
 
