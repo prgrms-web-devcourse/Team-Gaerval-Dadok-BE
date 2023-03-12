@@ -2,15 +2,22 @@ package com.dadok.gaerval.global.config.security.jwt;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.dadok.gaerval.domain.auth.entity.RefreshToken;
+import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFound;
+import com.dadok.gaerval.domain.auth.repository.RefreshTokenRepository;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
@@ -35,8 +42,35 @@ public class JwtService {
 
 	private final RemoteCacheService cacheService;
 
+	private final RefreshTokenRepository refreshTokenRepository;
+
+	@Value("${refresh-token.expiration-second}")
+	private int refreshTokenExpirationSeconds;
+
 	public String createAccessToken(Long userId, Collection<GrantedAuthority> authorities) {
 		return jwtProvider.createAccessToken(userId, authorities);
+	}
+
+	@Transactional
+	public RefreshToken createRefreshToken(Long userId, Collection<GrantedAuthority> authorities) {
+		RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(), userId,
+			refreshTokenExpirationSeconds,
+			authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+
+		return refreshTokenRepository.save(refreshToken);
+	}
+
+	public String reIssueAccessToken(String refreshToken) {
+		if (!StringUtils.hasText(refreshToken)) {
+			throw new RefreshTokenAuthenticationNotFound();
+		}
+
+		RefreshToken findRefreshToken = refreshTokenRepository.findById(refreshToken)
+			.orElseThrow(RefreshTokenAuthenticationNotFound::new);
+
+		return jwtProvider.createAccessToken(findRefreshToken.getUserId(),
+			findRefreshToken.getRoles().stream().map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList()));
 	}
 
 	public void validate(String accessToken) {
