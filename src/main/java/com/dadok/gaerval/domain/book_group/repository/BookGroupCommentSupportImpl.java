@@ -7,6 +7,7 @@ import static com.dadok.gaerval.global.util.QueryDslUtil.*;
 import static com.querydsl.core.types.Projections.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -16,6 +17,7 @@ import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchReq
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
 import com.dadok.gaerval.global.util.QueryDslUtil;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -41,19 +43,20 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 	public BookGroupCommentResponses findAllBy(BookGroupCommentSearchRequest request, Long userId, Long groupId) {
 		Sort.Direction direction = request.sortDirection().toDirection();
 
-		List<BookGroupCommentResponse> groupCommentResponses = queryFactory.select(
-				constructor(BookGroupCommentResponse.class,
-					groupComment.id.as("commentId"),
-					groupComment.contents.as("contents"),
-					bookGroup.id.as("booGroupId"),
-					groupComment.parentComment.id.as("parentCommentId"),
-					user.id.as("userId"),
-					user.profileImage.as("userProfileImage"),
-					groupComment.createdAt.as("createdAt"),
-					groupComment.modifiedAt.as("modifiedAt"),
-					user.nickname.nickname.as("nickname"),
-					generateNullableBooleanExpression(user.id, userId).as("writtenByCurrentUser")
-				))
+		List<Tuple> groupCommentTuples = queryFactory
+			.select(
+				groupComment.id.as("commentId"),
+				groupComment.contents.as("contents"),
+				bookGroup.id.as("bookGroupId"),
+				groupComment.parentComment.id.as("parentCommentId"),
+				user.id.as("userId"),
+				user.profileImage.as("userProfileImage"),
+				groupComment.createdAt.as("createdAt"),
+				groupComment.modifiedAt.as("modifiedAt"),
+				user.nickname.nickname.as("nickname"),
+				generateNullableBooleanExpression(user.id, userId).as("writtenByCurrentUser"),
+				bookGroup.isPublic
+			)
 			.from(groupComment)
 			.innerJoin(user).on(user.id.eq(groupComment.user.id))
 			.innerJoin(bookGroup).on(bookGroup.id.eq(groupComment.bookGroup.id))
@@ -65,10 +68,31 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 			.limit(request.pageSize() + 1)
 			.fetch();
 
-		Slice<BookGroupCommentResponse> bookGroupResponses = QueryDslUtil.toSlice(groupCommentResponses,
+		List<BookGroupCommentResponse> bookGroupCommentResponses = groupCommentTuples.stream().map(
+			tuple -> new BookGroupCommentResponse(
+				tuple.get(groupComment.id),
+				tuple.get(groupComment.contents),
+				tuple.get(bookGroup.id),
+				tuple.get(groupComment.parentComment.id),
+				tuple.get(user.id),
+				tuple.get(user.profileImage),
+				tuple.get(groupComment.createdAt),
+				tuple.get(groupComment.modifiedAt),
+				tuple.get(user.nickname.nickname),
+				Objects.equals(tuple.get(user.id), userId))
+		).toList();
+
+		Boolean isPublic = null;
+
+		if (!groupCommentTuples.isEmpty()) {
+			Tuple tuple = groupCommentTuples.get(0);
+			isPublic = tuple.get(bookGroup.isPublic);
+		}
+
+		Slice<BookGroupCommentResponse> bookGroupResponses = QueryDslUtil.toSlice(bookGroupCommentResponses,
 			PageRequest.of(0, request.pageSize(), Sort.by(direction, "id")));
 
-		return new BookGroupCommentResponses(bookGroupResponses);
+		return new BookGroupCommentResponses(isPublic, bookGroupResponses);
 	}
 
 	@Override

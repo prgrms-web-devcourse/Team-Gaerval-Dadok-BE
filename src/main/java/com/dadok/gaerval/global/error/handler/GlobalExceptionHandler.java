@@ -41,6 +41,7 @@ import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodExcep
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
+import com.dadok.gaerval.global.config.security.exception.JwtAuthenticationException;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.DuplicateException;
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
@@ -66,6 +67,16 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
+
+	@ExceptionHandler(JwtAuthenticationException.class)
+	public ResponseEntity<ErrorResponse> handleJwtAuthenticationException(
+		JwtAuthenticationException e,
+		HttpServletRequest request
+	) {
+		ErrorCode errorCode = e.getErrorCode();
+
+		return of(errorCode, request.getRequestURI());
+	}
 
 	@ExceptionHandler(RefreshTokenAuthenticationNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleRefreshTokenAuthenticationNotFoundException(

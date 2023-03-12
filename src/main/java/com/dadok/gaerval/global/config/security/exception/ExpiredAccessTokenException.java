@@ -11,6 +11,10 @@ public class ExpiredAccessTokenException extends JwtAuthenticationException {
 	@Getter
 	private final ErrorCode errorCode = EXPIRED_ACCESS_TOKEN;
 
+	public ExpiredAccessTokenException() {
+		super(EXPIRED_ACCESS_TOKEN);
+	}
+
 	public ExpiredAccessTokenException(Throwable cause) {
 		super(EXPIRED_ACCESS_TOKEN, cause);
 	}

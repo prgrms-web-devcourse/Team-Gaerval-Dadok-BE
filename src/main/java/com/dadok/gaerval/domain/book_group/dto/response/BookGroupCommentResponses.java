@@ -11,11 +11,19 @@ public record BookGroupCommentResponses(
 	int count, // 결과 총 갯수
 	boolean isEmpty, // 반환 값이 0개인가
 
+	BookGroupResponse bookGroup,
 	List<BookGroupCommentResponse> bookGroupComments) {
 
-	public BookGroupCommentResponses(Slice<BookGroupCommentResponse> slice) {
-		this(slice.isFirst(), slice.isLast(), slice.hasNext(), slice.getNumberOfElements(), slice.isEmpty(),
+	public BookGroupCommentResponses(Boolean isPublic, Slice<BookGroupCommentResponse> slice) {
+		this(slice.isFirst(),
+			slice.isLast(),
+			slice.hasNext(),
+			slice.getNumberOfElements(),
+			slice.isEmpty(),
+			new BookGroupResponse(isPublic),
 			slice.getContent());
 	}
 
+	public record BookGroupResponse(Boolean isPublic) {
+	}
 }

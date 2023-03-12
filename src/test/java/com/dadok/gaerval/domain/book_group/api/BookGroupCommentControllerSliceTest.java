@@ -96,6 +96,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		List<BookGroupCommentResponse> bookGroupCommentResponseList = BookGroupCommentObjectProvider.mockCommentResponses;
 
 		BookGroupCommentResponses bookGroupCommentResponses = new BookGroupCommentResponses(
+			true,
 			QueryDslUtil.toSlice(bookGroupCommentResponseList, PageRequest.of(0, 10)));
 
 		given(bookGroupCommentService.findAllBookGroupCommentsByGroup(eq(request), any(), any()))
@@ -137,12 +138,13 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("isFirst").description("첫 번째 페이지 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("bookGroup.isPublic").description("모임 공개 여부").optional().type(JsonFieldType.BOOLEAN),
 					fieldWithPath("bookGroupComments[]").type(JsonFieldType.ARRAY).description("댓글 목록"),
 					fieldWithPath("bookGroupComments[].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
 					fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("댓글 내용"),
 					fieldWithPath("bookGroupComments[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 ID"),
 					fieldWithPath("bookGroupComments[].parentCommentId").type(JsonFieldType.NUMBER)
-						.description("부모 댓 ID"),
+						.description("부모 댓글 ID"),
 					fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
 					fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING)
 						.description("사용자 프로필 이미지"),
