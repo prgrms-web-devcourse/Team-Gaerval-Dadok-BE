@@ -37,6 +37,7 @@ public class RefreshTokenService {
 		return refreshTokenRepository.save(refreshToken);
 	}
 
+	@Transactional(readOnly = true)
 	public RefreshToken getBy(String refreshToken) {
 		if (!StringUtils.hasText(refreshToken)) {
 			throw new RefreshTokenAuthenticationNotFoundException();

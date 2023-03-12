@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.dadok.gaerval.domain.auth.dto.response.LoginResponse;
@@ -38,6 +39,7 @@ public class AuthService {
 		return new LoginResponse(accessToken, refreshToken.getToken());
 	}
 
+	@Transactional(readOnly = true)
 	public String reIssueAccessToken(String refreshToken) {
 		if (!StringUtils.hasText(refreshToken)) {
 			throw new RefreshTokenAuthenticationNotFoundException();
