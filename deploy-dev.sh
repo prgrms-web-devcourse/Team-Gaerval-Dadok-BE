@@ -13,6 +13,21 @@ fi
 echo
 echo
 
+
+if [ $(docker ps | grep -c "redis-dev") -eq 0 ]; then
+  echo "Starting redis-dev..."
+  docker-compose up -d redis-dev
+else
+  echo "-------------------------------------------"
+  echo "redis is already running"
+  echo "-------------------------------------------"
+fi
+
+echo
+echo "start blue-green deploy!"
+echo
+
+
 # Blue 를 기준으로 현재 떠있는 컨테이너를 체크한다.
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
