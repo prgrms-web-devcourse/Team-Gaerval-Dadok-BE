@@ -14,16 +14,16 @@ public record BookGroupCommentResponses(
 	BookGroupResponse bookGroup,
 	List<BookGroupCommentResponse> bookGroupComments) {
 
-	public BookGroupCommentResponses(Boolean isPublic, Slice<BookGroupCommentResponse> slice) {
+	public BookGroupCommentResponses(Boolean isPublic, Boolean isGroupMember, Slice<BookGroupCommentResponse> slice) {
 		this(slice.isFirst(),
 			slice.isLast(),
 			slice.hasNext(),
 			slice.getNumberOfElements(),
 			slice.isEmpty(),
-			new BookGroupResponse(isPublic),
+			new BookGroupResponse(isPublic, isGroupMember),
 			slice.getContent());
 	}
 
-	public record BookGroupResponse(Boolean isPublic) {
+	public record BookGroupResponse(Boolean isPublic, Boolean isGroupMember) {
 	}
 }

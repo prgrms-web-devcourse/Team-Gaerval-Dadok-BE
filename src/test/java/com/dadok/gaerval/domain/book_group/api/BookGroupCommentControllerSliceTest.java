@@ -96,7 +96,7 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		List<BookGroupCommentResponse> bookGroupCommentResponseList = BookGroupCommentObjectProvider.mockCommentResponses;
 
 		BookGroupCommentResponses bookGroupCommentResponses = new BookGroupCommentResponses(
-			true,
+			true, true,
 			QueryDslUtil.toSlice(bookGroupCommentResponseList, PageRequest.of(0, 10)));
 
 		given(bookGroupCommentService.findAllBookGroupCommentsByGroup(eq(request), any(), any()))
@@ -139,6 +139,9 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("bookGroup.isPublic").description("모임 공개 여부").optional().type(JsonFieldType.BOOLEAN),
+					fieldWithPath("bookGroup.isGroupMember").description("요청자가 모임에 속해있는 유저인지 여부")
+						.optional()
+						.type(JsonFieldType.BOOLEAN),
 					fieldWithPath("bookGroupComments[]").type(JsonFieldType.ARRAY).description("댓글 목록"),
 					fieldWithPath("bookGroupComments[].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
 					fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("댓글 내용"),

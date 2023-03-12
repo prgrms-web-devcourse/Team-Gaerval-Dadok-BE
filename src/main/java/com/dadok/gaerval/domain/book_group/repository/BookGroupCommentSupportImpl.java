@@ -2,8 +2,8 @@ package com.dadok.gaerval.domain.book_group.repository;
 
 import static com.dadok.gaerval.domain.book_group.entity.QBookGroup.*;
 import static com.dadok.gaerval.domain.book_group.entity.QGroupComment.*;
+import static com.dadok.gaerval.domain.book_group.entity.QGroupMember.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
-import static com.dadok.gaerval.global.util.QueryDslUtil.*;
 import static com.querydsl.core.types.Projections.*;
 
 import java.util.List;
@@ -45,16 +45,15 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 
 		List<Tuple> groupCommentTuples = queryFactory
 			.select(
-				groupComment.id.as("commentId"),
-				groupComment.contents.as("contents"),
-				bookGroup.id.as("bookGroupId"),
-				groupComment.parentComment.id.as("parentCommentId"),
-				user.id.as("userId"),
-				user.profileImage.as("userProfileImage"),
-				groupComment.createdAt.as("createdAt"),
-				groupComment.modifiedAt.as("modifiedAt"),
-				user.nickname.nickname.as("nickname"),
-				generateNullableBooleanExpression(user.id, userId).as("writtenByCurrentUser"),
+				groupComment.id,
+				groupComment.contents,
+				bookGroup.id,
+				groupComment.parentComment.id,
+				user.id,
+				user.profileImage,
+				groupComment.createdAt,
+				groupComment.modifiedAt,
+				user.nickname.nickname,
 				bookGroup.isPublic
 			)
 			.from(groupComment)
@@ -83,16 +82,25 @@ public class BookGroupCommentSupportImpl implements BookGroupCommentSupport {
 		).toList();
 
 		Boolean isPublic = null;
+		Boolean isGroupMember = null;
 
 		if (!groupCommentTuples.isEmpty()) {
 			Tuple tuple = groupCommentTuples.get(0);
 			isPublic = tuple.get(bookGroup.isPublic);
+
+			isGroupMember =
+				userId != null && queryFactory.selectOne()
+					.from(groupMember)
+					.where(groupMember.bookGroup.id.eq(groupId),
+						groupMember.user.id.eq(userId)
+					)
+					.fetchFirst() != null;
 		}
 
 		Slice<BookGroupCommentResponse> bookGroupResponses = QueryDslUtil.toSlice(bookGroupCommentResponses,
 			PageRequest.of(0, request.pageSize(), Sort.by(direction, "id")));
 
-		return new BookGroupCommentResponses(isPublic, bookGroupResponses);
+		return new BookGroupCommentResponses(isPublic, isGroupMember, bookGroupResponses);
 	}
 
 	@Override
