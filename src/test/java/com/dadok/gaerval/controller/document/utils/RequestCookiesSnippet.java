@@ -17,7 +17,7 @@ public class RequestCookiesSnippet extends AbstractHeadersSnippet {
 
 	protected RequestCookiesSnippet(List<HeaderDescriptor> descriptors,
 		Map<String, Object> attributes) {
-		super("request", descriptors, attributes);
+		super("cookie-request", descriptors, attributes);
 	}
 
 	@Override

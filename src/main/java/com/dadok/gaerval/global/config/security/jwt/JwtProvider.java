@@ -7,16 +7,18 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -57,8 +59,7 @@ public class JwtProvider {
 	public String createAccessToken(Long userId, Collection<GrantedAuthority> authorities) {
 		Claims claims = Jwts.claims().setSubject(userId.toString());
 		claims.put("id", userId);
-		claims.put("roles", authorities.toArray());
-
+		claims.put("roles", authorities.stream().map(GrantedAuthority::getAuthority).toList());
 		Date expirationTime = accessTokenExpirationTime();
 
 		return Jwts.builder()
@@ -94,10 +95,14 @@ public class JwtProvider {
 		return claims.get("id", Long.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<GrantedAuthority> getRoles(String accessToken) {
 		Claims claims = parse(accessToken);
-		GrantedAuthority[] roles = claims.get("roles", GrantedAuthority[].class);
-		return Arrays.stream(roles).toList();
+		List<String> roles1 = (List<String>)claims.get("roles", Object.class);
+
+		return roles1.stream()
+			.map(SimpleGrantedAuthority::new)
+			.collect(Collectors.toList());
 	}
 
 	private Claims parse(String accessToken) {

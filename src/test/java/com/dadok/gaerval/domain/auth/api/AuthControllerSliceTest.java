@@ -54,6 +54,7 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 		}
 	}
 
+
 	@DisplayName("리프레시 토큰으로 액세스 토큰을 재발급 한다.")
 	@Test
 	void refreshAccessToken() throws Exception {
@@ -97,12 +98,13 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 			List.of(new SimpleGrantedAuthority(Role.USER.name())));
 		String refreshToken = UUID.randomUUID().toString();
 
-		Cookie refreshTokenCookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, refreshToken);
+		Cookie refreshTokenCookie = new Cookie(REFRESH_TOKEN_COOKIE_NAME, "39731dc0-4482-4c96-a400-9cf0f0a88827");
 		refreshTokenCookie.setPath("/");
 		refreshTokenCookie.setHttpOnly(true);
 		refreshTokenCookie.setMaxAge(1209600);
+
 		willDoNothing()
-			.given(authService).logout(accessToken, refreshToken);
+			.given(authService).logout(accessToken, "39731dc0-4482-4c96-a400-9cf0f0a88827");
 
 		//when
 		mockMvc.perform(post("/api/auth/logout")

@@ -101,13 +101,17 @@ include::{snippets}/auth-controller-slice-test/refresh-access-token/response-hea
 
 === 로그아웃 - logout
 - 로그아웃시 리프레시 토큰이 만료됩니다.
+- 액세스 토큰과 리프레시 토큰을 같이 보내주셔야 합니다.
 
 ==== Http Request
 
 include::{snippets}/auth-controller-slice-test/logout/http-request.adoc[]
 
-==== Request Header Cookie
+==== Request Header
 include::{snippets}/auth-controller-slice-test/logout/request-headers.adoc[]
+
+==== Request Header Cookie
+include::{snippets}/auth-controller-slice-test/logout/cookie-request-headers.adoc[]
 
 ==== Response
 
