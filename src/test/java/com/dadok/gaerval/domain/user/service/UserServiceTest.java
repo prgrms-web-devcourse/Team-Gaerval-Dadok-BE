@@ -29,7 +29,7 @@ import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.config.security.AuthProvider;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
-import com.dadok.gaerval.integration_util.ServiceIntegration;
+import com.dadok.gaerval.integration_util.IntegrationTest;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 
@@ -37,7 +37,7 @@ import com.dadok.gaerval.testutil.UserObjectProvider;
 @Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Tag("UserService Integration Test")
 @Transactional
-class UserServiceTest extends ServiceIntegration {
+class UserServiceTest extends IntegrationTest {
 
 	private User kakaoUser;
 	private OAuth2Attribute oAuth2Attribute = UserObjectProvider.kakaoAttribute();

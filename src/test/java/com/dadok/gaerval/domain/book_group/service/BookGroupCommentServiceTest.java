@@ -14,13 +14,13 @@ import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupComment;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
 import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.integration_util.ServiceIntegration;
+import com.dadok.gaerval.integration_util.IntegrationTest;
 
 @Tag("Integration Test")
 @Sql(scripts = {"/sql/book_group_comment/update_test_data.sql"}, executionPhase =
 	Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/sql/clean_up.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-class BookGroupCommentServiceTest extends ServiceIntegration {
+class BookGroupCommentServiceTest extends IntegrationTest {
 
 	@Autowired
 	private BookGroupCommentService bookGroupCommentService;

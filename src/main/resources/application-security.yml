@@ -8,6 +8,9 @@ jwt:
   access-token-header: Authorization
   refresh-token-header: RefreshToken
 
+refresh-token:
+  expiration-second : ${REFRESH_TOKEN_EXPIRE_SECONDS}
+
 
 spring:
   security:

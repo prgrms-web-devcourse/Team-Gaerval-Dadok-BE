@@ -8,6 +8,16 @@ services:
       - "80:80"
     volumes:
       - /home/ec2-user/app/nginx:/etc/nginx/conf.d
+
+  redis-dev:
+    container_name: redis-dev
+    image: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD} --port 6379
+    volumes:
+      - /home/ec2-user/app/data/redis:/data
+
   dadok-dev-blue:
     container_name: dadok-dev-blue
     image: ${DOCKER_DEV_REPO}
@@ -45,6 +55,7 @@ services:
       NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET}
       NAVER_REDIRECT_PATH: ${NAVER_REDIRECT_PATH}
       ACCESS_TOKEN_EXPIRE_SECONDS: ${ACCESS_TOKEN_EXPIRE_SECONDS}
+      REFRESH_TOKEN_EXPIRE_SECONDS: ${REFRESH_TOKEN_EXPIRE_SECONDS}
 
       KAKAO_BOOK_BASE_URI: ${KAKAO_BOOK_BASE_URI}
       KAKAO_SCHEME: ${KAKAO_SCHEME}
@@ -53,7 +64,9 @@ services:
 
       SLACK_OAUTH_TOKEN: ${SLACK_OAUTH_TOKEN}
       SLACK_ERROR_CHANNEL_ID: ${SLACK_ERROR_CHANNEL_ID}
-
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
 
   dadok-dev-green:
     container_name: dadok-dev-green
@@ -92,6 +105,7 @@ services:
       NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET}
       NAVER_REDIRECT_PATH: ${NAVER_REDIRECT_PATH}
       ACCESS_TOKEN_EXPIRE_SECONDS: ${ACCESS_TOKEN_EXPIRE_SECONDS}
+      REFRESH_TOKEN_EXPIRE_SECONDS: ${REFRESH_TOKEN_EXPIRE_SECONDS}
 
       KAKAO_BOOK_BASE_URI: ${KAKAO_BOOK_BASE_URI}
       KAKAO_SCHEME: ${KAKAO_SCHEME}
@@ -100,3 +114,6 @@ services:
 
       SLACK_OAUTH_TOKEN: ${SLACK_OAUTH_TOKEN}
       SLACK_ERROR_CHANNEL_ID: ${SLACK_ERROR_CHANNEL_ID}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}

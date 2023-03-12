@@ -31,6 +31,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFoundException;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
@@ -66,6 +67,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
 
+	@ExceptionHandler(RefreshTokenAuthenticationNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleRefreshTokenAuthenticationNotFoundException(
+		RefreshTokenAuthenticationNotFoundException e,
+		HttpServletRequest request
+	) {
+		ErrorCode errorCode = e.getErrorCode();
+
+		return of(errorCode, request.getRequestURI());
+	}
+
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleEntityNotFoundException(
 		EntityNotFoundException e, HttpServletRequest request
@@ -75,6 +86,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return badRequest("관리자에게 문의하세요", request.getRequestURI());
 	}
+
 	@ExceptionHandler(LockTimeoutException.class)
 	public ResponseEntity<ErrorResponse> handleLockTimeoutException(
 		LockTimeoutException e, HttpServletRequest request

@@ -61,6 +61,7 @@
     <logger level="info" name="org.hibernate.hql.internal.classic.QueryTranslatorImpl"/>
     <logger level="info" name="org.hibernate.hql.internal.ast.util.JoinProcessor"/>
     <logger level="info" name="org.hibernate.hql.internal"/>
+    <logger level="debug" name="org.springframework.data.redis"/>
 
     <root level="debug">
         <springProfile name="local,develop">

@@ -1,7 +1,7 @@
 package com.dadok.gaerval.domain.book.api;
 
 import static com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator.*;
-import static com.dadok.gaerval.global.config.security.jwt.JwtService.*;
+import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;

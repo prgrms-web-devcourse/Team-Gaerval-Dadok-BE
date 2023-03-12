@@ -1,4 +1,4 @@
-package com.dadok.gaerval.global.config.security.jwt;
+package com.dadok.gaerval.global.config.security.exception;
 
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.UnAuthenticationException;

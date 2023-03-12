@@ -477,7 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>다독다독 API Document</h1>
 <div class="details">
-<span id="revnumber">version 0.5.1</span>
+<span id="revnumber">version 0.8.1</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -493,6 +493,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_auth_인증">Auth - 인증</a>
 <ul class="sectlevel2">
 <li><a href="#_소셜_로그인_oauth2">소셜 로그인 - OAuth2</a></li>
+<li><a href="#_access_token_재발급">Access Token 재발급</a></li>
+<li><a href="#_로그아웃_logout">로그아웃 - logout</a></li>
 </ul>
 </li>
 <li><a href="#_user_유저">User - 유저</a>
@@ -733,6 +735,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
+Set-Cookie: RefreshToken=3e76b3bd-72ba-40a5-9971-4083f4b77a0e; Path=/; Max-Age=1209600; Expires=Sun, 26 Mar 2023 09:45:34 GMT; HttpOnly
 Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg</code></pre>
 </div>
 </div>
@@ -754,6 +757,152 @@ Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJI
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Location</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">요청시 사용한 redirect_uri, with accessToken</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Set-Cookie</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">발급된 리프레시 토큰. 리프레시 토큰 쿠키 이름 : RefreshToken</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_token_재발급"><a class="link" href="#_access_token_재발급">Access Token 재발급</a></h3>
+<div class="sect3">
+<h4 id="_http_request"><a class="link" href="#_http_request">Http Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/token HTTP/1.1
+Host: localhost:8080
+Cookie: RefreshToken=39731dc0-4482-4c96-a400-9cf0f0a88827</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_cookie"><a class="link" href="#_request_header_cookie">Request Header Cookie</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰 쿠키 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_2"><a class="link" href="#_response_2">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlt7ImF1dGhvcml0eSI6IlVTRVIifV0sImlhdCI6MTY3ODYxNDI4MywiaXNzIjoiZGFkb2siLCJleHAiOjE2Nzg2MjAyODN9.Oof_13HTVe7Q3WCGiQQXa13PfNYx99ZbA34mzamG5aQ</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_header_2"><a class="link" href="#_response_header_2">Response Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Refresh 된 access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_로그아웃_logout"><a class="link" href="#_로그아웃_logout">로그아웃 - logout</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>로그아웃시 리프레시 토큰이 만료됩니다.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_http_request_2"><a class="link" href="#_http_request_2">Http Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/logout HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJpYXQiOjE2Nzg2MTQyODMsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjc4NjIwMjgzfQ.KFYoTfWE2ZQt5b4KoGTUKY3_pf_EYe90ayYPU8R7t44
+Host: localhost:8080
+Cookie: RefreshToken=null</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_cookie_2"><a class="link" href="#_request_header_cookie_2">Request Header Cookie</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰 쿠키 이름</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_3"><a class="link" href="#_response_3">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: RefreshToken=; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_header_3"><a class="link" href="#_response_header_3">Response Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Set-Cookie</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만료되어 제거된 리프레시 토큰 쿠키</p></td>
 </tr>
 </tbody>
 </table>
@@ -803,7 +952,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_2"><a class="link" href="#_response_2">Response</a></h4>
+<h4 id="_response_4"><a class="link" href="#_response_4">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1009,7 +1158,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_3"><a class="link" href="#_response_3">Response</a></h4>
+<h4 id="_response_5"><a class="link" href="#_response_5">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1154,7 +1303,7 @@ Must not be blank<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_4"><a class="link" href="#_response_4">Response</a></h4>
+<h4 id="_response_6"><a class="link" href="#_response_6">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1366,7 +1515,7 @@ Must not be blank<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_5"><a class="link" href="#_response_5">Response</a></h4>
+<h4 id="_response_7"><a class="link" href="#_response_7">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1438,7 +1587,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_6"><a class="link" href="#_response_6">Response</a></h4>
+<h4 id="_response_8"><a class="link" href="#_response_8">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1605,7 +1754,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_7"><a class="link" href="#_response_7">Response</a></h4>
+<h4 id="_response_9"><a class="link" href="#_response_9">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1791,7 +1940,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_8"><a class="link" href="#_response_8">Response</a></h4>
+<h4 id="_response_10"><a class="link" href="#_response_10">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2018,7 +2167,7 @@ Must be at most 100<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_9"><a class="link" href="#_response_9">Response</a></h4>
+<h4 id="_response_11"><a class="link" href="#_response_11">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2206,7 +2355,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_10"><a class="link" href="#_response_10">Response</a></h4>
+<h4 id="_response_12"><a class="link" href="#_response_12">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2361,7 +2510,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_11"><a class="link" href="#_response_11">Response</a></h4>
+<h4 id="_response_13"><a class="link" href="#_response_13">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2559,7 +2708,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_12"><a class="link" href="#_response_12">Response</a></h4>
+<h4 id="_response_14"><a class="link" href="#_response_14">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2635,7 +2784,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_13"><a class="link" href="#_response_13">Response</a></h4>
+<h4 id="_response_15"><a class="link" href="#_response_15">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2686,7 +2835,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_14"><a class="link" href="#_response_14">Response</a></h4>
+<h4 id="_response_16"><a class="link" href="#_response_16">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2814,7 +2963,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_15"><a class="link" href="#_response_15">Response</a></h4>
+<h4 id="_response_17"><a class="link" href="#_response_17">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -2956,7 +3105,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_16"><a class="link" href="#_response_16">Response</a></h4>
+<h4 id="_response_18"><a class="link" href="#_response_18">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3091,7 +3240,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_17"><a class="link" href="#_response_17">Response</a></h4>
+<h4 id="_response_19"><a class="link" href="#_response_19">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3232,7 +3381,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_18"><a class="link" href="#_response_18">Response</a></h4>
+<h4 id="_response_20"><a class="link" href="#_response_20">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3395,7 +3544,7 @@ Must be at most 30<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_19"><a class="link" href="#_response_19">Response</a></h4>
+<h4 id="_response_21"><a class="link" href="#_response_21">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3714,7 +3863,7 @@ Size must be between 0 and 20 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_20"><a class="link" href="#_response_20">Response</a></h4>
+<h4 id="_response_22"><a class="link" href="#_response_22">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -3831,7 +3980,7 @@ Must be at most 100<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_21"><a class="link" href="#_response_21">Response</a></h4>
+<h4 id="_response_23"><a class="link" href="#_response_23">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -3853,8 +4002,8 @@ Content-Length: 1095
     "bookId" : 1,
     "userId" : 1,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-11 21:04:41",
-    "modifiedAt" : "2023-03-11 21:04:41",
+    "createdAt" : "2023-03-12 18:44:52",
+    "modifiedAt" : "2023-03-12 18:44:52",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -3863,8 +4012,8 @@ Content-Length: 1095
     "bookId" : 1,
     "userId" : 2,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-11 21:04:41",
-    "modifiedAt" : "2023-03-11 21:04:41",
+    "createdAt" : "2023-03-12 18:44:52",
+    "modifiedAt" : "2023-03-12 18:44:52",
     "nickname" : "0soo",
     "writtenByCurrentUser" : false
   }, {
@@ -3873,8 +4022,8 @@ Content-Length: 1095
     "bookId" : 1,
     "userId" : 3,
     "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-11 21:04:41",
-    "modifiedAt" : "2023-03-11 21:04:41",
+    "createdAt" : "2023-03-12 18:44:52",
+    "modifiedAt" : "2023-03-12 18:44:52",
     "nickname" : "foreverYoung",
     "writtenByCurrentUser" : false
   } ]
@@ -4065,7 +4214,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_22"><a class="link" href="#_response_22">Response</a></h4>
+<h4 id="_response_24"><a class="link" href="#_response_24">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -4211,7 +4360,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_23"><a class="link" href="#_response_23">Response</a></h4>
+<h4 id="_response_25"><a class="link" href="#_response_25">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -4228,7 +4377,7 @@ Content-Length: 323
   "userId" : 1,
   "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
   "createdAt" : "2023-03-07 10:20:00",
-  "modifiedAt" : "2023-03-11 21:04:41",
+  "modifiedAt" : "2023-03-12 18:44:52",
   "nickname" : "티나",
   "writtenByCurrentUser" : true
 }</code></pre>
@@ -4404,7 +4553,7 @@ Must not be null<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_24"><a class="link" href="#_response_24">Response</a></h4>
+<h4 id="_response_26"><a class="link" href="#_response_26">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -4435,8 +4584,8 @@ Host: localhost:8080
 {
   "bookId" : 123,
   "title" : "소모임 화이팅",
-  "startDate" : "2023-03-11",
-  "endDate" : "2023-03-13",
+  "startDate" : "2023-03-12",
+  "endDate" : "2023-03-14",
   "maxMemberCount" : 5,
   "introduce" : "우리끼리 옹기종기",
   "hasJoinPasswd" : true,
@@ -4524,7 +4673,8 @@ Must not be blank<br></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 참여 최대 인원 : 제한 없을 경우 null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1
+Must be at most 9999<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduce</code></p></td>
@@ -4566,7 +4716,7 @@ Must not be blank<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_25"><a class="link" href="#_response_25">Response</a></h4>
+<h4 id="_response_27"><a class="link" href="#_response_27">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -4584,7 +4734,7 @@ Content-Length: 23
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_header_2"><a class="link" href="#_response_header_2">Response Header</a></h4>
+<h4 id="_response_header_4"><a class="link" href="#_response_header_4">Response Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -4645,7 +4795,7 @@ Host: localhost:8080
 {
   "title" : "책읽기 소모임",
   "introduce" : "변경하고 싶은 내용",
-  "endDate" : "2023-03-15",
+  "endDate" : "2023-03-16",
   "maxMemberCount" : 4
 }</code></pre>
 </div>
@@ -4744,13 +4894,14 @@ Must not be blank<br></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임 참여 최대 인원 : 제한없을 경우 null</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1
+Must be at most 9999<br></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_26"><a class="link" href="#_response_26">Response</a></h4>
+<h4 id="_response_28"><a class="link" href="#_response_28">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -4822,7 +4973,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_27"><a class="link" href="#_response_27">Response</a></h4>
+<h4 id="_response_29"><a class="link" href="#_response_29">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -4894,7 +5045,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_28"><a class="link" href="#_response_28">Response</a></h4>
+<h4 id="_response_30"><a class="link" href="#_response_30">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -4908,8 +5059,8 @@ Content-Length: 580
   "bookGroupId" : 999,
   "title" : "김영한님 JPA 읽으실분",
   "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
-  "startDate" : "2023-03-12",
-  "endDate" : "2023-03-18",
+  "startDate" : "2023-03-13",
+  "endDate" : "2023-03-19",
   "hasJoinPasswd" : false,
   "joinQuestion" : "영한님 생일은?",
   "isPublic" : true,
@@ -5137,7 +5288,7 @@ Must be at most 100<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_29"><a class="link" href="#_response_29">Response</a></h4>
+<h4 id="_response_31"><a class="link" href="#_response_31">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -5157,8 +5308,8 @@ Content-Length: 2659
     "bookGroupId" : 999,
     "title" : "모임999",
     "introduce" : "모임 999에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5177,8 +5328,8 @@ Content-Length: 2659
     "bookGroupId" : 997,
     "title" : "모임997",
     "introduce" : "모임 997에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5197,8 +5348,8 @@ Content-Length: 2659
     "bookGroupId" : 995,
     "title" : "모임995",
     "introduce" : "모임 995에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : true,
@@ -5217,8 +5368,8 @@ Content-Length: 2659
     "bookGroupId" : 994,
     "title" : "모임994",
     "introduce" : "모임 994에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : true,
@@ -5237,8 +5388,8 @@ Content-Length: 2659
     "bookGroupId" : 993,
     "title" : "모임993",
     "introduce" : "모임 993에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : false,
@@ -5482,7 +5633,7 @@ Must be at most 100<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_30"><a class="link" href="#_response_30">Response</a></h4>
+<h4 id="_response_32"><a class="link" href="#_response_32">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -5502,8 +5653,8 @@ Content-Length: 2659
     "bookGroupId" : 999,
     "title" : "모임999",
     "introduce" : "모임 999에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-12",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-13",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5522,8 +5673,8 @@ Content-Length: 2659
     "bookGroupId" : 997,
     "title" : "모임997",
     "introduce" : "모임 997에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : false,
@@ -5542,8 +5693,8 @@ Content-Length: 2659
     "bookGroupId" : 995,
     "title" : "모임995",
     "introduce" : "모임 995에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : true,
     "isPublic" : true,
@@ -5562,8 +5713,8 @@ Content-Length: 2659
     "bookGroupId" : 994,
     "title" : "모임994",
     "introduce" : "모임 994에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : true,
@@ -5582,8 +5733,8 @@ Content-Length: 2659
     "bookGroupId" : 993,
     "title" : "모임993",
     "introduce" : "모임 993에용",
-    "startDate" : "2023-03-11",
-    "endDate" : "2023-03-11",
+    "startDate" : "2023-03-12",
+    "endDate" : "2023-03-12",
     "maxMemberCount" : 5,
     "hasJoinPasswd" : false,
     "isPublic" : false,
@@ -5850,7 +6001,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_31"><a class="link" href="#_response_31">Response</a></h4>
+<h4 id="_response_33"><a class="link" href="#_response_33">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -5942,7 +6093,7 @@ Size must be between 0 and 2000 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_32"><a class="link" href="#_response_32">Response</a></h4>
+<h4 id="_response_34"><a class="link" href="#_response_34">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -6031,7 +6182,7 @@ Must be at most 100<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_33"><a class="link" href="#_response_33">Response</a></h4>
+<h4 id="_response_35"><a class="link" href="#_response_35">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -6054,8 +6205,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 123,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-11 21:04:47",
-    "modifiedAt" : "2023-03-11 21:04:47",
+    "createdAt" : "2023-03-12 18:44:57",
+    "modifiedAt" : "2023-03-12 18:44:57",
     "nickname" : "티나",
     "writtenByCurrentUser" : true
   }, {
@@ -6065,8 +6216,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 234,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-11 21:04:47",
-    "modifiedAt" : "2023-03-11 21:04:47",
+    "createdAt" : "2023-03-12 18:44:57",
+    "modifiedAt" : "2023-03-12 18:44:57",
     "nickname" : "0Soo",
     "writtenByCurrentUser" : false
   }, {
@@ -6076,8 +6227,8 @@ Content-Length: 1375
     "parentCommentId" : 234,
     "userId" : 456,
     "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-11 21:04:47",
-    "modifiedAt" : "2023-03-11 21:04:47",
+    "createdAt" : "2023-03-12 18:44:57",
+    "modifiedAt" : "2023-03-12 18:44:57",
     "nickname" : "youngijang",
     "writtenByCurrentUser" : false
   } ]
@@ -6274,7 +6425,7 @@ Size must be between 0 and 2000 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_34"><a class="link" href="#_response_34">Response</a></h4>
+<h4 id="_response_36"><a class="link" href="#_response_36">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -6351,7 +6502,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_35"><a class="link" href="#_response_35">Response</a></h4>
+<h4 id="_response_37"><a class="link" href="#_response_37">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -6406,7 +6557,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_36"><a class="link" href="#_response_36">Response</a></h4>
+<h4 id="_response_38"><a class="link" href="#_response_38">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -7884,7 +8035,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_37"><a class="link" href="#_response_37">Response</a></h4>
+<h4 id="_response_39"><a class="link" href="#_response_39">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -7974,8 +8125,8 @@ Content-Length: 210
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.5.1<br>
-Last updated 2023-03-11 15:09:30 +0900
+Version 0.8.1<br>
+Last updated 2023-03-12 17:45:40 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

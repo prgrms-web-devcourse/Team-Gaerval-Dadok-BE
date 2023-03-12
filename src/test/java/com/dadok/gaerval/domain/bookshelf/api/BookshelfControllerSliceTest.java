@@ -1,6 +1,6 @@
 package com.dadok.gaerval.domain.bookshelf.api;
 
-import static com.dadok.gaerval.global.config.security.jwt.JwtService.*;
+import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;

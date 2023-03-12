@@ -8,32 +8,38 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.dadok.gaerval.domain.user.entity.User;
 
-import lombok.Getter;
-
 public class UserPrincipal
 	extends org.springframework.security.core.userdetails.User
 	implements OAuth2User {
 
-	@Getter
-	private final User userEntity;
+	private Long userId;
+
+	private String accessToken;
+
+	private Collection<GrantedAuthority> authorities;
 
 	private Map<String, Object> attributes;
 
-	private UserPrincipal(User userEntity) {
-		super(userEntity.getEmail(),
-			"",
-			userEntity.grantedAuthorities());
+	private UserPrincipal(Long userId, Collection<GrantedAuthority> authorities) {
+		super(userId.toString(), "", authorities);
+		this.userId = userId;
+		this.authorities = authorities;
+	}
 
-		this.userEntity = userEntity;
+	private UserPrincipal(Long userId, String accessToken, Collection<GrantedAuthority> authorities) {
+		super(userId.toString(), "", authorities);
+		this.userId = userId;
+		this.authorities = authorities;
+		this.accessToken = accessToken;
 	}
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
-		return this.userEntity.grantedAuthorities();
+		return authorities;
 	}
 
 	public static UserPrincipal of(User userEntity) {
-		return new UserPrincipal(userEntity);
+		return new UserPrincipal(userEntity.getId(), userEntity.grantedAuthorities());
 	}
 
 	public static UserPrincipal of(User user, Map<String, Object> attributes) {
@@ -41,6 +47,10 @@ public class UserPrincipal
 		userPrincipal.setAttributes(attributes);
 
 		return userPrincipal;
+	}
+
+	public static UserPrincipal of(Long userId, String accessToken, Collection<GrantedAuthority> authorities) {
+		return new UserPrincipal(userId, accessToken, authorities);
 	}
 
 	public void setAttributes(Map<String, Object> attributes) {
@@ -54,10 +64,15 @@ public class UserPrincipal
 
 	@Override
 	public String getName() {
-		return userEntity.getEmail();
+		return this.userId.toString();
 	}
 
 	public Long getUserId() {
-		return this.userEntity.getId();
+		return this.userId;
 	}
+
+	public String getAccessToken() {
+		return this.accessToken;
+	}
+
 }

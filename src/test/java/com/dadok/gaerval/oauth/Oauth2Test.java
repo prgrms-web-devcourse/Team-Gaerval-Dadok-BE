@@ -97,7 +97,8 @@ class Oauth2Test {
 			requestParameters(parameterWithName("redirect_uri").description("인증 후 redirect 할 frontend uri")),
 
 			responseHeaders(
-				headerWithName("Location").description("요청시 사용한 redirect_uri, with accessToken")
+				headerWithName("Location").description("요청시 사용한 redirect_uri, with accessToken"),
+				headerWithName("Set-Cookie").description("발급된 리프레시 토큰. 리프레시 토큰 쿠키 이름 : RefreshToken")
 			)
 		));
 	}

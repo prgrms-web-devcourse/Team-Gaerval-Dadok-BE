@@ -32,9 +32,13 @@ jobs:
       - name: Setup Gradle permission
         run: chmod +x ./gradlew
 
-      - name: Set Up With Run MySql Docker Container
+      - name: Set Up With Run MySQL Docker Container
         run: |
           sudo docker run -d -p 3306:3306 --env MYSQL_DATABASE=dadok_test --env MYSQL_ROOT_PASSWORD=${{ secrets.TEST_DB_PASSWORD }} mysql:8.0.31
+
+      - name: Set Up With Run Redis
+        run: |
+          sudo docker run --name dadok-redis -p 6379:6379 -d redis --requirepass ${{ secrets.TEST_REDIS_PASSWORD }}
 
       - name: test with Gradle
         run: ./gradlew test

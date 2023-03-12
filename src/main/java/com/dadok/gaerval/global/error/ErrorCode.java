@@ -22,6 +22,10 @@ public enum ErrorCode {
 	// Auth
 	UNAUTHORIZED_USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A1", "유저가 존재하지 않습니다."),
 	INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A2", "잘못된 접근입니다. 유효한 토큰이 아닙니다."),
+	UNAUTHORIZED_REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A3", "리프레시 토큰이 존재하지 않습니다. 다시 로그인 하세요"),
+	EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A4", "액세스 토큰이 만료되었습니다. 리프레시 하거나 다시 로그인 해야 합니다."),
+	EMPTY_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A5", "리프레시 토큰이 존재하지 않습니다."),
+	MISMATCH_LOGOUT_AUTHENTICATION_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A6", "액세스 토큰이나, 리프레시 토큰이 존재하지 않아 잘못된 로그아웃 요청입니다."),
 
 	// Bookshelf
 	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "BS1", "이미 책장에 포함된 아아템입니다."),

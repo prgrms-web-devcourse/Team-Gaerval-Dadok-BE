@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'com.dadok'
-version = '0.5.1'
+version = '0.8.1'
 sourceCompatibility = '17'
 
 
@@ -81,12 +81,27 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-core:2.0.7.RELEASE'
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '4.9.0'
     // javax.annotation.meta.When runtime에 적용
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    implementation 'com.google.guava:guava:31.1-jre'
 }
+
+def excludesValues = [
+        "com/dadok/gaerval/global/*",
+        "**/*Properties.class",
+        "**/*Exception.class",
+        "**/request/*",
+        "**/exception/*",
+        "**/response/*",
+        "com.dadok.gaerval.DadokApplication.class"
+]
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
@@ -100,16 +115,7 @@ jacocoTestReport {
 
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it,
-                    excludes: [
-                            "**/*toString", "**/*equals",
-                            "*equals", "*hashCode",
-                            "**/*_equals.*", "**/*_hashCode.*",
-                            "com/dadok/gaerval/global/*",
-                            "**/request/*",
-                            "**/response/*",
-                            "com.dadok.gaerval.DadokApplication.class"
-
-                    ] + Qdomains) // 제외할 Qdomains 패턴 추가
+                    excludes: excludesValues + Qdomains) // 제외할 Qdomains 패턴 추가
         }))
 
     }
@@ -142,12 +148,7 @@ jacocoTestCoverageVerification {
                 minimum = 0.50
             }
 
-            excludes = [
-                    "com/dadok/gaerval/global/*",
-                    "**/request/*",
-                    "**/response/*",
-                    "com.dadok.gaerval.DadokApplication.class"
-            ] + Qdomains
+            excludes = excludesValues + Qdomains
         }
 
     }
@@ -209,11 +210,7 @@ test {
     }
 
     jacoco {
-        excludes += [
-                "com/dadok/gaerval/global/*",
-                "**/request/*",
-                "**/response/*",
-                "com.dadok.gaerval.DadokApplication.class"] + Qdomains
+        excludes += excludesValues + Qdomains
     }
 }
 
