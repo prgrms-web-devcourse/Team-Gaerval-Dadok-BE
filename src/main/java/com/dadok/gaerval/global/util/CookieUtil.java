@@ -38,6 +38,18 @@ public class CookieUtil {
 		return cookie;
 	}
 
+	public static Cookie addCookie(HttpServletResponse response, String frontEndDomain,
+		String name, String value, int maxAge) {
+
+		Cookie cookie = new Cookie(name, value);
+		cookie.setPath("/");
+		cookie.setHttpOnly(true);
+		cookie.setMaxAge(maxAge);
+		cookie.setDomain(frontEndDomain);
+		response.addCookie(cookie);
+		return cookie;
+	}
+
 	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response,
 		String name) {
 		Cookie[] cookies = request.getCookies();

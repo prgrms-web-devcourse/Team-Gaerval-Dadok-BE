@@ -14,6 +14,8 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 5s
 
+front:
+  domain: ${FRONT_DOMAIN}
 
 server:
   shutdown: graceful

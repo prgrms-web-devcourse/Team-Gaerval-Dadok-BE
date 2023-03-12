@@ -43,6 +43,9 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Value("${refresh-token.expiration-second}")
 	private int refreshTokenExpirationSecond;
 
+	@Value("${front.domain}")
+	private String frontDomain;
+
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws ServletException, IOException {
@@ -73,7 +76,7 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + loginResponse.accessToken());
 
 		CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, loginResponse.accessToken(), 180);
-		CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, loginResponse.refreshToken(), refreshTokenExpirationSecond);
+		CookieUtil.addCookie(response, frontDomain, REFRESH_TOKEN_COOKIE_NAME, loginResponse.refreshToken(), refreshTokenExpirationSecond);
 
 		return UriComponentsBuilder.fromUriString(targetUri)
 			.queryParam("access_token", loginResponse.accessToken())
