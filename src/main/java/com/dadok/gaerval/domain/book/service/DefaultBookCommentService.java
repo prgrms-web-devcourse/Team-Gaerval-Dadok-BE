@@ -14,7 +14,6 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -74,9 +73,9 @@ public class DefaultBookCommentService implements BookCommentService {
 
 	@Override
 	public void deleteBookComment(Long bookId, Long userId,
-		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
+		Long commentId) {
 		Optional<BookComment> existsComment = bookCommentRepository.findByBookIdAndUserId(bookId, userId);
-		Long byId = this.getById(bookGroupCommentDeleteRequest.commentId()).getId();
+		Long byId = this.getById(commentId).getId();
 		bookCommentRepository.delete(existsComment.filter(c -> c.getId().equals(byId))
 			.orElseThrow(() -> new ResourceNotfoundException(BookComment.class)));
 	}

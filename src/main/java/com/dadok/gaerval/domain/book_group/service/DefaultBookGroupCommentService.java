@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponses;
@@ -91,9 +90,9 @@ public class DefaultBookGroupCommentService implements BookGroupCommentService {
 	@Transactional
 	@Override
 	public void deleteBookGroupComment(Long bookGroupId, Long userId,
-		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest) {
+		Long commentId) {
 		checkGroupMember(userId, bookGroupId);
-		bookGroupCommentRepository.delete(this.getById(bookGroupCommentDeleteRequest.commentId()));
+		bookGroupCommentRepository.delete(this.getById(commentId));
 	}
 
 	private void checkGroupMember(Long userId, Long groupId) {

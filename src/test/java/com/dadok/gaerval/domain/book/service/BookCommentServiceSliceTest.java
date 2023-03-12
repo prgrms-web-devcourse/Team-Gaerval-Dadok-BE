@@ -26,7 +26,6 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.util.QueryDslUtil;
@@ -116,8 +115,6 @@ class BookCommentServiceSliceTest {
 		Book book = BookObjectProvider.createRequiredFieldBook();
 		ReflectionTestUtils.setField(book, "id", 1L);
 
-		BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest = new BookGroupCommentDeleteRequest(1L);
-
 		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
 		ReflectionTestUtils.setField(comment, "id", 1L);
 
@@ -127,7 +124,7 @@ class BookCommentServiceSliceTest {
 
 		// when
 		defaultBookCommentService.deleteBookComment(book.getId(), user.getId(),
-			bookGroupCommentDeleteRequest);
+			1L);
 
 		// then
 		verify(bookCommentRepository).findByBookIdAndUserId(1L, 1L);

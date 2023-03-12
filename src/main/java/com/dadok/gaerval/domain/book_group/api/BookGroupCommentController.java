@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
@@ -116,14 +115,13 @@ public class BookGroupCommentController {
 	 * @return status : ok
 	 */
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@DeleteMapping(value = "/{groupId}/comments", consumes = APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/{groupId}/comments/{commentId}", consumes = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updateBookGroupComment(
-		@PathVariable Long groupId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal,
-		@RequestBody @Valid BookGroupCommentDeleteRequest bookGroupCommentDeleteRequest
+		@PathVariable Long groupId, @PathVariable Long commentId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		bookGroupCommentService.deleteBookGroupComment(groupId, userPrincipal.getUserId(),
-			bookGroupCommentDeleteRequest);
+			commentId);
 
 		return ResponseEntity.ok().build();
 	}

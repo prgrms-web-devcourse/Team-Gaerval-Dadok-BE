@@ -25,7 +25,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentCreateRequest;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupCommentResponse;
@@ -205,16 +204,13 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 		Long groupId = 234L;
 		Long bookGroupCommentId = 234L;
 
-		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(bookGroupCommentId);
-
-		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, request);
+		doNothing().when(bookGroupCommentService).deleteBookGroupComment(groupId, 1L, bookGroupCommentId);
 
 		// when then
-		mockMvc.perform(delete("/api/book-groups/{groupId}/comments", groupId)
+		mockMvc.perform(delete("/api/book-groups/{groupId}/comments/{commentId}", groupId, bookGroupCommentId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
-				.content(createJson(request))
 			)
 			.andExpect(status().isOk())
 			.andDo(print())
@@ -224,14 +220,8 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
-					parameterWithName("groupId").description("모임 ID")
-				),
-				requestFields(
-					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
-						.description("삭제할 댓글 아이디")
-						.attributes(
-							constrainsAttribute(BookGroupCommentDeleteRequest.class, "commentId")
-						)
+					parameterWithName("groupId").description("모임 ID"),
+					parameterWithName("commentId").description("댓글 ID")
 				)
 			));
 

@@ -28,14 +28,12 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentCreateRequest;
-import com.dadok.gaerval.domain.book.dto.request.BookCommentDeleteRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCommentUpdateRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
-import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentDeleteRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCommentSearchRequest;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.util.QueryDslUtil;
@@ -235,18 +233,15 @@ class BookCommentControllerTest extends ControllerSliceTest {
 	void deleteBookComment_ShouldReturnOk() throws Exception {
 		// given
 		Long bookId = 234L;
-		Long CommentId = 234L;
+		Long commentId = 234L;
 
-		BookGroupCommentDeleteRequest request = new BookGroupCommentDeleteRequest(CommentId);
-
-		doNothing().when(bookCommentService).deleteBookComment(bookId, 1L, request);
+		doNothing().when(bookCommentService).deleteBookComment(bookId, 1L, commentId);
 
 		// when then
-		mockMvc.perform(delete("/api/books/{bookId}/comments", bookId)
+		mockMvc.perform(delete("/api/books/{bookId}/comments/{commentId}", bookId, commentId)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.characterEncoding(StandardCharsets.UTF_8)
-				.content(createJson(request))
 			)
 			.andExpect(status().isOk())
 			.andDo(print())
@@ -256,14 +251,8 @@ class BookCommentControllerTest extends ControllerSliceTest {
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				pathParameters(
-					parameterWithName("bookId").description("도서 ID")
-				),
-				requestFields(
-					fieldWithPath("commentId").type(JsonFieldType.NUMBER)
-						.description("삭제할 댓글 아이디")
-						.attributes(
-							constrainsAttribute(BookCommentDeleteRequest.class, "commentId")
-						)
+					parameterWithName("bookId").description("도서 ID"),
+					parameterWithName("commentId").description("댓글 ID")
 				)
 			));
 
