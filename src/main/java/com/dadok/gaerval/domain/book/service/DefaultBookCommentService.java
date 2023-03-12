@@ -1,5 +1,6 @@
 package com.dadok.gaerval.domain.book.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
+import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -47,15 +49,15 @@ public class DefaultBookCommentService implements BookCommentService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public BookComment getById(Long bookId) {
-		return bookCommentRepository.findById(bookId)
+	public BookComment getById(Long bookCommentId) {
+		return bookCommentRepository.findById(bookCommentId)
 			.orElseThrow(() -> new ResourceNotfoundException(BookComment.class));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<BookComment> findById(Long bookId) {
-		return bookCommentRepository.findById(bookId);
+	public Optional<BookComment> findById(Long bookCommentId) {
+		return bookCommentRepository.findById(bookCommentId);
 	}
 
 	@Override
@@ -72,11 +74,16 @@ public class DefaultBookCommentService implements BookCommentService {
 	}
 
 	@Override
-	public void deleteBookComment(Long bookId, Long userId,
-		Long commentId) {
-		Optional<BookComment> existsComment = bookCommentRepository.findByBookIdAndUserId(bookId, userId);
-		Long byId = this.getById(commentId).getId();
-		bookCommentRepository.delete(existsComment.filter(c -> c.getId().equals(byId))
-			.orElseThrow(() -> new ResourceNotfoundException(BookComment.class)));
+	public void deleteBookComment(Long bookId, Long userId, Long commentId) {
+		BookComment bookComment = bookCommentRepository.findByBookId(bookId, commentId)
+			.orElseThrow(() -> new ResourceNotfoundException(BookComment.class));
+		checkCommentAuthor(bookComment, userId);
+		bookCommentRepository.delete(bookComment);
+	}
+
+	void checkCommentAuthor(BookComment bookComment, Long userId) {
+		if (!Objects.equals(bookComment.getUser().getId(), userId)) {
+			throw new NotMatchedCommentAuthorException();
+		}
 	}
 }

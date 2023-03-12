@@ -9,8 +9,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ErrorCode {
 
-	// GroupComment
-	INVALID_COMMENT_NOT_PARENT(HttpStatus.BAD_REQUEST, "BGC1", "부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다."),
+	// Comment
+	INVALID_COMMENT_NOT_PARENT(HttpStatus.BAD_REQUEST, "C1", "부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다."),
+	NOT_MATCHED_COMMENT_AUTHOR(HttpStatus.FORBIDDEN, "C2", "해당 요청자가 작성한 코멘트가 아닙니다."),
 
 	//User
 	ALREADY_EXISTS_NICKNAME(HttpStatus.BAD_REQUEST, "U1", "이미 존재하는 닉네임입니다."),
@@ -25,7 +26,8 @@ public enum ErrorCode {
 	UNAUTHORIZED_REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A3", "리프레시 토큰이 존재하지 않습니다. 다시 로그인 하세요"),
 	EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A4", "액세스 토큰이 만료되었습니다. 리프레시 하거나 다시 로그인 해야 합니다."),
 	EMPTY_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A5", "리프레시 토큰이 존재하지 않습니다."),
-	MISMATCH_LOGOUT_AUTHENTICATION_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A6", "액세스 토큰이나, 리프레시 토큰이 존재하지 않아 잘못된 로그아웃 요청입니다."),
+	MISMATCH_LOGOUT_AUTHENTICATION_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A6",
+		"액세스 토큰이나, 리프레시 토큰이 존재하지 않아 잘못된 로그아웃 요청입니다."),
 
 	// Bookshelf
 	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "BS1", "이미 책장에 포함된 아아템입니다."),
@@ -46,10 +48,7 @@ public enum ErrorCode {
 	EXPIRED_JOIN_GROUP(HttpStatus.BAD_REQUEST, "BG5", "모임 가입 기간이 지났습니다."),
 	CANNOT_DELETE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "BG6", "멤버가 존재하는 모임은 삭제할 수 없습니다."),
 	LESS_THAN_CURRENT_MEMBERS(HttpStatus.BAD_REQUEST, "BG7", "모임 최대 인원은 현재 참여 인원(%s 명)보다 작을 수 없습니다"),
-	NOT_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.UNAUTHORIZED, "BG8", "모임에 참여하지않은 사용자 입니다."),
-	NOT_MATCHED_COMMENT_AUTHOR(HttpStatus.FORBIDDEN, "BGC9", "요청자가 작성한 코멘트가 아닙니다.")
-
-	;
+	NOT_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.UNAUTHORIZED, "BG8", "모임에 참여하지않은 사용자 입니다.");
 
 	private final HttpStatus status;
 

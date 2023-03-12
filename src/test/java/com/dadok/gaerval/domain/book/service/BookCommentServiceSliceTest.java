@@ -118,16 +118,14 @@ class BookCommentServiceSliceTest {
 		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
 		ReflectionTestUtils.setField(comment, "id", 1L);
 
-		given(bookCommentRepository.findByBookIdAndUserId(1L, 1L)).willReturn(Optional.of(comment));
-		given(bookCommentRepository.findById(1L)).willReturn(Optional.of(comment));
-		given(defaultBookCommentService.findById(1L)).willReturn(Optional.of(comment));
+		given(bookCommentRepository.findByBookId(1L, 1L)).willReturn(Optional.of(comment));
 
 		// when
 		defaultBookCommentService.deleteBookComment(book.getId(), user.getId(),
 			1L);
 
 		// then
-		verify(bookCommentRepository).findByBookIdAndUserId(1L, 1L);
+		verify(bookCommentRepository).findByBookId(1L, 1L);
 		verify(bookCommentRepository).delete(comment);
 	}
 
