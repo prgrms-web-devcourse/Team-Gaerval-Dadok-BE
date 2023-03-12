@@ -23,7 +23,7 @@ import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
-import com.dadok.gaerval.integration_util.ServiceIntegration;
+import com.dadok.gaerval.integration_util.IntegrationTest;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Slf4j
 @Transactional
-class DefaultBookGroupServiceTest extends ServiceIntegration {
+class DefaultBookGroupServiceTest extends IntegrationTest {
 
 	@Autowired
 	private DefaultBookGroupService defaultBookGroupService;

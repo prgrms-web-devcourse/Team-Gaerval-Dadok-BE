@@ -1,6 +1,6 @@
 package com.dadok.gaerval.global.oauth;
 
-import static com.dadok.gaerval.global.config.security.jwt.JwtService.*;
+import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static com.dadok.gaerval.global.oauth.HttpCookieOAuth2AuthorizationRequestRepository.*;
 
 import java.io.IOException;
@@ -11,13 +11,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.dadok.gaerval.domain.auth.dto.response.LoginResponse;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
-import com.dadok.gaerval.global.config.security.jwt.JwtService;
+import com.dadok.gaerval.global.config.security.jwt.AuthService;
 import com.dadok.gaerval.global.util.CookieUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -34,10 +36,12 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-	private final JwtService jwtService;
+	private final AuthService authService;
 
 	public static final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
 
+	@Value("${refresh-token.expiration-second}")
+	private int refreshTokenExpirationSecond;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -64,18 +68,16 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 			.map(Cookie::getValue);
 
 		String targetUri = redirectUri.orElse(getDefaultTargetUrl());
-		String accessToken = jwtService.createAccessToken(userPrincipal.getUserId(), userPrincipal.getAuthorities());
-		// String refreshToken = generateRefreshToken(user);
-		//todo : 리프레시 토큰 설계
-		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + accessToken);
-		CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, accessToken, 180);
+		LoginResponse loginResponse = authService.login(userPrincipal.getUserId(), userPrincipal.getAuthorities());
+
+		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + loginResponse.accessToken());
+
+		CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, loginResponse.accessToken(), 180);
+		CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, loginResponse.refreshToken(), refreshTokenExpirationSecond);
+
 		return UriComponentsBuilder.fromUriString(targetUri)
-			.queryParam("access_token", accessToken)
+			.queryParam("access_token", loginResponse.accessToken())
 			.build().toUriString();
 	}
-
-	// private String generateRefreshToken(User user) {
-	// 	return jwtService.createRefreshToken(user.getEmail());
-	// }
 
 }

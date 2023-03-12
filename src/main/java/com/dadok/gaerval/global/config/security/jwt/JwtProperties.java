@@ -1,13 +1,12 @@
 package com.dadok.gaerval.global.config.security.jwt;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 
 @Getter
-@ConstructorBinding
-@ConfigurationProperties(prefix = "jwt")
+@Component
 public class JwtProperties{
 
 	private final String secretKey;
@@ -16,7 +15,10 @@ public class JwtProperties{
 
 	private final String issuer;
 
-	public JwtProperties(String secretKey, int expirationSecond, String issuer) {
+	public JwtProperties(
+		@Value("${jwt.secret-key}") String secretKey,
+		@Value("${jwt.expiration-second}") int expirationSecond,
+		@Value("${jwt.issuer}") String issuer) {
 		this.secretKey = secretKey;
 		this.expirationSecond = expirationSecond;
 		this.issuer = issuer;

@@ -19,6 +19,7 @@ import com.dadok.gaerval.global.error.exception.UnAuthenticationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +35,10 @@ public class ExceptionHandlingFilter extends OncePerRequestFilter {
 
 		try {
 			filterChain.doFilter(request, response);
-		} catch (UnAuthenticationException e) {
+		} catch (ExpiredJwtException e) {
+			SecurityConfig.setErrorResponse(request, response, e, objectMapper);
+		}
+		catch (UnAuthenticationException e) {
 			log.info("""
 					path : {},
 					Exception Name : {}, 

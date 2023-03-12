@@ -8,30 +8,33 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.dadok.gaerval.global.config.security.jwt.JwtService;
+import com.dadok.gaerval.global.config.security.jwt.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private final JwtService jwtService;
+	private final JwtProvider jwtProvider;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-		FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(
+		@NotNull HttpServletRequest request,
+		@NotNull HttpServletResponse response,
+		@NotNull FilterChain filterChain) throws ServletException, IOException {
 
 		if (SecurityContextHolder.getContext().getAuthentication() == null) {
-			Optional<String> tokenOptional = jwtService.resolveToken(request);
+			Optional<String> tokenOptional = JwtProvider.resolveToken(request);
 
 			if (tokenOptional.isPresent()) {
 				String accessToken = tokenOptional.get();
-				jwtService.validate(accessToken);
-				Authentication authentication = jwtService.getAuthentication(accessToken);
+				jwtProvider.validate(accessToken);
+				Authentication authentication = jwtProvider.getAuthentication(accessToken);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 
 			}
@@ -41,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+	protected boolean shouldNotFilter(@NotNull HttpServletRequest request) throws ServletException {
 		return false;
 	}
 }

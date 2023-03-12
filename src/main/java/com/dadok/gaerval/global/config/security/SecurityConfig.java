@@ -29,9 +29,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.dadok.gaerval.global.config.security.filter.ExceptionHandlingFilter;
 import com.dadok.gaerval.global.config.security.filter.JwtAuthenticationFilter;
+import com.dadok.gaerval.global.config.security.jwt.AuthService;
 import com.dadok.gaerval.global.config.security.jwt.JwtAccessDeniedHandler;
 import com.dadok.gaerval.global.config.security.jwt.JwtAuthenticationEntryPoint;
-import com.dadok.gaerval.global.config.security.jwt.JwtService;
+import com.dadok.gaerval.global.config.security.jwt.JwtProvider;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.UnAuthenticationException;
 import com.dadok.gaerval.global.error.response.ErrorResponse;
@@ -56,6 +57,8 @@ public class SecurityConfig {
 
 	private final ObjectMapper objectMapper;
 
+	private final JwtProvider jwtProvider;
+
 	private final String[] allowedApiUrls = {
 		"/docs", "/docs/index.html", "/docs/**", "/favicon.ico", "/favicon.io"
 	};
@@ -74,8 +77,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain httpSecurity(
 		HttpSecurity http,
-		JwtService jwtService
-		) throws Exception {
+		AuthService authService
+	) throws Exception {
 		http
 			.formLogin().disable()
 
@@ -94,7 +97,7 @@ public class SecurityConfig {
 			.and()
 			.authorizeRequests()
 			.antMatchers(allowedApiUrls).permitAll()
-			.antMatchers("/oauth2/authorize/**", "/login/oauth2/code/**", "/docs/index.html", "/docs/**").permitAll()
+			.antMatchers("/oauth2/authorize/**", "/login/oauth2/code/**", "/docs/index.html", "/docs/**", "/api/auth/token", "/api/auth/logout").permitAll()
 			.anyRequest().permitAll()
 			// .anyRequest().hasAnyRole("ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN")
 			.and()
@@ -119,7 +122,7 @@ public class SecurityConfig {
 
 		;
 
-		http.addFilterBefore(new JwtAuthenticationFilter(jwtService), OAuth2AuthorizationRequestRedirectFilter.class);
+		http.addFilterBefore(new JwtAuthenticationFilter(jwtProvider), OAuth2AuthorizationRequestRedirectFilter.class);
 		http.addFilterBefore(new ExceptionHandlingFilter(objectMapper), JwtAuthenticationFilter.class);
 
 		return http.build();
@@ -135,7 +138,6 @@ public class SecurityConfig {
 		JdbcOperations jdbcOperations,
 		ClientRegistrationRepository clientRegistrationRepository
 	) {
-
 		return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
 	}
 
@@ -150,13 +152,15 @@ public class SecurityConfig {
 			httpStatus = errorCode.getStatus();
 
 			errorResponse = ErrorResponse.of(httpStatus, e.getMessage(), request.getRequestURI());
-		} else if (re instanceof AccessDeniedException e) {
-			httpStatus = HttpStatus.FORBIDDEN;
-			errorResponse = ErrorResponse.of(httpStatus, e.getMessage(), request.getRequestURI());
-		} else if (re instanceof AuthenticationException e) {
-			httpStatus = HttpStatus.UNAUTHORIZED;
-			errorResponse = ErrorResponse.of(httpStatus, e.getMessage(), request.getRequestURI());
+		} else {
+			if (re instanceof AccessDeniedException e) {
+				httpStatus = HttpStatus.FORBIDDEN;
+				errorResponse = ErrorResponse.of(httpStatus, e.getMessage(), request.getRequestURI());
+			} else if (re instanceof AuthenticationException e) {
+				httpStatus = HttpStatus.UNAUTHORIZED;
+				errorResponse = ErrorResponse.of(httpStatus, e.getMessage(), request.getRequestURI());
 
+			}
 		}
 
 		response.setStatus(httpStatus.value());

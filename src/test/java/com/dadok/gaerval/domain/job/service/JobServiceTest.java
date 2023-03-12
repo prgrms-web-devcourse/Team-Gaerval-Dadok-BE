@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
-import com.dadok.gaerval.integration_util.ServiceIntegration;
+import com.dadok.gaerval.integration_util.IntegrationTest;
 
 @Sql(scripts = {"/sql/job_data.sql"})
 @Sql(scripts = {"/sql/clean_up.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Transactional
-class JobServiceTest extends ServiceIntegration {
+class JobServiceTest extends IntegrationTest {
 
 	@DisplayName("모든 JobGroup과 JobName을 그룹화하고 order에 맞게 ASC로 정렬하여 반환한다. ")
 	@Test

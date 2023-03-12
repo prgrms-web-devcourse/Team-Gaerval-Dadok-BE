@@ -6,6 +6,7 @@ spring:
       - security
       - aws
       - api
+      - redis
     active: ${SPRING_PROFILES_ACTIVE}
 
   config:
