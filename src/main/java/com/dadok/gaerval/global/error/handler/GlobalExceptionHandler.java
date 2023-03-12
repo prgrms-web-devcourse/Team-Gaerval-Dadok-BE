@@ -181,6 +181,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		NullPointerException e, HttpServletRequest request) {
 
 		logInfo(e, request.getRequestURI());
+		slackService.sendInfo(e, request.getRequestURI());
 
 		return ResponseEntity.badRequest()
 			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI(), null));
