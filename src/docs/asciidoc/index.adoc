@@ -82,6 +82,42 @@ include::{snippets}/oauth2-test/oauth2-login/http-response.adoc[]
 
 include::{snippets}/oauth2-test/oauth2-login/response-headers.adoc[]
 
+=== Access Token 재발급
+
+==== Http Request
+
+include::{snippets}/auth-controller-slice-test/refresh-access-token/http-request.adoc[]
+
+==== Request Header Cookie
+include::{snippets}/auth-controller-slice-test/refresh-access-token/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/auth-controller-slice-test/refresh-access-token/http-response.adoc[]
+
+==== Response Header
+
+include::{snippets}/auth-controller-slice-test/refresh-access-token/response-headers.adoc[]
+
+=== 로그아웃 - logout
+- 로그아웃시 리프레시 토큰이 만료됩니다.
+
+==== Http Request
+
+include::{snippets}/auth-controller-slice-test/logout/http-request.adoc[]
+
+==== Request Header Cookie
+include::{snippets}/auth-controller-slice-test/logout/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/auth-controller-slice-test/logout/http-response.adoc[]
+
+==== Response Header
+
+include::{snippets}/auth-controller-slice-test/logout/response-headers.adoc[]
+
+
 == User - 유저
 
 === 자기자신 개인정보 조회 - Me
