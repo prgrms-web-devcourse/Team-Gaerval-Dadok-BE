@@ -30,5 +30,5 @@ values (1, 'KAKAO', '기시미 이치로, 고가 후미타케', '인간은 변�
         false, '9788996991342', '인플루엔셜', '미움받을 용기',
         'https://search.daum.net/search?w=bookpage&bookId=1467038&q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0');
 
-insert into book_comments(comment, book_id, user_id, created_at, modified_at)
-    value ('하이룽~!', 1,1,now(),null);
+insert into book_comments(id, comment, book_id, user_id, created_at, modified_at)
+    value (1, '하이룽~!', 1, 1, now(), null);
