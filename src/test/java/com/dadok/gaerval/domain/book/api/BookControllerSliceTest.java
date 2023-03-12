@@ -270,7 +270,8 @@ class BookControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							constrainsAttribute(SuggestionsBookFindRequest.class, "pageSize")
 						),
-					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 null이고 DESC면 가장 최근 데이터.").optional(),
+					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 null이고 DESC면 가장 최근 데이터.")
+						.optional(),
 					parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
 						.description("정렬 방식 : " +
 							generateLinkCode(DocUrl.SORT_DIRECTION)
@@ -319,7 +320,6 @@ class BookControllerSliceTest extends ControllerSliceTest {
 			.andExpect(header().string("Location", containsString("/api/books/")))
 			.andDo(this.restDocs.document(
 					requestHeaders(
-						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
 						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 					),
 					requestFields(

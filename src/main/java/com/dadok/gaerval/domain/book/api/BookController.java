@@ -96,7 +96,7 @@ public class BookController {
 	 * @return status : ok
 	 */
 	@PostMapping(value = "", consumes = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookIdResponse> saveBookDetail(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
 		log.info("[BookController]-[Void]-bookCreateRequest : {}", bookCreateRequest);
 		Long bookId = bookService.createBookAndReturnId(bookCreateRequest);
