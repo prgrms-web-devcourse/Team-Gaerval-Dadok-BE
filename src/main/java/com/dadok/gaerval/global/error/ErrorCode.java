@@ -28,6 +28,7 @@ public enum ErrorCode {
 	EMPTY_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A5", "리프레시 토큰이 존재하지 않습니다."),
 	MISMATCH_LOGOUT_AUTHENTICATION_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A6",
 		"액세스 토큰이나, 리프레시 토큰이 존재하지 않아 잘못된 로그아웃 요청입니다."),
+	ACCESS_DENIED(HttpStatus.FORBIDDEN, "A7", "접근 권한이 없습니다."),
 
 	// Bookshelf
 	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "BS1", "이미 책장에 포함된 아아템입니다."),

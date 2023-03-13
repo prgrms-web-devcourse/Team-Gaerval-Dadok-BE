@@ -225,8 +225,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpServletRequest request, AccessDeniedException e) {
 		logInfo(e, request.getRequestURI());
 
-		return ResponseEntity.status(HttpStatus.FORBIDDEN)
-			.body(ErrorResponse.forbidden(e.getMessage(), request.getRequestURI(), null));
+		return of(ErrorCode.ACCESS_DENIED, request.getRequestURI());
 	}
 
 	@ExceptionHandler(Exception.class)
