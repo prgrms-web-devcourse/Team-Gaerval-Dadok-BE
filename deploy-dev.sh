@@ -13,22 +13,6 @@ fi
 echo
 echo
 
-if [ $(docker ps | grep -c "certbot") -eq 0 ]; then
-  echo "Starting certbot..."
-  docker-compose up -d certbot
-else
-  echo "-------------------------------------------"
-  echo "certbot is already running"
-  echo "-------------------------------------------"
-fi
-
-echo
-echo "end certbot job"
-echo
-
-
-
-
 if [ $(docker ps | grep -c "redis-dev") -eq 0 ]; then
   echo "Starting redis-dev..."
   docker-compose up -d redis-dev
