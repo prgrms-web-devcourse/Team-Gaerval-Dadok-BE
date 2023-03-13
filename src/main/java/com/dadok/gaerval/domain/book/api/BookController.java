@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
 import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.service.BookService;
+import com.dadok.gaerval.global.common.logging.LogHttpRequests;
 import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -50,8 +51,8 @@ public class BookController {
 	 */
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
+	@LogHttpRequests
 	public ResponseEntity<BookResponses> findBooksByQuery(@RequestParam(name = "query") String query) {
-		log.info("[BookController]-[findBooksByQuery]-query : {}", query);
 		return ResponseEntity.ok().body(bookService.findAllByKeyword(query));
 	}
 
@@ -65,8 +66,8 @@ public class BookController {
 	 */
 	@GetMapping(value = "/{bookId}", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
+	@LogHttpRequests
 	public ResponseEntity<BookResponse> findBookDetail(@PathVariable(name = "bookId") Long bookId) {
-		log.info("[BookController]-[BookResponse]-bookId : {}", bookId);
 		return ResponseEntity.ok().body(bookService.findDetailById(bookId));
 	}
 
@@ -81,6 +82,7 @@ public class BookController {
 	 */
 	@GetMapping(value = "/{bookId}/users", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
+	@LogHttpRequests
 	public ResponseEntity<UserByBookResponses> findUsersByBook(
 		@PathVariable(name = "bookId") Long bookId,
 		@CurrentUserPrincipal UserPrincipal userPrincipal) {
@@ -97,8 +99,8 @@ public class BookController {
 	 */
 	@PostMapping(value = "", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")
+	@LogHttpRequests
 	public ResponseEntity<BookIdResponse> saveBookDetail(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
-		log.info("[BookController]-[Void]-bookCreateRequest : {}", bookCreateRequest);
 		Long bookId = bookService.createBookAndReturnId(bookCreateRequest);
 		String redirectUri =
 			ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/" + bookId.toString();
