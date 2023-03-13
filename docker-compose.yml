@@ -6,8 +6,10 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /home/ec2-user/app/nginx:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
 
   redis-dev:
     container_name: redis-dev

@@ -10,10 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.dadok.gaerval.domain.auth.dto.response.LoginResponse;
-import com.dadok.gaerval.domain.auth.repository.RefreshTokenRepository;
-import com.dadok.gaerval.domain.auth.token.RefreshToken;
 import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFoundException;
 import com.dadok.gaerval.domain.auth.service.RefreshTokenService;
+import com.dadok.gaerval.domain.auth.token.RefreshToken;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +29,6 @@ public class AuthService {
 	private final JwtProvider jwtProvider;
 
 	private final RefreshTokenService refreshTokenService;
-	private final RefreshTokenRepository refreshTokenRepository;
 
 	public LoginResponse login(Long userId, Collection<GrantedAuthority> roles) {
 		String accessToken = jwtProvider.createAccessToken(userId, roles);
