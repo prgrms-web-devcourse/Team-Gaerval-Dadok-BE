@@ -31,6 +31,7 @@ import org.springframework.util.MultiValueMap;
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponse;
@@ -55,24 +56,51 @@ class BookControllerSliceTest extends ControllerSliceTest {
 	void findBook_success() throws Exception {
 		// given
 		String keyword = "용기";
-		given(bookService.findAllByKeyword(keyword)).willReturn(BookObjectProvider.mockBookData());
+		BookSearchRequest bookSearchRequest = new BookSearchRequest(1, 10, keyword);
+		given(bookService.findAllByKeyword(bookSearchRequest)).willReturn(
+			BookObjectProvider.mockBookData());
+
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+		params.add("page", bookSearchRequest.page().toString());
+		params.add("pageSize", bookSearchRequest.pageSize().toString());
+		params.add("query", bookSearchRequest.query());
 
 		// when
 		mockMvc.perform(get("/api/books")
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
 				.accept(MediaType.APPLICATION_JSON)
-				.param("query", keyword)
+				.params(params)
 				.characterEncoding(StandardCharsets.UTF_8)
 			).andExpect(status().isOk())
+			.andDo(print())
 			.andDo(this.restDocs.document(
 				requestHeaders(
 					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
 				),
 				requestParameters(
+					parameterWithName("page").description("page (기본값 :1) ")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "page")
+						)
+					,
+					parameterWithName("pageSize").description("pageSize (기본값:10)")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "pageSize")
+						),
 					parameterWithName("query").description("검색어")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "query")
+						)
 				),
 				responseFields(
+					fieldWithPath("isEnd").type(JsonFieldType.BOOLEAN)
+						.description("마지막 데이터 여부"),
+					fieldWithPath("pageableCount").type(JsonFieldType.NUMBER)
+						.description("조회 가능한 데이터 여부(중복 제외된 결과)"),
+					fieldWithPath("totalCount").type(JsonFieldType.NUMBER)
+						.description("전체 데이터 개수"),
 					fieldWithPath("searchBookResponseList").type(JsonFieldType.ARRAY)
 						.optional()
 						.description("도서 검색 결과 리스트"),
@@ -104,7 +132,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 			));
 
 		// then
-		verify(bookService).findAllByKeyword(keyword);
+		verify(bookService).findAllByKeyword(bookSearchRequest);
 	}
 
 	@DisplayName("findBookDetail - bookId로 도서 상세정보 조회에 성공한다.")

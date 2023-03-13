@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
@@ -46,14 +46,14 @@ public class BookController {
 	 *     검색어를 입력받아 도서 목록을 외부 API로부터 받아온다.
 	 * </pre>
 	 *
-	 * @param query 검색어
+	 * @param bookSearchRequest 검색어, 페이지 정보
 	 * @return status : ok
 	 */
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	@LogHttpRequests
-	public ResponseEntity<BookResponses> findBooksByQuery(@RequestParam(name = "query") String query) {
-		return ResponseEntity.ok().body(bookService.findAllByKeyword(query));
+	public ResponseEntity<BookResponses> findBooksByQuery(@Valid @ModelAttribute BookSearchRequest bookSearchRequest) {
+		return ResponseEntity.ok().body(bookService.findAllByKeyword(bookSearchRequest));
 	}
 
 	/**

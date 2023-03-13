@@ -19,12 +19,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SortingPolicy;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.domain.book.exception.BookApiNotAvailableException;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.global.config.externalapi.ExternalApiError;
 import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -237,7 +240,7 @@ class BookServiceTest {
 		given(bookMapper.entityToSearchBookResponse(any())).willReturn(searchBookResponse);
 
 		// when
-		BookResponses actualResponses = defaultBookService.findAllByKeyword(keyword);
+		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword));
 
 		// then
 		verify(externalBookApiOperations).searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
@@ -254,10 +257,27 @@ class BookServiceTest {
 	@ValueSource(strings = {"", " ", "!@#$", "키워드에@"})
 	void findAllByKeyword_WithInvalidKeyword_ReturnsEmptyList(String keyword) {
 		// when
-		BookResponses actualResponses = defaultBookService.findAllByKeyword(keyword);
+		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword));
 
 		// then
 		assertTrue(actualResponses.searchBookResponseList().isEmpty());
 	}
 
+	@DisplayName("findAllByKeyword - 호출 횟수 초과 시")
+	@Test
+	void findAllByKeyword_ApiLimitExceeded() throws JsonProcessingException {
+		// given
+		String keyword = "test";
+		String result = "{\"code\":-10,\"msg\":\"API limit has been exceeded.\"}";
+		JsonNode jsonNode = new ObjectMapper().readTree(result);
+		ExternalApiError externalApiError = new ExternalApiError(-10,"API limit has been exceeded.");
+		given(externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName()))
+			.willReturn(result);
+		given(objectMapper.readValue(result, ExternalApiError.class)).willReturn(externalApiError);
+		given(objectMapper.readTree(result)).willReturn(jsonNode);
+
+		// when, then
+		assertThrows(BookApiNotAvailableException.class,
+			() -> defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword)));
+	}
 }
