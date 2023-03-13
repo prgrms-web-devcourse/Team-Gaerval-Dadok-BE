@@ -1,5 +1,6 @@
 package com.dadok.gaerval.domain.book_group.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,8 @@ import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupResponses;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
 import com.dadok.gaerval.domain.book_group.entity.GroupMember;
+import com.dadok.gaerval.domain.book_group.exception.CannotLeaveGroupOwnerException;
+import com.dadok.gaerval.domain.book_group.exception.NotContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -117,8 +120,21 @@ public class DefaultBookGroupService implements BookGroupService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public boolean checkGroupMember(Long userId, Long bookGroupId) {
 		return groupMemberRepository.existsByBookGroupIdAndUserId(bookGroupId, userId);
+	}
+
+	@Override
+	@Transactional
+	public void leave(Long groupId, Long userId) {
+		BookGroup bookGroup = this.getById(groupId);
+		if (Objects.equals(bookGroup.getOwnerId(), userId)) {
+			throw new CannotLeaveGroupOwnerException();
+		}
+		GroupMember groupMember = groupMemberRepository.findByBookGroupIdAndUserId(groupId, userId)
+			.orElseThrow(NotContainBookGroupException::new);
+		groupMemberRepository.delete(groupMember);
 	}
 
 	@Override
