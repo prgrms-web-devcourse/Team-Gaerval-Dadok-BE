@@ -27,6 +27,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
+import com.dadok.gaerval.global.common.logging.LogHttpRequests;
 import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -51,12 +52,12 @@ public class BookCommentController {
 	 */
 	@GetMapping(value = "/{bookId}/comments", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS')")
+	@LogHttpRequests
 	public ResponseEntity<BookCommentResponses> findBookComments(
 		@PathVariable(name = "bookId") Long bookId,
 		@CurrentUserPrincipal UserPrincipal userPrincipal,
 		@ModelAttribute @Valid BookCommentSearchRequest bookCommentSearchRequest
 	) {
-		log.info("[BookCommentController]-[BookCommentResponses]-bookId : {}", bookId);
 		return ResponseEntity.ok()
 			.body(bookCommentService.findBookCommentsBy(bookId, userPrincipal.getUserId(), bookCommentSearchRequest));
 	}
@@ -71,12 +72,11 @@ public class BookCommentController {
 	 */
 	@PostMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@LogHttpRequests
 	public ResponseEntity<BookCommentIdResponse> saveBookComment(
 		@PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@Valid @RequestBody BookCommentCreateRequest bookCommentCreateRequest) {
-		log.info("[BookCommentController]-[BookCommentIdResponse]-bookCommentCreateRequest : {}",
-			bookCommentCreateRequest);
 		Long commentId = bookCommentService.createBookComment(bookId, userPrincipal.getUserId(),
 			bookCommentCreateRequest);
 		String redirectUri =
@@ -94,11 +94,11 @@ public class BookCommentController {
 	 */
 	@PatchMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@LogHttpRequests
 	public ResponseEntity<BookCommentResponse> modifyBookComment(
 		@PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@Valid @RequestBody BookCommentUpdateRequest bookCommentUpdateRequest) {
-		log.info("[BookController]-[BookCommentResponse]-bookCommentUpdateRequest : {}", bookCommentUpdateRequest);
 		BookCommentResponse bookCommentResponse = bookCommentService.updateBookComment(bookId,
 			userPrincipal.getUserId(), bookCommentUpdateRequest);
 		return ResponseEntity.ok().body(bookCommentResponse);
@@ -114,11 +114,10 @@ public class BookCommentController {
 	 */
 	@DeleteMapping(value = "/{bookId}/comments/{commentId}", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@LogHttpRequests
 	public ResponseEntity<Void> deleteBookComment(
 		@PathVariable Long bookId, @PathVariable Long commentId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		log.info("[BookController]-[BookCommentResponse]-commentId : {}",
-			commentId);
 		bookCommentService.deleteBookComment(bookId, userPrincipal.getUserId(), commentId);
 		return ResponseEntity.ok().build();
 	}
