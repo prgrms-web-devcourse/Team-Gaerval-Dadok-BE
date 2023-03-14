@@ -269,6 +269,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			.body(ErrorResponse.badRequest(
 				makeErrorMessageToMessage(e.getBindingResult()),
 				request.getRequest().getRequestURI(),
+				ErrorCode.INVALID_ARGUMENT,
 				makeFieldErrorsFromBindingResult(e.getBindingResult())
 			));
 	}
