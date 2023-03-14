@@ -60,6 +60,8 @@ public class BookInShelfResponses {
 	@Getter
 	public static class BookInShelfResponse {
 
+		private Long bookshelfItemId;
+
 		private Long bookId;
 
 		private String title;
@@ -77,6 +79,7 @@ public class BookInShelfResponses {
 		private String publisher;
 
 		public BookInShelfResponse(
+			Long bookshelfItemId,
 			Long bookId,
 			String title,
 			String author,
@@ -85,6 +88,7 @@ public class BookInShelfResponses {
 			String imageUrl,
 			String url,
 			String publisher) {
+			this.bookshelfItemId = bookshelfItemId;
 			this.bookId = bookId;
 			this.title = title;
 			this.author = author;

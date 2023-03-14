@@ -339,10 +339,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
 		Bookshelf createBookShelf = Bookshelf.create(kakaoUser);
 		ReflectionTestUtils.setField(createBookShelf, "id", bookShelfId);
-		List<BookshelfItem> bookshelfItems = List.of(
-			BookshelfItem.create(createBookShelf, book1, BookshelfItemType.WISH),
-			BookshelfItem.create(createBookShelf, book2, BookshelfItemType.WISH),
-			BookshelfItem.create(createBookShelf, book3, BookshelfItemType.READ));
+		BookshelfItem bs1 = BookshelfItem.create(createBookShelf, book1, BookshelfItemType.WISH);
+		ReflectionTestUtils.setField(bs1, "id", 1L);
+		BookshelfItem bs2 = BookshelfItem.create(createBookShelf, book2, BookshelfItemType.WISH);
+		ReflectionTestUtils.setField(bs2, "id", 2L);
+		BookshelfItem bs3 = BookshelfItem.create(createBookShelf, book3, BookshelfItemType.WISH);
+		ReflectionTestUtils.setField(bs3, "id", 3L);
+		List<BookshelfItem> bookshelfItems = List.of(bs1, bs2, bs3);
 
 		SliceImpl<BookshelfItem> bookshelfItemSlice = new SliceImpl<>(bookshelfItems, PageRequest.of(0, 50,
 			Sort.by(Sort.Direction.DESC, "id")), false);
@@ -351,6 +354,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 			.stream().map(bookshelfItem -> {
 				Book book = bookshelfItem.getBook();
 				return new BookInShelfResponses.BookInShelfResponse(
+					bookshelfItem.getId(),
 					book.getId(),
 					book.getTitle(),
 					book.getAuthor(),
@@ -372,7 +376,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 		params.add("type", booksInBookShelfFindRequest.getType().name());
 		params.add("pageSize", booksInBookShelfFindRequest.getPageSize().toString());
-		params.add("bookCursorId", Long.toString(3L));
+		params.add("bookshelfItemCursorId", Long.toString(3L));
 		params.add("sortDirection", SortDirection.DESC.name());
 
 		//when
@@ -394,7 +398,8 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							constrainsAttribute(BooksInBookShelfFindRequest.class, "pageSize")
 						),
-					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
+					parameterWithName("bookshelfItemCursorId").description(
+						"커서 bookshelfItem Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
 					parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
 						.description("정렬 방식 : " +
 							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
@@ -409,6 +414,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
 
 					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
+					fieldWithPath("books[].bookshelfItemId").type(JsonFieldType.NUMBER).description("책장 속 책 아이템 ID"),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("books[].isbn").description("책 isbn. 고유번호").type(JsonFieldType.STRING),

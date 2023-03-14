@@ -41,8 +41,8 @@ public class BookShelfItemSupportImpl implements BookShelfItemSupport {
 			.fetchJoin()
 			.where(
 				bookshelfItem.bookshelf.id.eq(bookShelfId),
-				QueryDslUtil.generateCursorWhereCondition(book.id,
-					request.getBookCursorId(), direction),
+				QueryDslUtil.generateCursorWhereCondition(bookshelfItem.id,
+					request.getBookshelfItemCursorId(), direction),
 				bookShelfItemType(request.getType())
 			)
 			.limit(request.getPageSize() + 1)

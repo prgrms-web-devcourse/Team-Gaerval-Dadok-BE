@@ -19,15 +19,15 @@ public class BooksInBookShelfFindRequest {
 	@Max(value = 100, message = "pageSize는 최대 100 입니다.")
 	private Integer pageSize = 10;
 
-	private Long bookCursorId;
+	private Long bookshelfItemCursorId;
 
 	private SortDirection sortDirection;
 
-	public BooksInBookShelfFindRequest(BookshelfItemType type, Integer pageSize, Long bookCursorId,
+	public BooksInBookShelfFindRequest(BookshelfItemType type, Integer pageSize, Long bookshelfItemCursorId,
 		SortDirection sortDirection) {
 		this.type = type;
 		this.pageSize = pageSize == null ? 10 : pageSize;
-		this.bookCursorId = bookCursorId;
+		this.bookshelfItemCursorId = bookshelfItemCursorId;
 		this.sortDirection = sortDirection == null ? SortDirection.DESC : sortDirection;
 	}
 }
