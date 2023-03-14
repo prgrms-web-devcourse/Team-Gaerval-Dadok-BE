@@ -757,23 +757,41 @@ include::{snippets}/book-group-controller-slice-test/find-my-book-groups/respons
 
 ==== Request
 
-include::{snippets}/book-group-controller-slice-test/join_success/http-request.adoc[]
+include::{snippets}/book-group-controller-slice-test/book-group-join/http-request.adoc[]
 
 ==== Request Header
 
-include::{snippets}/book-group-controller-slice-test/join_success/request-headers.adoc[]
+include::{snippets}/book-group-controller-slice-test/book-group-join/request-headers.adoc[]
 
 ==== Path Parameter
 
-include::{snippets}/book-group-controller-slice-test/join_success/path-parameters.adoc[]
+include::{snippets}/book-group-controller-slice-test/book-group-join/path-parameters.adoc[]
 
 ==== Request Body
 
-include::{snippets}/book-group-controller-slice-test/join_success/request-fields.adoc[]
+include::{snippets}/book-group-controller-slice-test/book-group-join/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/book-group-controller-slice-test/join_success/http-response.adoc[]
+include::{snippets}/book-group-controller-slice-test/book-group-join/http-response.adoc[]
+
+=== 모임 탈퇴
+
+==== Request
+
+include::{snippets}/book-group-controller-slice-test/book-group-leave/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-group-controller-slice-test/book-group-leave/request-headers.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/book-group-controller-slice-test/book-group-leave/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-slice-test/book-group-leave/http-response.adoc[]
 
 === 모임 댓글 작성
 

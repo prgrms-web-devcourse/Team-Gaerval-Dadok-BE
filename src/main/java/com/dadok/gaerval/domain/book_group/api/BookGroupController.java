@@ -97,12 +97,31 @@ public class BookGroupController {
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@PostMapping(value = "/{groupId}/join", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<BookGroupResponses> join(
+	public ResponseEntity<BookGroupResponses> BookGroupJoin(
 		@PathVariable Long groupId,
 		@RequestBody BookGroupJoinRequest request,
 		@AuthenticationPrincipal UserPrincipal userPrincipal
 	) {
 		bookGroupService.join(groupId, userPrincipal.getUserId(), request);
+		return ResponseEntity.ok().build();
+	}
+
+	/**
+	 * <Pre>
+	 * 모임 탈퇴
+	 * </Pre>
+	 *
+	 * @param groupId
+	 * @param userPrincipal
+	 * @return status : ok
+	 */
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@DeleteMapping(value = "/{groupId}/leave", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> BookGroupLeave(
+		@PathVariable Long groupId,
+		@AuthenticationPrincipal UserPrincipal userPrincipal
+	) {
+		bookGroupService.leave(groupId, userPrincipal.getUserId());
 		return ResponseEntity.ok().build();
 	}
 
