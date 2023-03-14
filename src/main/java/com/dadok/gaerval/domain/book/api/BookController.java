@@ -52,7 +52,7 @@ public class BookController {
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	@LogHttpRequests
-	public ResponseEntity<BookResponses> findBooksByQuery(@Valid @ModelAttribute BookSearchRequest bookSearchRequest) {
+	public ResponseEntity<BookResponses> findBooksByQuery(@ModelAttribute @Valid BookSearchRequest bookSearchRequest) {
 		return ResponseEntity.ok().body(bookService.findAllByKeyword(bookSearchRequest));
 	}
 

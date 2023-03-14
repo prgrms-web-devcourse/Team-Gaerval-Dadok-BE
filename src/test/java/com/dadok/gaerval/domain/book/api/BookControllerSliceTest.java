@@ -95,7 +95,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 						)
 				),
 				responseFields(
-					fieldWithPath("isEnd").type(JsonFieldType.BOOLEAN)
+					fieldWithPath("isLast").type(JsonFieldType.BOOLEAN)
 						.description("마지막 데이터 여부"),
 					fieldWithPath("pageableCount").type(JsonFieldType.NUMBER)
 						.description("조회 가능한 데이터 여부(중복 제외된 결과)"),

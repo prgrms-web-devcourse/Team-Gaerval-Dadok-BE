@@ -10,6 +10,7 @@ public class BookApiNotAvailableException extends BusinessException {
 
 	public BookApiNotAvailableException(ErrorCode errorCode) {
 		super(errorCode);
+		this.errorCode = errorCode;
 	}
 
 	@Override

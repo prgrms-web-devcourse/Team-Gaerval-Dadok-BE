@@ -29,6 +29,7 @@ import com.dadok.gaerval.domain.book.exception.BookApiNotAvailableException;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
 import com.dadok.gaerval.global.config.externalapi.ExternalApiError;
 import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
+import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -192,35 +193,10 @@ class BookServiceTest {
 
 	@DisplayName("findAllByKeyword - 키워드로 검색하는데 성공한다.")
 	@Test
-	void findAllByKeyword() throws JsonProcessingException {
+	void findAllByKeyword() {
 		// given
 		String keyword = "test";
-		String result = """
-			{
-			    "meta": {
-			        "is_end": true,
-			        "total_count": 1,
-			        "pageable_count": 1
-			    },
-			    "documents": [
-			        {
-			            "authors": [
-			                "%s"
-			            ],
-			            "contents": "%s",
-			            "isbn": "%s",
-			            "publisher": "%s",
-			            "thumbnail": "%s",
-			            "title": "%s",
-			            "url": "%s"
-			        }
-			    ]
-			}
-			""".formatted(BookObjectProvider.author, BookObjectProvider.contents, BookObjectProvider.isbn,
-			BookObjectProvider.publisher, BookObjectProvider.imageUrl, BookObjectProvider.title,
-			BookObjectProvider.url);
 
-		JsonNode jsonNode = new ObjectMapper().readTree(result);
 		SearchBookResponse searchBookResponse = new SearchBookResponse(
 			BookObjectProvider.title,
 			BookObjectProvider.author,
@@ -233,19 +209,15 @@ class BookServiceTest {
 		);
 
 		List<SearchBookResponse> expectedResponses = Collections.singletonList(searchBookResponse);
-
+		BookResponses bookResponses =  new BookResponses(true, 1, 1, expectedResponses);
 		given(externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName()))
-			.willReturn(result);
-		given(objectMapper.readTree(result)).willReturn(jsonNode);
-		given(bookMapper.entityToSearchBookResponse(any())).willReturn(searchBookResponse);
+			.willReturn(bookResponses);
 
 		// when
 		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword));
 
 		// then
 		verify(externalBookApiOperations).searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
-		verify(objectMapper).readTree(result);
-		verify(bookMapper).entityToSearchBookResponse(any());
 		assertEquals(expectedResponses.get(0).isbn(), actualResponses.searchBookResponseList().get(0).isbn());
 		assertEquals(expectedResponses.get(0).title(), actualResponses.searchBookResponseList().get(0).title());
 		assertEquals(expectedResponses.get(0).contents(), actualResponses.searchBookResponseList().get(0).contents());
@@ -272,9 +244,8 @@ class BookServiceTest {
 		JsonNode jsonNode = new ObjectMapper().readTree(result);
 		ExternalApiError externalApiError = new ExternalApiError(-10,"API limit has been exceeded.");
 		given(externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName()))
-			.willReturn(result);
-		given(objectMapper.readValue(result, ExternalApiError.class)).willReturn(externalApiError);
-		given(objectMapper.readTree(result)).willReturn(jsonNode);
+			.willThrow(new BookApiNotAvailableException(ErrorCode.KAKAO_QUOTA_EXCEEDED));
+
 
 		// when, then
 		assertThrows(BookApiNotAvailableException.class,
