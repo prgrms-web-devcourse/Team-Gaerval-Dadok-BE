@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dadok.gaerval.domain.auth.dto.response.RefreshAccessTokenResponse;
 import com.dadok.gaerval.domain.auth.exception.LogoutException;
 import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFoundException;
 import com.dadok.gaerval.global.config.security.jwt.AuthService;
@@ -30,7 +31,7 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping("/token")
-	public ResponseEntity<Void> refreshAccessToken(
+	public ResponseEntity<RefreshAccessTokenResponse> refreshAccessToken(
 		HttpServletRequest request,
 		HttpServletResponse response) {
 
@@ -44,7 +45,7 @@ public class AuthController {
 
 		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + reIssueAccessToken);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(new RefreshAccessTokenResponse(reIssueAccessToken));
 	}
 
 	@PostMapping("/logout")
