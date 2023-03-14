@@ -34,7 +34,9 @@ import com.dadok.gaerval.domain.book_group.entity.GroupMember;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
+import com.dadok.gaerval.domain.book_group.exception.CannotLeaveGroupOwnerException;
 import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembersException;
+import com.dadok.gaerval.domain.book_group.exception.NotContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.book_group.repository.BookGroupRepository;
 import com.dadok.gaerval.domain.book_group.repository.GroupMemberRepository;
@@ -581,4 +583,69 @@ class BookGroupServiceSliceTest {
 		assertEquals(bookGroup, findBookGroup.get());
 	}
 
+	@DisplayName("leave - 모임 탈퇴에 성공한다.")
+	@Test
+	void leave_success() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			5L);
+		GroupMember groupMember = GroupMember.create(bookGroup, user, timeHolder);
+		ReflectionTestUtils.setField(groupMember, "id", 2L);
+		given(bookGroupRepository.findById(bookGroup.getId())).willReturn(Optional.of(bookGroup));
+		given(groupMemberRepository.findByBookGroupIdAndUserId(bookGroup.getId(), user.getId()))
+			.willReturn(Optional.of(groupMember));
+
+		// when
+		defaultBookGroupService.leave(bookGroup.getId(), user.getId());
+
+		// then
+		verify(groupMemberRepository).findByBookGroupIdAndUserId(bookGroup.getId(), user.getId());
+		verify(groupMemberRepository).delete(groupMember);
+	}
+
+	@DisplayName("leave - 모임장의 경우 탈퇴에 실패한다.")
+	@Test
+	void leave_owner_fail() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			user.getId());
+		GroupMember groupMember = GroupMember.create(bookGroup, user, timeHolder);
+		ReflectionTestUtils.setField(groupMember, "id", 2L);
+		given(bookGroupRepository.findById(bookGroup.getId())).willReturn(Optional.of(bookGroup));
+
+		// when
+		assertThrows(CannotLeaveGroupOwnerException.class, () -> {
+			defaultBookGroupService.leave(bookGroup.getId(), user.getId());
+		});
+
+		// then
+		verify(bookGroupRepository).findById(bookGroup.getId());
+	}
+
+	@DisplayName("leave - 모임멤버가 아닐 경우 탈퇴에 실패한다.")
+	@Test
+	void leave_fail() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		BookGroup bookGroup = BookGroupObjectProvider.createMockBookGroup(BookObjectProvider.createRequiredFieldBook(),
+			5L);
+		GroupMember groupMember = GroupMember.create(bookGroup, user, timeHolder);
+		ReflectionTestUtils.setField(groupMember, "id", 2L);
+		given(bookGroupRepository.findById(bookGroup.getId())).willReturn(Optional.of(bookGroup));
+		given(groupMemberRepository.findByBookGroupIdAndUserId(bookGroup.getId(), user.getId()))
+			.willReturn(Optional.empty());
+
+		// when
+		assertThrows(NotContainBookGroupException.class, () -> {
+			defaultBookGroupService.leave(bookGroup.getId(), user.getId());
+		});
+
+		// then
+		verify(groupMemberRepository).findByBookGroupIdAndUserId(bookGroup.getId(), user.getId());
+	}
 }

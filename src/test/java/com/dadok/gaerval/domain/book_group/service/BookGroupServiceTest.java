@@ -29,9 +29,8 @@ import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.entity.UserAuthority;
-import com.dadok.gaerval.integration_util.IntegrationTest;
-
 import com.dadok.gaerval.global.error.exception.InvalidArgumentException;
+import com.dadok.gaerval.integration_util.IntegrationTest;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.TestTimeHolder;
 import com.dadok.gaerval.testutil.UserObjectProvider;
