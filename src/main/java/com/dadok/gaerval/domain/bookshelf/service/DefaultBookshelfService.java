@@ -114,6 +114,7 @@ public class DefaultBookshelfService implements BookshelfService {
 			.stream().map(bookshelfItem -> {
 				Book book = bookshelfItem.getBook();
 				return new BookInShelfResponses.BookInShelfResponse(
+					bookshelfItem.getId(),
 					book.getId(),
 					book.getTitle(),
 					book.getAuthor(),
