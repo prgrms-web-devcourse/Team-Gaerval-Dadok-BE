@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -168,8 +167,7 @@ public class SecurityConfig {
 		response.setCharacterEncoding(UTF_8);
 
 		response.getWriter()
-			.print(objectMapper.writeValueAsString(
-				new ResponseEntity<>(errorResponse, httpStatus)));
+			.print(objectMapper.writeValueAsString(errorResponse));
 	}
 
 }
