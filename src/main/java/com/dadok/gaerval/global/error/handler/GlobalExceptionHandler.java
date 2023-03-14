@@ -287,6 +287,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			.body(ErrorResponse.badRequest(
 				makeErrorMessageToMessage(e.getBindingResult()),
 				request.getRequest().getRequestURI(),
+				ErrorCode.INVALID_ARGUMENT,
 				makeFieldErrorsFromBindingResult(e.getBindingResult())
 			));
 	}
@@ -373,8 +374,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		List<FieldError> fieldErrors = new ArrayList<>();
 
 		for (org.springframework.validation.FieldError fieldError : bindingResult.getFieldErrors()) {
-			FieldError error = FieldError.of(fieldError.getField(), Objects.requireNonNull(
-				fieldError.getRejectedValue()), fieldError.getDefaultMessage());
+			FieldError error = FieldError.of(fieldError.getField(), fieldError.getRejectedValue() == null ? "null" :
+				fieldError.getRejectedValue(), fieldError.getDefaultMessage());
 			fieldErrors.add(error);
 		}
 
