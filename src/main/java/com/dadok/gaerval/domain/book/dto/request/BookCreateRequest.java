@@ -1,12 +1,10 @@
 package com.dadok.gaerval.domain.book.dto.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public record BookCreateRequest(
 
-	@NotNull
 	@NotBlank(message = "title 입력되지 않았습니다.")
 	@Size(max = 500, message = "title은 500자를 초과할 수 없습니다.")
 	String title,
