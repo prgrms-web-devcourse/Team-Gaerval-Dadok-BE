@@ -90,7 +90,7 @@ include::{snippets}/auth-controller-slice-test/refresh-access-token/http-request
 
 ==== Request Header Cookie
 
-include::{snippets}/auth-controller-slice-test/refresh-access-token/request-headers.adoc[]
+include::{snippets}/auth-controller-slice-test/refresh-access-token/cookie-request-headers.adoc[]
 
 ==== Response
 
@@ -99,6 +99,10 @@ include::{snippets}/auth-controller-slice-test/refresh-access-token/http-respons
 ==== Response Header
 
 include::{snippets}/auth-controller-slice-test/refresh-access-token/response-headers.adoc[]
+
+==== Response Fields
+
+include::{snippets}/auth-controller-slice-test/refresh-access-token/response-fields.adoc[]
 
 === 로그아웃 - logout
 
