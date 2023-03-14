@@ -55,7 +55,7 @@ public class UserController {
 		return ResponseEntity.ok(userJobChangeResponse);
 	}
 
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS')")
 	@GetMapping(value = "/{userId}/profile", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserProfileResponse> findUserProfile(
 		@PathVariable("userId") Long userId) {
