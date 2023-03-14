@@ -5,6 +5,7 @@ import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.StandardCharsets;
@@ -54,7 +55,6 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 		}
 	}
 
-
 	@DisplayName("리프레시 토큰으로 액세스 토큰을 재발급 한다.")
 	@Test
 	void refreshAccessToken() throws Exception {
@@ -75,17 +75,22 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 
 		//when
 		mockMvc.perform(post("/api/auth/token")
-			.characterEncoding(StandardCharsets.UTF_8)
-			.cookie(refreshTokenCookie)
-		).andExpect(status().isOk())
+				.characterEncoding(StandardCharsets.UTF_8)
+				.cookie(refreshTokenCookie)
+			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
-			customRequestHeaderCookies(
-				cookieWithName("RefreshToken").description("리프레시 토큰 쿠키 이름")
-			),
-			responseHeaders(
-				headerWithName("Authorization").description("Refresh 된 access Token")
-			)
-		));
+					customRequestHeaderCookies(
+						cookieWithName("RefreshToken").description("리프레시 토큰 쿠키 이름")
+					),
+					responseHeaders(
+						headerWithName("Authorization").description("Refresh 된 access Token")
+					),
+					responseFields(
+						fieldWithPath("accessToken").description("refresh된 accessToken. Type:  Bearer")
+					)
+				)
+
+			);
 
 	}
 
@@ -108,9 +113,9 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 
 		//when
 		mockMvc.perform(post("/api/auth/logout")
-			.header(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + accessToken)
-			.cookie(refreshTokenCookie)
-		).andExpect(status().isOk())
+				.header(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + accessToken)
+				.cookie(refreshTokenCookie)
+			).andExpect(status().isOk())
 			.andDo(this.restDocs.document(
 				requestHeaders(
 					headerWithName(ACCESS_TOKEN_HEADER_NAME).description("액세스 토큰")

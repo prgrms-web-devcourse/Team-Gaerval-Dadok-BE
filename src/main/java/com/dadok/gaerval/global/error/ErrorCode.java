@@ -30,6 +30,7 @@ public enum ErrorCode {
 	EMPTY_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A5", "리프레시 토큰이 존재하지 않습니다."),
 	MISMATCH_LOGOUT_AUTHENTICATION_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A6",
 		"액세스 토큰이나, 리프레시 토큰이 존재하지 않아 잘못된 로그아웃 요청입니다."),
+	ACCESS_DENIED(HttpStatus.FORBIDDEN, "A7", "접근 권한이 없습니다."),
 
 	// Bookshelf
 	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "BS1", "이미 책장에 포함된 아아템입니다."),
@@ -52,6 +53,7 @@ public enum ErrorCode {
 	CANNOT_DELETE_MEMBER_EXIST(HttpStatus.BAD_REQUEST, "BG6", "멤버가 존재하는 모임은 삭제할 수 없습니다."),
 	LESS_THAN_CURRENT_MEMBERS(HttpStatus.BAD_REQUEST, "BG7", "모임 최대 인원은 현재 참여 인원(%s 명)보다 작을 수 없습니다"),
 	NOT_CONTAIN_BOOK_GROUP_MEMBER(HttpStatus.UNAUTHORIZED, "BG8", "모임에 참여하지않은 사용자 입니다."),
+	CANNOT_LEAVE_GROUP_OWNER(HttpStatus.BAD_REQUEST, "BG9", "모임장은 모임에 탈퇴할 수 없습니다. 모임 탈퇴를 원할시 모임 삭제 요청을 해주세요."),
 
 	// KAKAO
 	KAKAO_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "-1", "서버 내부에서 처리 중에 에러가 발생한 경우(해결 방법: 재시도)"),
@@ -68,6 +70,8 @@ public enum ErrorCode {
 		"유효하지 않은 앱키나 액세스 토큰으로 요청한 경우, 등록된 앱 정보와 호출된 앱 정보가 불일치 하는 경우(해결 방법: 앱키 확인 또는 토큰 갱신, 개발자 사이트에 등록된 앱 정보 확인)"),
 	KAKAO_TIMEOUT(HttpStatus.REQUEST_TIMEOUT, "603", "카카오 플랫폼 내부에서 요청 처리 중 타임아웃이 발생한 경우"),
 	KAKAO_SERVICE_CHECK(HttpStatus.SERVICE_UNAVAILABLE, "9798", "서비스 점검중");
+
+
 
 	private final HttpStatus status;
 

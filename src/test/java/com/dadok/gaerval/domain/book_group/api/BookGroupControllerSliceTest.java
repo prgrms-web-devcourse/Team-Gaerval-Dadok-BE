@@ -421,7 +421,7 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 
 	@DisplayName("join - 그룹에 가입한다. 패스워드 미입력")
 	@Test
-	void join_success() throws Exception {
+	void BookGroupJoin() throws Exception {
 		//given
 		Long bookGroupId = 1L;
 		BookGroupJoinRequest request = new BookGroupJoinRequest(null);
@@ -445,6 +445,32 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					requestFields(fieldWithPath("joinPasswd").type(JsonFieldType.STRING).optional()
 						.description("모임 비밀번호. "
 							+ "\n 설정되어있지 않다면 null 가능"))
+				)
+			)
+		;
+	}
+
+	@DisplayName("leave - 그룹에 탈퇴한다.")
+	@Test
+	void BookGroupLeave() throws Exception {
+		//given
+		Long bookGroupId = 1L;
+
+		willDoNothing().given(bookGroupService).leave(bookGroupId, 1L);
+		//when
+		mockMvc.perform(delete("/api/book-groups/{groupId}/leave", bookGroupId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					)
 				)
 			)
 		;

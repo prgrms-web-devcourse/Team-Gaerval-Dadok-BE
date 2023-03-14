@@ -31,4 +31,6 @@ public interface BookGroupService {
 	void updateBookGroup(Long groupId, Long userId, BookGroupUpdateRequest request);
 
 	boolean checkGroupMember(Long userId, Long bookGroupId);
+
+	void leave(Long groupId, Long userId);
 }

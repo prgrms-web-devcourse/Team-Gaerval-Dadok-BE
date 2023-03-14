@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
+import com.dadok.gaerval.domain.book_group.exception.CannotLeaveGroupOwnerException;
 import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.LessThanCurrentMembersException;
@@ -234,6 +235,12 @@ public class BookGroup extends BaseTimeColumn {
 		validateOwner(userId);
 		if (this.groupMembers.size() > 1) {
 			throw new CannotDeleteMemberExistException();
+		}
+	}
+
+	public void checkCanLeave(Long userId) {
+		if (Objects.equals(this.getOwnerId(), userId)) {
+			throw new CannotLeaveGroupOwnerException();
 		}
 	}
 

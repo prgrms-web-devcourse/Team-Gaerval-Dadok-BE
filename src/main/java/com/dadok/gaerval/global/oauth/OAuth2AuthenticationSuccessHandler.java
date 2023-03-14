@@ -75,7 +75,6 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
 		response.setHeader(ACCESS_TOKEN_HEADER_NAME, AUTHENTICATION_TYPE_BEARER + " " + loginResponse.accessToken());
 
-		CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, loginResponse.accessToken(), 180);
 		CookieUtil.addCookie(response, frontDomain, REFRESH_TOKEN_COOKIE_NAME, loginResponse.refreshToken(), refreshTokenExpirationSecond);
 
 		return UriComponentsBuilder.fromUriString(targetUri)

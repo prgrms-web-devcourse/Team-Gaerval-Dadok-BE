@@ -206,7 +206,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		logInfo(e, request.getRequestURI());
 
 		return ResponseEntity.badRequest()
-			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()
+			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI(), ErrorCode.INVALID_ARGUMENT
 				, makeFieldErrorsFromConstraintViolations(e.getConstraintViolations())));
 	}
 
@@ -226,8 +226,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpServletRequest request, AccessDeniedException e) {
 		logInfo(e, request.getRequestURI());
 
-		return ResponseEntity.status(HttpStatus.FORBIDDEN)
-			.body(ErrorResponse.forbidden(e.getMessage(), request.getRequestURI(), null));
+		return of(ErrorCode.ACCESS_DENIED, request.getRequestURI());
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -271,6 +270,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			.body(ErrorResponse.badRequest(
 				makeErrorMessageToMessage(e.getBindingResult()),
 				request.getRequest().getRequestURI(),
+				ErrorCode.INVALID_ARGUMENT,
 				makeFieldErrorsFromBindingResult(e.getBindingResult())
 			));
 	}

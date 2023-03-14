@@ -12,6 +12,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RefreshTokenProperties {
 
-	private int expirationSeconds;
+	private int expirationSecond;
 
 }
