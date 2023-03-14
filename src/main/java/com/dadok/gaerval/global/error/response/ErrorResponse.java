@@ -18,6 +18,7 @@ public record ErrorResponse(
 	String path
 ) {
 
+
 	public record FieldError(
 		String fieldName,
 		String inputValue,
@@ -57,6 +58,11 @@ public record ErrorResponse(
 	public static ErrorResponse badRequest(String message, String path) {
 		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message, null,
 			LocalDateTime.now(), null, path);
+	}
+
+	public static ErrorResponse badRequest(String message, String requestURI, ErrorCode errorCode, List<FieldError> makeFieldErrorsFromConstraintViolations) {
+		return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message, errorCode.getCode(),
+			LocalDateTime.now(), makeFieldErrorsFromConstraintViolations, requestURI);
 	}
 
 	public static ErrorResponse notFound(String message, String path, List<FieldError> errors) {

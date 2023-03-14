@@ -205,7 +205,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		logInfo(e, request.getRequestURI());
 
 		return ResponseEntity.badRequest()
-			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI()
+			.body(ErrorResponse.badRequest(e.getMessage(), request.getRequestURI(), ErrorCode.INVALID_ARGUMENT
 				, makeFieldErrorsFromConstraintViolations(e.getConstraintViolations())));
 	}
 
