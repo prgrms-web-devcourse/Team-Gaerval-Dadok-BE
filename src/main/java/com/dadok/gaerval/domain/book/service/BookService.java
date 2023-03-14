@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.book.service;
 import java.util.Optional;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
@@ -12,7 +13,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 
 public interface BookService {
 
-	BookResponses findAllByKeyword(String keyword);
+	BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest);
 
 	Long createBookAndReturnId(BookCreateRequest bookCreateRequest);
 

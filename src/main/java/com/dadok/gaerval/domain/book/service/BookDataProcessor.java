@@ -9,7 +9,8 @@ import com.dadok.gaerval.global.config.security.AuthProvider;
 
 public class BookDataProcessor {
 
-	static Book process(String title, List<String> authors, String contents, String isbn, String url, String imageUrl,
+	public static Book process(String title, List<String> authors, String contents, String isbn, String url,
+		String imageUrl,
 		String publisher) {
 
 		if (StringUtils.isBlank(title)) {

@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFoundException;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
+import com.dadok.gaerval.domain.book.exception.BookApiNotAvailableException;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
@@ -363,6 +364,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(AlreadyContainBookCommentException.class)
 	public ResponseEntity<ErrorResponse> handleAlreadyContainBookCommentException(
 		HttpServletRequest request, AlreadyContainBookCommentException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
+	@ExceptionHandler(BookApiNotAvailableException.class)
+	public ResponseEntity<ErrorResponse> handleBookApiNotAvailableException(
+		HttpServletRequest request, BookApiNotAvailableException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
