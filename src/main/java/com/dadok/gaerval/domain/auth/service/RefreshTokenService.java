@@ -29,7 +29,7 @@ public class RefreshTokenService {
 	@Transactional
 	public RefreshToken createRefreshToken(Long userId, Collection<GrantedAuthority> authorities) {
 		RefreshToken refreshToken = new RefreshToken(uuidGenerator.generateToString(), userId,
-			refreshTokenProperties.getExpirationSeconds(),
+			refreshTokenProperties.getExpirationSecond(),
 			authorities.stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList()));

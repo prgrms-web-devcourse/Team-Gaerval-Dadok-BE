@@ -9,7 +9,7 @@ jwt:
   refresh-token-header: RefreshToken
 
 refresh-token:
-  expiration-seconds : ${REFRESH_TOKEN_EXPIRE_SECONDS}
+  expiration-second : ${REFRESH_TOKEN_EXPIRE_SECONDS}
 
 
 spring:
