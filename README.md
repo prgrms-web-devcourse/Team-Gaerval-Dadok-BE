@@ -55,16 +55,16 @@
 
 <p align="center">
 
-<img src="https://img.shields.io/badge/Java 17-008FC7?style=for-the-badge&logo=Java&logoColor=white"/></img>
-<img src="https://img.shields.io/badge/spring 2.7.8-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white"/></img>
-<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"/></img>
-<img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=JPA&logoColor=white"/></img>
-<img src="https://img.shields.io/badge/-OAuth%202.0-lightgrey?style=for-the-badge&logo=JPA&logoColor=white"/></img>
+<img src="https://img.shields.io/badge/Java 17-008FC7?style=for-the-badge&logo=Java&logoColor=white"/>
+<img src="https://img.shields.io/badge/spring 2.7.8-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=JPA&logoColor=white"/>
+<img src="https://img.shields.io/badge/-OAuth%202.0-lightgrey?style=for-the-badge&logo=JPA&logoColor=white"/>
 
 <img src="https://img.shields.io/badge/-QueryDSL-blue?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/Mapstruct-C70D2C?style=for-the-badge&logo=mapstruct&logoColor=white"/>
 <img src="https://img.shields.io/badge/P6spy-blue?style=for-the-badge&logo=P6spy&logoColor=white"/>
-<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white"/></img>
+<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white"/>
 <img src="https://img.shields.io/badge/Junit-25A162?style=for-the-badge&logo=Junit5&logoColor=white"/>
 <img src="https://img.shields.io/badge/-Jacoco-yellow?style=for-the-badge"/>
 
@@ -74,17 +74,16 @@
 <h3 align="center">DB</h3>  
 
 <p align="center">  
-
-![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+<img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white"/>
+<img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white"/>
 
 </p>
 
 <h3 align="center">인프라</h3>  
 
 <p align="center">   
-  
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+<img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"/>
 <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=for-the-badge&logo=GitHub Actions&logoColor=white"/>
 <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"/>
 <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white"/>
@@ -115,3 +114,11 @@
 
 ![ERD 구조](https://user-images.githubusercontent.com/53592454/225847889-6ed82ee3-c91e-491a-b09d-1383e9063719.png)
 > [ERD CLOUD](https://www.erdcloud.com/d/GMraiZYq7GMRAcbsr)
+
+
+
+## 프로젝트 문서화
+
+- [프로젝트 노션](https://www.notion.so/backend-devcourse/08-882f681e8554411e93f115ea8be85996)
+- [코드 컨벤션](https://www.notion.so/backend-devcourse/271e41b86f184865bfa4d56acbb9bd8c)
+- [기술문서](https://www.notion.so/backend-devcourse/3d87db97e24f4cf8b50d7bd451fd3d73)
