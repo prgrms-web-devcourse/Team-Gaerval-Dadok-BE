@@ -32,6 +32,8 @@
 
 ## 핵심 기능
 
+![핵심기능](https://user-images.githubusercontent.com/53592454/226094228-25d2e9e2-8008-478d-ace3-a29e8241ee31.png)
+
 현직자가 공유한 `책`들과 `코멘트`, `모임`을 통해 특정 분야에 대한 전문적인 지식과 인사이트를 얻고, 보다 더 많은 책을 읽도록 독려합니다.
 
 **`📚 책장`**
@@ -41,6 +43,10 @@
 - `모임` 기능을 통해 함께 독서를 하고 책에 대한 생각을 자유롭게 이야기할 수 있어요.
 
 <br />
+
+> [유저스토리](https://www.notion.so/backend-devcourse/60caf76411874853ad566e21c165fe36)
+
+> [API문서](https://api.dev.dadok.site/docs/index.html)
 
 ## 팀 소개
 |FE|FE|FE|FE|BE|BE|BE|
