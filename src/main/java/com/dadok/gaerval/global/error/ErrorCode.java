@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorCode {
 
 	// Comment
-	INVALID_COMMENT_NOT_PARENT(HttpStatus.BAD_REQUEST, "C1", "부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다."),
-	NOT_MATCHED_COMMENT_AUTHOR(HttpStatus.FORBIDDEN, "C2", "해당 요청자가 작성한 코멘트가 아닙니다."),
+	INVALID_COMMENT_NOT_PARENT(HttpStatus.BAD_REQUEST, "CM1", "부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다."),
+	NOT_MATCHED_COMMENT_AUTHOR(HttpStatus.FORBIDDEN, "CM2", "해당 요청자가 작성한 코멘트가 아닙니다."),
 
 	//User
 	ALREADY_EXISTS_NICKNAME(HttpStatus.BAD_REQUEST, "U1", "이미 존재하는 닉네임입니다."),
@@ -39,8 +39,10 @@ public enum ErrorCode {
 	// Book
 	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B1", "잘못된 도서 데이터 형식입니다."),
 	BOOK_API_NOT_AVAILABLE(HttpStatus.INTERNAL_SERVER_ERROR, "B2", "도서 API를 호출할 수 없습니다."),
+
 	// Book Comment
-	ALREADY_CONTAIN_BOOK_COMMENT_MEMBER(HttpStatus.BAD_REQUEST, "BC2", "이미 남긴 도서 코멘트에 있습니다"),
+	ALREADY_CONTAIN_BOOK_COMMENT_MEMBER(HttpStatus.BAD_REQUEST, "BC1", "이미 남긴 도서 코멘트에 있습니다."),
+	INVALID_COMMENT_NOT_BOOKMARK(HttpStatus.FORBIDDEN, "BC2", "책장에 담지 않은 책에 리뷰를 남길 수 없습니다."),
 
 	// BookGroup
 	EXCEED_LIMIT_MEMBER(HttpStatus.BAD_REQUEST, "BG1", "모임 최대 인원을 초과하였습니다."),

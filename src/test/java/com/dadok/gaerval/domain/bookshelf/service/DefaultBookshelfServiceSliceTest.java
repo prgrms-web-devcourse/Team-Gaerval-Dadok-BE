@@ -569,4 +569,29 @@ class DefaultBookshelfServiceSliceTest {
 		assertThrows(ResourceNotfoundException.class,
 			() -> bookshelfService.findBookShelfById(userId));
 	}
+
+	@DisplayName("existsByUserIdAndBookId - 유저 ID와 책 ID로 존재 여부 확인에 성공한다. ")
+	@Test
+	void existsByUserIdAndBookId() {
+		//given
+		Long userId = 1L;
+		Long bookId = 2L;
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", userId);
+		Bookshelf bookShelf = Bookshelf.create(kakaoUser);
+		ReflectionTestUtils.setField(bookShelf, "id", 10L);
+
+		given(bookshelfRepository.findByUserId(userId))
+			.willReturn(Optional.of(bookshelf));
+		given(bookshelfItemRepository.existsByBookshelfIdAndBookId(bookshelf.getId(), bookId))
+			.willReturn(true);
+
+		//when
+		boolean result = bookshelfService.existsByUserIdAndBookId(userId, bookId);
+
+		//then
+		assertThat(result).isTrue();
+	}
+
+
 }

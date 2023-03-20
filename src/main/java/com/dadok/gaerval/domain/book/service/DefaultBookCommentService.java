@@ -14,8 +14,10 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
+import com.dadok.gaerval.domain.book.exception.BookNotMarkedException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
@@ -33,12 +35,19 @@ public class DefaultBookCommentService implements BookCommentService {
 
 	private final BookService bookService;
 
+	private final BookshelfService bookshelfService;
+
 	@Override
 	public Long createBookComment(Long bookId, Long userId, BookCommentCreateRequest bookCommentCreateRequest) {
 		User user = userService.getById(userId);
 		Book book = bookService.getById(bookId);
 
 		boolean existsComment = bookCommentRepository.existsByBookIdAndUserId(bookId, userId);
+		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
+
+		if(!existsBookmark) {
+			throw new BookNotMarkedException();
+		}
 		if (existsComment) {
 			throw new AlreadyContainBookCommentException();
 		} else {
@@ -70,6 +79,11 @@ public class DefaultBookCommentService implements BookCommentService {
 	@Override
 	public BookCommentResponse updateBookComment(Long bookId, Long userId,
 		BookCommentUpdateRequest bookCommentUpdateRequest) {
+		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
+
+		if(!existsBookmark) {
+			throw new BookNotMarkedException();
+		}
 		return bookCommentRepository.updateBookComment(bookId, userId, bookCommentUpdateRequest);
 	}
 
