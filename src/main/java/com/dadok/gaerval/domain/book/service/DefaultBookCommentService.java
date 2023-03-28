@@ -14,7 +14,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
-import com.dadok.gaerval.domain.book.exception.BookNotMarkedException;
+import com.dadok.gaerval.domain.book.exception.NotMarkedBookException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -46,7 +46,7 @@ public class DefaultBookCommentService implements BookCommentService {
 		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
 
 		if(!existsBookmark) {
-			throw new BookNotMarkedException();
+			throw new NotMarkedBookException();
 		}
 		if (existsComment) {
 			throw new AlreadyContainBookCommentException();
@@ -82,7 +82,7 @@ public class DefaultBookCommentService implements BookCommentService {
 		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
 
 		if(!existsBookmark) {
-			throw new BookNotMarkedException();
+			throw new NotMarkedBookException();
 		}
 		return bookCommentRepository.updateBookComment(bookId, userId, bookCommentUpdateRequest);
 	}

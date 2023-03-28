@@ -192,7 +192,7 @@ public class DefaultBookshelfService implements BookshelfService {
 	@Override
 	public boolean existsByUserIdAndBookId(Long userId, Long bookId) {
 		Bookshelf bookshelf = bookshelfRepository.findByUserId(userId).orElseThrow(
-			() -> new IllegalArgumentException("존재하지 않는 유저입니다")
+			() -> new ResourceNotfoundException(Bookshelf.class)
 		);
 
 		return bookshelfItemRepository.existsByBookshelfIdAndBookId(bookshelf.getId(), bookId);

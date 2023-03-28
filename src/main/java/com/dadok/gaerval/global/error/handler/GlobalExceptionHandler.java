@@ -34,7 +34,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFoundException;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.exception.BookApiNotAvailableException;
-import com.dadok.gaerval.domain.book.exception.BookNotMarkedException;
+import com.dadok.gaerval.domain.book.exception.NotMarkedBookException;
 import com.dadok.gaerval.domain.book_group.exception.AlreadyContainBookGroupException;
 import com.dadok.gaerval.domain.book_group.exception.BookGroupOwnerNotMatchedException;
 import com.dadok.gaerval.domain.book_group.exception.CannotDeleteMemberExistException;
@@ -383,9 +383,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 
-	@ExceptionHandler(BookNotMarkedException.class)
+	@ExceptionHandler(NotMarkedBookException.class)
 	public ResponseEntity<ErrorResponse> handleBookNotMarkedException(
-		HttpServletRequest request, BookNotMarkedException e) {
+		HttpServletRequest request, NotMarkedBookException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());
