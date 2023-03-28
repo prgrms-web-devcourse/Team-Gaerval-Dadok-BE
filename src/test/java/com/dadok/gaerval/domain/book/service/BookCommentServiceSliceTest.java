@@ -66,7 +66,7 @@ class BookCommentServiceSliceTest {
 
 		given(userService.getById(1L)).willReturn(user);
 		given(bookService.getById(1L)).willReturn(book);
-		given(bookCommentRepository.existsByBookIdAndUserId(1L, 1L)).willReturn(false);
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(true);
 		given(bookCommentRepository.save(any())).willReturn(
 			comment);
 
