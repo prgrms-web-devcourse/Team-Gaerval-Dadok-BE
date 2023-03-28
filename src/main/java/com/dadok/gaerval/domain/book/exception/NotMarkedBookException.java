@@ -5,14 +5,12 @@ import com.dadok.gaerval.global.error.exception.BusinessException;
 
 public class NotMarkedBookException extends BusinessException {
 
-	private static final ErrorCode errorCode = ErrorCode.INVALID_COMMENT_NOT_BOOKMARK;
-
 	public NotMarkedBookException() {
-		super(errorCode);
+		super(ErrorCode.INVALID_COMMENT_NOT_BOOKMARK);
 	}
 
 	@Override
 	public ErrorCode getErrorCode() {
-		return super.getErrorCode();
+		return this.getErrorCode();
 	}
 }
