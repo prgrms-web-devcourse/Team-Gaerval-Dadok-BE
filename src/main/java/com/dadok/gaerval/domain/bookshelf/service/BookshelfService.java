@@ -41,5 +41,7 @@ public interface BookshelfService {
 
 	Optional<Long> insertIfNotPresent(Long userId, Long bookId);
 
+	boolean existsByUserIdAndBookId(Long userId, Long bookId);
+
 	Bookshelf getByUserId(Long userId);
 }

@@ -188,4 +188,13 @@ public class DefaultBookshelfService implements BookshelfService {
 		bookshelf.validateOwner(userId);
 		return bookshelf;
 	}
+
+	@Override
+	public boolean existsByUserIdAndBookId(Long userId, Long bookId) {
+		Bookshelf bookshelf = bookshelfRepository.findByUserId(userId).orElseThrow(
+			() -> new ResourceNotfoundException(Bookshelf.class)
+		);
+
+		return bookshelfItemRepository.existsByBookshelfIdAndBookId(bookshelf.getId(), bookId);
+	}
 }

@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
+import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.global.util.QueryDslUtil;
@@ -48,6 +49,9 @@ class BookCommentServiceSliceTest {
 	@InjectMocks
 	private DefaultBookCommentService defaultBookCommentService;
 
+	@Mock
+	private BookshelfService bookshelfService;
+
 	@DisplayName("createBookComment - 도서 리뷰를 저장하는데 성공한다.")
 	@Test
 	void createBookComment() {
@@ -62,7 +66,7 @@ class BookCommentServiceSliceTest {
 
 		given(userService.getById(1L)).willReturn(user);
 		given(bookService.getById(1L)).willReturn(book);
-		given(bookCommentRepository.existsByBookIdAndUserId(1L, 1L)).willReturn(false);
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(true);
 		given(bookCommentRepository.save(any())).willReturn(
 			comment);
 
@@ -97,6 +101,7 @@ class BookCommentServiceSliceTest {
 		given(bookCommentRepository.updateBookComment(1L, 1L, bookCommentUpdateRequest)).willReturn(
 			BookCommentObjectProvider.createMockResponses().get(0)
 		);
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(true);
 
 		// when
 		BookCommentResponse updatedComment = defaultBookCommentService.updateBookComment(book.getId(), user.getId(),

@@ -106,7 +106,7 @@ public class BookCommentController {
 
 	/**
 	 * <pre>
-	 *     수정 요청을 통해 도서 코멘트를 삭제한다.
+	 *     삭제 요청을 통해 도서 코멘트를 삭제한다.
 	 * </pre>
 	 *
 	 * @param commentId 코멘트 아이디
