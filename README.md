@@ -47,12 +47,22 @@
 > [유저스토리](https://www.notion.so/backend-devcourse/60caf76411874853ad566e21c165fe36)
 
 > [API문서](https://api.dev.dadok.site/docs/index.html)
-
 ## 팀 소개
-|FE|FE|FE|FE|BE|BE|BE|
-| :----------: |  :--------:  |  :---------: |  :---------: |  :---------: |  :---------: |  :---------: |
-| <img width="400" alt="백민종" src="https://user-images.githubusercontent.com/57716832/225219483-c5a7ab97-0c42-4696-81ba-8824136a0f4e.png"> | <img src="https://user-images.githubusercontent.com/57716832/225219556-0ddb490f-1548-4096-94de-966ffdf1c8dd.png" width=400px alt="우대현"/> | <img src="https://user-images.githubusercontent.com/57716832/225219563-a9d54e1d-2af6-4028-a6bd-917b0b408902.png" width=400px alt="김재현"/> | <img src="https://user-images.githubusercontent.com/57716832/225219650-31c7373a-372d-4744-8e4c-848b5f7f0fed.png" width=400px alt="김규란"> | <img width="400" alt="김영수" src="https://user-images.githubusercontent.com/57716832/225219770-c24c432c-3a75-4ca8-a45c-f2e0bbb8b5dc.png"> | <img width="400" alt="정찬미" src="https://user-images.githubusercontent.com/57716832/225219775-c5c2b3b1-6fac-4595-bb62-e71d31387c0d.png"> | <img width="400" alt="장영지" src="https://user-images.githubusercontent.com/57716832/225219785-758d2d76-1557-4320-ae30-5f92e92ccc9b.png"> |
-|  [백민종](https://github.com/minjongbaek)  |  [우대현](https://github.com/WooDaeHyun)  |  [김재현](https://github.com/hanyugeon)  |  [김규란](https://github.com/gxxrxn)  |  [김영수](https://github.com/devYSK)  |  [정찬미](https://github.com/tinajeong)  |  [장영지](https://github.com/youngjijang)  |
+
+<div align="center">
+
+|                                                                     FE                                                                     |                                                                    FE                                                                     |                                                                    FE                                                                     |                                                                    FE                                                                    |
+| :----------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="120" alt="백민종" src="https://user-images.githubusercontent.com/57716832/225219483-c5a7ab97-0c42-4696-81ba-8824136a0f4e.png"> | <img src="https://user-images.githubusercontent.com/57716832/225219556-0ddb490f-1548-4096-94de-966ffdf1c8dd.png" width=120 alt="우대현"/> | <img src="https://user-images.githubusercontent.com/57716832/225219563-a9d54e1d-2af6-4028-a6bd-917b0b408902.png" width=120 alt="김재현"/> | <img src="https://user-images.githubusercontent.com/57716832/225219650-31c7373a-372d-4744-8e4c-848b5f7f0fed.png" width=120 alt="김규란"> |
+|                                                  [백민종](https://github.com/minjongbaek)                                                  |                                                  [우대현](https://github.com/WooDaeHyun)                                                  |                                                  [김재현](https://github.com/hanyugeon)                                                   |                                                   [김규란](https://github.com/gxxrxn)                                                    |
+
+|                                                                     BE                                                                     |                                                                     BE                                                                     |                                                                     BE                                                                     |
+| :----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
+| <img width="120" alt="김영수" src="https://user-images.githubusercontent.com/57716832/225219770-c24c432c-3a75-4ca8-a45c-f2e0bbb8b5dc.png"> | <img width="120" alt="정찬미" src="https://user-images.githubusercontent.com/57716832/225219775-c5c2b3b1-6fac-4595-bb62-e71d31387c0d.png"> | <img width="120" alt="장영지" src="https://user-images.githubusercontent.com/57716832/225219785-758d2d76-1557-4320-ae30-5f92e92ccc9b.png"> |
+|                                                    [김영수](https://github.com/devYSK)                                                     |                                                   [정찬미](https://github.com/tinajeong)                                                   |                                                  [장영지](https://github.com/youngjijang)                                                  |
+
+</div>
+
 
 
 ## 기술 스택
