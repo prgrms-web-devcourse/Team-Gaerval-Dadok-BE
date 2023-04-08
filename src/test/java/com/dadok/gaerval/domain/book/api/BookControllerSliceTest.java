@@ -3,7 +3,6 @@ package com.dadok.gaerval.domain.book.api;
 import static com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator.*;
 import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -95,6 +94,10 @@ class BookControllerSliceTest extends ControllerSliceTest {
 						)
 				),
 				responseFields(
+					fieldWithPath("requestedPageNumber").type(JsonFieldType.NUMBER)
+						.description("요청한 page 값"),
+					fieldWithPath("requestedPageSize").type(JsonFieldType.NUMBER)
+						.description("요청한 pageSize 값"),
 					fieldWithPath("isLast").type(JsonFieldType.BOOLEAN)
 						.description("마지막 데이터 여부"),
 					fieldWithPath("pageableCount").type(JsonFieldType.NUMBER)
@@ -313,7 +316,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
 					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 영어명 :  " +
-						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+						generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
 					fieldWithPath("jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
 
 					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
@@ -326,7 +329,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
 					fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING),
 					fieldWithPath("books[].jobGroup").type(JsonFieldType.STRING).description("책을 꽂은 사람의 직군 한글명 :  " +
-						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+						generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
 					fieldWithPath("books[].count").type(JsonFieldType.NUMBER).description("집계된 책 갯수")
 				)
 			))
