@@ -8,9 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -35,12 +33,6 @@ class ErrorCodeControllerTest extends ControllerSliceTest {
 		ResultActions result = mockMvc.perform(get("/error-code")
 				.contentType(MediaType.APPLICATION_JSON))
 			.andDo(print());
-
-		Map<ErrorCode, ErrorCodeController.ErrorCodeMap> map = new HashMap<>();
-
-		for (ErrorCode errorCode : ErrorCode.values()) {
-			map.put(errorCode, new ErrorCodeController.ErrorCodeMap(errorCode));
-		}
 
 		result.andDo(document(ERROR_SNIPPET_FILE,
 			customResponseFields(ERROR_SNIPPET_FILE,
