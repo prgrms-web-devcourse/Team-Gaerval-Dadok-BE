@@ -209,7 +209,8 @@ class BookServiceTest {
 		);
 
 		List<SearchBookResponse> expectedResponses = Collections.singletonList(searchBookResponse);
-		BookResponses bookResponses =  new BookResponses(true, 1, 1, expectedResponses);
+
+		BookResponses bookResponses =  new BookResponses(1,10, true, 1, 1, expectedResponses);
 		given(externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName()))
 			.willReturn(bookResponses);
 

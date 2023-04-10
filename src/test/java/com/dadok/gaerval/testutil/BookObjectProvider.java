@@ -45,7 +45,7 @@ public class BookObjectProvider {
 	public static BookResponses mockBookData() {
 		List<SearchBookResponse> bookList = new ArrayList<>();
 		bookList.add(new SearchBookResponse(title, author, isbn, contents, url, imageUrl, apiProvider, publisher));
-		return new BookResponses(true, 1, 1, bookList);
+		return new BookResponses(1, 10, true, 1, 1, bookList);
 	}
 
 	public static BookCreateRequest createBookCreateRequest() {
