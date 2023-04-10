@@ -12,6 +12,7 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SortingPolicy;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
@@ -21,7 +22,6 @@ import com.dadok.gaerval.domain.book.repository.BookRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -101,4 +101,8 @@ public class DefaultBookService implements BookService {
 		return bookshelfItemRepository.findBookshelfItemUsersByBook(bookId, userId, USER_VIEW_LIMIT);
 	}
 
+	@Override
+	public BookRecentSearchResponses findKeywordsByUserId(Long userId, Integer limit) {
+		return null;
+	}
 }

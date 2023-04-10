@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
@@ -28,4 +29,6 @@ public interface BookService {
 	SuggestionsBookFindResponses findSuggestionBooks(SuggestionsBookFindRequest request);
 
 	UserByBookResponses findUserByBookId(Long bookId, Long userId);
+
+	BookRecentSearchResponses findKeywordsByUserId(Long userId, Integer limit);
 }
