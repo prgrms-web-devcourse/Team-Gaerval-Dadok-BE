@@ -60,7 +60,6 @@ public class BookSupportImpl implements BookSupport {
 			PageRequest.of(0, request.pageSize(),
 				Sort.by(direction, "bookshelfItem.book_id")));
 
-
 		return new SuggestionsBookFindResponses(books, request.jobGroup());
 	}
 
