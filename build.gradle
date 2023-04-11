@@ -309,4 +309,5 @@ bootJar {
     into file("${buildDir}/resources/main/static/docs")
 
     archiveName = version + ".dadok.jar"
+    delete fileTree(dir: "${buildDir}/libs", include: "*plain.jar")
 }

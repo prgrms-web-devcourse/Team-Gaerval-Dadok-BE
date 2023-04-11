@@ -1,10 +1,8 @@
-FROM amazoncorretto:17-al2023-jdk
+FROM openjdk:17-oracle
 
-ARG JAR_FILE=build/libs/*.dadok.jar
+ARG JAR_FILE=build/libs/0.9.9.dadok.jar
 
-RUN echo
-
-COPY ${JAR_FILE} dadok.jar
+COPY ${JAR_FILE} /dadok.jar
 
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 FRONT_DOMAIN: ${FRONT_DOMAIN} \
@@ -38,6 +36,8 @@ REDIS_HOST: ${REDIS_HOST} \
 REDIS_PORT: ${REDIS_PORT} \
 REDIS_PASSWORD: ${REDIS_PASSWORD} \
 TZ=Asia/Seoul
+
+RUN ls /dadok.jar
 
 ENTRYPOINT ["java", \
 "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
