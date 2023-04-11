@@ -2,8 +2,6 @@ FROM openjdk:17-oracle
 
 ARG JAR_FILE=build/libs/*.jar
 
-COPY ${JAR_FILE} app.jar
-
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 FRONT_DOMAIN: ${FRONT_DOMAIN} \
 DATASOURCE_URL: ${DATASOURCE_URL} \
@@ -36,6 +34,8 @@ REDIS_HOST: ${REDIS_HOST} \
 REDIS_PORT: ${REDIS_PORT} \
 REDIS_PASSWORD: ${REDIS_PASSWORD} \
 TZ=Asia/Seoul
+
+COPY build/libs/*.dadok.jar app.jar
 
 ENTRYPOINT ["java", \
 "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
