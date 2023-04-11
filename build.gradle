@@ -91,6 +91,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation 'com.google.guava:guava:31.1-jre'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.11.0'
+
 
     testImplementation 'com.epages:restdocs-api-spec:0.16.4'
     testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.16.4'
@@ -255,12 +258,6 @@ task copyDocument(type: Copy) {
     println()
 }
 
-//task copyHtml(type: Copy) {
-//    dependsOn bootJar
-//    from file("${buildDir}/docs/asciidoc")
-//    into file("${buildDir}/reouces/main/static/docs")
-//}
-
 build {
     dependsOn copyDocument
 }
@@ -311,12 +308,11 @@ bootJar {
     from file("${buildDir}/docs/asciidoc")
     into file("${buildDir}/resources/main/static/docs")
 
-
-    copy {
-        from("build/resources/main/static/docs") {
-            into "$buildDir/resources/main/static/docs"
-        }
-    }
+//    copy {
+//        from("build/resources/main/static/docs") {
+//            into "$buildDir/resources/main/static/docs"
+//        }
+//    }
 
     archiveName = version + ".dadok.jar"
 }

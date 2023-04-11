@@ -1,10 +1,14 @@
 package com.dadok.gaerval.resource;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -22,18 +26,16 @@ public class ResourceController {
 	private final ResourceLoader resourceLoader;
 
 	@GetMapping(value = {"/openapi3.yaml", "/openapi3.yml"})
-	public ResponseEntity<Resource> downloadOpenapi3(
-		HttpServletRequest request
-	) throws IOException {
-
+	public ResponseEntity<Resource> downloadOpenapi3(HttpServletRequest request) throws IOException {
 		Resource resource = resourceLoader.getResource("classpath:static/openapi3/openapi3.yaml");
-
-		File file = resource.getFile();
-
-		return ResponseEntity.ok()
-			.header(HttpHeaders.CONTENT_DISPOSITION, file.getName())
-			.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)	//바이너리 데이터로 받아오기 설정
-			.body(resource);
+		try (InputStream inputStream = resource.getInputStream()) {
+			File tempFile = File.createTempFile("openapi3", ".yml");
+			FileUtils.copyInputStreamToFile(inputStream, tempFile);
+			return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFilename())
+				.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(tempFile.length()))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+				.body(new InputStreamResource(new FileInputStream(tempFile)));
+		}
 	}
 }
