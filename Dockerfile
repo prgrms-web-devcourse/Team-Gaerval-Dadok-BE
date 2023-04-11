@@ -35,7 +35,7 @@ REDIS_PORT: ${REDIS_PORT} \
 REDIS_PASSWORD: ${REDIS_PASSWORD} \
 TZ=Asia/Seoul
 
-COPY build/libs/*.dadok.jar app.jar
+COPY ${JAR_FILE} app.jar
 
 ENTRYPOINT ["java", \
 "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
