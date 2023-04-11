@@ -477,7 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>다독다독 API Document</h1>
 <div class="details">
-<span id="revnumber">version 0.8.1</span>
+<span id="revnumber">version 0.9.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -736,7 +736,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=3b5b83d8-b7a6-4c2a-9607-889bc6349548; Path=/; Max-Age=1209600; Expires=Tue, 25 Apr 2023 14:19:27 GMT; HttpOnly
+Set-Cookie: RefreshToken=fe874192-aa6a-4081-afd6-d0089a367d9f; Path=/; Max-Age=1209600; Expires=Tue, 25 Apr 2023 15:53:51 GMT; HttpOnly
 Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg</code></pre>
 </div>
 </div>
@@ -775,7 +775,7 @@ Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJI
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/token HTTP/1.1
 Host: localhost:8080
-Cookie: RefreshToken=bcae4d4d-41f7-465a-b631-5fd81ab22bdf</code></pre>
+Cookie: RefreshToken=827bd308-657e-4061-aae6-c1b0a1084bc4</code></pre>
 </div>
 </div>
 </div>
@@ -808,11 +808,11 @@ Cookie: RefreshToken=bcae4d4d-41f7-465a-b631-5fd81ab22bdf</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMjI3MTAsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjI4NzEwfQ.Wqt8k9y3-ikCo6KG6rHRmQ8b52qZUKVMIvAqg1DypDI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMjgzNjMsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjM0MzYzfQ.dGd8o2dM2stc8kyygLQ3NuqEgZWHpOitsTZchDskzfo
 Content-Type: application/json;charset=UTF-8
 Content-Length: 197
 
-{"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMjI3MTAsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjI4NzEwfQ.Wqt8k9y3-ikCo6KG6rHRmQ8b52qZUKVMIvAqg1DypDI"}</code></pre>
+{"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMjgzNjMsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjM0MzYzfQ.dGd8o2dM2stc8kyygLQ3NuqEgZWHpOitsTZchDskzfo"}</code></pre>
 </div>
 </div>
 </div>
@@ -880,7 +880,7 @@ Content-Length: 197
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjgxMjIyNzA5LCJpc3MiOiJkYWRvayIsImV4cCI6MTY4MTIyODcwOX0.yMwZ_topWAW9akNvpDAwQJfPlBXgiiXPx6Xa9EXP_oc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjgxMjI4MzYyLCJpc3MiOiJkYWRvayIsImV4cCI6MTY4MTIzNDM2Mn0.uQWhlfCL8dZ74IOERHAbz5EjFT8hGt6PXdsdKf-80lc
 Host: localhost:8080
 Cookie: RefreshToken=null</code></pre>
 </div>
@@ -3824,7 +3824,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 862
 
-{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookComments":[{"commentId":1,"contents":"백점 만점","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-11 23:18:41","modifiedAt":"2023-04-11 23:18:41","nickname":"티나","writtenByCurrentUser":true},{"commentId":1,"contents":"백점 만점에 오십점","bookId":1,"userId":2,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-11 23:18:41","modifiedAt":"2023-04-11 23:18:41","nickname":"0soo","writtenByCurrentUser":false},{"commentId":1,"contents":"백점 만점에 빵점","bookId":1,"userId":3,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-11 23:18:41","modifiedAt":"2023-04-11 23:18:41","nickname":"foreverYoung","writtenByCurrentUser":false}]}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookComments":[{"commentId":1,"contents":"백점 만점","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 00:52:53","modifiedAt":"2023-04-12 00:52:53","nickname":"티나","writtenByCurrentUser":true},{"commentId":1,"contents":"백점 만점에 오십점","bookId":1,"userId":2,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 00:52:53","modifiedAt":"2023-04-12 00:52:53","nickname":"0soo","writtenByCurrentUser":false},{"commentId":1,"contents":"백점 만점에 빵점","bookId":1,"userId":3,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 00:52:53","modifiedAt":"2023-04-12 00:52:53","nickname":"foreverYoung","writtenByCurrentUser":false}]}</code></pre>
 </div>
 </div>
 </div>
@@ -4160,7 +4160,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 277
 
-{"commentId":1,"contents":"좋대서 샀어yo(아직 못읽음 ㅜㅜ)","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-03-07 10:20:00","modifiedAt":"2023-04-11 23:18:41","nickname":"티나","writtenByCurrentUser":true}</code></pre>
+{"commentId":1,"contents":"좋대서 샀어yo(아직 못읽음 ㅜㅜ)","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-03-07 10:20:00","modifiedAt":"2023-04-12 00:52:53","nickname":"티나","writtenByCurrentUser":true}</code></pre>
 </div>
 </div>
 </div>
@@ -4331,7 +4331,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiU
 Content-Length: 264
 Host: localhost:8080
 
-{"bookId":123,"title":"소모임 화이팅","startDate":"2023-04-11","endDate":"2023-04-13","maxMemberCount":5,"introduce":"우리끼리 옹기종기","hasJoinPasswd":true,"joinQuestion":"월든 작가는?","joinPasswd":"헨리데이빗소로우","isPublic":false}</code></pre>
+{"bookId":123,"title":"소모임 화이팅","startDate":"2023-04-12","endDate":"2023-04-14","maxMemberCount":5,"introduce":"우리끼리 옹기종기","hasJoinPasswd":true,"joinQuestion":"월든 작가는?","joinPasswd":"헨리데이빗소로우","isPublic":false}</code></pre>
 </div>
 </div>
 </div>
@@ -4529,7 +4529,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiU
 Content-Length: 114
 Host: localhost:8080
 
-{"title":"책읽기 소모임","introduce":"변경하고 싶은 내용","endDate":"2023-04-15","maxMemberCount":4}</code></pre>
+{"title":"책읽기 소모임","introduce":"변경하고 싶은 내용","endDate":"2023-04-16","maxMemberCount":4}</code></pre>
 </div>
 </div>
 </div>
@@ -4783,7 +4783,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 470
 
-{"bookGroupId":999,"title":"김영한님 JPA 읽으실분","introduce":"우리모임은 JPA 책 스터디를 하려고 모여있어요","startDate":"2023-04-12","endDate":"2023-04-18","hasJoinPasswd":false,"joinQuestion":"영한님 생일은?","isPublic":true,"maxMemberCount":5,"currentMemberCount":2,"commentCount":5,"owner":{"id":1},"book":{"id":10,"title":"http://jpaimage.jpeg","imageUrl":"Java ORM 표준 JPA 프로그래밍"},"isOwner":false,"isGroupMember":true}</code></pre>
+{"bookGroupId":999,"title":"김영한님 JPA 읽으실분","introduce":"우리모임은 JPA 책 스터디를 하려고 모여있어요","startDate":"2023-04-13","endDate":"2023-04-19","hasJoinPasswd":false,"joinQuestion":"영한님 생일은?","isPublic":true,"maxMemberCount":5,"currentMemberCount":2,"commentCount":5,"owner":{"id":1},"book":{"id":10,"title":"http://jpaimage.jpeg","imageUrl":"Java ORM 표준 JPA 프로그래밍"},"isOwner":false,"isGroupMember":true}</code></pre>
 </div>
 </div>
 </div>
@@ -5004,7 +5004,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1912
 
-{"isFirst":true,"isLast":true,"hasNext":false,"count":5,"isEmpty":false,"bookGroups":[{"bookGroupId":999,"title":"모임999","introduce":"모임 999에용","startDate":"2023-04-11","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":2,"commentCount":100,"book":{"id":4452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":997,"title":"모임997","introduce":"모임 997에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":5,"commentCount":2,"book":{"id":2083,"imageUrl":"http://bookImageUrl3.com"},"owner":{"id":941234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":995,"title":"모임995","introduce":"모임 995에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":true,"memberCount":5,"commentCount":0,"book":{"id":442,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1334,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":994,"title":"모임994","introduce":"모임 994에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":true,"memberCount":3,"commentCount":30,"book":{"id":44,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":993,"title":"모임993","introduce":"모임 993에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":false,"memberCount":4,"commentCount":4000,"book":{"id":913452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":123234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}}]}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":5,"isEmpty":false,"bookGroups":[{"bookGroupId":999,"title":"모임999","introduce":"모임 999에용","startDate":"2023-04-12","endDate":"2023-04-13","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":2,"commentCount":100,"book":{"id":4452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":997,"title":"모임997","introduce":"모임 997에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":5,"commentCount":2,"book":{"id":2083,"imageUrl":"http://bookImageUrl3.com"},"owner":{"id":941234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":995,"title":"모임995","introduce":"모임 995에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":true,"memberCount":5,"commentCount":0,"book":{"id":442,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1334,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":994,"title":"모임994","introduce":"모임 994에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":true,"memberCount":3,"commentCount":30,"book":{"id":44,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":993,"title":"모임993","introduce":"모임 993에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":false,"memberCount":4,"commentCount":4000,"book":{"id":913452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":123234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}}]}</code></pre>
 </div>
 </div>
 </div>
@@ -5242,7 +5242,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1912
 
-{"isFirst":true,"isLast":true,"hasNext":false,"count":5,"isEmpty":false,"bookGroups":[{"bookGroupId":999,"title":"모임999","introduce":"모임 999에용","startDate":"2023-04-11","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":2,"commentCount":100,"book":{"id":4452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":997,"title":"모임997","introduce":"모임 997에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":5,"commentCount":2,"book":{"id":2083,"imageUrl":"http://bookImageUrl3.com"},"owner":{"id":941234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":995,"title":"모임995","introduce":"모임 995에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":true,"memberCount":5,"commentCount":0,"book":{"id":442,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1334,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":994,"title":"모임994","introduce":"모임 994에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":true,"memberCount":3,"commentCount":30,"book":{"id":44,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":993,"title":"모임993","introduce":"모임 993에용","startDate":"2023-04-11","endDate":"2023-04-11","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":false,"memberCount":4,"commentCount":4000,"book":{"id":913452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":123234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}}]}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":5,"isEmpty":false,"bookGroups":[{"bookGroupId":999,"title":"모임999","introduce":"모임 999에용","startDate":"2023-04-12","endDate":"2023-04-13","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":2,"commentCount":100,"book":{"id":4452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":997,"title":"모임997","introduce":"모임 997에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":5,"commentCount":2,"book":{"id":2083,"imageUrl":"http://bookImageUrl3.com"},"owner":{"id":941234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":995,"title":"모임995","introduce":"모임 995에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":true,"memberCount":5,"commentCount":0,"book":{"id":442,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1334,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":994,"title":"모임994","introduce":"모임 994에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":true,"memberCount":3,"commentCount":30,"book":{"id":44,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":993,"title":"모임993","introduce":"모임 993에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":false,"memberCount":4,"commentCount":4000,"book":{"id":913452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":123234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}}]}</code></pre>
 </div>
 </div>
 </div>
@@ -5749,7 +5749,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1151
 
-{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookGroup":{"isPublic":true},"bookGroupComments":[{"commentId":123,"contents":"미움받을 용기 좋아요","bookGroupId":234,"parentCommentId":234,"userId":123,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-11 23:18:50","modifiedAt":"2023-04-11 23:18:50","nickname":"티나","writtenByCurrentUser":true},{"commentId":234,"contents":"미움받을 용기 그저 그래요","bookGroupId":234,"parentCommentId":234,"userId":234,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-11 23:18:50","modifiedAt":"2023-04-11 23:18:50","nickname":"0Soo","writtenByCurrentUser":false},{"commentId":456,"contents":"미움받을 용기 저랑 안 맞아요","bookGroupId":234,"parentCommentId":234,"userId":456,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-11 23:18:50","modifiedAt":"2023-04-11 23:18:50","nickname":"youngijang","writtenByCurrentUser":false}]}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookGroup":{"isPublic":true},"bookGroupComments":[{"commentId":123,"contents":"미움받을 용기 좋아요","bookGroupId":234,"parentCommentId":234,"userId":123,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 00:53:01","modifiedAt":"2023-04-12 00:53:01","nickname":"티나","writtenByCurrentUser":true},{"commentId":234,"contents":"미움받을 용기 그저 그래요","bookGroupId":234,"parentCommentId":234,"userId":234,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 00:53:01","modifiedAt":"2023-04-12 00:53:01","nickname":"0Soo","writtenByCurrentUser":false},{"commentId":456,"contents":"미움받을 용기 저랑 안 맞아요","bookGroupId":234,"parentCommentId":234,"userId":456,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 00:53:01","modifiedAt":"2023-04-12 00:53:01","nickname":"youngijang","writtenByCurrentUser":false}]}</code></pre>
 </div>
 </div>
 </div>
@@ -6335,7 +6335,7 @@ Content-Length: 161
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.1<br>
+Version 0.9.9<br>
 Last updated 2023-03-14 15:39:44 +0900
 </div>
 </div>

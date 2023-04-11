@@ -15,7 +15,7 @@ plugins {
 }
 
 group = 'com.dadok'
-version = '0.8.1'
+version = '0.9.9'
 sourceCompatibility = '17'
 
 
@@ -307,12 +307,6 @@ bootJar {
 
     from file("${buildDir}/docs/asciidoc")
     into file("${buildDir}/resources/main/static/docs")
-
-//    copy {
-//        from("build/resources/main/static/docs") {
-//            into "$buildDir/resources/main/static/docs"
-//        }
-//    }
 
     archiveName = version + ".dadok.jar"
 }
