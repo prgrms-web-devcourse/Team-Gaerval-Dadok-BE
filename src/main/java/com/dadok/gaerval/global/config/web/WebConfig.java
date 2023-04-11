@@ -38,6 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
 			.addResourceLocations("classpath:/static/");
 	}
 
+
 	@Bean
 	public ObjectMapper ObjectMapper() {
 		return new ObjectMapper().registerModule(new JavaTimeModule());

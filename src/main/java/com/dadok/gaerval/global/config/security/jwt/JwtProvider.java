@@ -61,7 +61,7 @@ public class JwtProvider {
 		claims.put("id", userId);
 		claims.put("roles", authorities.stream().map(GrantedAuthority::getAuthority).toList());
 		Date expirationTime = accessTokenExpirationTime();
-
+		List<String> strings = authorities.stream().map(GrantedAuthority::getAuthority).toList();
 		return Jwts.builder()
 			.setClaims(claims)
 			.setIssuedAt(new Date())

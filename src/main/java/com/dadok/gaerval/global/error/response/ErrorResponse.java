@@ -18,7 +18,6 @@ public record ErrorResponse(
 	String path
 ) {
 
-
 	public record FieldError(
 		String fieldName,
 		String inputValue,

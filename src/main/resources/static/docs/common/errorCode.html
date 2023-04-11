@@ -480,13 +480,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">부모 댓글이 아닌 자식 댓글에는 댓글을 달 수 없습니다.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">C2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">해당 요청자가 작성한 코멘트가 아닙니다.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Forbidden</p></td>
@@ -570,10 +570,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Internal Server Error</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BC2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이미 남긴 도서 코멘트에 있습니다</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">B2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">도서 API를 호출할 수 없습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal Server Error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BC1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미 남긴 도서 코멘트에 있습니다.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BC2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책장에 담지 않은 책에 리뷰를 남길 수 없습니다.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forbidden</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BG1</p></td>
@@ -622,6 +634,72 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">모임에 참여하지않은 사용자 입니다.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임장은 모임에 탈퇴할 수 없습니다. 모임 탈퇴를 원할시 모임 삭제 요청을 해주세요.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">서버 내부에서 처리 중에 에러가 발생한 경우(해결 방법: 재시도)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal Server Error</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수 인자가 포함되지 않은 경우나 호출 인자값의 데이타 타입이 적절하지 않거나 허용된 범위를 벗어난 경우 (해결 방법: 요청 파라미터 확인)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">해당 API에 대한 요청 권한이 없는 경우(해결 방법: 해당 API의 이해하기 문서를 참고하여 검수 진행, 권한 획득 후 재호출)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forbidden</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">서비스 점검 또는 내부 문제가 있는 경우 (해결 방법: 해당 서비스 공지사항 확인)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">503</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service Unavailable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">올바르지 않은 헤더로 요청한 경우(해결 방법: 요청 헤더 확인)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bad Request</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">서비스가 종료된 API를 호출한 경우(해결 방법: 공지 메일이나 데브톡 공지확인)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">410</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gone</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">허용된 요청 회수를 초과한 경우(해결 방법: 쿼터 및 제한 확인 후 쿼터 범위 내로 호출 조정, 필요시 데브톡으로 제휴 문의)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">429</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Too Many Requests</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유효하지 않은 앱키나 액세스 토큰으로 요청한 경우, 등록된 앱 정보와 호출된 앱 정보가 불일치 하는 경우(해결 방법: 앱키 확인 또는 토큰 갱신, 개발자 사이트에 등록된 앱 정보 확인)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unauthorized</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">603</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">카카오 플랫폼 내부에서 요청 처리 중 타임아웃이 발생한 경우</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">408</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request Timeout</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9798</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">서비스 점검중</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">503</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service Unavailable</p></td>
 </tr>
 </tbody>
 </table>

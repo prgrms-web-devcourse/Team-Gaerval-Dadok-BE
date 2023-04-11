@@ -29,6 +29,9 @@ import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.global.config.security.jwt.AuthService;
 import com.dadok.gaerval.global.config.security.jwt.JwtProperties;
 import com.dadok.gaerval.global.config.security.jwt.JwtProvider;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 @WebMvcTest(controllers = AuthController.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
@@ -90,7 +93,18 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 					)
 				)
 
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.responseHeaders(
+						headerWithName("Authorization").description("Refresh 된 access Token")
+					)
+					.responseFields(
+						fieldWithPath("accessToken").description("refresh된 accessToken. Type:  Bearer")
+					)
+					.build())
+			))
+		;
 
 	}
 
@@ -126,7 +140,18 @@ class AuthControllerSliceTest extends ControllerSliceTest {
 				responseHeaders(
 					headerWithName("Set-Cookie").description("만료되어 제거된 리프레시 토큰 쿠키")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description("액세스 토큰")
+					)
+					.responseHeaders(
+						headerWithName("Set-Cookie").description("만료되어 제거된 리프레시 토큰 쿠키")
+					)
+					.build())
+			))
+		;
 	}
 
 }
