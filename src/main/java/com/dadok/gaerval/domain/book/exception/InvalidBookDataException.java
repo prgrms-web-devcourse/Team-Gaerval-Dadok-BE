@@ -6,7 +6,6 @@ import com.dadok.gaerval.global.error.exception.BusinessException;
 
 import lombok.Getter;
 
-@JacocoExcludeGenerated
 public class InvalidBookDataException extends BusinessException {
 	@Getter
 	private final ErrorCode errorCode;
