@@ -736,7 +736,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=f7c9bd90-d08b-4040-a1e0-14aacceedbb5; Path=/; Max-Age=1209600; Expires=Tue, 25 Apr 2023 16:49:36 GMT; HttpOnly
+Set-Cookie: RefreshToken=34ac7f01-f29b-4bd9-af5c-10bc1253ac27; Path=/; Max-Age=1209600; Expires=Tue, 25 Apr 2023 18:11:04 GMT; HttpOnly
 Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg</code></pre>
 </div>
 </div>
@@ -775,7 +775,7 @@ Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJI
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/token HTTP/1.1
 Host: localhost:8080
-Cookie: RefreshToken=2715be5f-599b-43f5-9aff-9ab53bb723bc</code></pre>
+Cookie: RefreshToken=8c6cd12e-4deb-46c5-a8bd-a3c4f4c42d92</code></pre>
 </div>
 </div>
 </div>
@@ -808,11 +808,11 @@ Cookie: RefreshToken=2715be5f-599b-43f5-9aff-9ab53bb723bc</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMzE3MTgsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjM3NzE4fQ.0kPDCGR7X075cAaX8oa9JHM7OglyNmuL224bQE1dOo8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMzY2MDcsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjQyNjA3fQ.XM-hbkoce-XdJNEyV1gBwBJTtIUCcXAWSkwzsy5llsM
 Content-Type: application/json;charset=UTF-8
 Content-Length: 197
 
-{"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMzE3MTgsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjM3NzE4fQ.0kPDCGR7X075cAaX8oa9JHM7OglyNmuL224bQE1dOo8"}</code></pre>
+{"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMzY2MDcsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjQyNjA3fQ.XM-hbkoce-XdJNEyV1gBwBJTtIUCcXAWSkwzsy5llsM"}</code></pre>
 </div>
 </div>
 </div>
@@ -880,7 +880,7 @@ Content-Length: 197
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjgxMjMxNzE3LCJpc3MiOiJkYWRvayIsImV4cCI6MTY4MTIzNzcxN30.xMULN8KMzZkI36fiEPrafurbpMaJWFc143tAp8UcHVs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjgxMjM2NjA3LCJpc3MiOiJkYWRvayIsImV4cCI6MTY4MTI0MjYwN30.zIA-JAOjQOxEL3dmeIfr2zIALj1DamcG-K7bqwolq44
 Host: localhost:8080
 Cookie: RefreshToken=null</code></pre>
 </div>
@@ -3824,7 +3824,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 862
 
-{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookComments":[{"commentId":1,"contents":"백점 만점","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 01:48:47","modifiedAt":"2023-04-12 01:48:47","nickname":"티나","writtenByCurrentUser":true},{"commentId":1,"contents":"백점 만점에 오십점","bookId":1,"userId":2,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 01:48:47","modifiedAt":"2023-04-12 01:48:47","nickname":"0soo","writtenByCurrentUser":false},{"commentId":1,"contents":"백점 만점에 빵점","bookId":1,"userId":3,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 01:48:47","modifiedAt":"2023-04-12 01:48:47","nickname":"foreverYoung","writtenByCurrentUser":false}]}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookComments":[{"commentId":1,"contents":"백점 만점","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 03:10:17","modifiedAt":"2023-04-12 03:10:17","nickname":"티나","writtenByCurrentUser":true},{"commentId":1,"contents":"백점 만점에 오십점","bookId":1,"userId":2,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 03:10:17","modifiedAt":"2023-04-12 03:10:17","nickname":"0soo","writtenByCurrentUser":false},{"commentId":1,"contents":"백점 만점에 빵점","bookId":1,"userId":3,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 03:10:17","modifiedAt":"2023-04-12 03:10:17","nickname":"foreverYoung","writtenByCurrentUser":false}]}</code></pre>
 </div>
 </div>
 </div>
@@ -4160,7 +4160,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 277
 
-{"commentId":1,"contents":"좋대서 샀어yo(아직 못읽음 ㅜㅜ)","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-03-07 10:20:00","modifiedAt":"2023-04-12 01:48:47","nickname":"티나","writtenByCurrentUser":true}</code></pre>
+{"commentId":1,"contents":"좋대서 샀어yo(아직 못읽음 ㅜㅜ)","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-03-07 10:20:00","modifiedAt":"2023-04-12 03:10:17","nickname":"티나","writtenByCurrentUser":true}</code></pre>
 </div>
 </div>
 </div>
@@ -5749,7 +5749,7 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 1151
 
-{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookGroup":{"isPublic":true},"bookGroupComments":[{"commentId":123,"contents":"미움받을 용기 좋아요","bookGroupId":234,"parentCommentId":234,"userId":123,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 01:48:54","modifiedAt":"2023-04-12 01:48:54","nickname":"티나","writtenByCurrentUser":true},{"commentId":234,"contents":"미움받을 용기 그저 그래요","bookGroupId":234,"parentCommentId":234,"userId":234,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 01:48:54","modifiedAt":"2023-04-12 01:48:54","nickname":"0Soo","writtenByCurrentUser":false},{"commentId":456,"contents":"미움받을 용기 저랑 안 맞아요","bookGroupId":234,"parentCommentId":234,"userId":456,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 01:48:54","modifiedAt":"2023-04-12 01:48:54","nickname":"youngijang","writtenByCurrentUser":false}]}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookGroup":{"isPublic":true},"bookGroupComments":[{"commentId":123,"contents":"미움받을 용기 좋아요","bookGroupId":234,"parentCommentId":234,"userId":123,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 03:10:24","modifiedAt":"2023-04-12 03:10:24","nickname":"티나","writtenByCurrentUser":true},{"commentId":234,"contents":"미움받을 용기 그저 그래요","bookGroupId":234,"parentCommentId":234,"userId":234,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 03:10:24","modifiedAt":"2023-04-12 03:10:24","nickname":"0Soo","writtenByCurrentUser":false},{"commentId":456,"contents":"미움받을 용기 저랑 안 맞아요","bookGroupId":234,"parentCommentId":234,"userId":456,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 03:10:24","modifiedAt":"2023-04-12 03:10:24","nickname":"youngijang","writtenByCurrentUser":false}]}</code></pre>
 </div>
 </div>
 </div>

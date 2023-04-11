@@ -63,6 +63,10 @@
     <logger level="off" name="org.hibernate.hql.internal"/>
 
     <logger level="debug" name="org.springframework.data.redis"/>
+    <logger level="off" name="ConditionEvaluationReportLoggingListener"/>
+    <logger level="off" name="org.springframework.beans.factory.support.DefaultListableBeanFactory"/>
+    <logger level="off" name="org.springframework.web.servlet.HandlerMapping.Mappings"/>
+    <logger level="off" name="org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource"/>
 
     <root level="debug">
         <springProfile name="local,develop">

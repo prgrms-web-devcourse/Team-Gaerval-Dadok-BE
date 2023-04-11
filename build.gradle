@@ -258,10 +258,6 @@ task copyDocument(type: Copy) {
     println()
 }
 
-build {
-    dependsOn copyDocument
-}
-
 openapi3 {
     servers = [
             { url = 'http://localhost:8080' },
@@ -273,17 +269,29 @@ openapi3 {
 }
 
 task copyOpenApi3(type: Copy) {
+    dependsOn("openapi3")
     println("run copyOpenApi3")
     delete("src/main/resources/static/swagger-ui/openapi3.yaml") // 기존 OAS 파일 삭제
     from("$buildDir/api-spec/openapi3.yaml") // 복제할 OAS 파일 지정
     into("src/main/resources/static/openapi3/") // 타겟 디렉터리로 파일 복제
-    dependsOn("openapi3")
 }
 
-// JAR 파일을 생성하기 전에 logback-spring.xml 파일을 해당 위치에 복사.
+// 1. logback-spring.xml 파일이 있는 경로를 설정
+def logbackConfigDir = file('.')
+
+// 2. JAR 파일을 생성하기 전에 logback-spring.xml 파일을 해당 위치에 복사.
 task copyLogbackConfig(type: Copy) {
-    from file(".logback-spring.xml")
-    into file("build/resources/main")
+    from logbackConfigDir
+    into 'build/resources/main'
+    include 'logback-spring.xml'
+}
+
+
+build {
+    dependsOn asciidoctor
+    dependsOn copyDocument
+    dependsOn copyLogbackConfig
+    dependsOn copyOpenApi3
 }
 
 bootJar {
@@ -300,10 +308,11 @@ bootJar {
             into "$buildDir/resources/main/static/docs"
         }
     }
-
-    from file("${buildDir}/docs/asciidoc")
-    into file("${buildDir}/resources/main/static/docs")
+    copy {
+        from file("${buildDir}/docs/asciidoc")
+        into file("${buildDir}/resources/main/static/docs")
+    }
 
     archiveName = version + ".dadok.jar"
-    delete fileTree(dir: "${buildDir}/libs", include: "*plain.jar")
+//    delete fileTree(dir: "${buildDir}/libs", include: "*plain.jar")
 }

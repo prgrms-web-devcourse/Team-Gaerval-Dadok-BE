@@ -1,6 +1,6 @@
 FROM openjdk:17-oracle
 
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=build/libs/*.dadok.jar
 
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 FRONT_DOMAIN: ${FRONT_DOMAIN} \
