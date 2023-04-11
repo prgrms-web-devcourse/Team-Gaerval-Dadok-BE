@@ -4,17 +4,19 @@ import com.dadok.gaerval.global.error.ErrorCode;
 
 import lombok.Getter;
 
+@Getter
 public class BusinessException extends RuntimeException {
 
-	@Getter
-	private ErrorCode errorCode;
+	protected ErrorCode errorCode;
+	protected String message;
 
 	public BusinessException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
 		this.errorCode = errorCode;
 	}
 
-
 	public BusinessException(ErrorCode errorCode, String message) {
+		super(message);
 		this.errorCode = errorCode;
 	}
 

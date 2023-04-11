@@ -21,7 +21,6 @@ import com.dadok.gaerval.domain.book_group.exception.InvalidCommentException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedCommentAuthorException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
-import com.dadok.gaerval.global.error.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -84,7 +83,7 @@ public class GroupComment extends BaseTimeColumn {
 	public void addParent(GroupComment parent) {
 		validateNotnull(parent, "parentComment");
 		if (!parent.isParent()) {
-			throw new InvalidCommentException(ErrorCode.INVALID_COMMENT_NOT_PARENT);
+			throw new InvalidCommentException();
 		}
 
 		if (!Objects.equals(this.parentComment, parent)) {
@@ -96,7 +95,7 @@ public class GroupComment extends BaseTimeColumn {
 	public void addChild(GroupComment child) {
 		validateNotnull(child, "childComment");
 		if (!this.isParent() || child.isParent()) {
-			throw new InvalidCommentException(ErrorCode.INVALID_COMMENT_NOT_PARENT);
+			throw new InvalidCommentException();
 		}
 		if (!this.childComments.contains(child)) {
 			this.childComments.add(child);
