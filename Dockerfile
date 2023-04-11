@@ -1,8 +1,8 @@
 FROM openjdk:17-oracle
 
-ARG JAR_FILE=build/libs/0.9.9.dadok.jar
+ARG JAR_FILE=build/libs/*.jar
 
-COPY ${JAR_FILE} /dadok.jar
+COPY ${JAR_FILE} app.jar
 
 ENV SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} \
 FRONT_DOMAIN: ${FRONT_DOMAIN} \
@@ -41,4 +41,4 @@ RUN ls /dadok.jar
 
 ENTRYPOINT ["java", \
 "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", \
-"-jar", "/dadok.jar"]
+"-jar", "/app.jar"]
