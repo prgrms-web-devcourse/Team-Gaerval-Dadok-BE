@@ -1,16 +1,19 @@
 package com.dadok.gaerval.domain.book.exception;
 
+import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.dadok.gaerval.global.error.exception.BusinessException;
 
+import lombok.Getter;
+
+@JacocoExcludeGenerated
 public class NotMarkedBookException extends BusinessException {
 
-	public NotMarkedBookException() {
-		super(ErrorCode.INVALID_COMMENT_NOT_BOOKMARK);
-	}
+	@Getter
+	private final ErrorCode errorCode;
 
-	@Override
-	public ErrorCode getErrorCode() {
-		return this.getErrorCode();
+	public NotMarkedBookException(ErrorCode errorCode) {
+		super(errorCode.getMessage());
+		this.errorCode = errorCode;
 	}
 }

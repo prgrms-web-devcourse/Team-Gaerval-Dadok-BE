@@ -21,7 +21,6 @@ import com.dadok.gaerval.domain.book.repository.BookRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
 import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
