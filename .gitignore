@@ -31,7 +31,10 @@ hs_err_pid*
 
 ### Rest Docs ###
 BOOT-INF/
-
+src/main/resources/static/docs/index.html
+src/main/resources/static/openapi3/openapi3.yaml
+!**/src/main/resources/static/docs/
+!**/src/main/resources/static/openapi3/
 
 ## env
 .env

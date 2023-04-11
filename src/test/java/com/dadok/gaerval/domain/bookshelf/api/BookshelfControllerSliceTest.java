@@ -48,6 +48,9 @@ import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 import lombok.SneakyThrows;
 
@@ -116,7 +119,35 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
 						.description("책 이미지 url")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestParameters(
+						parameterWithName("job_group").description(
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)
+						)
+					)
+					.responseFields(
+						fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군"),
+						fieldWithPath("JobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글 이름"),
+						fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING)
+							.description("책장 이름"),
+						fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
+							.description("책장 ID"),
+						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
+							.description("책 ID"),
+						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
+							.description("책 제목"),
+						fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
+							.description("책 이미지 url")
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("findSuggestionBookshelves - 미로그인 사용자 노출용 인기있는 책장 리스트 조회 - 성공")
@@ -168,7 +199,27 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
 						.description("책 이미지 url")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.responseFields(
+						fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
+							.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
+						fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING)
+							.description("책장 이름"),
+						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
+							.description("책 ID"),
+						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
+							.description("책 제목"),
+						fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
+							.description("책 이미지 url")
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("insertBookInBookshelf - 책장에 책 추가 - 성공")
@@ -203,7 +254,25 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							constrainsAttribute(BookshelfItemCreateRequest.class, "bookId")
 						)
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookshelvesId").description("첵장 Id")
+					)
+					.requestFields(
+						fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 id")
+							.attributes(
+								constrainsAttribute(BookshelfItemCreateRequest.class, "bookId")
+							)
+					)
+					.build()
+				)))
+		;
 	}
 
 	@SneakyThrows
@@ -231,7 +300,20 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					parameterWithName("bookshelvesId").description("첵장 Id"),
 					parameterWithName("bookId").description("책 Id")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookshelvesId").description("첵장 Id"),
+						parameterWithName("bookId").description("책 Id")
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("findSummaryBookshelf - 자신의 책장 요약 조회 - 성공")
@@ -273,7 +355,24 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
 						.description("책 이미지 url")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.responseFields(
+						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+							.description("책 이미지 url")
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("findSummaryBookshelf - 사용자의 책장 요약 조회 - 성공")
@@ -317,7 +416,26 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
 						.description("책 이미지 url")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("userId").description("유저 Id")
+					)
+					.responseFields(
+						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+							.description("책 이미지 url")
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("findBooksInBookShelf - 책장속 책들을 조회한다. ")
@@ -426,6 +544,50 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING)
 				)
 			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookshelvesId").description("첵장 Id")
+					)
+					.requestParameters(
+						parameterWithName("type").description("책장 아이템 타입. ").optional(),
+						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+							.attributes(
+								constrainsAttribute(BooksInBookShelfFindRequest.class, "pageSize")
+							),
+						parameterWithName("bookshelfItemCursorId").description(
+							"커서 bookshelfItem Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
+						parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+							.description("정렬 방식 : " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
+							)
+
+					)
+					.responseFields(
+						fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+
+						fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
+						fieldWithPath("books[].bookshelfItemId").type(JsonFieldType.NUMBER)
+							.description("책장 속 책 아이템 ID"),
+						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+						fieldWithPath("books[].isbn").description("책 isbn. 고유번호").type(JsonFieldType.STRING),
+						fieldWithPath("books[].author").description("책 작가").type(JsonFieldType.STRING),
+						fieldWithPath("books[].contents").description("책 설명").type(JsonFieldType.STRING),
+						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+							.description("책 이미지 url"),
+						fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
+						fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING)
+					)
+					.build()
+				)))
 		;
 
 		//then
@@ -486,7 +648,46 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
 
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestParameters(
+						parameterWithName("userId").description("조회할 책장의 userId")
+							.attributes(
+								key("constraints").value("Must not be null")
+							)
+
+					)
+					.responseFields(
+						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
+						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
+
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
+						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
+						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("userProfileImage").type(JsonFieldType.STRING).description("유저 프로필 이미지 url"),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("유저의 직업"),
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING)
+							.description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING)
+							.description("직군 영어명 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+							.description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+					.build()
+				)))
+		;
 		//then
 		verify(bookshelfService).findBookShelfWithJob(userId);
 	}
@@ -545,7 +746,46 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
 
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookshelfId").description("조회할 책장의 bookshelfId")
+							.attributes(
+								key("constraints").value("Must not be null")
+							)
+
+					)
+					.responseFields(
+						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
+						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
+
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
+						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
+						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("userProfileImage").type(JsonFieldType.STRING).description("유저 프로필 이미지 url"),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("유저의 직업"),
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING)
+							.description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING)
+							.description("직군 영어명 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+							.description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+					.build()
+				)))
+		;
 		//then
 		verify(bookshelfService).findBookShelfById(bookshelfId);
 	}

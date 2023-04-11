@@ -40,6 +40,9 @@ import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookGroupObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 @WithMockCustomOAuth2LoginUser
 @WebMvcTest(BookGroupController.class)
@@ -120,7 +123,56 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestParameters(
+						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+							.attributes(
+								constrainsAttribute(BookGroupSearchRequest.class, "pageSize")
+							),
+						parameterWithName("groupCursorId").description("커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.")
+							.optional(),
+						parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+							.description("정렬 방식 : " +
+								generateLinkCode(DocUrl.SORT_DIRECTION)
+							)
+					)
+					.responseFields(
+						fieldWithPath("count").description("그룹 갯수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("bookGroups").type(JsonFieldType.ARRAY).description("모임들 명단"),
+						fieldWithPath("bookGroups[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 id"),
+						fieldWithPath("bookGroups[].title").type(JsonFieldType.STRING).description("모임 제목"),
+						fieldWithPath("bookGroups[].startDate").type(JsonFieldType.STRING).description("모임 시작일"),
+						fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
+						fieldWithPath("bookGroups[].endDate").type(JsonFieldType.STRING).description("모임 종료일"),
+						fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
+							.optional().description("모임 최대 인원 : 제한 없을 경우 null"),
+						fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+							.description("모임 비밀번호(잠김) 여부"),
+
+						fieldWithPath("bookGroups[].isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부"),
+
+						fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
+						fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
+						fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
+						fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING)
+							.description("모임 책 image url"),
+						fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
+						fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING)
+							.description("모임장 프로필 url"),
+						fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
+						)
+					)
+					.build())))
+		;
 		//then
 	}
 
@@ -199,7 +251,59 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
 					)
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestParameters(
+						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+							.attributes(
+								constrainsAttribute(BookGroupSearchRequest.class, "pageSize")
+							),
+						parameterWithName("groupCursorId").description("커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.")
+							.optional(),
+						parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+							.description("정렬 방식 : " +
+								generateLinkCode(DocUrl.SORT_DIRECTION)
+							)
+					)
+					.responseFields(
+						fieldWithPath("count").description("그룹 갯수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("bookGroups").type(JsonFieldType.ARRAY).description("모임들 명단"),
+						fieldWithPath("bookGroups[].bookGroupId").type(JsonFieldType.NUMBER).description("모임 id"),
+						fieldWithPath("bookGroups[].title").type(JsonFieldType.STRING).description("모임 제목"),
+						fieldWithPath("bookGroups[].introduce").type(JsonFieldType.STRING).description("모임 소개"),
+						fieldWithPath("bookGroups[].startDate").type(JsonFieldType.STRING).description("모임 시작일"),
+						fieldWithPath("bookGroups[].endDate").type(JsonFieldType.STRING).description("모임 종료일"),
+						fieldWithPath("bookGroups[].maxMemberCount").type(JsonFieldType.NUMBER)
+							.optional().description("모임 최대 인원 : 제한 없을 경우 null"),
+						fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+							.description("모임 비밀번호(잠김) 여부"),
+						fieldWithPath("bookGroups[].hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+							.description("모임 비밀번호(잠김) 여부"),
+						fieldWithPath("bookGroups[].isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부"),
+
+						fieldWithPath("bookGroups[].memberCount").type(JsonFieldType.NUMBER).description("모임 현재 멤버 수"),
+						fieldWithPath("bookGroups[].commentCount").type(JsonFieldType.NUMBER).description("모임 현재 댓글 수"),
+						fieldWithPath("bookGroups[].book.id").type(JsonFieldType.NUMBER).description("모임 책 id"),
+						fieldWithPath("bookGroups[].book.imageUrl").type(JsonFieldType.STRING)
+							.description("모임 책 image url"),
+						fieldWithPath("bookGroups[].owner.id").type(JsonFieldType.NUMBER).description("모임장 id"),
+						fieldWithPath("bookGroups[].owner.profileUrl").type(JsonFieldType.STRING)
+							.description("모임장 프로필 url"),
+						fieldWithPath("bookGroups[].owner.nickname").type(JsonFieldType.STRING).description("모임장 닉네임"
+						)
+					)
+					.build())))
+
+		;
 
 	}
 
@@ -273,7 +377,63 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 				responseFields(
 					fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestFields(
+						fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("도서 id")
+							.attributes(
+								constrainsAttribute(BookCreateRequest.class, "bookId")
+							),
+						fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목")
+							.attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "title")
+							),
+						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작 날짜").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "startDate")
+						),
+						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료 날짜").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "endDate")
+						),
+						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER)
+							.description("모임 참여 최대 인원 : 제한 없을 경우 null")
+							.optional()
+							.attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
+							),
+						fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "introduce")
+						),
+						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN)
+							.description("모임 비밀번호(잠김) 여부")
+							.attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "hasJoinPasswd")
+							),
+						fieldWithPath("joinQuestion").type(JsonFieldType.STRING).optional()
+							.description("모임 참여 제한 질문 : hasJoinPasswd = true 시 필수사항").attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "joinQuestion")
+							),
+						fieldWithPath("joinPasswd").type(JsonFieldType.STRING).optional()
+							.description("모임 참여 제한 비밀번호 : hasJoinPasswd = true 시 필수사항").attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "joinPasswd")
+							),
+						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("공개 여부").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "isPublic")
+						)
+					)
+					.responseHeaders(
+						headerWithName(HttpHeaders.LOCATION).description("생성된 모임 상세 조회 리소스 uri")
+					)
+					.responseFields(
+						fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id")
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("updateBookGroup - 모임을 수정한다")
@@ -322,7 +482,38 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 							constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
 						)
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookGroupId").description("모임 Id (bookGroup)")
+					)
+					.requestFields(
+						fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목")
+							.attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "title")
+							),
+						fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "introduce")
+						),
+
+						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료 날짜").attributes(
+							constrainsAttribute(BookGroupCreateRequest.class, "endDate")
+						),
+						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER)
+							.description("모임 참여 최대 인원 : 제한없을 경우 null")
+							.optional()
+							.attributes(
+								constrainsAttribute(BookGroupCreateRequest.class, "maxMemberCount")
+							)
+					)
+					.build()
+				)))
+		;
 	}
 
 	@DisplayName("deleteBookGroup - 모임을 삭제한다")
@@ -345,7 +536,18 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 				pathParameters(
 					parameterWithName("groupId").description("모임 Id (bookGroup)")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					)
+					.build())))
+		;
 	}
 
 	@DisplayName("findGroup - 모임 디테일 정보를 반환한다.")
@@ -415,7 +617,41 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url")
 					)
 				)
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					)
+					.responseFields(
+						fieldWithPath("bookGroupId").type(JsonFieldType.NUMBER).description("모임 Id"),
+						fieldWithPath("title").type(JsonFieldType.STRING).description("모임 제목"),
+						fieldWithPath("introduce").type(JsonFieldType.STRING).description("모임 소개글 "),
+						fieldWithPath("owner").type(JsonFieldType.OBJECT).description("모임장 정보"),
+						fieldWithPath("owner.id").type(JsonFieldType.NUMBER).description("모임장 Id(user Id)"),
+						fieldWithPath("isOwner").type(JsonFieldType.BOOLEAN).description("요청유저가 모임장인지 여부"),
+						fieldWithPath("isGroupMember").type(JsonFieldType.BOOLEAN).description("요청자가 모임에 속해있는 유저인지 여부"),
+						fieldWithPath("startDate").type(JsonFieldType.STRING).description("모임 시작일"),
+						fieldWithPath("endDate").type(JsonFieldType.STRING).description("모임 종료일"),
+						fieldWithPath("hasJoinPasswd").type(JsonFieldType.BOOLEAN).description("모임 비밀번호(잠김) 여부"),
+						fieldWithPath("joinQuestion").type(JsonFieldType.STRING).description("모임 참여용 질문"),
+						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("모임 내용 공개 여부"),
+						fieldWithPath("maxMemberCount").type(JsonFieldType.NUMBER)
+							.optional()
+							.description("모임 최대 인원 : 제한 없을 경우 null"),
+						fieldWithPath("currentMemberCount").type(JsonFieldType.NUMBER).description("현재 모임 인원"),
+						fieldWithPath("commentCount").type(JsonFieldType.NUMBER).description("현재 모임 댓글 수"),
+						fieldWithPath("book").type(JsonFieldType.OBJECT).description("책 정보"),
+						fieldWithPath("book.id").type(JsonFieldType.NUMBER).description("책 Id."),
+						fieldWithPath("book.title").type(JsonFieldType.STRING).description("모임 책 제목"),
+						fieldWithPath("book.imageUrl").type(JsonFieldType.STRING).description("모임 책 image url")
+					)
+					.build()
+				)))
+		;
 		//then
 	}
 
@@ -473,6 +709,17 @@ class BookGroupControllerSliceTest extends ControllerSliceTest {
 					)
 				)
 			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 Id (bookGroup)")
+					)
+					.build()
+				)))
 		;
 	}
 }

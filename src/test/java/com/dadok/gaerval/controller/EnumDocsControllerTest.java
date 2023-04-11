@@ -56,6 +56,11 @@ public class EnumDocsControllerTest extends ControllerSliceTest {
 		// 데이터 파싱
 		EnumDocs enumDocs = getData(mvcResult);
 
+		CustomResponseFieldsSnippet customResponseFieldsSnippet = customResponseFields(ENUM_SNIPPET_FILE,
+			beneathPath("data.jobGroup").withSubsectionId("jobGroup"),
+			attributes(key("title").value("jobGroup")),
+			enumConvertFieldDescriptor(enumDocs.jobGroup())
+		);
 		// 문서화 진행
 		result.andDo(restDocs.document(
 				customResponseFields(ENUM_SNIPPET_FILE,
@@ -91,7 +96,8 @@ public class EnumDocsControllerTest extends ControllerSliceTest {
 
 			)
 
-		);
+		)
+		;
 	}
 
 	// 커스텀 템플릿 사용을 위한 함수

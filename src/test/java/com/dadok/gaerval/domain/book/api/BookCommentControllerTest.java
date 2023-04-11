@@ -41,6 +41,9 @@ import com.dadok.gaerval.testutil.BookCommentObjectProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 @WebMvcTest(controllers = BookCommentController.class)
 @WithMockCustomOAuth2LoginUser
@@ -120,7 +123,52 @@ class BookCommentControllerTest extends ControllerSliceTest {
 					fieldWithPath("bookComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN)
 						.description("댓글 본인 여부")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookId").description("도서 ID")
+					)
+					.requestParameters(
+						parameterWithName("bookCommentCursorId").description("커서 id가 없을 경우 정렬 순서에 따라 결정").optional(),
+						parameterWithName("pageSize").description("요청 데이터 개수 default : 10")
+							.optional()
+							.attributes(
+								constrainsAttribute(BookGroupCommentSearchRequest.class, "pageSize")
+							),
+						parameterWithName("sortDirection").description("정렬 순서. default : DESC")
+							.optional()
+							.description("정렬 방식 : " +
+								generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
+							)
+					)
+					.responseFields(
+						fieldWithPath("count").description("댓글 갯수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("bookComments[]").type(JsonFieldType.ARRAY).description("리뷰 목록"),
+						fieldWithPath("bookComments[].commentId").type(JsonFieldType.NUMBER).description("코멘트 ID"),
+						fieldWithPath("bookComments[].contents").type(JsonFieldType.STRING).description("코멘트 내용"),
+						fieldWithPath("bookComments[].bookId").type(JsonFieldType.NUMBER).description("코멘트가 속한 도서 ID"),
+						fieldWithPath("bookComments[].userId").type(JsonFieldType.NUMBER).description("코멘트 작성자 ID"),
+						fieldWithPath("bookComments[].userProfileImage").type(JsonFieldType.STRING)
+							.description("코멘트 작성자 프로필 이미지 URL"),
+						fieldWithPath("bookComments[].createdAt").type(JsonFieldType.STRING)
+							.description("코멘트 작성 일자(yyyy-MM-dd HH:mm:ss)"),
+						fieldWithPath("bookComments[].modifiedAt").type(JsonFieldType.STRING)
+							.description("코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)"),
+						fieldWithPath("bookComments[].nickname").type(JsonFieldType.STRING).description("코멘트 작성자 닉네임"),
+						fieldWithPath("bookComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN)
+							.description("댓글 본인 여부")
+					)
+					.build()
+				)))
+		;
 
 		// then
 		verify(bookCommentService).findBookCommentsBy(
@@ -163,7 +211,25 @@ class BookCommentControllerTest extends ControllerSliceTest {
 				responseFields(
 					fieldWithPath("commentId").description("저장된 댓글 ID").type(JsonFieldType.NUMBER)
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookId").description("도서 ID")
+					)
+					.requestFields(
+						fieldWithPath("comment").description("댓글 내용").type(JsonFieldType.STRING)
+					)
+					.responseFields(
+						fieldWithPath("commentId").description("저장된 댓글 ID").type(JsonFieldType.NUMBER)
+					)
+					.build()
+				)))
+		;
 
 		// then
 		verify(bookCommentService).createBookComment(
@@ -218,7 +284,37 @@ class BookCommentControllerTest extends ControllerSliceTest {
 					fieldWithPath("nickname").type(JsonFieldType.STRING).description("코멘트 작성자 닉네임"),
 					fieldWithPath("writtenByCurrentUser").type(JsonFieldType.BOOLEAN).description("댓글 본인 여부")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookId").description("도서 ID")
+					)
+					.requestFields(
+						fieldWithPath("comment").description("댓글 내용").type(JsonFieldType.STRING),
+						fieldWithPath("commentId").description("댓글 아이디").type(JsonFieldType.NUMBER)
+					)
+					.responseFields(
+						fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("코멘트 ID"),
+						fieldWithPath("contents").type(JsonFieldType.STRING).description("수정된 코멘트 내용"),
+						fieldWithPath("bookId").type(JsonFieldType.NUMBER).description("코멘트가 속한 도서 ID"),
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("코멘트 작성자 ID"),
+						fieldWithPath("userProfileImage").type(JsonFieldType.STRING).description("코멘트 작성자 프로필 이미지 URL"),
+						fieldWithPath("createdAt").type(JsonFieldType.STRING)
+							.description("코멘트 작성 일자(yyyy-MM-dd HH:mm:ss)"),
+						fieldWithPath("modifiedAt").type(JsonFieldType.STRING)
+							.description("코멘트 수정 일자(yyyy-MM-dd HH:mm:ss)"),
+						fieldWithPath("nickname").type(JsonFieldType.STRING).description("코멘트 작성자 닉네임"),
+						fieldWithPath("writtenByCurrentUser").type(JsonFieldType.BOOLEAN).description("댓글 본인 여부")
+					)
+					.build()
+				)))
+
+		;
 
 		// then
 		verify(bookCommentService).updateBookComment(
@@ -254,7 +350,21 @@ class BookCommentControllerTest extends ControllerSliceTest {
 					parameterWithName("bookId").description("도서 ID"),
 					parameterWithName("commentId").description("댓글 ID")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("bookId").description("도서 ID"),
+						parameterWithName("commentId").description("댓글 ID")
+					)
+					.build()
+				)))
+
+		;
 
 	}
 
