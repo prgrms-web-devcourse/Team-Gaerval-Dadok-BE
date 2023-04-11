@@ -3,7 +3,6 @@ package com.dadok.gaerval.domain.book.api;
 import static com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator.*;
 import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -98,6 +97,10 @@ class BookControllerSliceTest extends ControllerSliceTest {
 						)
 				),
 				responseFields(
+					fieldWithPath("requestedPageNumber").type(JsonFieldType.NUMBER)
+						.description("요청한 page 값"),
+					fieldWithPath("requestedPageSize").type(JsonFieldType.NUMBER)
+						.description("요청한 pageSize 값"),
 					fieldWithPath("isLast").type(JsonFieldType.BOOLEAN)
 						.description("마지막 데이터 여부"),
 					fieldWithPath("pageableCount").type(JsonFieldType.NUMBER)
@@ -307,50 +310,74 @@ class BookControllerSliceTest extends ControllerSliceTest {
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
-					requestHeaders(
-						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
-					),
-					requestParameters(
-						parameterWithName("jobGroup").description("직군명." +
-								generateLinkCode(DocUrl.JOB_GROUP))
-							.attributes(
-								constrainsAttribute(SuggestionsBookFindRequest.class, "jobGroup")
-							),
-						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
-							.attributes(
-								constrainsAttribute(SuggestionsBookFindRequest.class, "pageSize")
-							),
-						parameterWithName("bookCursorId").description("커서 book Id. 커서id가 null이고 DESC면 가장 최근 데이터.")
-							.optional(),
-						parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
-							.description("정렬 방식 : " +
-								generateLinkCode(DocUrl.SORT_DIRECTION)
-							)
+				requestHeaders(
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				requestParameters(
+					parameterWithName("jobGroup").description("직군명." +
+							generateLinkCode(DocUrl.JOB_GROUP))
+						.attributes(
+							constrainsAttribute(SuggestionsBookFindRequest.class, "jobGroup")
+						),
+					parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+						.attributes(
+							constrainsAttribute(SuggestionsBookFindRequest.class, "pageSize")
+						),
+					parameterWithName("bookCursorId").description("커서 book Id. 커서id가 null이고 DESC면 가장 최근 데이터.")
+						.optional(),
+					parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+						.description("정렬 방식 : " +
+							generateLinkCode(DocUrl.SORT_DIRECTION)
+						)
+				),
+				responseFields(
+					fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
+					fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+					fieldWithPath("jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
 
-					),
-					responseFields(
-						fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
-						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
-						fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
-						fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
-						fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
-						fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 영어명 :  " +
-							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
-						fieldWithPath("jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
+					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
+					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("books[].isbn").description("책 isbn. 고유번호").type(JsonFieldType.STRING),
+					fieldWithPath("books[].author").description("책 작가").type(JsonFieldType.STRING),
+					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url"),
+					fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
+					fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING),
+					fieldWithPath("books[].jobGroup").type(JsonFieldType.STRING).description("책을 꽂은 사람의 직군 한글명 :  " +
+						DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+					fieldWithPath("books[].count").type(JsonFieldType.NUMBER).description("집계된 책 갯수")
+				)
+				,
+				responseFields(
+					fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
+					fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("jobGroup").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+						generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+					fieldWithPath("jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
 
-						fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
-						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
-						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
-						fieldWithPath("books[].isbn").description("책 isbn. 고유번호").type(JsonFieldType.STRING),
-						fieldWithPath("books[].author").description("책 작가").type(JsonFieldType.STRING),
-						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
-							.description("책 이미지 url"),
-						fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
-						fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING),
-						fieldWithPath("books[].jobGroup").type(JsonFieldType.STRING).description("책을 꽂은 사람의 직군 한글명 :  " +
-							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
-						fieldWithPath("books[].count").type(JsonFieldType.NUMBER).description("집계된 책 갯수")
-					)
+					fieldWithPath("books").description("책장속 책들").type(JsonFieldType.ARRAY),
+					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("books[].isbn").description("책 isbn. 고유번호").type(JsonFieldType.STRING),
+					fieldWithPath("books[].author").description("책 작가").type(JsonFieldType.STRING),
+					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url"),
+					fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
+					fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING),
+					fieldWithPath("books[].jobGroup").type(JsonFieldType.STRING).description("책을 꽂은 사람의 직군 한글명 :  " +
+						generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+					fieldWithPath("books[].count").type(JsonFieldType.NUMBER).description("집계된 책 갯수")
+
+				)
 				)
 			).andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
 				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
@@ -389,8 +416,9 @@ class BookControllerSliceTest extends ControllerSliceTest {
 							.description("책 이미지 url"),
 						fieldWithPath("books[].url").description("책 정보로 이동하는 url").type(JsonFieldType.STRING),
 						fieldWithPath("books[].publisher").description("출판사").type(JsonFieldType.STRING),
-						fieldWithPath("books[].jobGroup").type(JsonFieldType.STRING).description("책을 꽂은 사람의 직군 한글명 :  " +
-							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+						fieldWithPath("books[].jobGroup").type(JsonFieldType.STRING)
+							.description("책을 꽂은 사람의 직군 한글명 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
 						fieldWithPath("books[].count").type(JsonFieldType.NUMBER).description("집계된 책 갯수")
 					)
 					.build())));

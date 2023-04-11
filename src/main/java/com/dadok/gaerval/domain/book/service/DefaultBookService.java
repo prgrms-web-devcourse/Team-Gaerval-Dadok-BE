@@ -45,7 +45,8 @@ public class DefaultBookService implements BookService {
 		if (StringUtils.isBlank(bookSearchRequest.query()) || !StringUtils.isAlphanumericSpace(
 			bookSearchRequest.query())) {
 			log.info("[DefaultBookService]-[findAllByKeyword] invalid keyword : {}", bookSearchRequest.query());
-			return new BookResponses(true, 0, 0, Collections.emptyList());
+			return new BookResponses(bookSearchRequest.page(), bookSearchRequest.pageSize(), true, 0, 0,
+				Collections.emptyList());
 		}
 
 		return externalBookApiOperations.searchBooks(bookSearchRequest.query(), bookSearchRequest.page(),

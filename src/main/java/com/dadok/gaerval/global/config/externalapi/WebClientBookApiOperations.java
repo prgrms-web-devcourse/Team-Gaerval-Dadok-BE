@@ -39,17 +39,18 @@ public class WebClientBookApiOperations implements ExternalBookApiOperations {
 	public BookResponses searchBooks(String query, int page, int size, String sort) {
 
 		return processResult(webClient.get()
-			.uri(uriBuilder -> uriBuilder
-				.queryParam("query", query)
-				.queryParam("page", page)
-				.queryParam("size", size)
-				.queryParam("sort", sort)
-				.build())
-			.acceptCharset(StandardCharsets.UTF_8)
-			.accept(MediaType.APPLICATION_JSON)
-			.retrieve()
-			.bodyToFlux(String.class)
-			.toStream().findFirst().orElse(""))
+				.uri(uriBuilder -> uriBuilder
+					.queryParam("query", query)
+					.queryParam("page", page)
+					.queryParam("size", size)
+					.queryParam("sort", sort)
+					.build())
+				.acceptCharset(StandardCharsets.UTF_8)
+				.accept(MediaType.APPLICATION_JSON)
+				.retrieve()
+				.bodyToFlux(String.class)
+				.toStream().findFirst().orElse(""),
+			page, size)
 			;
 	}
 
@@ -57,21 +58,22 @@ public class WebClientBookApiOperations implements ExternalBookApiOperations {
 	public BookResponses searchBooksWithTargetRestriction(String query, SearchTarget searchTarget, int page, int size,
 		String sort) {
 		return processResult(webClient.get()
-			.uri(uriBuilder -> uriBuilder
-				.queryParam("query", query)
-				.queryParam("target", searchTarget.getName())
-				.queryParam("page", page)
-				.queryParam("size", size)
-				.queryParam("sort", sort)
-				.build())
-			.acceptCharset(StandardCharsets.UTF_8)
-			.accept(MediaType.APPLICATION_JSON)
-			.retrieve()
-			.bodyToFlux(String.class)
-			.toStream().findFirst().orElse(""));
+				.uri(uriBuilder -> uriBuilder
+					.queryParam("query", query)
+					.queryParam("target", searchTarget.getName())
+					.queryParam("page", page)
+					.queryParam("size", size)
+					.queryParam("sort", sort)
+					.build())
+				.acceptCharset(StandardCharsets.UTF_8)
+				.accept(MediaType.APPLICATION_JSON)
+				.retrieve()
+				.bodyToFlux(String.class)
+				.toStream().findFirst().orElse(""),
+			page, size);
 	}
 
-	private BookResponses processResult(String result) {
+	private BookResponses processResult(String result, int page, int size) {
 		List<SearchBookResponse> searchBookResponseList = new ArrayList<>();
 		AtomicReference<Boolean> isEnd = new AtomicReference<>(Boolean.TRUE);
 		AtomicReference<Integer> pageableCount = new AtomicReference<>(0);
@@ -114,6 +116,8 @@ public class WebClientBookApiOperations implements ExternalBookApiOperations {
 		} catch (JsonProcessingException e) {
 			throw new InvalidBookDataException(ErrorCode.BOOK_DATA_INVALID);
 		}
-		return new BookResponses(isEnd.get(), pageableCount.get(), totalCount.get(), searchBookResponseList);
+
+		return new BookResponses(page, size, isEnd.get(), pageableCount.get(), totalCount.get(),
+			searchBookResponseList);
 	}
 }
