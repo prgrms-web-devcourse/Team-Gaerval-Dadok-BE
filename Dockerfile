@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine
+FROM amazoncorretto:17-al2023-jdk
 
 RUN apk add --no-cache bash
 
