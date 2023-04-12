@@ -1,16 +1,13 @@
 package com.dadok.gaerval.domain.book.service;
 
-import org.springframework.context.ApplicationEvent;
-
 import lombok.Getter;
 
 @Getter
-public class SaveKeywordEvent extends ApplicationEvent {
+public class SaveKeywordEvent {
 	private final Long userId;
 	private final String keyword;
 
-	public SaveKeywordEvent(Object source, Long userId, String keyword) {
-		super(source);
+	public SaveKeywordEvent(Long userId, String keyword) {
 		this.userId = userId;
 		this.keyword = keyword;
 	}

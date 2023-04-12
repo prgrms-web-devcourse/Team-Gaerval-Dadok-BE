@@ -42,8 +42,8 @@ public class DefaultBookService implements BookService {
 	private final ApplicationEventPublisher eventPublisher;
 	private final BookRecentSearchRepository bookRecentSearchRepository;
 
-	@Override
 	@Transactional
+	@Override
 	public BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest, Long userId) {
 
 		if (StringUtils.isBlank(bookSearchRequest.query()) || !StringUtils.isAlphanumericSpace(
@@ -53,7 +53,7 @@ public class DefaultBookService implements BookService {
 				Collections.emptyList());
 		}
 
-		eventPublisher.publishEvent(new SaveKeywordEvent(this, userId, bookSearchRequest.query()));
+		eventPublisher.publishEvent(new SaveKeywordEvent(userId, bookSearchRequest.query()));
 
 		return externalBookApiOperations.searchBooks(bookSearchRequest.query(), bookSearchRequest.page(),
 			bookSearchRequest.pageSize(), SortingPolicy.ACCURACY.getName());
