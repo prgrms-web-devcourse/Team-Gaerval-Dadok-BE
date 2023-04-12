@@ -6,7 +6,6 @@ import org.springframework.data.domain.Slice;
 
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 
-
 public record SuggestionsBookFindResponses(
 
 	boolean isFirst, // 첫번째냐

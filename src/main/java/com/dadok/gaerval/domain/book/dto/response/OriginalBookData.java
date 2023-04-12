@@ -15,13 +15,15 @@ public record OriginalBookData(
 	String url,
 	String[] authors,
 	String[] translators
-	) {
+) {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		OriginalBookData that = (OriginalBookData) o;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		OriginalBookData that = (OriginalBookData)o;
 		return Objects.equals(contents, that.contents) &&
 			Objects.equals(datetime, that.datetime) &&
 			Objects.equals(isbn, that.isbn) &&

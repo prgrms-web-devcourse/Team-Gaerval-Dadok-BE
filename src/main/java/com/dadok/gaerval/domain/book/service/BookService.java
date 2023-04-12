@@ -14,7 +14,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 
 public interface BookService {
 
-	BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest);
+	BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest, Long userId);
 
 	Long createBookAndReturnId(BookCreateRequest bookCreateRequest);
 
@@ -30,5 +30,5 @@ public interface BookService {
 
 	UserByBookResponses findUserByBookId(Long bookId, Long userId);
 
-	BookRecentSearchResponses findKeywordsByUserId(Long userId, Integer limit);
+	BookRecentSearchResponses findKeywordsByUserId(Long userId, Long limit);
 }

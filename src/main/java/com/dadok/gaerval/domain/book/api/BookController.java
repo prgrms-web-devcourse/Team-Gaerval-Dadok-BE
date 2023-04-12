@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.request.BookRecentSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
 import com.dadok.gaerval.domain.book.dto.response.BookIdResponse;
@@ -54,8 +54,9 @@ public class BookController {
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	@LogHttpRequests
-	public ResponseEntity<BookResponses> findBooksByQuery(@ModelAttribute @Valid BookSearchRequest bookSearchRequest) {
-		return ResponseEntity.ok().body(bookService.findAllByKeyword(bookSearchRequest));
+	public ResponseEntity<BookResponses> findBooksByQuery(@ModelAttribute @Valid BookSearchRequest bookSearchRequest,
+		@CurrentUserPrincipal UserPrincipal userPrincipal) {
+		return ResponseEntity.ok().body(bookService.findAllByKeyword(bookSearchRequest, userPrincipal.getUserId()));
 	}
 
 	/**
@@ -63,14 +64,17 @@ public class BookController {
 	 *     사용자의 최근 검색어 목록을 가져온다.
 	 * </pre>
 	 *
-	 * @param limit 가져올 검색어 개수
+	 * @param bookRecentSearchRequest 가져올 검색어 개수
 	 * @return status : ok
 	 */
-	@GetMapping(value = "/recent-searches",produces = APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/recent-searches", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
 	@LogHttpRequests
-	public ResponseEntity<BookRecentSearchResponses> findRecentQuery(@RequestParam Integer limit, @CurrentUserPrincipal UserPrincipal userPrincipal) {
-		return ResponseEntity.ok().body(bookService.findKeywordsByUserId(userPrincipal.getUserId(), limit));
+	public ResponseEntity<BookRecentSearchResponses> findRecentQuery(
+		@ModelAttribute @Valid BookRecentSearchRequest bookRecentSearchRequest,
+		@CurrentUserPrincipal UserPrincipal userPrincipal) {
+		return ResponseEntity.ok()
+			.body(bookService.findKeywordsByUserId(userPrincipal.getUserId(), bookRecentSearchRequest.limit()));
 	}
 
 	/**

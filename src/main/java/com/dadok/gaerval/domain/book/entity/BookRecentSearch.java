@@ -18,10 +18,9 @@ import com.dadok.gaerval.global.util.CommonValidator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
-@Table(name="book_recent_searchs")
+@Table(name = "book_recent_searches")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookRecentSearch extends BaseTimeColumn {
@@ -31,7 +30,7 @@ public class BookRecentSearch extends BaseTimeColumn {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id",nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@Column(nullable = false)

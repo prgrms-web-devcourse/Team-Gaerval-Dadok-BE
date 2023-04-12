@@ -34,7 +34,7 @@ public class BookComment extends BaseTimeColumn {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name= "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +43,6 @@ public class BookComment extends BaseTimeColumn {
 
 	@Column(name = "comment", nullable = false, length = 500)
 	private String comment;
-
 
 	protected BookComment(User user, Book book, String comment) {
 		this.user = user;

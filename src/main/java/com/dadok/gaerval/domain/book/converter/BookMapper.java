@@ -27,5 +27,5 @@ public interface BookMapper {
 			bookCreateRequest.apiProvider(), bookCreateRequest.publisher());
 	}
 
-	 BookRecentSearchResponse entityToBookRecentSearchResponse(BookRecentSearch bookRecentSearch);
+	BookRecentSearchResponse entityToBookRecentSearchResponse(BookRecentSearch bookRecentSearch);
 }
