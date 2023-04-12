@@ -9,6 +9,7 @@ import org.springframework.test.context.TestConstructor;
 
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupQueryRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
 import com.dadok.gaerval.domain.book_group.entity.BookGroup;
@@ -167,5 +168,13 @@ class BookGroupSupportImplTest {
 	void findAllByUser_query() {
 		BookGroupSearchRequest request = new BookGroupSearchRequest(10, null, SortDirection.DESC);
 		bookGroupRepository.findAllByUser(request, 1L);
+	}
+
+	@DisplayName("findbyQuery 쿼리 테스트")
+	@Test
+	void findByQuery_query() {
+		BookGroupQueryRequest request = new BookGroupQueryRequest(50, null, null, "hi", null);
+
+		bookGroupRepository.findByQuery(request);
 	}
 }

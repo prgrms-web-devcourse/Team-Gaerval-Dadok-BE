@@ -865,6 +865,27 @@ include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-c
 
 include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/path-parameters.adoc[]
 
+
+=== 모임 검색
+
+==== Request
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/http-request.adoc[]
+
+==== Request Header
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/request-headers.adoc[]
+
+==== Request Parameter
+
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/http-response.adoc[]
+
+==== Response Fields
+
+include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/response-fields.adoc[]
+
 ==== Response
 
 include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/http-response.adoc[]

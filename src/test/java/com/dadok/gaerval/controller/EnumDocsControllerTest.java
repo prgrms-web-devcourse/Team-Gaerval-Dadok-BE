@@ -92,10 +92,13 @@ public class EnumDocsControllerTest extends ControllerSliceTest {
 					beneathPath("data.sortDirection").withSubsectionId("sortDirection"),
 					attributes(key("title").value("sortDirection")),
 					enumConvertFieldDescriptor(enumDocs.sortDirection())
+				),
+				customResponseFields(ENUM_SNIPPET_FILE,
+					beneathPath("data.groupSearchOption").withSubsectionId("groupSearchOption"),
+					attributes(key("title").value("groupSearchOption")),
+					enumConvertFieldDescriptor(enumDocs.groupSearchOption())
 				)
-
 			)
-
 		)
 		;
 	}
