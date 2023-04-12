@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupQueryRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
@@ -163,5 +164,13 @@ public class BookGroupController {
 	) {
 		bookGroupService.updateBookGroup(groupId, userPrincipal.getUserId(), bookGroupUpdateRequest);
 		return ResponseEntity.ok().build();
+	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
+	@GetMapping(value = "/search", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookGroupResponses> findByQuery(
+		@ModelAttribute BookGroupQueryRequest request
+	) {
+		return ResponseEntity.ok(bookGroupService.findByQuery(request));
 	}
 }

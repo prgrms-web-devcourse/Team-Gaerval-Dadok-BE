@@ -21,7 +21,8 @@ public interface DocumentLinkGenerator {
 		JOB_GROUP("jobGroup", "직군"),
 		JOB_NAME("jobName", "직업"),
 		BOOKSHELF_ITEM_TYPE("bookshelfItemType", "책장 아이템 타입"),
-		SORT_DIRECTION("sortDirection", "정렬 방식")
+		SORT_DIRECTION("sortDirection", "정렬 방식"),
+		GROUP_SEARCH_OPTION("groupSearchOption", "모임 검색 방식")
 		;
 		private final String pageId;
 		private final String text;

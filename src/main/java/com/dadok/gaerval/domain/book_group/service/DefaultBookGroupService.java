@@ -10,6 +10,7 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupCreateRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupJoinRequest;
+import com.dadok.gaerval.domain.book_group.dto.request.BookGroupQueryRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupSearchRequest;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupUpdateRequest;
 import com.dadok.gaerval.domain.book_group.dto.response.BookGroupDetailResponse;
@@ -137,6 +138,12 @@ public class DefaultBookGroupService implements BookGroupService {
 	@Transactional(readOnly = true)
 	public BookGroupResponses findAllBookGroupsByUser(BookGroupSearchRequest request, Long userId) {
 		return bookGroupRepository.findAllByUser(request, userId);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookGroupResponses findByQuery(BookGroupQueryRequest request) {
+		return this.bookGroupRepository.findByQuery(request);
 	}
 
 }
