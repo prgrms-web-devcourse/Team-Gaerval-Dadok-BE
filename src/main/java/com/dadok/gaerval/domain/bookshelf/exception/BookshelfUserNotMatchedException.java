@@ -5,9 +5,7 @@ import com.dadok.gaerval.global.error.exception.BusinessException;
 
 public class BookshelfUserNotMatchedException extends BusinessException {
 
-	private ErrorCode errorCode = ErrorCode.BOOKSHELF_USER_NOT_MATCHED;
-
 	public BookshelfUserNotMatchedException() {
-		super(ErrorCode.BOOKSHELF_USER_NOT_MATCHED.getMessage());
+		super(ErrorCode.BOOKSHELF_USER_NOT_MATCHED);
 	}
 }

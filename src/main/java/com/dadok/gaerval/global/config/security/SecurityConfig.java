@@ -28,7 +28,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.dadok.gaerval.global.config.security.filter.ExceptionHandlingFilter;
 import com.dadok.gaerval.global.config.security.filter.JwtAuthenticationFilter;
-import com.dadok.gaerval.global.config.security.jwt.AuthService;
 import com.dadok.gaerval.global.config.security.jwt.JwtAccessDeniedHandler;
 import com.dadok.gaerval.global.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.dadok.gaerval.global.config.security.jwt.JwtProvider;
@@ -74,31 +73,24 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain httpSecurity(
-		HttpSecurity http,
-		AuthService authService
-	) throws Exception {
+	public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.formLogin().disable()
-
 			.csrf().disable()
-
 			.headers().disable()
-
 			.httpBasic().disable()
-
 			.rememberMe().disable()
-
 			.logout().disable()
-
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
 			.and()
 			.authorizeRequests()
-			.antMatchers(allowedApiUrls).permitAll()
-			.antMatchers("/oauth2/authorize/**", "/login/oauth2/code/**", "/docs/index.html", "/docs/**", "/api/auth/token", "/api/auth/logout").permitAll()
+			.antMatchers("/oauth2/authorize/**",
+				"/login/oauth2/code/**",
+				"/docs/index.html",
+				"/docs/**",
+				"/api/auth/token",
+				"/api/auth/logout").permitAll()
 			.anyRequest().permitAll()
-			// .anyRequest().hasAnyRole("ROLE_ANONYMOUS", "ROLE_USER", "ROLE_ADMIN")
 			.and()
 			.anonymous().authorities("ROLE_ANONYMOUS")
 			.and()
@@ -106,20 +98,16 @@ public class SecurityConfig {
 			.oauth2Login()
 			.authorizationEndpoint().baseUri("/oauth2/authorize") // 클라이언트에서 의 접근 uri
 			.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository())
-
 			.and()
 			.userInfoEndpoint()
 			.userService(customOAuth2UserService)
-
 			.and()
 			.successHandler(oAuth2AuthenticationSuccessHandler)
 			.failureHandler(oAuth2AuthenticationFailureHandler)
 			.and()
 			.exceptionHandling()
 			.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-			.accessDeniedHandler(new JwtAccessDeniedHandler(objectMapper))
-
-		;
+			.accessDeniedHandler(new JwtAccessDeniedHandler(objectMapper));
 
 		http.addFilterBefore(new JwtAuthenticationFilter(jwtProvider), OAuth2AuthorizationRequestRedirectFilter.class);
 		http.addFilterBefore(new ExceptionHandlingFilter(objectMapper), JwtAuthenticationFilter.class);

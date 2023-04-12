@@ -477,7 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>다독다독 API Document</h1>
 <div class="details">
-<span id="revnumber">version 0.8.1</span>
+<span id="revnumber">version 0.9.9</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -541,6 +541,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_모임_전체_조회">모임 전체 조회</a></li>
 <li><a href="#_내가_참여한_모임_리스트_조회">내가 참여한 모임 리스트 조회</a></li>
 <li><a href="#_모임_가입">모임 가입</a></li>
+<li><a href="#_모임_탈퇴">모임 탈퇴</a></li>
 <li><a href="#_모임_댓글_작성">모임 댓글 작성</a></li>
 <li><a href="#_모임_댓글_리스트_조회">모임 댓글 리스트 조회</a></li>
 <li><a href="#_모임_댓글_수정">모임 댓글 수정</a></li>
@@ -735,7 +736,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=1d638ce0-da1c-4b12-850e-694b861fcebe; Path=/; Max-Age=1209600; Expires=Tue, 28 Mar 2023 04:51:10 GMT; HttpOnly
+Set-Cookie: RefreshToken=34ac7f01-f29b-4bd9-af5c-10bc1253ac27; Path=/; Max-Age=1209600; Expires=Tue, 25 Apr 2023 18:11:04 GMT; HttpOnly
 Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg</code></pre>
 </div>
 </div>
@@ -774,15 +775,30 @@ Location: https://localhost:3000/oauth/callback?access_token=Bearer eyJhbGciOiJI
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/token HTTP/1.1
 Host: localhost:8080
-Cookie: RefreshToken=2688f28a-26f7-4dbf-8fae-ec0c54554234</code></pre>
+Cookie: RefreshToken=8c6cd12e-4deb-46c5-a8bd-a3c4f4c42d92</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_request_header_cookie"><a class="link" href="#_request_header_cookie">Request Header Cookie</a></h4>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::/Users/ysk/study/devcourse/프로젝트/Team-Gaerval-Dadok-BE/build/generated-snippets/auth-controller-slice-test/refresh-access-token/request-headers.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RefreshToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리프레시 토큰 쿠키 이름</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_response_2"><a class="link" href="#_response_2">Response</a></h4>
@@ -792,13 +808,11 @@ Cookie: RefreshToken=2688f28a-26f7-4dbf-8fae-ec0c54554234</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2Nzg3Njk0MzIsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjc4Nzc1NDMyfQ.hyp3YRLU5Z5UWtvq37PwlEKvEEd3YCqAh4KlM5_ZpjY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMzY2MDcsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjQyNjA3fQ.XM-hbkoce-XdJNEyV1gBwBJTtIUCcXAWSkwzsy5llsM
 Content-Type: application/json;charset=UTF-8
-Content-Length: 203
+Content-Length: 197
 
-{
-  "accessToken" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2Nzg3Njk0MzIsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjc4Nzc1NDMyfQ.hyp3YRLU5Z5UWtvq37PwlEKvEEd3YCqAh4KlM5_ZpjY"
-}</code></pre>
+{"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMCIsImlkIjoxMCwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2ODEyMzY2MDcsImlzcyI6ImRhZG9rIiwiZXhwIjoxNjgxMjQyNjA3fQ.XM-hbkoce-XdJNEyV1gBwBJTtIUCcXAWSkwzsy5llsM"}</code></pre>
 </div>
 </div>
 </div>
@@ -823,6 +837,31 @@ Content-Length: 203
 </tbody>
 </table>
 </div>
+<div class="sect3">
+<h4 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필드명</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accessToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">refresh된 accessToken. Type:  Bearer</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_로그아웃_logout"><a class="link" href="#_로그아웃_logout">로그아웃 - logout</a></h3>
@@ -841,7 +880,7 @@ Content-Length: 203
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/auth/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjc4NzY5NDMxLCJpc3MiOiJkYWRvayIsImV4cCI6MTY3ODc3NTQzMX0.4KuidzOXt9KF9q0vwfs4n77mdOGmQ6f7CPAnPiI94fM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWQiOjEsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNjgxMjM2NjA3LCJpc3MiOiJkYWRvayIsImV4cCI6MTY4MTI0MjYwN30.zIA-JAOjQOxEL3dmeIfr2zIALj1DamcG-K7bqwolq44
 Host: localhost:8080
 Cookie: RefreshToken=null</code></pre>
 </div>
@@ -975,30 +1014,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 450
+Content-Length: 366
 
-{
-  "userId" : 1,
-  "name" : null,
-  "nickname" : "임시닉네임",
-  "oauthNickname" : "책장왕다독이",
-  "email" : "dadok@kakao.com",
-  "profileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-  "gender" : "NONE",
-  "authProvider" : "KAKAO",
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 1
-  }
-}</code></pre>
+{"userId":1,"name":null,"nickname":"임시닉네임","oauthNickname":"책장왕다독이","email":"dadok@kakao.com","profileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","gender":"NONE","authProvider":"KAKAO","job":{"jobGroupKoreanName":"개발","jobGroupName":"DEVELOPMENT","jobNameKoreanName":"백엔드 개발자","jobName":"BACKEND_DEVELOPER","order":1}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields"><a class="link" href="#_response_fields">Response fields</a></h4>
+<h4 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1181,16 +1204,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 23
+Content-Length: 17
 
-{
-  "isExists" : true
-}</code></pre>
+{"isExists":true}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response fields</a></h4>
+<h4 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1225,16 +1246,10 @@ Content-Length: 23
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 121
+Content-Length: 93
 Host: localhost:8080
 
-{
-  "nickname" : "변경된이름",
-  "job" : {
-    "jobGroup" : "DEVELOPMENT",
-    "jobName" : "BACKEND_DEVELOPER"
-  }
-}</code></pre>
+{"nickname":"변경된이름","job":{"jobGroup":"DEVELOPMENT","jobName":"BACKEND_DEVELOPER"}}</code></pre>
 </div>
 </div>
 </div>
@@ -1326,30 +1341,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 450
+Content-Length: 366
 
-{
-  "userId" : 1,
-  "name" : null,
-  "nickname" : "변경된이름",
-  "oauthNickname" : "책장왕다독이",
-  "email" : "dadok@kakao.com",
-  "profileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-  "gender" : "NONE",
-  "authProvider" : "KAKAO",
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 5
-  }
-}</code></pre>
+{"userId":1,"name":null,"nickname":"변경된이름","oauthNickname":"책장왕다독이","email":"dadok@kakao.com","profileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","gender":"NONE","authProvider":"KAKAO","job":{"jobGroupKoreanName":"개발","jobGroupName":"DEVELOPMENT","jobNameKoreanName":"백엔드 개발자","jobName":"BACKEND_DEVELOPER","order":5}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response fields</a></h4>
+<h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1462,12 +1461,10 @@ Content-Length: 450
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 31
+Content-Length: 25
 Host: localhost:8080
 
-{
-  "nickname" : "changeName"
-}</code></pre>
+{"nickname":"changeName"}</code></pre>
 </div>
 </div>
 </div>
@@ -1610,26 +1607,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 332
+Content-Length: 268
 
-{
-  "userId" : 1,
-  "nickname" : "임시닉네임",
-  "profileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-  "gender" : "NONE",
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 1
-  }
-}</code></pre>
+{"userId":1,"nickname":"임시닉네임","profileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","gender":"NONE","job":{"jobGroupKoreanName":"개발","jobGroupName":"DEVELOPMENT","jobNameKoreanName":"백엔드 개발자","jobName":"BACKEND_DEVELOPER","order":1}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response fields</a></h4>
+<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1777,29 +1762,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 400
+Content-Length: 321
 
-{
-  "bookshelfId" : 1,
-  "bookshelfName" : "책장이름",
-  "isPublic" : true,
-  "userId" : 1,
-  "username" : "username",
-  "userNickname" : "userNickname",
-  "userProfileImage" : "http://dadok.com/images",
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 5
-  }
-}</code></pre>
+{"bookshelfId":1,"bookshelfName":"책장이름","isPublic":true,"userId":1,"username":"username","userNickname":"userNickname","userProfileImage":"http://dadok.com/images","job":{"jobGroupKoreanName":"개발","jobGroupName":"DEVELOPMENT","jobNameKoreanName":"백엔드 개발자","jobName":"BACKEND_DEVELOPER","order":5}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response fields</a></h4>
+<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1963,29 +1933,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 400
+Content-Length: 321
 
-{
-  "bookshelfId" : 1,
-  "bookshelfName" : "책장이름",
-  "isPublic" : true,
-  "userId" : 1,
-  "username" : "username",
-  "userNickname" : "userNickname",
-  "userProfileImage" : "http://dadok.com/images",
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 5
-  }
-}</code></pre>
+{"bookshelfId":1,"bookshelfName":"책장이름","isPublic":true,"userId":1,"username":"username","userNickname":"userNickname","userProfileImage":"http://dadok.com/images","job":{"jobGroupKoreanName":"개발","jobGroupName":"DEVELOPMENT","jobNameKoreanName":"백엔드 개발자","jobName":"BACKEND_DEVELOPER","order":5}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response fields</a></h4>
+<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2088,7 +2043,7 @@ Content-Length: 400
 <h4 id="_request_9"><a class="link" href="#_request_9">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/bookshelves/3/books?type=READ&amp;pageSize=10&amp;bookCursorId=3&amp;sortDirection=DESC HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/bookshelves/3/books?type=READ&amp;pageSize=10&amp;bookshelfItemCursorId=3&amp;sortDirection=DESC HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Host: localhost:8080</code></pre>
 </div>
@@ -2167,9 +2122,9 @@ Host: localhost:8080</code></pre>
 Must be at most 100<br></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookCursorId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookshelfItemCursorId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">커서 book Id. 커서id가 없고 DESC면 가장 최근 데이터.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커서 bookshelfItem Id. 커서id가 없고 DESC면 가장 최근 데이터.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
@@ -2190,48 +2145,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1968
+Content-Length: 1816
 
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 3,
-  "isEmpty" : false,
-  "books" : [ {
-    "bookId" : 1,
-    "title" : "미움받을 용기",
-    "author" : "기시미 이치로, 고가 후미타케",
-    "isbn" : "9788996991342",
-    "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-    "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-    "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-    "publisher" : "인플루엔셜"
-  }, {
-    "bookId" : 2,
-    "title" : "미움받을 용기",
-    "author" : "기시미 이치로, 고가 후미타케",
-    "isbn" : "9788996991342",
-    "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-    "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-    "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-    "publisher" : "인플루엔셜"
-  }, {
-    "bookId" : 3,
-    "title" : "미움받을 용기",
-    "author" : "기시미 이치로, 고가 후미타케",
-    "isbn" : "9788996991342",
-    "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-    "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-    "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-    "publisher" : "인플루엔셜"
-  } ]
-}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"books":[{"bookshelfItemId":1,"bookId":1,"title":"미움받을 용기","author":"기시미 이치로, 고가 후미타케","isbn":"9788996991342","contents":"인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.","imageUrl":"https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038","url":"https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0","publisher":"인플루엔셜"},{"bookshelfItemId":2,"bookId":2,"title":"미움받을 용기","author":"기시미 이치로, 고가 후미타케","isbn":"9788996991342","contents":"인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.","imageUrl":"https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038","url":"https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0","publisher":"인플루엔셜"},{"bookshelfItemId":3,"bookId":3,"title":"미움받을 용기","author":"기시미 이치로, 고가 후미타케","isbn":"9788996991342","contents":"인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.","imageUrl":"https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038","url":"https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0","publisher":"인플루엔셜"}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response fields</a></h4>
+<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2281,6 +2202,12 @@ Content-Length: 1968
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">책장속 책들</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>books[].bookshelfItemId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책장 속 책 아이템 ID</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>books[].bookId</code></p></td>
@@ -2378,40 +2305,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1065
+Content-Length: 874
 
-{
-  "bookshelfResponses" : [ {
-    "bookshelfId" : 23,
-    "bookshelfName" : "영지님의 책장",
-    "books" : [ {
-      "bookId" : 1,
-      "title" : "해리포터1",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    }, {
-      "bookId" : 2,
-      "title" : "해리포터2",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    } ]
-  }, {
-    "bookshelfId" : 13,
-    "bookshelfName" : "규란님의 책장",
-    "books" : [ {
-      "bookId" : 1,
-      "title" : "해리포터1",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    }, {
-      "bookId" : 2,
-      "title" : "해리포터2",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    } ]
-  } ]
-}</code></pre>
+{"bookshelfResponses":[{"bookshelfId":23,"bookshelfName":"영지님의 책장","books":[{"bookId":1,"title":"해리포터1","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"},{"bookId":2,"title":"해리포터2","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"}]},{"bookshelfId":13,"bookshelfName":"규란님의 책장","books":[{"bookId":1,"title":"해리포터1","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"},{"bookId":2,"title":"해리포터2","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"}]}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response fields</a></h4>
+<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2533,42 +2434,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1130
+Content-Length: 929
 
-{
-  "jobGroup" : "DEVELOPMENT",
-  "JobGroupKoreanName" : "개발",
-  "bookshelfResponses" : [ {
-    "bookshelfId" : 23,
-    "bookshelfName" : "영지님의 책장",
-    "books" : [ {
-      "bookId" : 1,
-      "title" : "해리포터1",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    }, {
-      "bookId" : 2,
-      "title" : "해리포터2",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    } ]
-  }, {
-    "bookshelfId" : 13,
-    "bookshelfName" : "규란님의 책장",
-    "books" : [ {
-      "bookId" : 1,
-      "title" : "해리포터1",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    }, {
-      "bookId" : 2,
-      "title" : "해리포터2",
-      "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-    } ]
-  } ]
-}</code></pre>
+{"jobGroup":"DEVELOPMENT","JobGroupKoreanName":"개발","bookshelfResponses":[{"bookshelfId":23,"bookshelfName":"영지님의 책장","books":[{"bookId":1,"title":"해리포터1","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"},{"bookId":2,"title":"해리포터2","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"}]},{"bookshelfId":13,"bookshelfName":"규란님의 책장","books":[{"bookId":1,"title":"해리포터1","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"},{"bookId":2,"title":"해리포터2","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"}]}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response fields</a></h4>
+<h4 id="_response_fields_10"><a class="link" href="#_response_fields_10">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2638,12 +2511,10 @@ Content-Length: 1130
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/bookshelves/23/books HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 19
+Content-Length: 13
 Host: localhost:8080
 
-{
-  "bookId" : 55
-}</code></pre>
+{"bookId":55}</code></pre>
 </div>
 </div>
 </div>
@@ -2858,22 +2729,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 286
+Content-Length: 244
 
-{
-  "bookshelfId" : 23,
-  "bookshelfName" : "영지님의 책장",
-  "books" : [ {
-    "bookId" : 1,
-    "title" : "해리포터",
-    "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-  } ]
-}</code></pre>
+{"bookshelfId":23,"bookshelfName":"영지님의 책장","books":[{"bookId":1,"title":"해리포터","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_10"><a class="link" href="#_response_fields_10">Response fields</a></h4>
+<h4 id="_response_fields_11"><a class="link" href="#_response_fields_11">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2986,26 +2849,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 491
+Content-Length: 424
 
-{
-  "bookshelfId" : 23,
-  "bookshelfName" : "영지님의 책장",
-  "books" : [ {
-    "bookId" : 1,
-    "title" : "해리포터1",
-    "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-  }, {
-    "bookId" : 2,
-    "title" : "해리포터2",
-    "imageUrl" : "https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"
-  } ]
-}</code></pre>
+{"bookshelfId":23,"bookshelfName":"영지님의 책장","books":[{"bookId":1,"title":"해리포터1","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"},{"bookId":2,"title":"해리포터2","imageUrl":"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_11"><a class="link" href="#_response_fields_11">Response fields</a></h4>
+<h4 id="_response_fields_12"><a class="link" href="#_response_fields_12">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3065,7 +2916,7 @@ Content-Length: 491
 <h4 id="_request_16"><a class="link" href="#_request_16">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/books?query=%EC%9A%A9%EA%B8%B0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/books?page=1&amp;pageSize=10&amp;query=%EC%9A%A9%EA%B8%B0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
 Accept: application/json
@@ -3090,10 +2941,22 @@ Host: localhost:8080</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">제약조건</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">page (기본값 :1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1 and at most 50<br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pageSize (기본값:10)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be at least 1 and at most 50<br></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>query</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">검색어</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
 </tr>
 </tbody>
 </table>
@@ -3128,9 +2991,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 664
+Content-Length: 783
 
 {
+  "requestedPageNumber" : 1,
+  "requestedPageSize" : 10,
+  "isLast" : true,
+  "pageableCount" : 1,
+  "totalCount" : 1,
   "searchBookResponseList" : [ {
     "title" : "미움받을 용기",
     "author" : "기시미 이치로, 고가 후미타케",
@@ -3146,7 +3014,7 @@ Content-Length: 664
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_12"><a class="link" href="#_response_fields_12">Response fields</a></h4>
+<h4 id="_response_fields_13"><a class="link" href="#_response_fields_13">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3160,6 +3028,36 @@ Content-Length: 664
 <td class="tableblock halign-left valign-top"><p class="tableblock">타입</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">필수여부(not null)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>requestedPageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 page 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>requestedPageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청한 pageSize 값</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLast</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">마지막 데이터 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageableCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">조회 가능한 데이터 여부(중복 제외된 결과)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 데이터 개수</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>searchBookResponseList</code></p></td>
@@ -3281,7 +3179,7 @@ Content-Length: 720
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_13"><a class="link" href="#_response_fields_13">Response fields</a></h4>
+<h4 id="_response_fields_14"><a class="link" href="#_response_fields_14">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3404,28 +3302,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 254
+Content-Length: 178
 
-{
-  "bookId" : 1,
-  "totalCount" : 5,
-  "isInMyBookshelf" : false,
-  "users" : [ {
-    "userId" : 3,
-    "profileImage" : "imageUrl"
-  }, {
-    "userId" : 4,
-    "profileImage" : "imageUrl"
-  }, {
-    "userId" : 5,
-    "profileImage" : "imageUrl"
-  } ]
-}</code></pre>
+{"bookId":1,"totalCount":5,"isInMyBookshelf":false,"users":[{"userId":3,"profileImage":"imageUrl"},{"userId":4,"profileImage":"imageUrl"},{"userId":5,"profileImage":"imageUrl"}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_14"><a class="link" href="#_response_fields_14">Response fields</a></h4>
+<h4 id="_response_fields_15"><a class="link" href="#_response_fields_15">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3567,63 +3451,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1310
+Content-Length: 1000
 
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 4,
-  "isEmpty" : false,
-  "jobGroup" : "DEVELOPMENT",
-  "jobGroupKoreanName" : "개발",
-  "books" : [ {
-    "bookId" : 1,
-    "imageUrl" : "http://imageurl4.com",
-    "title" : "jpa",
-    "author" : "김영한",
-    "isbn" : "123456789",
-    "publisher" : "영진",
-    "url" : "http://이미지링크4.com",
-    "jobGroup" : "개발",
-    "count" : 10
-  }, {
-    "bookId" : 99,
-    "imageUrl" : "http://imageurl5.com",
-    "title" : "에스큐엘정복",
-    "author" : "김도강",
-    "isbn" : "123456789",
-    "publisher" : "영풍",
-    "url" : "http://이미지링크5.com",
-    "jobGroup" : "개발",
-    "count" : 8
-  }, {
-    "bookId" : 100,
-    "imageUrl" : "http://imageurl7.com",
-    "title" : "나는 왜이렇게 귀여울까",
-    "author" : "김별",
-    "isbn" : "123456789",
-    "publisher" : "교보",
-    "url" : "http://이미지링크2.com",
-    "jobGroup" : "백엔드 개발자",
-    "count" : 5
-  }, {
-    "bookId" : 10,
-    "imageUrl" : "http://imageurl4.com",
-    "title" : "세상에서 김별이 제일 귀엽다",
-    "author" : "강형욱",
-    "isbn" : "123456789",
-    "publisher" : "오렐리",
-    "url" : "http://이미지링크3.com",
-    "jobGroup" : "백엔드 개발자",
-    "count" : 1
-  } ]
-}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":4,"isEmpty":false,"jobGroup":"DEVELOPMENT","jobGroupKoreanName":"개발","books":[{"bookId":1,"imageUrl":"http://imageurl4.com","title":"jpa","author":"김영한","isbn":"123456789","publisher":"영진","url":"http://이미지링크4.com","jobGroup":"개발","count":10},{"bookId":99,"imageUrl":"http://imageurl5.com","title":"에스큐엘정복","author":"김도강","isbn":"123456789","publisher":"영풍","url":"http://이미지링크5.com","jobGroup":"개발","count":8},{"bookId":100,"imageUrl":"http://imageurl7.com","title":"나는 왜이렇게 귀여울까","author":"김별","isbn":"123456789","publisher":"교보","url":"http://이미지링크2.com","jobGroup":"백엔드 개발자","count":5},{"bookId":10,"imageUrl":"http://imageurl4.com","title":"세상에서 김별이 제일 귀엽다","author":"강형욱","isbn":"123456789","publisher":"오렐리","url":"http://이미지링크3.com","jobGroup":"백엔드 개발자","count":1}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_15"><a class="link" href="#_response_fields_15">Response fields</a></h4>
+<h4 id="_response_fields_16"><a class="link" href="#_response_fields_16">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3753,19 +3588,10 @@ Content-Length: 1310
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/books HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 609
+Content-Length: 568
 Host: localhost:8080
 
-{
-  "title" : "미움받을 용기",
-  "author" : "기시미 이치로, 고가 후미타케",
-  "isbn" : "9788996991342",
-  "contents" : "인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.",
-  "url" : "https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0",
-  "imageUrl" : "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038",
-  "publisher" : "인플루엔셜",
-  "apiProvider" : "KAKAO"
-}</code></pre>
+{"title":"미움받을 용기","author":"기시미 이치로, 고가 후미타케","isbn":"9788996991342","contents":"인간은 변할 수 있고, 누구나 행복해 질 수 있다. 단 그러기 위해서는 ‘용기’가 필요하다고 말한 철학자가 있다.","url":"https://search.daum.net/search?w=bookpage&amp;bookId=1467038&amp;q=%EB%AF%B8%EC%9B%80%EB%B0%9B%EC%9D%84+%EC%9A%A9%EA%B8%B0","imageUrl":"https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F1467038","publisher":"인플루엔셜","apiProvider":"KAKAO"}</code></pre>
 </div>
 </div>
 </div>
@@ -3883,16 +3709,14 @@ Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Location: http://localhost:8080/api/books/0
 Content-Type: application/json;charset=UTF-8
-Content-Length: 18
+Content-Length: 12
 
-{
-  "bookId" : 0
-}</code></pre>
+{"bookId":0}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_16"><a class="link" href="#_response_fields_16">Response Fields</a></h4>
+<h4 id="_response_fields_17"><a class="link" href="#_response_fields_17">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3998,51 +3822,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1095
+Content-Length: 862
 
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 3,
-  "isEmpty" : false,
-  "bookComments" : [ {
-    "commentId" : 1,
-    "contents" : "백점 만점",
-    "bookId" : 1,
-    "userId" : 1,
-    "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-14 13:50:38",
-    "modifiedAt" : "2023-03-14 13:50:38",
-    "nickname" : "티나",
-    "writtenByCurrentUser" : true
-  }, {
-    "commentId" : 1,
-    "contents" : "백점 만점에 오십점",
-    "bookId" : 1,
-    "userId" : 2,
-    "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-14 13:50:38",
-    "modifiedAt" : "2023-03-14 13:50:38",
-    "nickname" : "0soo",
-    "writtenByCurrentUser" : false
-  }, {
-    "commentId" : 1,
-    "contents" : "백점 만점에 빵점",
-    "bookId" : 1,
-    "userId" : 3,
-    "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-    "createdAt" : "2023-03-14 13:50:38",
-    "modifiedAt" : "2023-03-14 13:50:38",
-    "nickname" : "foreverYoung",
-    "writtenByCurrentUser" : false
-  } ]
-}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookComments":[{"commentId":1,"contents":"백점 만점","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 03:10:17","modifiedAt":"2023-04-12 03:10:17","nickname":"티나","writtenByCurrentUser":true},{"commentId":1,"contents":"백점 만점에 오십점","bookId":1,"userId":2,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 03:10:17","modifiedAt":"2023-04-12 03:10:17","nickname":"0soo","writtenByCurrentUser":false},{"commentId":1,"contents":"백점 만점에 빵점","bookId":1,"userId":3,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-04-12 03:10:17","modifiedAt":"2023-04-12 03:10:17","nickname":"foreverYoung","writtenByCurrentUser":false}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_17"><a class="link" href="#_response_fields_17">Response fields</a></h4>
+<h4 id="_response_fields_18"><a class="link" href="#_response_fields_18">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4161,12 +3948,10 @@ Content-Length: 1095
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
 Accept: application/json
-Content-Length: 33
+Content-Length: 27
 Host: localhost:8080
 
-{
-  "comment" : "백점 만점"
-}</code></pre>
+{"comment":"백점 만점"}</code></pre>
 </div>
 </div>
 </div>
@@ -4233,16 +4018,14 @@ Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Location: http://localhost:8080/api/books/1/comments/1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 21
+Content-Length: 15
 
-{
-  "commentId" : 1
-}</code></pre>
+{"commentId":1}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_18"><a class="link" href="#_response_fields_18">Response Fields</a></h4>
+<h4 id="_response_fields_19"><a class="link" href="#_response_fields_19">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4277,13 +4060,10 @@ Content-Length: 21
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
 Accept: application/json
-Content-Length: 82
+Content-Length: 71
 Host: localhost:8080
 
-{
-  "commentId" : 1,
-  "comment" : "좋대서 샀어yo(아직 못읽음 ㅜㅜ)"
-}</code></pre>
+{"commentId":1,"comment":"좋대서 샀어yo(아직 못읽음 ㅜㅜ)"}</code></pre>
 </div>
 </div>
 </div>
@@ -4378,24 +4158,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 323
+Content-Length: 277
 
-{
-  "commentId" : 1,
-  "contents" : "좋대서 샀어yo(아직 못읽음 ㅜㅜ)",
-  "bookId" : 1,
-  "userId" : 1,
-  "userProfileImage" : "https://image.dadokcdn.dadok.io/abcdfgpe.jpg",
-  "createdAt" : "2023-03-07 10:20:00",
-  "modifiedAt" : "2023-03-14 13:50:38",
-  "nickname" : "티나",
-  "writtenByCurrentUser" : true
-}</code></pre>
+{"commentId":1,"contents":"좋대서 샀어yo(아직 못읽음 ㅜㅜ)","bookId":1,"userId":1,"userProfileImage":"https://image.dadokcdn.dadok.io/abcdfgpe.jpg","createdAt":"2023-03-07 10:20:00","modifiedAt":"2023-04-12 03:10:17","nickname":"티나","writtenByCurrentUser":true}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_19"><a class="link" href="#_response_fields_19">Response Fields</a></h4>
+<h4 id="_response_fields_20"><a class="link" href="#_response_fields_20">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4558,21 +4328,10 @@ Vary: Access-Control-Request-Headers</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/book-groups HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 315
+Content-Length: 264
 Host: localhost:8080
 
-{
-  "bookId" : 123,
-  "title" : "소모임 화이팅",
-  "startDate" : "2023-03-14",
-  "endDate" : "2023-03-16",
-  "maxMemberCount" : 5,
-  "introduce" : "우리끼리 옹기종기",
-  "hasJoinPasswd" : true,
-  "joinQuestion" : "월든 작가는?",
-  "joinPasswd" : "헨리데이빗소로우",
-  "isPublic" : false
-}</code></pre>
+{"bookId":123,"title":"소모임 화이팅","startDate":"2023-04-12","endDate":"2023-04-14","maxMemberCount":5,"introduce":"우리끼리 옹기종기","hasJoinPasswd":true,"joinQuestion":"월든 작가는?","joinPasswd":"헨리데이빗소로우","isPublic":false}</code></pre>
 </div>
 </div>
 </div>
@@ -4705,11 +4464,9 @@ Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Location: http://localhost:8080/api/book-groups/1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 23
+Content-Length: 17
 
-{
-  "bookGroupId" : 1
-}</code></pre>
+{"bookGroupId":1}</code></pre>
 </div>
 </div>
 </div>
@@ -4735,7 +4492,7 @@ Content-Length: 23
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_20"><a class="link" href="#_response_fields_20">Response fields</a></h4>
+<h4 id="_response_fields_21"><a class="link" href="#_response_fields_21">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -4769,15 +4526,10 @@ Content-Length: 23
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/book-groups/234 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 135
+Content-Length: 114
 Host: localhost:8080
 
-{
-  "title" : "책읽기 소모임",
-  "introduce" : "변경하고 싶은 내용",
-  "endDate" : "2023-03-18",
-  "maxMemberCount" : 4
-}</code></pre>
+{"title":"책읽기 소모임","introduce":"변경하고 싶은 내용","endDate":"2023-04-16","maxMemberCount":4}</code></pre>
 </div>
 </div>
 </div>
@@ -5029,36 +4781,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 580
+Content-Length: 470
 
-{
-  "bookGroupId" : 999,
-  "title" : "김영한님 JPA 읽으실분",
-  "introduce" : "우리모임은 JPA 책 스터디를 하려고 모여있어요",
-  "startDate" : "2023-03-15",
-  "endDate" : "2023-03-21",
-  "hasJoinPasswd" : false,
-  "joinQuestion" : "영한님 생일은?",
-  "isPublic" : true,
-  "maxMemberCount" : 5,
-  "currentMemberCount" : 2,
-  "commentCount" : 5,
-  "owner" : {
-    "id" : 1
-  },
-  "book" : {
-    "id" : 10,
-    "title" : "http://jpaimage.jpeg",
-    "imageUrl" : "Java ORM 표준 JPA 프로그래밍"
-  },
-  "isOwner" : false,
-  "isGroupMember" : true
-}</code></pre>
+{"bookGroupId":999,"title":"김영한님 JPA 읽으실분","introduce":"우리모임은 JPA 책 스터디를 하려고 모여있어요","startDate":"2023-04-13","endDate":"2023-04-19","hasJoinPasswd":false,"joinQuestion":"영한님 생일은?","isPublic":true,"maxMemberCount":5,"currentMemberCount":2,"commentCount":5,"owner":{"id":1},"book":{"id":10,"title":"http://jpaimage.jpeg","imageUrl":"Java ORM 표준 JPA 프로그래밍"},"isOwner":false,"isGroupMember":true}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_21"><a class="link" href="#_response_fields_21">Response fields</a></h4>
+<h4 id="_response_fields_22"><a class="link" href="#_response_fields_22">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5272,121 +5002,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2659
+Content-Length: 1912
 
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 5,
-  "isEmpty" : false,
-  "bookGroups" : [ {
-    "bookGroupId" : 999,
-    "title" : "모임999",
-    "introduce" : "모임 999에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-15",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : true,
-    "isPublic" : false,
-    "memberCount" : 2,
-    "commentCount" : 100,
-    "book" : {
-      "id" : 4452,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 1341234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 997,
-    "title" : "모임997",
-    "introduce" : "모임 997에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : true,
-    "isPublic" : false,
-    "memberCount" : 5,
-    "commentCount" : 2,
-    "book" : {
-      "id" : 2083,
-      "imageUrl" : "http://bookImageUrl3.com"
-    },
-    "owner" : {
-      "id" : 941234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 995,
-    "title" : "모임995",
-    "introduce" : "모임 995에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : true,
-    "isPublic" : true,
-    "memberCount" : 5,
-    "commentCount" : 0,
-    "book" : {
-      "id" : 442,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 1334,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 994,
-    "title" : "모임994",
-    "introduce" : "모임 994에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : false,
-    "isPublic" : true,
-    "memberCount" : 3,
-    "commentCount" : 30,
-    "book" : {
-      "id" : 44,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 1341234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 993,
-    "title" : "모임993",
-    "introduce" : "모임 993에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : false,
-    "isPublic" : false,
-    "memberCount" : 4,
-    "commentCount" : 4000,
-    "book" : {
-      "id" : 913452,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 123234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  } ]
-}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":5,"isEmpty":false,"bookGroups":[{"bookGroupId":999,"title":"모임999","introduce":"모임 999에용","startDate":"2023-04-12","endDate":"2023-04-13","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":2,"commentCount":100,"book":{"id":4452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":997,"title":"모임997","introduce":"모임 997에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":5,"commentCount":2,"book":{"id":2083,"imageUrl":"http://bookImageUrl3.com"},"owner":{"id":941234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":995,"title":"모임995","introduce":"모임 995에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":true,"memberCount":5,"commentCount":0,"book":{"id":442,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1334,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":994,"title":"모임994","introduce":"모임 994에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":true,"memberCount":3,"commentCount":30,"book":{"id":44,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":993,"title":"모임993","introduce":"모임 993에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":false,"memberCount":4,"commentCount":4000,"book":{"id":913452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":123234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_22"><a class="link" href="#_response_fields_22">Response fields</a></h4>
+<h4 id="_response_fields_23"><a class="link" href="#_response_fields_23">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5617,121 +5240,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2659
+Content-Length: 1912
 
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 5,
-  "isEmpty" : false,
-  "bookGroups" : [ {
-    "bookGroupId" : 999,
-    "title" : "모임999",
-    "introduce" : "모임 999에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-15",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : true,
-    "isPublic" : false,
-    "memberCount" : 2,
-    "commentCount" : 100,
-    "book" : {
-      "id" : 4452,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 1341234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 997,
-    "title" : "모임997",
-    "introduce" : "모임 997에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : true,
-    "isPublic" : false,
-    "memberCount" : 5,
-    "commentCount" : 2,
-    "book" : {
-      "id" : 2083,
-      "imageUrl" : "http://bookImageUrl3.com"
-    },
-    "owner" : {
-      "id" : 941234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 995,
-    "title" : "모임995",
-    "introduce" : "모임 995에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : true,
-    "isPublic" : true,
-    "memberCount" : 5,
-    "commentCount" : 0,
-    "book" : {
-      "id" : 442,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 1334,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 994,
-    "title" : "모임994",
-    "introduce" : "모임 994에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : false,
-    "isPublic" : true,
-    "memberCount" : 3,
-    "commentCount" : 30,
-    "book" : {
-      "id" : 44,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 1341234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  }, {
-    "bookGroupId" : 993,
-    "title" : "모임993",
-    "introduce" : "모임 993에용",
-    "startDate" : "2023-03-14",
-    "endDate" : "2023-03-14",
-    "maxMemberCount" : 5,
-    "hasJoinPasswd" : false,
-    "isPublic" : false,
-    "memberCount" : 4,
-    "commentCount" : 4000,
-    "book" : {
-      "id" : 913452,
-      "imageUrl" : "http://bookImageUrl1.com"
-    },
-    "owner" : {
-      "id" : 123234,
-      "profileUrl" : "http://ownerProfile1.com",
-      "nickname" : "나는모임장이다1"
-    }
-  } ]
-}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":5,"isEmpty":false,"bookGroups":[{"bookGroupId":999,"title":"모임999","introduce":"모임 999에용","startDate":"2023-04-12","endDate":"2023-04-13","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":2,"commentCount":100,"book":{"id":4452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":997,"title":"모임997","introduce":"모임 997에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":false,"memberCount":5,"commentCount":2,"book":{"id":2083,"imageUrl":"http://bookImageUrl3.com"},"owner":{"id":941234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":995,"title":"모임995","introduce":"모임 995에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":true,"isPublic":true,"memberCount":5,"commentCount":0,"book":{"id":442,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1334,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":994,"title":"모임994","introduce":"모임 994에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":true,"memberCount":3,"commentCount":30,"book":{"id":44,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":1341234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}},{"bookGroupId":993,"title":"모임993","introduce":"모임 993에용","startDate":"2023-04-12","endDate":"2023-04-12","maxMemberCount":5,"hasJoinPasswd":false,"isPublic":false,"memberCount":4,"commentCount":4000,"book":{"id":913452,"imageUrl":"http://bookImageUrl1.com"},"owner":{"id":123234,"profileUrl":"http://ownerProfile1.com","nickname":"나는모임장이다1"}}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_23"><a class="link" href="#_response_fields_23">Response fields</a></h4>
+<h4 id="_response_fields_24"><a class="link" href="#_response_fields_24">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -5989,26 +5505,95 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_모임_댓글_작성"><a class="link" href="#_모임_댓글_작성">모임 댓글 작성</a></h3>
+<h3 id="_모임_탈퇴"><a class="link" href="#_모임_탈퇴">모임 탈퇴</a></h3>
 <div class="sect3">
 <h4 id="_request_32"><a class="link" href="#_request_32">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/book-groups/234/comments HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/book-groups/1/leave HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 64
-Host: localhost:8080
-
-{
-  "parentCommentId" : 123,
-  "comment" : "이 책 좋아요"
-}</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_request_header_32"><a class="link" href="#_request_header_32">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_path_parameter_13"><a class="link" href="#_path_parameter_13">Path Parameter</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. /api/book-groups/{groupId}/leave</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 Id (bookGroup)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_34"><a class="link" href="#_response_34">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_모임_댓글_작성"><a class="link" href="#_모임_댓글_작성">모임 댓글 작성</a></h3>
+<div class="sect3">
+<h4 id="_request_33"><a class="link" href="#_request_33">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/book-groups/234/comments HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Content-Length: 53
+Host: localhost:8080
+
+{"parentCommentId":123,"comment":"이 책 좋아요"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_33"><a class="link" href="#_request_header_33">Request Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -6069,7 +5654,7 @@ Size must be between 0 and 2000 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_34"><a class="link" href="#_response_34">Response</a></h4>
+<h4 id="_response_35"><a class="link" href="#_response_35">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -6084,7 +5669,7 @@ Location: http://localhost:8080/api/book-groups/234/comments/234</code></pre>
 <div class="sect2">
 <h3 id="_모임_댓글_리스트_조회"><a class="link" href="#_모임_댓글_리스트_조회">모임 댓글 리스트 조회</a></h3>
 <div class="sect3">
-<h4 id="_request_33"><a class="link" href="#_request_33">Request</a></h4>
+<h4 id="_request_34"><a class="link" href="#_request_34">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/book-groups/234/comments?groupCommentCursorId=100&amp;pageSize=10&amp;sortDirection=DESC HTTP/1.1
@@ -6095,7 +5680,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_header_33"><a class="link" href="#_request_header_33">Request Header</a></h4>
+<h4 id="_request_header_34"><a class="link" href="#_request_header_34">Request Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -6154,7 +5739,7 @@ Must be at most 100<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_35"><a class="link" href="#_response_35">Response</a></h4>
+<h4 id="_response_36"><a class="link" href="#_response_36">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -6162,57 +5747,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 1420
+Content-Length: 1151
 
-{
-  "isFirst" : true,
-  "isLast" : true,
-  "hasNext" : false,
-  "count" : 3,
-  "isEmpty" : false,
-  "bookGroup" : {
-    "isPublic" : true
-  },
-  "bookGroupComments" : [ {
-    "commentId" : 123,
-    "contents" : "미움받을 용기 좋아요",
-    "bookGroupId" : 234,
-    "parentCommentId" : 234,
-    "userId" : 123,
-    "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-14 13:50:42",
-    "modifiedAt" : "2023-03-14 13:50:42",
-    "nickname" : "티나",
-    "writtenByCurrentUser" : true
-  }, {
-    "commentId" : 234,
-    "contents" : "미움받을 용기 그저 그래요",
-    "bookGroupId" : 234,
-    "parentCommentId" : 234,
-    "userId" : 234,
-    "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-14 13:50:42",
-    "modifiedAt" : "2023-03-14 13:50:42",
-    "nickname" : "0Soo",
-    "writtenByCurrentUser" : false
-  }, {
-    "commentId" : 456,
-    "contents" : "미움받을 용기 저랑 안 맞아요",
-    "bookGroupId" : 234,
-    "parentCommentId" : 234,
-    "userId" : 456,
-    "userProfileImage" : "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
-    "createdAt" : "2023-03-14 13:50:42",
-    "modifiedAt" : "2023-03-14 13:50:42",
-    "nickname" : "youngijang",
-    "writtenByCurrentUser" : false
-  } ]
-}</code></pre>
+{"isFirst":true,"isLast":true,"hasNext":false,"count":3,"isEmpty":false,"bookGroup":{"isPublic":true},"bookGroupComments":[{"commentId":123,"contents":"미움받을 용기 좋아요","bookGroupId":234,"parentCommentId":234,"userId":123,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 03:10:24","modifiedAt":"2023-04-12 03:10:24","nickname":"티나","writtenByCurrentUser":true},{"commentId":234,"contents":"미움받을 용기 그저 그래요","bookGroupId":234,"parentCommentId":234,"userId":234,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 03:10:24","modifiedAt":"2023-04-12 03:10:24","nickname":"0Soo","writtenByCurrentUser":false},{"commentId":456,"contents":"미움받을 용기 저랑 안 맞아요","bookGroupId":234,"parentCommentId":234,"userId":456,"userProfileImage":"http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg","createdAt":"2023-04-12 03:10:24","modifiedAt":"2023-04-12 03:10:24","nickname":"youngijang","writtenByCurrentUser":false}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_24"><a class="link" href="#_response_fields_24">Response fields</a></h4>
+<h4 id="_response_fields_25"><a class="link" href="#_response_fields_25">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -6336,23 +5878,21 @@ Content-Length: 1420
 <div class="sect2">
 <h3 id="_모임_댓글_수정"><a class="link" href="#_모임_댓글_수정">모임 댓글 수정</a></h3>
 <div class="sect3">
-<h4 id="_request_34"><a class="link" href="#_request_34">Request</a></h4>
+<h4 id="_request_35"><a class="link" href="#_request_35">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/book-groups/234/comments/234 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 37
+Content-Length: 31
 Host: localhost:8080
 
-{
-  "comment" : "이 책 싫어요"
-}</code></pre>
+{"comment":"이 책 싫어요"}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_header_34"><a class="link" href="#_request_header_34">Request Header</a></h4>
+<h4 id="_request_header_35"><a class="link" href="#_request_header_35">Request Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -6406,7 +5946,7 @@ Size must be between 0 and 2000 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_36"><a class="link" href="#_response_36">Response</a></h4>
+<h4 id="_response_37"><a class="link" href="#_response_37">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -6420,91 +5960,10 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="sect2">
 <h3 id="_모임_댓글_삭제"><a class="link" href="#_모임_댓글_삭제">모임 댓글 삭제</a></h3>
 <div class="sect3">
-<h4 id="_request_35"><a class="link" href="#_request_35">Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/book-groups/234/comments/234 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_header_35"><a class="link" href="#_request_header_35">Request Header</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_path_parameter_13"><a class="link" href="#_path_parameter_13">Path Parameter</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. /api/book-groups/{groupId}/comments/{commentId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">모임 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_response_37"><a class="link" href="#_response_37">Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_job_직군_직업"><a class="link" href="#_job_직군_직업">Job - 직군, 직업</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_모든_직업_조회"><a class="link" href="#_모든_직업_조회">모든 직업 조회</a></h3>
-<div class="sect3">
 <h4 id="_request_36"><a class="link" href="#_request_36">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/book-groups/234/comments/234 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
 Host: localhost:8080</code></pre>
@@ -6537,7 +5996,88 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
+<h4 id="_path_parameter_14"><a class="link" href="#_path_parameter_14">Path Parameter</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. /api/book-groups/{groupId}/comments/{commentId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">모임 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commentId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
 <h4 id="_response_38"><a class="link" href="#_response_38">Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_job_직군_직업"><a class="link" href="#_job_직군_직업">Job - 직군, 직업</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_모든_직업_조회"><a class="link" href="#_모든_직업_조회">모든 직업 조회</a></h3>
+<div class="sect3">
+<h4 id="_request_37"><a class="link" href="#_request_37">Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/jobs HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_header_37"><a class="link" href="#_request_header_37">Request Header</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">인증 형식 : Bearer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Content-Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Content type 필수 :  application/json</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_response_39"><a class="link" href="#_response_39">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -6545,1312 +6085,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 32931
+Content-Length: 22351
 
-{
-  "jobGroups" : [ {
-    "koreanName" : "개발",
-    "name" : "DEVELOPMENT",
-    "jobs" : [ {
-      "koreanName" : "데이터 엔지니어",
-      "name" : "DATA_ENGINEER",
-      "order" : 1
-    }, {
-      "koreanName" : "자바 개발자",
-      "name" : "JAVA_DEVELOPER",
-      "order" : 2
-    }, {
-      "koreanName" : ".NET 개발자",
-      "name" : "DOTNET_DEVELOPER",
-      "order" : 3
-    }, {
-      "koreanName" : "시스템,네트워크 관리자",
-      "name" : "SYSTEM_NETWORK_ADMINISTRATOR",
-      "order" : 4
-    }, {
-      "koreanName" : "백엔드 개발자",
-      "name" : "BACKEND_DEVELOPER",
-      "order" : 5
-    }, {
-      "koreanName" : "프론트엔드 개발자",
-      "name" : "FRONTEND_DEVELOPER",
-      "order" : 6
-    }, {
-      "koreanName" : "보안 엔지니어",
-      "name" : "SECURITY_ENGINEER",
-      "order" : 7
-    }, {
-      "koreanName" : "하드웨어 엔지니어",
-      "name" : "HARDWARE_ENGINEER",
-      "order" : 8
-    }, {
-      "koreanName" : "DevOps / 시스템 관리자",
-      "name" : "DEVOPS",
-      "order" : 9
-    }, {
-      "koreanName" : "QA,테스트 엔지니어",
-      "name" : "QA_TEST_ENGINEER",
-      "order" : 10
-    }, {
-      "koreanName" : "안드로이드 개발자",
-      "name" : "ANDROID_DEVELOPER",
-      "order" : 11
-    }, {
-      "koreanName" : "iOS 개발자",
-      "name" : "IOS_DEVELOPER",
-      "order" : 12
-    }, {
-      "koreanName" : "CIO,Chief Information Officer",
-      "name" : "CIO",
-      "order" : 13
-    }, {
-      "koreanName" : "CTO,Chief Technology Officer",
-      "name" : "CTO",
-      "order" : 14
-    }, {
-      "koreanName" : "서버 개발자",
-      "name" : "SERVER_DEVELOPER",
-      "order" : 15
-    }, {
-      "koreanName" : "웹 개발자",
-      "name" : "WEB_DEVELOPER",
-      "order" : 16
-    }, {
-      "koreanName" : "프로덕트 매니저",
-      "name" : "PRODUCT_MANAGER",
-      "order" : 17
-    }, {
-      "koreanName" : "개발 매니저",
-      "name" : "DEVELOPMENT_MANAGER",
-      "order" : 18
-    }, {
-      "koreanName" : "PHP 개발자",
-      "name" : "PHP_DEVELOPER",
-      "order" : 19
-    }, {
-      "koreanName" : "루비온레일즈 개발자",
-      "name" : "RUBY_ON_RAILS_DEVELOPER",
-      "order" : 20
-    }, {
-      "koreanName" : "Node.js 개발자",
-      "name" : "NODEJS_DEVELOPER",
-      "order" : 21
-    }, {
-      "koreanName" : "영상,음성 엔지니어",
-      "name" : "MEDIA_ENGINEER",
-      "order" : 22
-    }, {
-      "koreanName" : "그래픽스 엔지니어",
-      "name" : "GRAPHICS_ENGINEER",
-      "order" : 23
-    }, {
-      "koreanName" : "파이썬 개발자",
-      "name" : "PYTHON_DEVELOPER",
-      "order" : 24
-    }, {
-      "koreanName" : "C,C++ 개발자",
-      "name" : "C_CPP_DEVELOPER",
-      "order" : 25
-    }, {
-      "koreanName" : "웹 퍼블리셔",
-      "name" : "WEB_PUBLISHER",
-      "order" : 26
-    }, {
-      "koreanName" : "BI 엔지니어",
-      "name" : "BI_ENGINEER",
-      "order" : 27
-    }, {
-      "koreanName" : "데이터 사이언티스트",
-      "name" : "DATA_SCIENTIST",
-      "order" : 28
-    }, {
-      "koreanName" : "빅데이터 엔지니어",
-      "name" : "BIGDATA_ENGINEER",
-      "order" : 29
-    }, {
-      "koreanName" : "기술지원",
-      "name" : "TECHNICAL_SUPPORT",
-      "order" : 30
-    }, {
-      "koreanName" : "블록체인 플랫폼 엔지니어",
-      "name" : "BLOCKCHAIN_ENGINEER",
-      "order" : 31
-    }, {
-      "koreanName" : "머신러닝 엔지니어",
-      "name" : "MACHINE_LEARNING_ENGINEER",
-      "order" : 32
-    }, {
-      "koreanName" : "소프트웨어 엔지니어",
-      "name" : "SOFTWARE_ENGINEER",
-      "order" : 33
-    }, {
-      "koreanName" : "크로스플랫폼 앱 개발자",
-      "name" : "CROSS_PLATFORM_APP_DEVELOPER",
-      "order" : 34
-    }, {
-      "koreanName" : "VR 엔지니어",
-      "name" : "VR_ENGINEER",
-      "order" : 35
-    }, {
-      "koreanName" : "ERP전문가",
-      "name" : "ERP_EXPERT",
-      "order" : 36
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 37
-    } ]
-  }, {
-    "koreanName" : "경영/비즈니스",
-    "name" : "MANAGEMENT_BUSINESS",
-    "jobs" : [ {
-      "koreanName" : "비서",
-      "name" : "SECRETARY",
-      "order" : 1
-    }, {
-      "koreanName" : "운영 매니저",
-      "name" : "OPERATION_MANAGER",
-      "order" : 2
-    }, {
-      "koreanName" : "오피스 관리 / 매니저",
-      "name" : "OFFICE_MANAGER",
-      "order" : 3
-    }, {
-      "koreanName" : "PM/PO",
-      "name" : "PM_PO",
-      "order" : 4
-    }, {
-      "koreanName" : "사업개발/기획자",
-      "name" : "BUSINESS_PLANNER",
-      "order" : 5
-    }, {
-      "koreanName" : "서비스 기획자",
-      "name" : "SERVICE_PLANNER",
-      "order" : 6
-    }, {
-      "koreanName" : "컨설턴트",
-      "name" : "CONSULTANT",
-      "order" : 7
-    }, {
-      "koreanName" : "CEO,Chief Executive Officer",
-      "name" : "CEO",
-      "order" : 8
-    }, {
-      "koreanName" : "CFO,Chief Financial Officer",
-      "name" : "CFO",
-      "order" : 9
-    }, {
-      "koreanName" : "COO,Chief Operation Officer",
-      "name" : "COO",
-      "order" : 10
-    }, {
-      "koreanName" : "CSO,Chief Strategy Officer",
-      "name" : "CSO",
-      "order" : 11
-    }, {
-      "koreanName" : "회계/경리",
-      "name" : "ACCOUNTANT",
-      "order" : 12
-    }, {
-      "koreanName" : "해외 사업개발/기획자",
-      "name" : "OVERSEAS_BUSINESS_PLANNER",
-      "order" : 13
-    }, {
-      "koreanName" : "전시 기획자",
-      "name" : "EXHIBITION_PLANNER",
-      "order" : 14
-    }, {
-      "koreanName" : "세미나/포럼 기획자",
-      "name" : "SEMINAR_FORUM_PLANNER",
-      "order" : 15
-    }, {
-      "koreanName" : "공연 기획자",
-      "name" : "PERFORMANCE_PLANNER",
-      "order" : 16
-    }, {
-      "koreanName" : "애자일코치",
-      "name" : "AGILE_COACH",
-      "order" : 17
-    }, {
-      "koreanName" : "사무보조",
-      "name" : "ADMINISTRATIVE_ASSISTANT",
-      "order" : 18
-    }, {
-      "koreanName" : "상품기획자(BM)",
-      "name" : "PRODUCT_PLANNER_BM",
-      "order" : 19
-    }, {
-      "koreanName" : "ISMS(정보보호체계)",
-      "name" : "ISMS",
-      "order" : 20
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 21
-    } ]
-  }, {
-    "koreanName" : "마케팅/광고",
-    "name" : "MARKETING_ADVERTISEMENT",
-    "jobs" : [ {
-      "koreanName" : "브랜드 마케터",
-      "name" : "BRAND_MARKETER",
-      "order" : 1
-    }, {
-      "koreanName" : "카피라이터",
-      "name" : "COPYWRITER",
-      "order" : 2
-    }, {
-      "koreanName" : "마케터",
-      "name" : "MARKETER",
-      "order" : 3
-    }, {
-      "koreanName" : "PR 전문가",
-      "name" : "PR_EXPERT",
-      "order" : 4
-    }, {
-      "koreanName" : "마케팅 전략 기획자",
-      "name" : "MARKETING_PLANNER",
-      "order" : 5
-    }, {
-      "koreanName" : "소셜 마케터",
-      "name" : "SOCIAL_MEDIA_MARKETER",
-      "order" : 6
-    }, {
-      "koreanName" : "광고 기획자(AE)",
-      "name" : "ADVERTISING_PLANNER_AE",
-      "order" : 7
-    }, {
-      "koreanName" : "CMO,Chief Marketing Officer",
-      "name" : "CMO",
-      "order" : 8
-    }, {
-      "koreanName" : "CBO,Chief Brand Officer",
-      "name" : "CBO",
-      "order" : 9
-    }, {
-      "koreanName" : "글로벌 마케팅",
-      "name" : "GLOBAL_MARKETING",
-      "order" : 10
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 11
-    } ]
-  }, {
-    "koreanName" : "영업",
-    "name" : "SALES",
-    "jobs" : [ {
-      "koreanName" : "영업",
-      "name" : "SALES",
-      "order" : 1
-    }, {
-      "koreanName" : "주요고객사 담당자",
-      "name" : "KEY_ACCOUNT_MANAGER",
-      "order" : 2
-    }, {
-      "koreanName" : "세일즈 엔지니어",
-      "name" : "SALES_ENGINEER",
-      "order" : 3
-    }, {
-      "koreanName" : "영업 관리자",
-      "name" : "SALES_MANAGER",
-      "order" : 4
-    }, {
-      "koreanName" : "솔루션 컨설턴트",
-      "name" : "SOLUTION_CONSULTANT",
-      "order" : 5
-    }, {
-      "koreanName" : "고객성공매니저",
-      "name" : "CUSTOMER_SUCCESS_MANAGER",
-      "order" : 6
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 7
-    } ]
-  }, {
-    "koreanName" : "고객서비스/리테일",
-    "name" : "CUSTOMER_SERVICE_RETAIL",
-    "jobs" : [ {
-      "koreanName" : "CS 어드바이저",
-      "name" : "CS_ADVISOR",
-      "order" : 1
-    }, {
-      "koreanName" : "승무원",
-      "name" : "FLIGHT_ATTENDANT",
-      "order" : 2
-    }, {
-      "koreanName" : "AS 기술자",
-      "name" : "AS_TECHNICIAN",
-      "order" : 3
-    }, {
-      "koreanName" : "이벤트 기획자",
-      "name" : "EVENT_PLANNER",
-      "order" : 4
-    }, {
-      "koreanName" : "플로리스트",
-      "name" : "FLORIST",
-      "order" : 5
-    }, {
-      "koreanName" : "여행 에이전트",
-      "name" : "TRAVEL_AGENT",
-      "order" : 6
-    }, {
-      "koreanName" : "매장 관리자",
-      "name" : "STORE_MANAGER",
-      "order" : 7
-    }, {
-      "koreanName" : "매장점원",
-      "name" : "STORE_STAFF",
-      "order" : 8
-    }, {
-      "koreanName" : "피부관리사",
-      "name" : "SKIN_CARE_SPECIALIST",
-      "order" : 9
-    }, {
-      "koreanName" : "헤어 디자이너",
-      "name" : "HAIR_DESIGNER",
-      "order" : 10
-    }, {
-      "koreanName" : "비주얼머천다이저",
-      "name" : "VISUAL_MECHANDISER",
-      "order" : 11
-    }, {
-      "koreanName" : "MD",
-      "name" : "MD",
-      "order" : 12
-    }, {
-      "koreanName" : "인바운드 텔레마케터",
-      "name" : "INBOUND_TELEMARKETER",
-      "order" : 13
-    }, {
-      "koreanName" : "CRM 전문가",
-      "name" : "CRM_EXPERT",
-      "order" : 14
-    }, {
-      "koreanName" : "아웃바운드 텔레마케터",
-      "name" : "OUTBOUND_TELEMARKETER",
-      "order" : 15
-    }, {
-      "koreanName" : "CS 매니저",
-      "name" : "CS_MANAGER",
-      "order" : 16
-    }, {
-      "koreanName" : "헬스케어매니저",
-      "name" : "HEALTHCARE_MANAGER",
-      "order" : 17
-    }, {
-      "koreanName" : "미용사",
-      "name" : "BEAUTICIAN",
-      "order" : 18
-    }, {
-      "koreanName" : "애견 미용사",
-      "name" : "PET_BEAUTICIAN",
-      "order" : 19
-    }, {
-      "koreanName" : "리셉션",
-      "name" : "RECEPTIONIST",
-      "order" : 20
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 21
-    } ]
-  }, {
-    "koreanName" : "미디어",
-    "name" : "MEDIA",
-    "jobs" : [ {
-      "koreanName" : "영상 편집가",
-      "name" : "VIDEO_EDITOR",
-      "order" : 1
-    }, {
-      "koreanName" : "작가",
-      "name" : "WRITER",
-      "order" : 2
-    }, {
-      "koreanName" : "에디터",
-      "name" : "EDITOR",
-      "order" : 3
-    }, {
-      "koreanName" : "저널리스트",
-      "name" : "JOURNALIST",
-      "order" : 4
-    }, {
-      "koreanName" : "PD",
-      "name" : "PD",
-      "order" : 5
-    }, {
-      "koreanName" : "리포터",
-      "name" : "REPORTER",
-      "order" : 6
-    }, {
-      "koreanName" : "사진작가",
-      "name" : "PHOTOGRAPHER",
-      "order" : 7
-    }, {
-      "koreanName" : "통/번역",
-      "name" : "TRANSLATOR_INTERPRETER",
-      "order" : 8
-    }, {
-      "koreanName" : "출판 기획자",
-      "name" : "PUBLISHING_PLANNER",
-      "order" : 9
-    }, {
-      "koreanName" : "음향 엔지니어",
-      "name" : "AUDIO_ENGINEER",
-      "order" : 10
-    }, {
-      "koreanName" : "큐레이터",
-      "name" : "CURATOR",
-      "order" : 11
-    }, {
-      "koreanName" : "콘텐츠 크리에이터",
-      "name" : "CONTENT_CREATOR",
-      "order" : 12
-    }, {
-      "koreanName" : "연예, 엔터테인먼트",
-      "name" : "ENTERTAINMENT",
-      "order" : 13
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 14
-    } ]
-  }, {
-    "koreanName" : "게임 제작",
-    "name" : "GAME",
-    "jobs" : [ {
-      "koreanName" : "유니티 개발자",
-      "name" : "UNITY_DEVELOPER",
-      "order" : 1
-    }, {
-      "koreanName" : "게임 그래픽 디자이너",
-      "name" : "GAME_GRAPHIC_DESIGNER",
-      "order" : 2
-    }, {
-      "koreanName" : "게임 아티스트",
-      "name" : "GAME_ARTIST",
-      "order" : 3
-    }, {
-      "koreanName" : "게임 기획자",
-      "name" : "GAME_PLANNER",
-      "order" : 4
-    }, {
-      "koreanName" : "언리얼 개발자",
-      "name" : "UNREAL_DEVELOPER",
-      "order" : 5
-    }, {
-      "koreanName" : "게임운영자(GM)",
-      "name" : "GAME_OPERATOR_GM",
-      "order" : 6
-    }, {
-      "koreanName" : "게임 서버 개발자",
-      "name" : "GAME_SERVER_DEVELOPER",
-      "order" : 7
-    }, {
-      "koreanName" : "게임 클라이언트 개발자",
-      "name" : "GAME_CLIENT_DEVELOPER",
-      "order" : 8
-    }, {
-      "koreanName" : "모바일 게임 개발자",
-      "name" : "MOBILE_GAME_DEVELOPER",
-      "order" : 9
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 10
-    } ]
-  }, {
-    "koreanName" : "HR",
-    "name" : "HR",
-    "jobs" : [ {
-      "koreanName" : "교사",
-      "name" : "TEACHER",
-      "order" : 1
-    }, {
-      "koreanName" : "기술 교육",
-      "name" : "TECHNICAL_EDUCATION",
-      "order" : 2
-    }, {
-      "koreanName" : "HR 컨설턴트",
-      "name" : "HR_CONSULTANT",
-      "order" : 3
-    }, {
-      "koreanName" : "인사담당",
-      "name" : "PERSONNEL_MANAGER",
-      "order" : 4
-    }, {
-      "koreanName" : "리크루터",
-      "name" : "RECRUITER",
-      "order" : 5
-    }, {
-      "koreanName" : "HRD",
-      "name" : "HRD",
-      "order" : 6
-    }, {
-      "koreanName" : "조직문화",
-      "name" : "ORGANIZATIONAL_CULTURE",
-      "order" : 7
-    }, {
-      "koreanName" : "급여담당",
-      "name" : "SALARY_ADMINISTRATOR",
-      "order" : 8
-    }, {
-      "koreanName" : "E-러닝",
-      "name" : "E_LEARNING",
-      "order" : 9
-    }, {
-      "koreanName" : "헤드헌터",
-      "name" : "HEADHUNTER",
-      "order" : 10
-    }, {
-      "koreanName" : "교수",
-      "name" : "PROFESSOR",
-      "order" : 11
-    }, {
-      "koreanName" : "HRBP",
-      "name" : "HRBP",
-      "order" : 12
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 13
-    } ]
-  }, {
-    "koreanName" : "엔지니어링/설계",
-    "name" : "ENGINEERING_DESIGN",
-    "jobs" : [ {
-      "koreanName" : "항공우주 공학자",
-      "name" : "AEROSPACE_ENGINEER",
-      "order" : 1
-    }, {
-      "koreanName" : "농업 공학자",
-      "name" : "AGRICULTURAL_ENGINEER",
-      "order" : 2
-    }, {
-      "koreanName" : "자동차 공학자",
-      "name" : "AUTOMOTIVE_ENGINEER",
-      "order" : 3
-    }, {
-      "koreanName" : "유전 공학자",
-      "name" : "GENETIC_ENGINEER",
-      "order" : 4
-    }, {
-      "koreanName" : "생물의학자",
-      "name" : "BIOMEDICAL_ENGINEER",
-      "order" : 5
-    }, {
-      "koreanName" : "세라믹 엔지니어",
-      "name" : "CERAMIC_ENGINEER",
-      "order" : 6
-    }, {
-      "koreanName" : "화학공학 엔지니어",
-      "name" : "CHEMICAL_ENGINEER",
-      "order" : 7
-    }, {
-      "koreanName" : "토목기사",
-      "name" : "CIVIL_ENGINEERING_TECHNICIAN",
-      "order" : 8
-    }, {
-      "koreanName" : "시운전 엔지니어",
-      "name" : "COMMISSIONING_ENGINEER",
-      "order" : 9
-    }, {
-      "koreanName" : "건설 엔지니어",
-      "name" : "CONSTRUCTION_ENGINEER",
-      "order" : 10
-    }, {
-      "koreanName" : "제어 엔지니어",
-      "name" : "CONTROL_ENGINEER",
-      "order" : 11
-    }, {
-      "koreanName" : "도면 작성가",
-      "name" : "DRAFTING_TECHNICIAN",
-      "order" : 12
-    }, {
-      "koreanName" : "시추 엔지니어",
-      "name" : "DRILLING_ENGINEER",
-      "order" : 13
-    }, {
-      "koreanName" : "전기 엔지니어",
-      "name" : "ELECTRICAL_ENGINEER",
-      "order" : 14
-    }, {
-      "koreanName" : "전기기계 공학자",
-      "name" : "ELECTROMECHANICAL_ENGINEER",
-      "order" : 15
-    }, {
-      "koreanName" : "전자 엔지니어",
-      "name" : "ELECTRONICS_ENGINEER",
-      "order" : 16
-    }, {
-      "koreanName" : "환경 엔지니어",
-      "name" : "ENVIRONMENTAL_ENGINEER",
-      "order" : 17
-    }, {
-      "koreanName" : "장비 엔지니어",
-      "name" : "EQUIPMENT_ENGINEER",
-      "order" : 18
-    }, {
-      "koreanName" : "설비 엔지니어",
-      "name" : "FACILITY_ENGINEER",
-      "order" : 19
-    }, {
-      "koreanName" : "소방안전 기술자",
-      "name" : "FIRE_SAFETY_TECHNICIAN",
-      "order" : 20
-    }, {
-      "koreanName" : "지리학자",
-      "name" : "GEOGRAPHER",
-      "order" : 21
-    }, {
-      "koreanName" : "지질공학자",
-      "name" : "GEOLOGICAL_ENGINEER",
-      "order" : 22
-    }, {
-      "koreanName" : "산업 엔지니어",
-      "name" : "INDUSTRIAL_ENGINEER",
-      "order" : 23
-    }, {
-      "koreanName" : "I&amp;C 엔지니어",
-      "name" : "INSTRUMENTATION_AND_CONTROL_ENGINEER",
-      "order" : 24
-    }, {
-      "koreanName" : "생산공학 엔지니어",
-      "name" : "MANUFACTURING_ENGINEER",
-      "order" : 25
-    }, {
-      "koreanName" : "해양공학자",
-      "name" : "MARINE_ENGINEER",
-      "order" : 26
-    }, {
-      "koreanName" : "재료공학자",
-      "name" : "MATERIALS_ENGINEER",
-      "order" : 27
-    }, {
-      "koreanName" : "기계 엔지니어",
-      "name" : "MECHANICAL_ENGINEER",
-      "order" : 28
-    }, {
-      "koreanName" : "금속 공학자",
-      "name" : "METALLURGICAL_ENGINEER",
-      "order" : 29
-    }, {
-      "koreanName" : "광산 기술자",
-      "name" : "MINING_TECHNICIAN",
-      "order" : 30
-    }, {
-      "koreanName" : "선박 공학자",
-      "name" : "NAVAL_ARCHITECT",
-      "order" : 31
-    }, {
-      "koreanName" : "원자력/에너지",
-      "name" : "NUCLEAR_ENERGY_ENGINEER",
-      "order" : 32
-    }, {
-      "koreanName" : "석유공학 엔지니어",
-      "name" : "OIL_ENGINEER",
-      "order" : 33
-    }, {
-      "koreanName" : "배관설계 엔지니어",
-      "name" : "PIPELINE_DESIGN_ENGINEER",
-      "order" : 34
-    }, {
-      "koreanName" : "플랜트 엔지니어",
-      "name" : "PLANT_ENGINEER",
-      "order" : 35
-    }, {
-      "koreanName" : "공정 엔지니어",
-      "name" : "PROCESS_ENGINEER",
-      "order" : 36
-    }, {
-      "koreanName" : "제품 엔지니어",
-      "name" : "PRODUCT_ENGINEER",
-      "order" : 37
-    }, {
-      "koreanName" : "프로젝트 엔지니어",
-      "name" : "PROJECT_ENGINEER",
-      "order" : 38
-    }, {
-      "koreanName" : "QA 엔지니어",
-      "name" : "QA_ENGINEER",
-      "order" : 39
-    }, {
-      "koreanName" : "QC 엔지니어",
-      "name" : "QC_ENGINEER",
-      "order" : 40
-    }, {
-      "koreanName" : "전자계전 엔지니어",
-      "name" : "ELECTRICAL_POWER_ENGINEER",
-      "order" : 41
-    }, {
-      "koreanName" : "저수처리 엔지니어",
-      "name" : "RESERVOIR_ENGINEER",
-      "order" : 42
-    }, {
-      "koreanName" : "RF 엔지니어",
-      "name" : "RF_ENGINEER",
-      "order" : 43
-    }, {
-      "koreanName" : "회전기계 엔지니어",
-      "name" : "ROTATING_EQUIPMENT_ENGINEER",
-      "order" : 44
-    }, {
-      "koreanName" : "구조공학 엔지니어",
-      "name" : "STRUCTURAL_ENGINEER",
-      "order" : 45
-    }, {
-      "koreanName" : "터빈공학자",
-      "name" : "TURBINE_ENGINEER",
-      "order" : 46
-    }, {
-      "koreanName" : "CAD/3D 설계자",
-      "name" : "CAD_3D_DESIGNER",
-      "order" : 47
-    }, {
-      "koreanName" : "로봇/자동화",
-      "name" : "ROBOT_AUTOMATION",
-      "order" : 48
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 49
-    } ]
-  }, {
-    "koreanName" : "금융",
-    "name" : "FINANCE",
-    "jobs" : [ {
-      "koreanName" : "회계/경리",
-      "name" : "ACCOUNTANT",
-      "order" : 1
-    }, {
-      "koreanName" : "재무 분석가",
-      "name" : "FINANCIAL_ANALYST",
-      "order" : 2
-    }, {
-      "koreanName" : "공인회계사",
-      "name" : "CERTIFIED_PUBLIC_ACCOUNTANT",
-      "order" : 3
-    }, {
-      "koreanName" : "내부통제 담당자",
-      "name" : "INTERNAL_CONTROL_SPECIALIST",
-      "order" : 4
-    }, {
-      "koreanName" : "보험 에이전트",
-      "name" : "INSURANCE_AGENT",
-      "order" : 5
-    }, {
-      "koreanName" : "손해 사정관",
-      "name" : "ADJUSTER",
-      "order" : 6
-    }, {
-      "koreanName" : "계리사",
-      "name" : "CLAIMS_ADJUSTER",
-      "order" : 7
-    }, {
-      "koreanName" : "언더라이터",
-      "name" : "UNDERWRITER",
-      "order" : 8
-    }, {
-      "koreanName" : "부동산 자산 관리자",
-      "name" : "REAL_ESTATE_ASSET_MANAGER",
-      "order" : 9
-    }, {
-      "koreanName" : "부동산 중개사",
-      "name" : "REAL_ESTATE_AGENT",
-      "order" : 10
-    }, {
-      "koreanName" : "감정평가사",
-      "name" : "APPRAISER",
-      "order" : 11
-    }, {
-      "koreanName" : "애널리스트",
-      "name" : "ANALYST",
-      "order" : 12
-    }, {
-      "koreanName" : "IR",
-      "name" : "INVESTOR_RELATIONS",
-      "order" : 13
-    }, {
-      "koreanName" : "트레이더",
-      "name" : "TRADER",
-      "order" : 14
-    }, {
-      "koreanName" : "금융공학자",
-      "name" : "FINANCIAL_ENGINEER",
-      "order" : 15
-    }, {
-      "koreanName" : "자산관리사",
-      "name" : "ASSET_MANAGER",
-      "order" : 16
-    }, {
-      "koreanName" : "자산관리사",
-      "name" : "ASSET_MANAGER",
-      "order" : 17
-    }, {
-      "koreanName" : "투자은행가",
-      "name" : "INVESTMENT_BANKER",
-      "order" : 18
-    }, {
-      "koreanName" : "준법감시인",
-      "name" : "COMPLIANCE_OFFICER",
-      "order" : 19
-    }, {
-      "koreanName" : "세무사",
-      "name" : "TAX_ACCOUNTANT",
-      "order" : 20
-    }, {
-      "koreanName" : "재무 담당자",
-      "name" : "FINANCIAL_MANAGER",
-      "order" : 21
-    }, {
-      "koreanName" : "투자/증권",
-      "name" : "INVESTMENT_SECURITIES",
-      "order" : 22
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 23
-    } ]
-  }, {
-    "koreanName" : "제조/생산",
-    "name" : "MANUFACTURING",
-    "jobs" : [ {
-      "koreanName" : "조립 기술자",
-      "name" : "ASSEMBLY_TECHNICIAN",
-      "order" : 1
-    }, {
-      "koreanName" : "화학자",
-      "name" : "CHEMIST",
-      "order" : 2
-    }, {
-      "koreanName" : "기계제작 기술자",
-      "name" : "MECHANICAL_TECHNICIAN",
-      "order" : 3
-    }, {
-      "koreanName" : "생산공학 엔지니어",
-      "name" : "MANUFACTURING_ENGINEER",
-      "order" : 4
-    }, {
-      "koreanName" : "기계/설비/설계",
-      "name" : "MECHANICAL_FACILITY_DESIGN",
-      "order" : 5
-    }, {
-      "koreanName" : "생산 관리자",
-      "name" : "PRODUCTION_MANAGER",
-      "order" : 6
-    }, {
-      "koreanName" : "생산직 종사자",
-      "name" : "PRODUCTION_WORKER",
-      "order" : 7
-    }, {
-      "koreanName" : "공정 관리자",
-      "name" : "PROCESS_MANAGER",
-      "order" : 8
-    }, {
-      "koreanName" : "품질 관리자",
-      "name" : "QUALITY_MANAGER",
-      "order" : 9
-    }, {
-      "koreanName" : "안전 관리자",
-      "name" : "SAFETY_MANAGER",
-      "order" : 10
-    }, {
-      "koreanName" : "제조 테스트 엔지니어",
-      "name" : "TEST_ENGINEER",
-      "order" : 11
-    }, {
-      "koreanName" : "섬유/의류/패션",
-      "name" : "TEXTILES_APPAREL_FASHION",
-      "order" : 12
-    }, {
-      "koreanName" : "반도체/디스플레이",
-      "name" : "SEMICONDUCTOR_DISPLAY",
-      "order" : 13
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 14
-    } ]
-  }, {
-    "koreanName" : "의료/제약/바이오",
-    "name" : "MEDICAL",
-    "jobs" : [ {
-      "koreanName" : "치과 위생사",
-      "name" : "DENTAL_HYGIENIST",
-      "order" : 1
-    }, {
-      "koreanName" : "조무사",
-      "name" : "PARALEGAL",
-      "order" : 2
-    }, {
-      "koreanName" : "임상병리사",
-      "name" : "CLINICAL_LABORATORY_TECHNOLOGIST",
-      "order" : 3
-    }, {
-      "koreanName" : "간호사",
-      "name" : "NURSE",
-      "order" : 4
-    }, {
-      "koreanName" : "물리 치료사",
-      "name" : "PHYSICAL_THERAPIST",
-      "order" : 5
-    }, {
-      "koreanName" : "의사",
-      "name" : "PHYSICIAN",
-      "order" : 6
-    }, {
-      "koreanName" : "수의사",
-      "name" : "VETERINARIAN",
-      "order" : 7
-    }, {
-      "koreanName" : "간호 조무사",
-      "name" : "NURSE_PARALEGAL",
-      "order" : 8
-    }, {
-      "koreanName" : "치과의사",
-      "name" : "DENTIST",
-      "order" : 9
-    }, {
-      "koreanName" : "검안사",
-      "name" : "EXAMINER",
-      "order" : 10
-    }, {
-      "koreanName" : "약사",
-      "name" : "PHARMACIST",
-      "order" : 11
-    }, {
-      "koreanName" : "임상시험 연구원",
-      "name" : "CLINICAL_TRIAL_RESEARCHER",
-      "order" : 12
-    }, {
-      "koreanName" : "임상시험 간호사",
-      "name" : "CLINICAL_TRIAL_NURSE",
-      "order" : 13
-    }, {
-      "koreanName" : "미생물학자",
-      "name" : "MICROBIOLOGIST",
-      "order" : 14
-    }, {
-      "koreanName" : "유전공학자",
-      "name" : "GENETICIST",
-      "order" : 15
-    }, {
-      "koreanName" : "연구원",
-      "name" : "RESEARCHER",
-      "order" : 16
-    }, {
-      "koreanName" : "한의사",
-      "name" : "ORIENTAL_MEDICINE_PHYSICIAN",
-      "order" : 17
-    }, {
-      "koreanName" : "방사선사",
-      "name" : "RADIOLOGIST",
-      "order" : 18
-    }, {
-      "koreanName" : "병원 코디네이터",
-      "name" : "HOSPITAL_COORDINATOR",
-      "order" : 19
-    }, {
-      "koreanName" : "임상심리사",
-      "name" : "CLINICAL_PSYCHOLOGIST",
-      "order" : 20
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 21
-    } ]
-  }, {
-    "koreanName" : "물류/무역",
-    "name" : "LOGISTICS",
-    "jobs" : [ {
-      "koreanName" : "배송담당",
-      "name" : "SHIPPING_HANDLER",
-      "order" : 1
-    }, {
-      "koreanName" : "디젤 정비공",
-      "name" : "DIESEL_MECHANIC",
-      "order" : 2
-    }, {
-      "koreanName" : "운행 관리원",
-      "name" : "OPERATIONS_MANAGER",
-      "order" : 3
-    }, {
-      "koreanName" : "지게차 운전사",
-      "name" : "FORKLIFT_DRIVER",
-      "order" : 4
-    }, {
-      "koreanName" : "운전기사",
-      "name" : "DRIVER",
-      "order" : 5
-    }, {
-      "koreanName" : "물류 분석가",
-      "name" : "LOGISTICS_ANALYST",
-      "order" : 6
-    }, {
-      "koreanName" : "화물트럭 운전기사",
-      "name" : "FREIGHT_TRUCK_DRIVER",
-      "order" : 7
-    }, {
-      "koreanName" : "선적,발송 사무원",
-      "name" : "SHIPPING_CLERK",
-      "order" : 8
-    }, {
-      "koreanName" : "운송 관리자",
-      "name" : "TRANSPORTATION_MANAGER",
-      "order" : 9
-    }, {
-      "koreanName" : "웨어하우스",
-      "name" : "WAREHOUSE_WORKER",
-      "order" : 10
-    }, {
-      "koreanName" : "항공 운송",
-      "name" : "AIR_TRANSPORTATION",
-      "order" : 11
-    }, {
-      "koreanName" : "해운/해양 운송",
-      "name" : "MARINE_TRANSPORTATION",
-      "order" : 12
-    }, {
-      "koreanName" : "무역사무",
-      "name" : "TRADE_OFFICE",
-      "order" : 13
-    }, {
-      "koreanName" : "관세사",
-      "name" : "CUSTOMS_BROKER",
-      "order" : 14
-    }, {
-      "koreanName" : "원산지관리사",
-      "name" : "ORIGIN_MANAGEMENT_SPECIALIST",
-      "order" : 15
-    }, {
-      "koreanName" : "입/출고 관리자",
-      "name" : "INBOUND_OUTBOUND_MANAGER",
-      "order" : 16
-    }, {
-      "koreanName" : "유통 관리자",
-      "name" : "DISTRIBUTION_MANAGER",
-      "order" : 17
-    }, {
-      "koreanName" : "항해사",
-      "name" : "MARINE_NAVIGATION_OFFICER",
-      "order" : 18
-    }, {
-      "koreanName" : "기관사",
-      "name" : "MECHANICAL_OFFICER",
-      "order" : 19
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 20
-    } ]
-  }, {
-    "koreanName" : "교육",
-    "name" : "EDUCATION",
-    "jobs" : [ {
-      "koreanName" : "교재/교육기획",
-      "name" : "CURRICULUM_PLANNER",
-      "order" : 1
-    }, {
-      "koreanName" : "학원강사",
-      "name" : "PRIVATE_TUTOR",
-      "order" : 2
-    }, {
-      "koreanName" : "교직원",
-      "name" : "SCHOOL_STAFF",
-      "order" : 3
-    }, {
-      "koreanName" : "유치원교사",
-      "name" : "KINDERGARTEN_TEACHER",
-      "order" : 4
-    }, {
-      "koreanName" : "교사",
-      "name" : "TEACHER",
-      "order" : 5
-    }, {
-      "koreanName" : "자격증/기술전문교육",
-      "name" : "QUALIFICATION_TECHNICAL_INSTRUCTOR",
-      "order" : 6
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 7
-    } ]
-  }, {
-    "koreanName" : "식/음료",
-    "name" : "FOOD_BEVERAGE",
-    "jobs" : [ {
-      "koreanName" : "영양사",
-      "name" : "NUTRITIONIST",
-      "order" : 1
-    }, {
-      "koreanName" : "제빵사",
-      "name" : "CHEF_BAKER",
-      "order" : 2
-    }, {
-      "koreanName" : "바텐더",
-      "name" : "BARTENDER",
-      "order" : 3
-    }, {
-      "koreanName" : "요리사",
-      "name" : "COOK",
-      "order" : 4
-    }, {
-      "koreanName" : "외식업 종사자",
-      "name" : "FOOD_SERVICE_WORKER",
-      "order" : 5
-    }, {
-      "koreanName" : "레스토랑 관리자",
-      "name" : "RESTAURANT_MANAGER",
-      "order" : 6
-    }, {
-      "koreanName" : "식품 MD",
-      "name" : "FOOD_MD",
-      "order" : 7
-    }, {
-      "koreanName" : "푸드스타일리스트",
-      "name" : "FOOD_STYLIST",
-      "order" : 8
-    }, {
-      "koreanName" : "소믈리에",
-      "name" : "SOMMELIER",
-      "order" : 9
-    }, {
-      "koreanName" : "식품가공/개발",
-      "name" : "FOOD_PROCESSING_DEVELOPMENT",
-      "order" : 10
-    }, {
-      "koreanName" : "바리스타",
-      "name" : "BARISTA",
-      "order" : 11
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 12
-    } ]
-  }, {
-    "koreanName" : "건설/시설",
-    "name" : "CONSTRUCTION_FACILITY",
-    "jobs" : [ {
-      "koreanName" : "목수",
-      "name" : "CARPENTER",
-      "order" : 1
-    }, {
-      "koreanName" : "중장비 기술자",
-      "name" : "HEAVY_EQUIPMENT_TECHNICIAN",
-      "order" : 2
-    }, {
-      "koreanName" : "정비공",
-      "name" : "MAINTENANCE_WORKER",
-      "order" : 3
-    }, {
-      "koreanName" : "유지보수 관리자",
-      "name" : "MAINTENANCE_MANAGER",
-      "order" : 4
-    }, {
-      "koreanName" : "관리인",
-      "name" : "FACILITY_MANAGER",
-      "order" : 5
-    }, {
-      "koreanName" : "전기 기술자",
-      "name" : "ELECTRICIAN",
-      "order" : 6
-    }, {
-      "koreanName" : "플랜트 관리자",
-      "name" : "PLANT_MANAGER",
-      "order" : 7
-    }, {
-      "koreanName" : "용접기사",
-      "name" : "WELDER",
-      "order" : 8
-    }, {
-      "koreanName" : "배관공",
-      "name" : "PLUMBER",
-      "order" : 9
-    }, {
-      "koreanName" : "견적 기술자",
-      "name" : "ESTIMATOR",
-      "order" : 10
-    }, {
-      "koreanName" : "건축가",
-      "name" : "ARCHITECT",
-      "order" : 11
-    }, {
-      "koreanName" : "실내건축",
-      "name" : "INTERIOR_ARCHITECT",
-      "order" : 12
-    }, {
-      "koreanName" : "건축시공/감리",
-      "name" : "CONSTRUCTION_SUPERVISOR",
-      "order" : 13
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 14
-    } ]
-  }, {
-    "koreanName" : "공공/복지",
-    "name" : "PUBLIC_WELFARE",
-    "jobs" : [ {
-      "koreanName" : "상담사",
-      "name" : "COUNSELOR",
-      "order" : 1
-    }, {
-      "koreanName" : "소방관",
-      "name" : "FIREFIGHTER",
-      "order" : 2
-    }, {
-      "koreanName" : "환경 전문가",
-      "name" : "ENVIRONMENTAL_EXPERT",
-      "order" : 3
-    }, {
-      "koreanName" : "정보 분석가",
-      "name" : "INFORMATION_ANALYST",
-      "order" : 4
-    }, {
-      "koreanName" : "인명 구조원",
-      "name" : "LIFEGUARD",
-      "order" : 5
-    }, {
-      "koreanName" : "지역 전문가",
-      "name" : "REGIONAL_EXPERT",
-      "order" : 6
-    }, {
-      "koreanName" : "공무원",
-      "name" : "PUBLIC_OFFICIAL",
-      "order" : 7
-    }, {
-      "koreanName" : "직업군인",
-      "name" : "PROFESSIONAL_SOLDIER",
-      "order" : 8
-    }, {
-      "koreanName" : "자원봉사자",
-      "name" : "VOLUNTEER",
-      "order" : 9
-    }, {
-      "koreanName" : "사회복지사",
-      "name" : "SOCIAL_WORKER",
-      "order" : 10
-    }, {
-      "koreanName" : "응급구조사",
-      "name" : "PARAMEDIC",
-      "order" : 11
-    }, {
-      "koreanName" : "요양보호사",
-      "name" : "CAREGIVER",
-      "order" : 12
-    }, {
-      "koreanName" : "기타",
-      "name" : "ETC",
-      "order" : 13
-    } ]
-  } ]
-}</code></pre>
+{"jobGroups":[{"koreanName":"개발","name":"DEVELOPMENT","jobs":[{"koreanName":"데이터 엔지니어","name":"DATA_ENGINEER","order":1},{"koreanName":"자바 개발자","name":"JAVA_DEVELOPER","order":2},{"koreanName":".NET 개발자","name":"DOTNET_DEVELOPER","order":3},{"koreanName":"시스템,네트워크 관리자","name":"SYSTEM_NETWORK_ADMINISTRATOR","order":4},{"koreanName":"백엔드 개발자","name":"BACKEND_DEVELOPER","order":5},{"koreanName":"프론트엔드 개발자","name":"FRONTEND_DEVELOPER","order":6},{"koreanName":"보안 엔지니어","name":"SECURITY_ENGINEER","order":7},{"koreanName":"하드웨어 엔지니어","name":"HARDWARE_ENGINEER","order":8},{"koreanName":"DevOps / 시스템 관리자","name":"DEVOPS","order":9},{"koreanName":"QA,테스트 엔지니어","name":"QA_TEST_ENGINEER","order":10},{"koreanName":"안드로이드 개발자","name":"ANDROID_DEVELOPER","order":11},{"koreanName":"iOS 개발자","name":"IOS_DEVELOPER","order":12},{"koreanName":"CIO,Chief Information Officer","name":"CIO","order":13},{"koreanName":"CTO,Chief Technology Officer","name":"CTO","order":14},{"koreanName":"서버 개발자","name":"SERVER_DEVELOPER","order":15},{"koreanName":"웹 개발자","name":"WEB_DEVELOPER","order":16},{"koreanName":"프로덕트 매니저","name":"PRODUCT_MANAGER","order":17},{"koreanName":"개발 매니저","name":"DEVELOPMENT_MANAGER","order":18},{"koreanName":"PHP 개발자","name":"PHP_DEVELOPER","order":19},{"koreanName":"루비온레일즈 개발자","name":"RUBY_ON_RAILS_DEVELOPER","order":20},{"koreanName":"Node.js 개발자","name":"NODEJS_DEVELOPER","order":21},{"koreanName":"영상,음성 엔지니어","name":"MEDIA_ENGINEER","order":22},{"koreanName":"그래픽스 엔지니어","name":"GRAPHICS_ENGINEER","order":23},{"koreanName":"파이썬 개발자","name":"PYTHON_DEVELOPER","order":24},{"koreanName":"C,C++ 개발자","name":"C_CPP_DEVELOPER","order":25},{"koreanName":"웹 퍼블리셔","name":"WEB_PUBLISHER","order":26},{"koreanName":"BI 엔지니어","name":"BI_ENGINEER","order":27},{"koreanName":"데이터 사이언티스트","name":"DATA_SCIENTIST","order":28},{"koreanName":"빅데이터 엔지니어","name":"BIGDATA_ENGINEER","order":29},{"koreanName":"기술지원","name":"TECHNICAL_SUPPORT","order":30},{"koreanName":"블록체인 플랫폼 엔지니어","name":"BLOCKCHAIN_ENGINEER","order":31},{"koreanName":"머신러닝 엔지니어","name":"MACHINE_LEARNING_ENGINEER","order":32},{"koreanName":"소프트웨어 엔지니어","name":"SOFTWARE_ENGINEER","order":33},{"koreanName":"크로스플랫폼 앱 개발자","name":"CROSS_PLATFORM_APP_DEVELOPER","order":34},{"koreanName":"VR 엔지니어","name":"VR_ENGINEER","order":35},{"koreanName":"ERP전문가","name":"ERP_EXPERT","order":36},{"koreanName":"기타","name":"ETC","order":37}]},{"koreanName":"경영/비즈니스","name":"MANAGEMENT_BUSINESS","jobs":[{"koreanName":"비서","name":"SECRETARY","order":1},{"koreanName":"운영 매니저","name":"OPERATION_MANAGER","order":2},{"koreanName":"오피스 관리 / 매니저","name":"OFFICE_MANAGER","order":3},{"koreanName":"PM/PO","name":"PM_PO","order":4},{"koreanName":"사업개발/기획자","name":"BUSINESS_PLANNER","order":5},{"koreanName":"서비스 기획자","name":"SERVICE_PLANNER","order":6},{"koreanName":"컨설턴트","name":"CONSULTANT","order":7},{"koreanName":"CEO,Chief Executive Officer","name":"CEO","order":8},{"koreanName":"CFO,Chief Financial Officer","name":"CFO","order":9},{"koreanName":"COO,Chief Operation Officer","name":"COO","order":10},{"koreanName":"CSO,Chief Strategy Officer","name":"CSO","order":11},{"koreanName":"회계/경리","name":"ACCOUNTANT","order":12},{"koreanName":"해외 사업개발/기획자","name":"OVERSEAS_BUSINESS_PLANNER","order":13},{"koreanName":"전시 기획자","name":"EXHIBITION_PLANNER","order":14},{"koreanName":"세미나/포럼 기획자","name":"SEMINAR_FORUM_PLANNER","order":15},{"koreanName":"공연 기획자","name":"PERFORMANCE_PLANNER","order":16},{"koreanName":"애자일코치","name":"AGILE_COACH","order":17},{"koreanName":"사무보조","name":"ADMINISTRATIVE_ASSISTANT","order":18},{"koreanName":"상품기획자(BM)","name":"PRODUCT_PLANNER_BM","order":19},{"koreanName":"ISMS(정보보호체계)","name":"ISMS","order":20},{"koreanName":"기타","name":"ETC","order":21}]},{"koreanName":"마케팅/광고","name":"MARKETING_ADVERTISEMENT","jobs":[{"koreanName":"브랜드 마케터","name":"BRAND_MARKETER","order":1},{"koreanName":"카피라이터","name":"COPYWRITER","order":2},{"koreanName":"마케터","name":"MARKETER","order":3},{"koreanName":"PR 전문가","name":"PR_EXPERT","order":4},{"koreanName":"마케팅 전략 기획자","name":"MARKETING_PLANNER","order":5},{"koreanName":"소셜 마케터","name":"SOCIAL_MEDIA_MARKETER","order":6},{"koreanName":"광고 기획자(AE)","name":"ADVERTISING_PLANNER_AE","order":7},{"koreanName":"CMO,Chief Marketing Officer","name":"CMO","order":8},{"koreanName":"CBO,Chief Brand Officer","name":"CBO","order":9},{"koreanName":"글로벌 마케팅","name":"GLOBAL_MARKETING","order":10},{"koreanName":"기타","name":"ETC","order":11}]},{"koreanName":"영업","name":"SALES","jobs":[{"koreanName":"영업","name":"SALES","order":1},{"koreanName":"주요고객사 담당자","name":"KEY_ACCOUNT_MANAGER","order":2},{"koreanName":"세일즈 엔지니어","name":"SALES_ENGINEER","order":3},{"koreanName":"영업 관리자","name":"SALES_MANAGER","order":4},{"koreanName":"솔루션 컨설턴트","name":"SOLUTION_CONSULTANT","order":5},{"koreanName":"고객성공매니저","name":"CUSTOMER_SUCCESS_MANAGER","order":6},{"koreanName":"기타","name":"ETC","order":7}]},{"koreanName":"고객서비스/리테일","name":"CUSTOMER_SERVICE_RETAIL","jobs":[{"koreanName":"CS 어드바이저","name":"CS_ADVISOR","order":1},{"koreanName":"승무원","name":"FLIGHT_ATTENDANT","order":2},{"koreanName":"AS 기술자","name":"AS_TECHNICIAN","order":3},{"koreanName":"이벤트 기획자","name":"EVENT_PLANNER","order":4},{"koreanName":"플로리스트","name":"FLORIST","order":5},{"koreanName":"여행 에이전트","name":"TRAVEL_AGENT","order":6},{"koreanName":"매장 관리자","name":"STORE_MANAGER","order":7},{"koreanName":"매장점원","name":"STORE_STAFF","order":8},{"koreanName":"피부관리사","name":"SKIN_CARE_SPECIALIST","order":9},{"koreanName":"헤어 디자이너","name":"HAIR_DESIGNER","order":10},{"koreanName":"비주얼머천다이저","name":"VISUAL_MECHANDISER","order":11},{"koreanName":"MD","name":"MD","order":12},{"koreanName":"인바운드 텔레마케터","name":"INBOUND_TELEMARKETER","order":13},{"koreanName":"CRM 전문가","name":"CRM_EXPERT","order":14},{"koreanName":"아웃바운드 텔레마케터","name":"OUTBOUND_TELEMARKETER","order":15},{"koreanName":"CS 매니저","name":"CS_MANAGER","order":16},{"koreanName":"헬스케어매니저","name":"HEALTHCARE_MANAGER","order":17},{"koreanName":"미용사","name":"BEAUTICIAN","order":18},{"koreanName":"애견 미용사","name":"PET_BEAUTICIAN","order":19},{"koreanName":"리셉션","name":"RECEPTIONIST","order":20},{"koreanName":"기타","name":"ETC","order":21}]},{"koreanName":"미디어","name":"MEDIA","jobs":[{"koreanName":"영상 편집가","name":"VIDEO_EDITOR","order":1},{"koreanName":"작가","name":"WRITER","order":2},{"koreanName":"에디터","name":"EDITOR","order":3},{"koreanName":"저널리스트","name":"JOURNALIST","order":4},{"koreanName":"PD","name":"PD","order":5},{"koreanName":"리포터","name":"REPORTER","order":6},{"koreanName":"사진작가","name":"PHOTOGRAPHER","order":7},{"koreanName":"통/번역","name":"TRANSLATOR_INTERPRETER","order":8},{"koreanName":"출판 기획자","name":"PUBLISHING_PLANNER","order":9},{"koreanName":"음향 엔지니어","name":"AUDIO_ENGINEER","order":10},{"koreanName":"큐레이터","name":"CURATOR","order":11},{"koreanName":"콘텐츠 크리에이터","name":"CONTENT_CREATOR","order":12},{"koreanName":"연예, 엔터테인먼트","name":"ENTERTAINMENT","order":13},{"koreanName":"기타","name":"ETC","order":14}]},{"koreanName":"게임 제작","name":"GAME","jobs":[{"koreanName":"유니티 개발자","name":"UNITY_DEVELOPER","order":1},{"koreanName":"게임 그래픽 디자이너","name":"GAME_GRAPHIC_DESIGNER","order":2},{"koreanName":"게임 아티스트","name":"GAME_ARTIST","order":3},{"koreanName":"게임 기획자","name":"GAME_PLANNER","order":4},{"koreanName":"언리얼 개발자","name":"UNREAL_DEVELOPER","order":5},{"koreanName":"게임운영자(GM)","name":"GAME_OPERATOR_GM","order":6},{"koreanName":"게임 서버 개발자","name":"GAME_SERVER_DEVELOPER","order":7},{"koreanName":"게임 클라이언트 개발자","name":"GAME_CLIENT_DEVELOPER","order":8},{"koreanName":"모바일 게임 개발자","name":"MOBILE_GAME_DEVELOPER","order":9},{"koreanName":"기타","name":"ETC","order":10}]},{"koreanName":"HR","name":"HR","jobs":[{"koreanName":"교사","name":"TEACHER","order":1},{"koreanName":"기술 교육","name":"TECHNICAL_EDUCATION","order":2},{"koreanName":"HR 컨설턴트","name":"HR_CONSULTANT","order":3},{"koreanName":"인사담당","name":"PERSONNEL_MANAGER","order":4},{"koreanName":"리크루터","name":"RECRUITER","order":5},{"koreanName":"HRD","name":"HRD","order":6},{"koreanName":"조직문화","name":"ORGANIZATIONAL_CULTURE","order":7},{"koreanName":"급여담당","name":"SALARY_ADMINISTRATOR","order":8},{"koreanName":"E-러닝","name":"E_LEARNING","order":9},{"koreanName":"헤드헌터","name":"HEADHUNTER","order":10},{"koreanName":"교수","name":"PROFESSOR","order":11},{"koreanName":"HRBP","name":"HRBP","order":12},{"koreanName":"기타","name":"ETC","order":13}]},{"koreanName":"엔지니어링/설계","name":"ENGINEERING_DESIGN","jobs":[{"koreanName":"항공우주 공학자","name":"AEROSPACE_ENGINEER","order":1},{"koreanName":"농업 공학자","name":"AGRICULTURAL_ENGINEER","order":2},{"koreanName":"자동차 공학자","name":"AUTOMOTIVE_ENGINEER","order":3},{"koreanName":"유전 공학자","name":"GENETIC_ENGINEER","order":4},{"koreanName":"생물의학자","name":"BIOMEDICAL_ENGINEER","order":5},{"koreanName":"세라믹 엔지니어","name":"CERAMIC_ENGINEER","order":6},{"koreanName":"화학공학 엔지니어","name":"CHEMICAL_ENGINEER","order":7},{"koreanName":"토목기사","name":"CIVIL_ENGINEERING_TECHNICIAN","order":8},{"koreanName":"시운전 엔지니어","name":"COMMISSIONING_ENGINEER","order":9},{"koreanName":"건설 엔지니어","name":"CONSTRUCTION_ENGINEER","order":10},{"koreanName":"제어 엔지니어","name":"CONTROL_ENGINEER","order":11},{"koreanName":"도면 작성가","name":"DRAFTING_TECHNICIAN","order":12},{"koreanName":"시추 엔지니어","name":"DRILLING_ENGINEER","order":13},{"koreanName":"전기 엔지니어","name":"ELECTRICAL_ENGINEER","order":14},{"koreanName":"전기기계 공학자","name":"ELECTROMECHANICAL_ENGINEER","order":15},{"koreanName":"전자 엔지니어","name":"ELECTRONICS_ENGINEER","order":16},{"koreanName":"환경 엔지니어","name":"ENVIRONMENTAL_ENGINEER","order":17},{"koreanName":"장비 엔지니어","name":"EQUIPMENT_ENGINEER","order":18},{"koreanName":"설비 엔지니어","name":"FACILITY_ENGINEER","order":19},{"koreanName":"소방안전 기술자","name":"FIRE_SAFETY_TECHNICIAN","order":20},{"koreanName":"지리학자","name":"GEOGRAPHER","order":21},{"koreanName":"지질공학자","name":"GEOLOGICAL_ENGINEER","order":22},{"koreanName":"산업 엔지니어","name":"INDUSTRIAL_ENGINEER","order":23},{"koreanName":"I&amp;C 엔지니어","name":"INSTRUMENTATION_AND_CONTROL_ENGINEER","order":24},{"koreanName":"생산공학 엔지니어","name":"MANUFACTURING_ENGINEER","order":25},{"koreanName":"해양공학자","name":"MARINE_ENGINEER","order":26},{"koreanName":"재료공학자","name":"MATERIALS_ENGINEER","order":27},{"koreanName":"기계 엔지니어","name":"MECHANICAL_ENGINEER","order":28},{"koreanName":"금속 공학자","name":"METALLURGICAL_ENGINEER","order":29},{"koreanName":"광산 기술자","name":"MINING_TECHNICIAN","order":30},{"koreanName":"선박 공학자","name":"NAVAL_ARCHITECT","order":31},{"koreanName":"원자력/에너지","name":"NUCLEAR_ENERGY_ENGINEER","order":32},{"koreanName":"석유공학 엔지니어","name":"OIL_ENGINEER","order":33},{"koreanName":"배관설계 엔지니어","name":"PIPELINE_DESIGN_ENGINEER","order":34},{"koreanName":"플랜트 엔지니어","name":"PLANT_ENGINEER","order":35},{"koreanName":"공정 엔지니어","name":"PROCESS_ENGINEER","order":36},{"koreanName":"제품 엔지니어","name":"PRODUCT_ENGINEER","order":37},{"koreanName":"프로젝트 엔지니어","name":"PROJECT_ENGINEER","order":38},{"koreanName":"QA 엔지니어","name":"QA_ENGINEER","order":39},{"koreanName":"QC 엔지니어","name":"QC_ENGINEER","order":40},{"koreanName":"전자계전 엔지니어","name":"ELECTRICAL_POWER_ENGINEER","order":41},{"koreanName":"저수처리 엔지니어","name":"RESERVOIR_ENGINEER","order":42},{"koreanName":"RF 엔지니어","name":"RF_ENGINEER","order":43},{"koreanName":"회전기계 엔지니어","name":"ROTATING_EQUIPMENT_ENGINEER","order":44},{"koreanName":"구조공학 엔지니어","name":"STRUCTURAL_ENGINEER","order":45},{"koreanName":"터빈공학자","name":"TURBINE_ENGINEER","order":46},{"koreanName":"CAD/3D 설계자","name":"CAD_3D_DESIGNER","order":47},{"koreanName":"로봇/자동화","name":"ROBOT_AUTOMATION","order":48},{"koreanName":"기타","name":"ETC","order":49}]},{"koreanName":"금융","name":"FINANCE","jobs":[{"koreanName":"회계/경리","name":"ACCOUNTANT","order":1},{"koreanName":"재무 분석가","name":"FINANCIAL_ANALYST","order":2},{"koreanName":"공인회계사","name":"CERTIFIED_PUBLIC_ACCOUNTANT","order":3},{"koreanName":"내부통제 담당자","name":"INTERNAL_CONTROL_SPECIALIST","order":4},{"koreanName":"보험 에이전트","name":"INSURANCE_AGENT","order":5},{"koreanName":"손해 사정관","name":"ADJUSTER","order":6},{"koreanName":"계리사","name":"CLAIMS_ADJUSTER","order":7},{"koreanName":"언더라이터","name":"UNDERWRITER","order":8},{"koreanName":"부동산 자산 관리자","name":"REAL_ESTATE_ASSET_MANAGER","order":9},{"koreanName":"부동산 중개사","name":"REAL_ESTATE_AGENT","order":10},{"koreanName":"감정평가사","name":"APPRAISER","order":11},{"koreanName":"애널리스트","name":"ANALYST","order":12},{"koreanName":"IR","name":"INVESTOR_RELATIONS","order":13},{"koreanName":"트레이더","name":"TRADER","order":14},{"koreanName":"금융공학자","name":"FINANCIAL_ENGINEER","order":15},{"koreanName":"자산관리사","name":"ASSET_MANAGER","order":16},{"koreanName":"자산관리사","name":"ASSET_MANAGER","order":17},{"koreanName":"투자은행가","name":"INVESTMENT_BANKER","order":18},{"koreanName":"준법감시인","name":"COMPLIANCE_OFFICER","order":19},{"koreanName":"세무사","name":"TAX_ACCOUNTANT","order":20},{"koreanName":"재무 담당자","name":"FINANCIAL_MANAGER","order":21},{"koreanName":"투자/증권","name":"INVESTMENT_SECURITIES","order":22},{"koreanName":"기타","name":"ETC","order":23}]},{"koreanName":"제조/생산","name":"MANUFACTURING","jobs":[{"koreanName":"조립 기술자","name":"ASSEMBLY_TECHNICIAN","order":1},{"koreanName":"화학자","name":"CHEMIST","order":2},{"koreanName":"기계제작 기술자","name":"MECHANICAL_TECHNICIAN","order":3},{"koreanName":"생산공학 엔지니어","name":"MANUFACTURING_ENGINEER","order":4},{"koreanName":"기계/설비/설계","name":"MECHANICAL_FACILITY_DESIGN","order":5},{"koreanName":"생산 관리자","name":"PRODUCTION_MANAGER","order":6},{"koreanName":"생산직 종사자","name":"PRODUCTION_WORKER","order":7},{"koreanName":"공정 관리자","name":"PROCESS_MANAGER","order":8},{"koreanName":"품질 관리자","name":"QUALITY_MANAGER","order":9},{"koreanName":"안전 관리자","name":"SAFETY_MANAGER","order":10},{"koreanName":"제조 테스트 엔지니어","name":"TEST_ENGINEER","order":11},{"koreanName":"섬유/의류/패션","name":"TEXTILES_APPAREL_FASHION","order":12},{"koreanName":"반도체/디스플레이","name":"SEMICONDUCTOR_DISPLAY","order":13},{"koreanName":"기타","name":"ETC","order":14}]},{"koreanName":"의료/제약/바이오","name":"MEDICAL","jobs":[{"koreanName":"치과 위생사","name":"DENTAL_HYGIENIST","order":1},{"koreanName":"조무사","name":"PARALEGAL","order":2},{"koreanName":"임상병리사","name":"CLINICAL_LABORATORY_TECHNOLOGIST","order":3},{"koreanName":"간호사","name":"NURSE","order":4},{"koreanName":"물리 치료사","name":"PHYSICAL_THERAPIST","order":5},{"koreanName":"의사","name":"PHYSICIAN","order":6},{"koreanName":"수의사","name":"VETERINARIAN","order":7},{"koreanName":"간호 조무사","name":"NURSE_PARALEGAL","order":8},{"koreanName":"치과의사","name":"DENTIST","order":9},{"koreanName":"검안사","name":"EXAMINER","order":10},{"koreanName":"약사","name":"PHARMACIST","order":11},{"koreanName":"임상시험 연구원","name":"CLINICAL_TRIAL_RESEARCHER","order":12},{"koreanName":"임상시험 간호사","name":"CLINICAL_TRIAL_NURSE","order":13},{"koreanName":"미생물학자","name":"MICROBIOLOGIST","order":14},{"koreanName":"유전공학자","name":"GENETICIST","order":15},{"koreanName":"연구원","name":"RESEARCHER","order":16},{"koreanName":"한의사","name":"ORIENTAL_MEDICINE_PHYSICIAN","order":17},{"koreanName":"방사선사","name":"RADIOLOGIST","order":18},{"koreanName":"병원 코디네이터","name":"HOSPITAL_COORDINATOR","order":19},{"koreanName":"임상심리사","name":"CLINICAL_PSYCHOLOGIST","order":20},{"koreanName":"기타","name":"ETC","order":21}]},{"koreanName":"물류/무역","name":"LOGISTICS","jobs":[{"koreanName":"배송담당","name":"SHIPPING_HANDLER","order":1},{"koreanName":"디젤 정비공","name":"DIESEL_MECHANIC","order":2},{"koreanName":"운행 관리원","name":"OPERATIONS_MANAGER","order":3},{"koreanName":"지게차 운전사","name":"FORKLIFT_DRIVER","order":4},{"koreanName":"운전기사","name":"DRIVER","order":5},{"koreanName":"물류 분석가","name":"LOGISTICS_ANALYST","order":6},{"koreanName":"화물트럭 운전기사","name":"FREIGHT_TRUCK_DRIVER","order":7},{"koreanName":"선적,발송 사무원","name":"SHIPPING_CLERK","order":8},{"koreanName":"운송 관리자","name":"TRANSPORTATION_MANAGER","order":9},{"koreanName":"웨어하우스","name":"WAREHOUSE_WORKER","order":10},{"koreanName":"항공 운송","name":"AIR_TRANSPORTATION","order":11},{"koreanName":"해운/해양 운송","name":"MARINE_TRANSPORTATION","order":12},{"koreanName":"무역사무","name":"TRADE_OFFICE","order":13},{"koreanName":"관세사","name":"CUSTOMS_BROKER","order":14},{"koreanName":"원산지관리사","name":"ORIGIN_MANAGEMENT_SPECIALIST","order":15},{"koreanName":"입/출고 관리자","name":"INBOUND_OUTBOUND_MANAGER","order":16},{"koreanName":"유통 관리자","name":"DISTRIBUTION_MANAGER","order":17},{"koreanName":"항해사","name":"MARINE_NAVIGATION_OFFICER","order":18},{"koreanName":"기관사","name":"MECHANICAL_OFFICER","order":19},{"koreanName":"기타","name":"ETC","order":20}]},{"koreanName":"교육","name":"EDUCATION","jobs":[{"koreanName":"교재/교육기획","name":"CURRICULUM_PLANNER","order":1},{"koreanName":"학원강사","name":"PRIVATE_TUTOR","order":2},{"koreanName":"교직원","name":"SCHOOL_STAFF","order":3},{"koreanName":"유치원교사","name":"KINDERGARTEN_TEACHER","order":4},{"koreanName":"교사","name":"TEACHER","order":5},{"koreanName":"자격증/기술전문교육","name":"QUALIFICATION_TECHNICAL_INSTRUCTOR","order":6},{"koreanName":"기타","name":"ETC","order":7}]},{"koreanName":"식/음료","name":"FOOD_BEVERAGE","jobs":[{"koreanName":"영양사","name":"NUTRITIONIST","order":1},{"koreanName":"제빵사","name":"CHEF_BAKER","order":2},{"koreanName":"바텐더","name":"BARTENDER","order":3},{"koreanName":"요리사","name":"COOK","order":4},{"koreanName":"외식업 종사자","name":"FOOD_SERVICE_WORKER","order":5},{"koreanName":"레스토랑 관리자","name":"RESTAURANT_MANAGER","order":6},{"koreanName":"식품 MD","name":"FOOD_MD","order":7},{"koreanName":"푸드스타일리스트","name":"FOOD_STYLIST","order":8},{"koreanName":"소믈리에","name":"SOMMELIER","order":9},{"koreanName":"식품가공/개발","name":"FOOD_PROCESSING_DEVELOPMENT","order":10},{"koreanName":"바리스타","name":"BARISTA","order":11},{"koreanName":"기타","name":"ETC","order":12}]},{"koreanName":"건설/시설","name":"CONSTRUCTION_FACILITY","jobs":[{"koreanName":"목수","name":"CARPENTER","order":1},{"koreanName":"중장비 기술자","name":"HEAVY_EQUIPMENT_TECHNICIAN","order":2},{"koreanName":"정비공","name":"MAINTENANCE_WORKER","order":3},{"koreanName":"유지보수 관리자","name":"MAINTENANCE_MANAGER","order":4},{"koreanName":"관리인","name":"FACILITY_MANAGER","order":5},{"koreanName":"전기 기술자","name":"ELECTRICIAN","order":6},{"koreanName":"플랜트 관리자","name":"PLANT_MANAGER","order":7},{"koreanName":"용접기사","name":"WELDER","order":8},{"koreanName":"배관공","name":"PLUMBER","order":9},{"koreanName":"견적 기술자","name":"ESTIMATOR","order":10},{"koreanName":"건축가","name":"ARCHITECT","order":11},{"koreanName":"실내건축","name":"INTERIOR_ARCHITECT","order":12},{"koreanName":"건축시공/감리","name":"CONSTRUCTION_SUPERVISOR","order":13},{"koreanName":"기타","name":"ETC","order":14}]},{"koreanName":"공공/복지","name":"PUBLIC_WELFARE","jobs":[{"koreanName":"상담사","name":"COUNSELOR","order":1},{"koreanName":"소방관","name":"FIREFIGHTER","order":2},{"koreanName":"환경 전문가","name":"ENVIRONMENTAL_EXPERT","order":3},{"koreanName":"정보 분석가","name":"INFORMATION_ANALYST","order":4},{"koreanName":"인명 구조원","name":"LIFEGUARD","order":5},{"koreanName":"지역 전문가","name":"REGIONAL_EXPERT","order":6},{"koreanName":"공무원","name":"PUBLIC_OFFICIAL","order":7},{"koreanName":"직업군인","name":"PROFESSIONAL_SOLDIER","order":8},{"koreanName":"자원봉사자","name":"VOLUNTEER","order":9},{"koreanName":"사회복지사","name":"SOCIAL_WORKER","order":10},{"koreanName":"응급구조사","name":"PARAMEDIC","order":11},{"koreanName":"요양보호사","name":"CAREGIVER","order":12},{"koreanName":"기타","name":"ETC","order":13}]}]}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_25"><a class="link" href="#_response_fields_25">Response fields</a></h4>
+<h4 id="_response_fields_26"><a class="link" href="#_response_fields_26">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -7916,24 +6158,21 @@ Content-Length: 32931
 <div class="sect2">
 <h3 id="_직업_등록_및_수정"><a class="link" href="#_직업_등록_및_수정">직업 등록 및 수정</a></h3>
 <div class="sect3">
-<h4 id="_request_37"><a class="link" href="#_request_37">Request</a></h4>
+<h4 id="_request_38"><a class="link" href="#_request_38">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/users/1/jobs HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibGFja2RvZyIsImF1dGgiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYmxhY2tkb2dAYmxhY2tkb2cuY29tIiwiZXhwIjoxNjc3NTE2MTk0fQ.vREr5l-2vzr962PAToOT3mGjOrn6HS3moFukH4fGO1OHLAciGoXZoMZ4NKFP_Kqr8YNCO0rXYh2rDVUWYtmQIg
-Content-Length: 67
+Content-Length: 56
 Host: localhost:8080
 
-{
-  "jobGroup" : "DEVELOPMENT",
-  "jobName" : "BACKEND_DEVELOPER"
-}</code></pre>
+{"jobGroup":"DEVELOPMENT","jobName":"BACKEND_DEVELOPER"}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_header_37"><a class="link" href="#_request_header_37">Request Header</a></h4>
+<h4 id="_request_header_38"><a class="link" href="#_request_header_38">Request Header</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -7958,9 +6197,9 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_path_parameter_14"><a class="link" href="#_path_parameter_14">Path Parameter</a></h4>
+<h4 id="_path_parameter_15"><a class="link" href="#_path_parameter_15">Path Parameter</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. /api/users/{userId}/jobs</caption>
+<caption class="title">Table 16. /api/users/{userId}/jobs</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -8015,7 +6254,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_response_39"><a class="link" href="#_response_39">Response</a></h4>
+<h4 id="_response_40"><a class="link" href="#_response_40">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -8023,23 +6262,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 210
+Content-Length: 161
 
-{
-  "userId" : 1,
-  "job" : {
-    "jobGroupKoreanName" : "개발",
-    "jobGroupName" : "DEVELOPMENT",
-    "jobNameKoreanName" : "백엔드 개발자",
-    "jobName" : "BACKEND_DEVELOPER",
-    "order" : 5
-  }
-}</code></pre>
+{"userId":1,"job":{"jobGroupKoreanName":"개발","jobGroupName":"DEVELOPMENT","jobNameKoreanName":"백엔드 개발자","jobName":"BACKEND_DEVELOPER","order":5}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_26"><a class="link" href="#_response_fields_26">Response fields</a></h4>
+<h4 id="_response_fields_27"><a class="link" href="#_response_fields_27">Response fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -8105,8 +6335,8 @@ Content-Length: 210
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.8.1<br>
-Last updated 2023-03-13 13:22:27 +0900
+Version 0.9.9<br>
+Last updated 2023-03-14 15:39:44 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

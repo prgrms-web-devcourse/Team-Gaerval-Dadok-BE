@@ -34,6 +34,9 @@ import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.testutil.JobObjectProvider;
 import com.dadok.gaerval.testutil.UserObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 @WithMockCustomOAuth2LoginUser(userId = 1L)
 @WebMvcTest(controllers = UserController.class)
@@ -96,7 +99,44 @@ class UserControllerSliceTest extends ControllerSliceTest {
 					)
 
 				)
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.responseFields(
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("user Id"),
+						fieldWithPath("name").type(JsonFieldType.STRING).optional().description("유저 이름. 실명"),
+						fieldWithPath("nickname").type(JsonFieldType.STRING).optional().description("유저 닉네임"),
+						fieldWithPath("oauthNickname").type(JsonFieldType.STRING).description("oauth를 통해 가입한 유저 닉네임"),
+
+						fieldWithPath("email").type(JsonFieldType.STRING).optional().description("유저 이메일"),
+						fieldWithPath("profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
+						fieldWithPath("gender").type(JsonFieldType.STRING).description("성별 영어명 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.GENDER)
+						),
+						fieldWithPath("authProvider").type(JsonFieldType.STRING).description("OAuth 제공자"),
+
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("직업"),
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+							.optional()
+							.description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+
+					.build()
+				)))
+		;
 
 		//then
 		verify(userService).getUserDetail(userId);
@@ -151,7 +191,36 @@ class UserControllerSliceTest extends ControllerSliceTest {
 					)
 
 				)
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(parameterWithName("userId").description("user Id"))
+					.responseFields(
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("user Id"),
+						fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
+						fieldWithPath("gender").type(JsonFieldType.STRING).optional().description("성별 영어명 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.GENDER)
+						),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("직업"),
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING).description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+					.build()
+				)))
+		;
 
 		//then
 		verify(userService).getUserProfile(userId);
@@ -224,7 +293,50 @@ class UserControllerSliceTest extends ControllerSliceTest {
 					)
 
 				)
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(parameterWithName("userId").description("userId. 본인이 아닌 사람이 요청하면 403"))
+
+					.requestFields(
+						fieldWithPath("jobGroup").description("직군 영어명. 대문자로 요청 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP))
+							.attributes(
+								constrainsAttribute(UserJobChangeRequest.class, "jobGroup")
+							),
+						fieldWithPath("jobName").description("직업 영어명. 대문자로 요청 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
+							.attributes(
+								constrainsAttribute(UserJobChangeRequest.class, "jobName")
+							)
+					)
+
+					.responseFields(
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("요청 user Id"),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("등록된 직군, 직업 정보"),
+
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING)
+							.description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING)
+							.description("직군 영어명 :  " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING)
+							.optional()
+							.description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+					.build()
+				)))
+		;
 
 		//then
 		verify(userService).changeJob(userId, userJobChangeRequest);
@@ -316,6 +428,55 @@ class UserControllerSliceTest extends ControllerSliceTest {
 
 				)
 			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
+						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
+					)
+
+					.requestFields(
+						fieldWithPath("nickname").type(JsonFieldType.STRING)
+							.description("nickname. 특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용")
+							.attributes(
+								constrainsAttribute(UserChangeProfileRequest.class, "nickname")
+							),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).optional().description("직업"),
+						fieldWithPath("job.jobGroup").type(JsonFieldType.STRING).optional().description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).optional().description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
+					)
+
+					.responseFields(
+						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("user Id"),
+						fieldWithPath("name").type(JsonFieldType.STRING).optional().description("유저 이름. 실명"),
+						fieldWithPath("nickname").type(JsonFieldType.STRING).optional().description("유저 닉네임"),
+						fieldWithPath("oauthNickname").type(JsonFieldType.STRING).description("oauth를 통해 가입한 유저 닉네임"),
+
+						fieldWithPath("email").type(JsonFieldType.STRING).optional().description("유저 이메일"),
+						fieldWithPath("profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
+						fieldWithPath("gender").type(JsonFieldType.STRING).description("성별 영어명 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.GENDER)
+						),
+						fieldWithPath("authProvider").type(JsonFieldType.STRING).description("OAuth 제공자"),
+
+						fieldWithPath("job").type(JsonFieldType.OBJECT).description("직업"),
+						fieldWithPath("job.jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
+						fieldWithPath("job.jobGroupName").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobNameKoreanName").type(JsonFieldType.STRING).description("직업 한글명"),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+					.build()
+				)))
 			.andExpect(jsonPath("userId").value(1L))
 			.andExpect(jsonPath("name").doesNotExist())
 			.andExpect(jsonPath("nickname").value(changeNickname))
@@ -397,7 +558,38 @@ class UserControllerSliceTest extends ControllerSliceTest {
 
 				)
 			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
+						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
+					)
 
+					.requestFields(
+						fieldWithPath("nickname").type(JsonFieldType.STRING)
+							.description("nickname. 특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용")
+							.attributes(
+								constrainsAttribute(UserChangeProfileRequest.class, "nickname")
+							),
+						fieldWithPath("job").type(JsonFieldType.OBJECT).optional().description("직업"),
+						fieldWithPath("job.jobGroup").type(JsonFieldType.STRING).optional().description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("job.jobName").type(JsonFieldType.STRING).optional().description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME))
+					)
+
+					.responseFields(
+						fieldWithPath("status").type(JsonFieldType.NUMBER).description("httpStatus"),
+						fieldWithPath("message").type(JsonFieldType.STRING).description("에러 메시지"),
+						fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 시간"),
+						fieldWithPath("errors").type(JsonFieldType.STRING).optional().description("에러 필드들"),
+						fieldWithPath("code").type(JsonFieldType.STRING).description("에러 코드"),
+						fieldWithPath("path").type(JsonFieldType.STRING).description("요청 URL")
+					)
+					.build()
+				)))
 		;
 		//then
 		verify(userService).changeProfile(userId, request);
@@ -441,7 +633,29 @@ class UserControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("isExists").description("유저 닉네임 존재 여부. 존재하면 true 아니면 false")
 					)
 				)
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
+						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
+					)
+					.requestParameters(parameterWithName("nickname").description(
+							"존재 여부 확인할 nickname. \n 특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용")
+						.attributes(key("constraints").value("""
+							Must match the regular expression \n
+							`^[가-힣0-9a-zA-Z]{2,10}$`\s
+									
+							Must not be blank""")
+						)
+					)
+					.responseFields(
+						fieldWithPath("isExists").description("유저 닉네임 존재 여부. 존재하면 true 아니면 false")
+					)
+					.build()
+				)))
+		;
 
 		//then
 		verify(userService).existsNickname(nickname);
@@ -477,7 +691,23 @@ class UserControllerSliceTest extends ControllerSliceTest {
 							)
 					)
 				)
-			);
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION),
+						headerWithName(HttpHeaders.ACCEPT).description(ACCEPT_JSON_DESCRIPTION)
+					)
+					.requestFields(
+						fieldWithPath("nickname").type(JsonFieldType.STRING)
+							.description("변경할 이름. ")
+							.attributes(constrainsAttribute(UserChangeProfileRequest.class, "nickname")
+							)
+					)
+					.build()
+				)))
+		;
 
 		//then
 		verify(userService).changeNickname(userId, nickname);

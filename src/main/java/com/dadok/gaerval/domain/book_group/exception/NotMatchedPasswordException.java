@@ -5,15 +5,8 @@ import com.dadok.gaerval.global.error.exception.BusinessException;
 
 public class NotMatchedPasswordException extends BusinessException {
 
-	private final ErrorCode errorCode = ErrorCode.NOT_MATCHED_PASSWORD;
-
 	public NotMatchedPasswordException() {
 		super(ErrorCode.NOT_MATCHED_PASSWORD);
-	}
-
-	@Override
-	public String getMessage() {
-		return errorCode.getMessage();
 	}
 
 }

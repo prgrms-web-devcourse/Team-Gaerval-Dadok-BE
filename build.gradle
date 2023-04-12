@@ -11,10 +11,11 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
     id 'jacoco'
+    id 'com.epages.restdocs-api-spec' version '0.16.4'
 }
 
 group = 'com.dadok'
-version = '0.8.1'
+version = '0.9.9'
 sourceCompatibility = '17'
 
 
@@ -90,6 +91,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation 'com.google.guava:guava:31.1-jre'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.11.0'
+
+
+    testImplementation 'com.epages:restdocs-api-spec:0.16.4'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.16.4'
 }
 
 def excludesValues = [
@@ -241,7 +248,6 @@ asciidoctor {
     baseDirFollowsSourceFile()
 }
 
-
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
     println('-------------------------------------------------------')
@@ -252,14 +258,22 @@ task copyDocument(type: Copy) {
     println()
 }
 
-task copyHtml(type: Copy) {
-    dependsOn bootJar
-    from file("${buildDir}/docs/asciidoc")
-    into file("${buildDir}/rouces/main/static/docs")
+openapi3 {
+    servers = [
+            { url = 'http://localhost:8080' },
+    ]
+    title = 'Dadok API Document'
+    description = 'Dadok openApi3'
+    version = "${project.version}"
+    format = 'yaml'
 }
 
-build {
-    dependsOn copyDocument
+task copyOpenApi3(type: Copy) {
+    dependsOn("openapi3")
+    println("run copyOpenApi3")
+    delete("src/main/resources/static/swagger-ui/openapi3.yaml") // 기존 OAS 파일 삭제
+    from("$buildDir/api-spec/openapi3.yaml") // 복제할 OAS 파일 지정
+    into("src/main/resources/static/openapi3/") // 타겟 디렉터리로 파일 복제
 }
 
 // 1. logback-spring.xml 파일이 있는 경로를 설정
@@ -272,22 +286,33 @@ task copyLogbackConfig(type: Copy) {
     include 'logback-spring.xml'
 }
 
+
+build {
+    dependsOn asciidoctor
+    dependsOn copyDocument
+    dependsOn copyLogbackConfig
+    dependsOn copyOpenApi3
+}
+
 bootJar {
     dependsOn asciidoctor
+    dependsOn copyDocument
     dependsOn copyLogbackConfig
+    dependsOn copyOpenApi3
 
     println("run bootJar")
+    println("${asciidoctor.outputDir}")
+
     copy {
         from("${asciidoctor.outputDir}/html5") {
             into "$buildDir/resources/main/static/docs"
-            into 'static/docs'
         }
+    }
+    copy {
+        from file("${buildDir}/docs/asciidoc")
+        into file("${buildDir}/resources/main/static/docs")
     }
 
-    copy {
-        from("static/docs") {
-            into "$buildDir/resources/main/static/docs"
-        }
-    }
     archiveName = version + ".dadok.jar"
+//    delete fileTree(dir: "${buildDir}/libs", include: "*plain.jar")
 }

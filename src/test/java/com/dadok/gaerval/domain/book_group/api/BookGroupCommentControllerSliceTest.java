@@ -34,6 +34,9 @@ import com.dadok.gaerval.global.util.QueryDslUtil;
 import com.dadok.gaerval.global.util.SortDirection;
 import com.dadok.gaerval.testutil.BookGroupCommentObjectProvider;
 import com.dadok.gaerval.testutil.WithMockCustomOAuth2LoginUser;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 @WebMvcTest(controllers = BookGroupCommentController.class)
 @WithMockCustomOAuth2LoginUser
@@ -81,6 +84,25 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 						)
 				)
 			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 ID")
+					)
+					.requestFields(
+						fieldWithPath("parentCommentId").type(JsonFieldType.NUMBER)
+							.optional()
+							.description("부모댓글 id (없으면 null) null이면 부모댓글"),
+						fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용")
+							.attributes(
+								constrainsAttribute(BookGroupCommentCreateRequest.class, "comment")
+							)
+					)
+					.build())))
 		;
 	}
 
@@ -152,7 +174,56 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookGroupComments[].nickname").type(JsonFieldType.STRING).description("닉네임"),
 					fieldWithPath("bookGroupComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN)
 						.description("댓글 본인 여부")
-				)));
+				)))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 ID")
+					)
+					.requestParameters(
+						parameterWithName("groupCommentCursorId").description("커서 id가 없을 경우 정렬 순서에 따라 결정").optional(),
+						parameterWithName("pageSize").description("요청 데이터 개수 default : 10")
+							.optional()
+							.attributes(
+								constrainsAttribute(BookGroupCommentSearchRequest.class, "pageSize")
+							),
+						parameterWithName("sortDirection").description("정렬 순서. default : DESC")
+							.optional()
+							.description("정렬 방식 : " +
+								generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
+							)
+					)
+					.responseFields(
+						fieldWithPath("count").description("댓글 갯수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("bookGroup.isPublic").description("모임 공개 여부")
+							.optional()
+							.type(JsonFieldType.BOOLEAN),
+						fieldWithPath("bookGroupComments[]").type(JsonFieldType.ARRAY).description("댓글 목록"),
+						fieldWithPath("bookGroupComments[].commentId").type(JsonFieldType.NUMBER).description("댓글 ID"),
+						fieldWithPath("bookGroupComments[].contents").type(JsonFieldType.STRING).description("댓글 내용"),
+						fieldWithPath("bookGroupComments[].bookGroupId").type(JsonFieldType.NUMBER)
+							.description("모임 ID"),
+						fieldWithPath("bookGroupComments[].parentCommentId").type(JsonFieldType.NUMBER)
+							.description("부모 댓글 ID"),
+						fieldWithPath("bookGroupComments[].userId").type(JsonFieldType.NUMBER).description("사용자 ID"),
+						fieldWithPath("bookGroupComments[].userProfileImage").type(JsonFieldType.STRING)
+							.description("사용자 프로필 이미지"),
+						fieldWithPath("bookGroupComments[].createdAt").type(JsonFieldType.STRING).description("생성일"),
+						fieldWithPath("bookGroupComments[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
+						fieldWithPath("bookGroupComments[].nickname").type(JsonFieldType.STRING).description("닉네임"),
+						fieldWithPath("bookGroupComments[].writtenByCurrentUser").type(JsonFieldType.BOOLEAN)
+							.description("댓글 본인 여부")
+					)
+					.build())))
+
+		;
 
 		verify(bookGroupCommentService).findAllBookGroupCommentsByGroup(eq(request), any(), any());
 	}
@@ -193,7 +264,25 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 							constrainsAttribute(BookGroupCommentUpdateRequest.class, "comment")
 						)
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 Id"),
+						parameterWithName("commentId").description("모임 댓글 Id")
+					)
+					.requestFields(
+						fieldWithPath("comment").type(JsonFieldType.STRING).description("수정할 댓글 내용")
+							.attributes(
+								constrainsAttribute(BookGroupCommentUpdateRequest.class, "comment")
+							)
+					)
+					.build())))
+		;
 
 	}
 
@@ -223,7 +312,20 @@ class BookGroupCommentControllerSliceTest extends ControllerSliceTest {
 					parameterWithName("groupId").description("모임 ID"),
 					parameterWithName("commentId").description("댓글 ID")
 				)
-			));
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.pathParameters(
+						parameterWithName("groupId").description("모임 ID"),
+						parameterWithName("commentId").description("댓글 ID")
+					)
+					.build()
+				)))
+		;
 
 	}
 }

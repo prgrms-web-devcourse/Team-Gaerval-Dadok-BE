@@ -14,7 +14,7 @@ public record BookSearchRequest(
 ) {
 	public BookSearchRequest(Integer page, Integer pageSize, String query) {
 		this.page = (page == null) ? 1 : page;
-		this.pageSize = (pageSize == null) ? 10 : page;
+		this.pageSize = (pageSize == null) ? 10 : pageSize;
 		this.query = query;
 	}
 }

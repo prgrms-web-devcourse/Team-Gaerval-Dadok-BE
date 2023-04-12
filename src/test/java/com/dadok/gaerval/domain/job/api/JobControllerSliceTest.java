@@ -20,6 +20,9 @@ import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.service.JobService;
 import com.dadok.gaerval.testutil.JobObjectProvider;
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
+import com.epages.restdocs.apispec.ResourceDocumentation;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 
 @WebMvcTest(controllers = JobController.class)
 class JobControllerSliceTest extends ControllerSliceTest {
@@ -51,18 +54,40 @@ class JobControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("jobGroups[]").type(JsonFieldType.ARRAY).description("직군 직업 목록"),
 					fieldWithPath("jobGroups[].name").type(JsonFieldType.STRING).description("직군 영어명 "
 						+ "\n\n "
-						 + DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+						+ DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
 					fieldWithPath("jobGroups[].koreanName").type(JsonFieldType.STRING).description("직군 한글명"),
 
 					fieldWithPath("jobGroups[].jobs").type(JsonFieldType.ARRAY).description("직군에 속해있는 직업 목록"),
 					fieldWithPath("jobGroups[].jobs[].koreanName").type(JsonFieldType.STRING).description("직업 한글명"),
 					fieldWithPath("jobGroups[].jobs[].name").type(JsonFieldType.STRING).description("직업 영어명 "
 						+ "\n\n "
-						 + DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						+ DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
 
 					fieldWithPath("jobGroups[].jobs[].order").type(JsonFieldType.NUMBER).description("정렬 순서")
 				)
 			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.responseFields(
+						fieldWithPath("jobGroups[]").type(JsonFieldType.ARRAY).description("직군 직업 목록"),
+						fieldWithPath("jobGroups[].name").type(JsonFieldType.STRING).description("직군 영어명 "
+							+ "\n\n "
+							+ DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+						fieldWithPath("jobGroups[].koreanName").type(JsonFieldType.STRING).description("직군 한글명"),
+
+						fieldWithPath("jobGroups[].jobs").type(JsonFieldType.ARRAY).description("직군에 속해있는 직업 목록"),
+						fieldWithPath("jobGroups[].jobs[].koreanName").type(JsonFieldType.STRING).description("직업 한글명"),
+						fieldWithPath("jobGroups[].jobs[].name").type(JsonFieldType.STRING).description("직업 영어명 "
+							+ "\n\n "
+							+ DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+
+						fieldWithPath("jobGroups[].jobs[].order").type(JsonFieldType.NUMBER).description("정렬 순서")
+					)
+					.build())))
 		;
 	}
 
