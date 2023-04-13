@@ -46,7 +46,7 @@ public class DefaultBookCommentService implements BookCommentService {
 		boolean existsComment = bookCommentRepository.existsByBookIdAndUserId(bookId, userId);
 		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
 
-		if(!existsBookmark) {
+		if (!existsBookmark) {
 			throw new NotMarkedBookException(ErrorCode.INVALID_COMMENT_NOT_BOOKMARK);
 		}
 		if (existsComment) {
@@ -82,7 +82,7 @@ public class DefaultBookCommentService implements BookCommentService {
 		BookCommentUpdateRequest bookCommentUpdateRequest) {
 		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
 
-		if(!existsBookmark) {
+		if (!existsBookmark) {
 			throw new NotMarkedBookException(ErrorCode.INVALID_COMMENT_NOT_BOOKMARK);
 		}
 		return bookCommentRepository.updateBookComment(bookId, userId, bookCommentUpdateRequest);

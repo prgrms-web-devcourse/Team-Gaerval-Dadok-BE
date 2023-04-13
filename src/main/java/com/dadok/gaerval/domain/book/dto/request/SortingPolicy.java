@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SortingPolicy implements EnumType {
 
-	ACCURACY("accuracy","정확도 순"),
-	LATEST("latest","최신순");
+	ACCURACY("accuracy", "정확도 순"),
+	LATEST("latest", "최신순");
 
 	private final String name;
 	private final String description;

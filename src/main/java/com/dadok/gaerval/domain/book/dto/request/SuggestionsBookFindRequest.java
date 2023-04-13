@@ -20,7 +20,8 @@ public record SuggestionsBookFindRequest(
 	SortDirection sortDirection
 ) {
 
-	public SuggestionsBookFindRequest(JobGroup jobGroup, Integer pageSize, Long bookCursorId, SortDirection sortDirection) {
+	public SuggestionsBookFindRequest(JobGroup jobGroup, Integer pageSize, Long bookCursorId,
+		SortDirection sortDirection) {
 		this.jobGroup = jobGroup;
 		this.pageSize = pageSize == null ? 10 : pageSize;
 		this.bookCursorId = bookCursorId;

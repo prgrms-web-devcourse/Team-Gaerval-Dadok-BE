@@ -451,6 +451,29 @@ include::{snippets}/book-controller-slice-test/find-book_success/http-response.a
 
 include::{snippets}/book-controller-slice-test/find-book_success/response-fields.adoc[]
 
+=== 최근 책 검색어
+
+==== Request
+
+include::{snippets}/book-controller-slice-test/test-find-recent-query/http-request.adoc[]
+
+==== Request Param
+
+include::{snippets}/book-controller-slice-test/test-find-recent-query/request-parameters.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-controller-slice-test/test-find-recent-query/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/book-controller-slice-test/test-find-recent-query/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/book-controller-slice-test/test-find-recent-query/response-fields.adoc[]
+
+
 === 책 상세 정보
 
 ==== Request

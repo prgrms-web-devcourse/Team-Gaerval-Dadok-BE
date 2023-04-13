@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,11 +13,13 @@ import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SortingPolicy;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
 import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.domain.book.repository.BookRecentSearchRepository;
 import com.dadok.gaerval.domain.book.repository.BookRepository;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfItemRepository;
 import com.dadok.gaerval.global.config.externalapi.ExternalBookApiOperations;
@@ -36,10 +39,12 @@ public class DefaultBookService implements BookService {
 	private final BookRepository bookRepository;
 	private final BookshelfItemRepository bookshelfItemRepository;
 	private final BookMapper bookMapper;
+	private final ApplicationEventPublisher eventPublisher;
+	private final BookRecentSearchRepository bookRecentSearchRepository;
 
-	@Override
 	@Transactional
-	public BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest) {
+	@Override
+	public BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest, Long userId) {
 
 		if (StringUtils.isBlank(bookSearchRequest.query()) || !StringUtils.isAlphanumericSpace(
 			bookSearchRequest.query())) {
@@ -47,6 +52,8 @@ public class DefaultBookService implements BookService {
 			return new BookResponses(bookSearchRequest.page(), bookSearchRequest.pageSize(), true, 0, 0,
 				Collections.emptyList());
 		}
+
+		eventPublisher.publishEvent(new SaveKeywordEvent(userId, bookSearchRequest.query()));
 
 		return externalBookApiOperations.searchBooks(bookSearchRequest.query(), bookSearchRequest.page(),
 			bookSearchRequest.pageSize(), SortingPolicy.ACCURACY.getName());
@@ -101,4 +108,8 @@ public class DefaultBookService implements BookService {
 		return bookshelfItemRepository.findBookshelfItemUsersByBook(bookId, userId, USER_VIEW_LIMIT);
 	}
 
+	@Override
+	public BookRecentSearchResponses findKeywordsByUserId(Long userId, Long limit) {
+		return bookRecentSearchRepository.findRecentSearches(userId, limit);
+	}
 }

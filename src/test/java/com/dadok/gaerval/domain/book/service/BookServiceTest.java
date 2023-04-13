@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
@@ -51,7 +52,8 @@ class BookServiceTest {
 	private BookMapper bookMapper;
 
 	@Mock
-	private ObjectMapper objectMapper;
+	private ApplicationEventPublisher eventPublisher;
+
 
 	@DisplayName("createBook - 도서를 저장하는데 성공한다.")
 	@Test
@@ -209,13 +211,12 @@ class BookServiceTest {
 		);
 
 		List<SearchBookResponse> expectedResponses = Collections.singletonList(searchBookResponse);
-
 		BookResponses bookResponses =  new BookResponses(1,10, true, 1, 1, expectedResponses);
 		given(externalBookApiOperations.searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName()))
 			.willReturn(bookResponses);
 
 		// when
-		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword));
+		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword), 1L);
 
 		// then
 		verify(externalBookApiOperations).searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
@@ -230,7 +231,7 @@ class BookServiceTest {
 	@ValueSource(strings = {"", " ", "!@#$", "키워드에@"})
 	void findAllByKeyword_WithInvalidKeyword_ReturnsEmptyList(String keyword) {
 		// when
-		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword));
+		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword), 1L);
 
 		// then
 		assertTrue(actualResponses.searchBookResponseList().isEmpty());
@@ -250,6 +251,6 @@ class BookServiceTest {
 
 		// when, then
 		assertThrows(BookApiNotAvailableException.class,
-			() -> defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword)));
+			() -> defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword),1L));
 	}
 }
