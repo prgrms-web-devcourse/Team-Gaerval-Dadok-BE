@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
@@ -47,6 +48,7 @@ public class BookshelfLike extends BaseTimeColumn {
 	private BookshelfLike(User user, Bookshelf bookshelf) {
 		CommonValidator.validateNotnull(bookshelf, "bookshelf");
 		CommonValidator.validateNotnull(user, "user");
+		validateNotOwner(user, bookshelf);
 		this.user = user;
 		this.bookshelf = bookshelf;
 		bookshelf.addBookShelfLike(this);
@@ -54,6 +56,12 @@ public class BookshelfLike extends BaseTimeColumn {
 
 	public static BookshelfLike create(User user, Bookshelf bookshelf) {
 		return new BookshelfLike(user, bookshelf);
+	}
+
+	private void validateNotOwner(User user, Bookshelf bookshelf) {
+		if (Objects.equals(bookshelf.getUser().getId(), user.getId())) {
+			throw new BookshelfUserNotMatchedException();
+		}
 	}
 
 	@Override

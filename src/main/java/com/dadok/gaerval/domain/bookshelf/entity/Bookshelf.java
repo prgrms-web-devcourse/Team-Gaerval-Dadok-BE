@@ -84,7 +84,7 @@ public class Bookshelf extends BaseTimeColumn {
 	}
 
 	public void addBookShelfLike(BookshelfLike bookshelfLike) {
-		CommonValidator.validateNotnull(bookshelfLike, "bookShelfItem");
+		CommonValidator.validateNotnull(bookshelfLike, "bookshelfLike");
 		bookshelfLikes.add(bookshelfLike);
 	}
 
@@ -95,12 +95,6 @@ public class Bookshelf extends BaseTimeColumn {
 
 	public void validateOwner(Long userId) {
 		if (!Objects.equals(userId, user.getId())) {
-			throw new BookshelfUserNotMatchedException();
-		}
-	}
-
-	public void validateNotOwner(Long userId) {
-		if (Objects.equals(userId, user.getId())) {
 			throw new BookshelfUserNotMatchedException();
 		}
 	}

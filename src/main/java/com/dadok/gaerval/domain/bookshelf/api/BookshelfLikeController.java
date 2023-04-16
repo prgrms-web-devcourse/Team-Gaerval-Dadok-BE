@@ -27,7 +27,7 @@ public class BookshelfLikeController {
 	 * </Pre>
 	 * @param bookshelfId
 	 * @param userPrincipal
-	 * @return
+	 * @return status : ok
 	 */
 	@PostMapping()
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
@@ -43,7 +43,7 @@ public class BookshelfLikeController {
 	 * </Pre>
 	 * @param bookshelfId
 	 * @param userPrincipal
-	 * @return
+	 * @return status : ok
 	 */
 	@DeleteMapping()
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
