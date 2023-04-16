@@ -42,6 +42,7 @@ import com.dadok.gaerval.domain.book_group.exception.ExceedLimitMemberException;
 import com.dadok.gaerval.domain.book_group.exception.ExpiredJoinGroupPeriodException;
 import com.dadok.gaerval.domain.book_group.exception.NotMatchedPasswordException;
 import com.dadok.gaerval.domain.bookshelf.exception.AlreadyContainBookshelfItemException;
+import com.dadok.gaerval.domain.bookshelf.exception.AlreadyExistsBookshelfLikeException;
 import com.dadok.gaerval.domain.bookshelf.exception.BookshelfUserNotMatchedException;
 import com.dadok.gaerval.global.config.security.exception.JwtAuthenticationException;
 import com.dadok.gaerval.global.error.ErrorCode;
@@ -382,10 +383,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return of(errorCode, request.getRequestURI());
 	}
 
-
 	@ExceptionHandler(NotMarkedBookException.class)
 	public ResponseEntity<ErrorResponse> handleBookNotMarkedException(
 		HttpServletRequest request, NotMarkedBookException e) {
+
+		ErrorCode errorCode = e.getErrorCode();
+		logInfo(e, request.getRequestURI());
+
+		return of(errorCode, request.getRequestURI());
+	}
+
+	@ExceptionHandler(AlreadyExistsBookshelfLikeException.class)
+	public ResponseEntity<ErrorResponse> handleAlreadyExistBookshelfLikeException(
+		HttpServletRequest request, AlreadyExistsBookshelfLikeException e) {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logInfo(e, request.getRequestURI());

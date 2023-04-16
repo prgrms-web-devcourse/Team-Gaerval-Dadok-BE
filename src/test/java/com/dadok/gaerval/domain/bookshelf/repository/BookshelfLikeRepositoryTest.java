@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
+import com.dadok.gaerval.domain.bookshelf.entity.BookshelfLike;
 import com.dadok.gaerval.domain.job.repository.JobRepository;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
@@ -42,6 +43,8 @@ class BookshelfLikeRepositoryTest {
 
 	private Bookshelf bookshelf;
 
+	private BookshelfLike bookshelfLike;
+
 	@BeforeEach
 	void setUp() {
 		authority = authorityRepository.save(Authority.create(Role.USER));
@@ -53,12 +56,25 @@ class BookshelfLikeRepositoryTest {
 
 		user.changeJob(job);
 		bookshelf = bookshelfRepository.save(Bookshelf.create(user));
+		bookshelfLike = BookshelfLike.create(user, bookshelf);
+		bookshelfLikeRepository.save(bookshelfLike);
 	}
 
 	@Test
 	@DisplayName("조회 - 책장과 사용자을 입력받아 entity 조회")
 	void findByUserIdAndBookshelfId() {
 		bookshelfLikeRepository.findByUserIdAndBookshelfId(user.getId(), bookshelf.getId());
+	}
+
+	@Test
+	void save() {
+		BookshelfLike newBookshelfLike = BookshelfLike.create(user, bookshelf);
+
+		System.out.println(bookshelfLike);
+		bookshelfLikeRepository.save(newBookshelfLike);
+
+		System.out.println(bookshelfLike);
+
 	}
 
 }

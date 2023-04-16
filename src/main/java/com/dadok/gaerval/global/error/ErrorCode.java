@@ -36,6 +36,8 @@ public enum ErrorCode {
 	ALREADY_CONTAIN_BOOKSHELF_ITEM(HttpStatus.BAD_REQUEST, "BS1", "이미 책장에 포함된 아아템입니다."),
 	BOOKSHELF_USER_NOT_MATCHED(HttpStatus.UNAUTHORIZED, "BS2", "해당 책장에 올바르지 않은 사용자 접근입니다."),
 
+	ALREADY_EXISTS_BOOKSHELF_LIKE(HttpStatus.BAD_REQUEST, "BSL1", "해당 책장에 대한 좋아요가 이미 존재합니다. 책장 id : %s"),
+
 	// Book
 	BOOK_DATA_INVALID(HttpStatus.INTERNAL_SERVER_ERROR, "B1", "잘못된 도서 데이터 형식입니다."),
 	BOOK_API_NOT_AVAILABLE(HttpStatus.INTERNAL_SERVER_ERROR, "B2", "도서 API를 호출할 수 없습니다."),
@@ -72,8 +74,6 @@ public enum ErrorCode {
 		"유효하지 않은 앱키나 액세스 토큰으로 요청한 경우, 등록된 앱 정보와 호출된 앱 정보가 불일치 하는 경우(해결 방법: 앱키 확인 또는 토큰 갱신, 개발자 사이트에 등록된 앱 정보 확인)"),
 	KAKAO_TIMEOUT(HttpStatus.REQUEST_TIMEOUT, "603", "카카오 플랫폼 내부에서 요청 처리 중 타임아웃이 발생한 경우"),
 	KAKAO_SERVICE_CHECK(HttpStatus.SERVICE_UNAVAILABLE, "9798", "서비스 점검중");
-
-
 
 	private final HttpStatus status;
 

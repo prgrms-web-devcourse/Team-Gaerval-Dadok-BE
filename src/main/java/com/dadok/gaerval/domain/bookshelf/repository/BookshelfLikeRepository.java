@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfLike;
 
-public interface BookshelfLikeRepository extends JpaRepository<BookshelfLike, Long> {
+public interface BookshelfLikeRepository extends JpaRepository<BookshelfLike, Long>, BookshelfLikeSupport {
 
 	Optional<BookshelfLike> findByUserIdAndBookshelfId(Long userId, Long bookshelfId);
 }

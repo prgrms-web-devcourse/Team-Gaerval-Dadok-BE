@@ -1,8 +1,10 @@
 package com.dadok.gaerval.domain.bookshelf.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -56,7 +58,7 @@ public class Bookshelf extends BaseTimeColumn {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private final List<BookshelfLike> bookshelfLikes = new ArrayList<>(); //set 덮어쓰기?
+	private final Set<BookshelfLike> bookshelfLikes = new HashSet<>(); //set 덮어쓰기?
 
 	@Column(name = "job_id", nullable = true)
 	private Long jobId;
@@ -93,6 +95,12 @@ public class Bookshelf extends BaseTimeColumn {
 
 	public void validateOwner(Long userId) {
 		if (!Objects.equals(userId, user.getId())) {
+			throw new BookshelfUserNotMatchedException();
+		}
+	}
+
+	public void validateNotOwner(Long userId) {
+		if (Objects.equals(userId, user.getId())) {
 			throw new BookshelfUserNotMatchedException();
 		}
 	}
