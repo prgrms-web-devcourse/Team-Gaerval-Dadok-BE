@@ -54,6 +54,10 @@ public class Bookshelf extends BaseTimeColumn {
 	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.ALL, orphanRemoval = true)
 	private final List<BookshelfItem> bookshelfItems = new ArrayList<>();
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	private final List<BookshelfLike> bookshelfLikes = new ArrayList<>(); //set 덮어쓰기?
+
 	@Column(name = "job_id", nullable = true)
 	private Long jobId;
 
@@ -75,6 +79,11 @@ public class Bookshelf extends BaseTimeColumn {
 			throw new AlreadyContainBookshelfItemException();
 		}
 		bookshelfItems.add(bookshelfItem);
+	}
+
+	public void addBookShelfLike(BookshelfLike bookshelfLike) {
+		CommonValidator.validateNotnull(bookshelfLike, "bookShelfItem");
+		bookshelfLikes.add(bookshelfLike);
 	}
 
 	public void changeIsPublic(Boolean isPublic) {

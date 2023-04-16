@@ -9,15 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.global.common.JacocoExcludeGenerated;
 import com.dadok.gaerval.global.common.entity.BaseTimeColumn;
+import com.dadok.gaerval.global.util.CommonValidator;
 
-import io.jsonwebtoken.lang.Assert;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,15 +40,16 @@ public class BookshelfLike extends BaseTimeColumn {
 	@JoinColumn(nullable = false, name = "user_id")
 	private User user;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "bookshelf_id")
 	private Bookshelf bookshelf;
 
 	private BookshelfLike(User user, Bookshelf bookshelf) {
-		Assert.notNull(bookshelf, "BookshelfLike의 bookshelf는 null일 수 없습니다.");
-		Assert.notNull(user, "BookshelfLike의 user은 null일 수 없습니다.");
+		CommonValidator.validateNotnull(bookshelf, "bookshelf");
+		CommonValidator.validateNotnull(user, "user");
 		this.user = user;
 		this.bookshelf = bookshelf;
+		bookshelf.addBookShelfLike(this);
 	}
 
 	public static BookshelfLike create(User user, Bookshelf bookshelf) {
