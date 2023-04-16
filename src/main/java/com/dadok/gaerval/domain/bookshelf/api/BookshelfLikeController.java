@@ -14,7 +14,7 @@ import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/bookshelf/{bookshelfId}/like")
+@RequestMapping("/api/bookshelves/{bookshelfId}/like")
 @RestController
 @RequiredArgsConstructor
 public class BookshelfLikeController {

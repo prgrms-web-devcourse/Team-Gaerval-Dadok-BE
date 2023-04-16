@@ -427,6 +427,42 @@ include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-us
 
 include::{snippets}/bookshelf-controller-slice-test/find-summary-bookshelf-by-user-id/response-fields.adoc[]
 
+=== 책장 좋아요 추가
+
+==== Request
+
+include::{snippets}/bookshelf-like-controller-slice-test/create-like/http-request.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/bookshelf-like-controller-slice-test/create-like/path-parameters.adoc[]
+
+==== Request Header
+
+include::{snippets}/bookshelf-like-controller-slice-test/create-like/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/bookshelf-like-controller-test/create-like/http-response.adoc[]
+
+=== 책장 좋아요 취소
+
+==== Request
+
+include::{snippets}/bookshelf-like-controller-slice-test/delete-like/http-request.adoc[]
+
+==== Path Parameter
+
+include::{snippets}/bookshelf-like-controller-slice-test/delete-like/path-parameters.adoc[]
+
+==== Request Header
+
+include::{snippets}/bookshelf-like-controller-slice-test/delete-like/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/bookshelf-like-controller-test/delete-like/http-response.adoc[]
+
 == Book - 책
 
 === 책 검색
@@ -472,7 +508,6 @@ include::{snippets}/book-controller-slice-test/test-find-recent-query/http-respo
 ==== Response fields
 
 include::{snippets}/book-controller-slice-test/test-find-recent-query/response-fields.adoc[]
-
 
 === 책 상세 정보
 
@@ -888,13 +923,14 @@ include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-c
 
 include::{snippets}/book-group-comment-controller-slice-test/delete-book-group-comment_-should-return-ok/path-parameters.adoc[]
 
-
 === 모임 검색
 
 ==== Request
+
 include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/http-request.adoc[]
 
 ==== Request Header
+
 include::{snippets}/book-group-controller-slice-test/find-all-book-groups-by-query/request-headers.adoc[]
 
 ==== Request Parameter

@@ -58,7 +58,7 @@ public class Bookshelf extends BaseTimeColumn {
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "bookshelf", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private final Set<BookshelfLike> bookshelfLikes = new HashSet<>(); //set 덮어쓰기?
+	private final Set<BookshelfLike> bookshelfLikes = new HashSet<>();
 
 	@Column(name = "job_id", nullable = true)
 	private Long jobId;

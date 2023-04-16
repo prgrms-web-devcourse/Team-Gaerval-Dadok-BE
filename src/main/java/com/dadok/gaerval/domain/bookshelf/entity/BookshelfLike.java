@@ -22,8 +22,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "Bookshelf_likes",
+@Entity(name = "bookshelf_likes")
+@Table(
 	uniqueConstraints = {
 		@UniqueConstraint(name = "bookshelf_id_user_id_unique_key",
 			columnNames = {"bookshelf_id", "user_id"})
