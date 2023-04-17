@@ -2,6 +2,8 @@ drop table if exists book_comments cascade;
 
 drop table if exists bookshelf_item cascade;
 
+drop table if exists bookshelf_likes cascade;
+
 drop table if exists bookshelves cascade;
 
 drop table if exists group_comments cascade;
@@ -173,6 +175,19 @@ create table if not exists  bookshelf_item
     constraint FKmxi0cndspoavkel5ei7i3l4pm
         foreign key (book_id) references books (id)
 );
+
+create table if not exists  bookshelf_likes
+(
+    id           bigint auto_increment
+    primary key,
+    created_at   datetime(6) not null,
+    modified_at  datetime(6) null,
+    user_id      bigint      not null,
+    bookshelf_id bigint      not null,
+    foreign key (bookshelf_id) references bookshelves (id),
+    foreign key (user_id) references users (id),
+    unique (user_id, bookshelf_id)
+    );
 
 create index job_id_index
     on bookshelves (job_id);
