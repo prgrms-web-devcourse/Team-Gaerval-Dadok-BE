@@ -49,7 +49,7 @@ class DefaultBookshelfLikeServiceTest {
 			.willReturn(user);
 		given(bookshelfService.getById(2L))
 			.willReturn(bookshelf);
-		given(bookshelfLikeRepository.existsByBookshelfIdAndUserId(2L, 1L))
+		given(bookshelfLikeRepository.existsLike(2L, 1L))
 			.willReturn(Boolean.FALSE);
 
 		// When
@@ -69,7 +69,7 @@ class DefaultBookshelfLikeServiceTest {
 			.willReturn(user);
 		given(bookshelfService.getById(2L))
 			.willReturn(bookshelf);
-		given(bookshelfLikeRepository.existsByBookshelfIdAndUserId(2L, 1L))
+		given(bookshelfLikeRepository.existsLike(2L, 1L))
 			.willReturn(Boolean.TRUE);
 
 		// When // Then

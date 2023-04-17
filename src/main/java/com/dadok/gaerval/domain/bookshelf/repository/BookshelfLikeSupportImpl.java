@@ -12,7 +12,7 @@ public class BookshelfLikeSupportImpl implements BookshelfLikeSupport {
 	private final JPAQueryFactory query;
 
 	@Override
-	public boolean existsByBookshelfIdAndUserId(Long bookshelfId, Long userId) {
+	public boolean existsLike(Long bookshelfId, Long userId) {
 		Integer fetchOne = query.selectOne().from(bookshelfLike)
 			.where(bookshelfLike.bookshelf.id.eq(bookshelfId), bookshelfLike.user.id.eq(userId))
 			.fetchFirst();

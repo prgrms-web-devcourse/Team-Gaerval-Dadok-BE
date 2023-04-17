@@ -28,7 +28,7 @@ public class DefaultBookshelfLikeService implements BookshelfLikeService {
 	public void createBookshelfLike(Long userId, Long bookshelfId) {
 		User user = userService.getById(userId);
 		Bookshelf bookshelf = bookshelfService.getById(bookshelfId);
-		if (bookshelfLikeRepository.existsByBookshelfIdAndUserId(bookshelfId, userId)) {
+		if (bookshelfLikeRepository.existsLike(bookshelfId, userId)) {
 			throw new AlreadyExistsBookshelfLikeException(bookshelf.getId());
 		}
 		bookshelfLikeRepository.save(BookshelfLike.create(user, bookshelf));

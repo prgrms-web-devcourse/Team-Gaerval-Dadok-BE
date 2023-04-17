@@ -25,7 +25,6 @@ class BookshelfLikeRepositoryTest {
 	@Test
 	@DisplayName("책장과 사용자를 입력받아 존재 여부 확인")
 	void existsByBookshelfIdAndUserId() {
-		bookshelfLikeRepository.existsByBookshelfIdAndUserId(2L, 4L);
+		bookshelfLikeRepository.existsLike(2L, 4L);
 	}
-
 }
