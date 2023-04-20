@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoggingAspect {
 
-	@Before("@annotation(com.dadok.gaerval.global.common.logging.LogHttpRequests) && execution(public * *(..)))")
+	@Before("@annotation(com.dadok.gaerval.global.common.logging.LogMethodInfo) && execution(public * *(..)))")
 	public void logHttpRequest(JoinPoint joinPoint) {
 		String controllerClassName = joinPoint.getTarget().getClass().getSimpleName();
 		MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();

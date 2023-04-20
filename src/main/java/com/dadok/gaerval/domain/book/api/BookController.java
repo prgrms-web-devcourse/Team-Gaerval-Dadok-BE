@@ -28,7 +28,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SuggestionsBookFindResponses;
 import com.dadok.gaerval.domain.book.dto.response.UserByBookResponses;
 import com.dadok.gaerval.domain.book.service.BookService;
-import com.dadok.gaerval.global.common.logging.LogHttpRequests;
+import com.dadok.gaerval.global.common.logging.LogMethodInfo;
 import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -53,7 +53,7 @@ public class BookController {
 	 */
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookResponses> findBooksByQuery(@ModelAttribute @Valid BookSearchRequest bookSearchRequest,
 		@CurrentUserPrincipal UserPrincipal userPrincipal) {
 		return ResponseEntity.ok().body(bookService.findAllByKeyword(bookSearchRequest, userPrincipal.getUserId()));
@@ -69,7 +69,7 @@ public class BookController {
 	 */
 	@GetMapping(value = "/recent-searches", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookRecentSearchResponses> findRecentQuery(
 		@ModelAttribute @Valid BookRecentSearchRequest bookRecentSearchRequest,
 		@CurrentUserPrincipal UserPrincipal userPrincipal) {
@@ -87,7 +87,7 @@ public class BookController {
 	 */
 	@GetMapping(value = "/{bookId}", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookResponse> findBookDetail(@PathVariable(name = "bookId") Long bookId) {
 		return ResponseEntity.ok().body(bookService.findDetailById(bookId));
 	}
@@ -103,7 +103,7 @@ public class BookController {
 	 */
 	@GetMapping(value = "/{bookId}/users", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<UserByBookResponses> findUsersByBook(
 		@PathVariable(name = "bookId") Long bookId,
 		@CurrentUserPrincipal UserPrincipal userPrincipal) {
@@ -120,7 +120,7 @@ public class BookController {
 	 */
 	@PostMapping(value = "", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS', 'ROLE_ADMIN', 'ROLE_USER')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookIdResponse> saveBookDetail(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
 		Long bookId = bookService.createBookAndReturnId(bookCreateRequest);
 		String redirectUri =

@@ -27,7 +27,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.service.BookCommentService;
-import com.dadok.gaerval.global.common.logging.LogHttpRequests;
+import com.dadok.gaerval.global.common.logging.LogMethodInfo;
 import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
@@ -52,7 +52,7 @@ public class BookCommentController {
 	 */
 	@GetMapping(value = "/{bookId}/comments", produces = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookCommentResponses> findBookComments(
 		@PathVariable(name = "bookId") Long bookId,
 		@CurrentUserPrincipal UserPrincipal userPrincipal,
@@ -72,7 +72,7 @@ public class BookCommentController {
 	 */
 	@PostMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookCommentIdResponse> saveBookComment(
 		@PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -94,7 +94,7 @@ public class BookCommentController {
 	 */
 	@PatchMapping(value = "/{bookId}/comments", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<BookCommentResponse> modifyBookComment(
 		@PathVariable Long bookId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -114,7 +114,7 @@ public class BookCommentController {
 	 */
 	@DeleteMapping(value = "/{bookId}/comments/{commentId}", consumes = APPLICATION_JSON_VALUE)
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-	@LogHttpRequests
+	@LogMethodInfo
 	public ResponseEntity<Void> deleteBookComment(
 		@PathVariable Long bookId, @PathVariable Long commentId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
