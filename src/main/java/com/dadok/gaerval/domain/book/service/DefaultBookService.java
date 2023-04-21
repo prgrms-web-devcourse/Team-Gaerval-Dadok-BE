@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
@@ -42,7 +43,7 @@ public class DefaultBookService implements BookService {
 	private final ApplicationEventPublisher eventPublisher;
 	private final BookRecentSearchRepository bookRecentSearchRepository;
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest, Long userId) {
 
@@ -53,10 +54,13 @@ public class DefaultBookService implements BookService {
 				Collections.emptyList());
 		}
 
+		BookResponses bookResponses = externalBookApiOperations.searchBooks(bookSearchRequest.query(),
+			bookSearchRequest.page(),
+			bookSearchRequest.pageSize(), SortingPolicy.ACCURACY.getName());
+
 		eventPublisher.publishEvent(new SaveKeywordEvent(userId, bookSearchRequest.query()));
 
-		return externalBookApiOperations.searchBooks(bookSearchRequest.query(), bookSearchRequest.page(),
-			bookSearchRequest.pageSize(), SortingPolicy.ACCURACY.getName());
+		return bookResponses;
 	}
 
 	private Book createBook(BookCreateRequest bookCreateRequest) {

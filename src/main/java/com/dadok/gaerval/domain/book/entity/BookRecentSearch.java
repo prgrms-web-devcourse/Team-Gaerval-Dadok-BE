@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import com.dadok.gaerval.domain.user.entity.User;
@@ -20,7 +21,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "book_recent_searches")
+@Table(name = "book_recent_searches", uniqueConstraints = {
+	@UniqueConstraint(name = "user_id_keyword_unique_key",
+		columnNames = {"user_id", "keyword"})
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookRecentSearch extends BaseTimeColumn {

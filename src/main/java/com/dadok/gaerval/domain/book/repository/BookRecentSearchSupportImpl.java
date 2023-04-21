@@ -27,6 +27,7 @@ public class BookRecentSearchSupportImpl implements BookRecentSearchSupport {
 			)
 			.from(bookRecentSearch)
 			.innerJoin(user).on(user.id.eq(bookRecentSearch.user.id))
+			.where(bookRecentSearch.user.id.eq(userId))
 			.orderBy(bookRecentSearch.createdAt.desc())
 			.limit(limit)
 			.fetch();
