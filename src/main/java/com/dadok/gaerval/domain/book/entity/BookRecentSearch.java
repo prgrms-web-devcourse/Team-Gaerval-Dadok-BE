@@ -21,10 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "book_recent_searches", uniqueConstraints = {
-	@UniqueConstraint(name = "user_id_keyword_unique_key",
-		columnNames = {"user_id", "keyword"})
-})
+@Table(name = "book_recent_searches")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookRecentSearch extends BaseTimeColumn {
