@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,7 @@ import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserNicknameExistsResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponses;
 import com.dadok.gaerval.domain.user.service.UserService;
 import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
@@ -89,6 +91,18 @@ public class UserController {
 	) {
 		userService.changeNickname(userPrincipal.getUserId(), new Nickname(request.getNickname()));
 		return ResponseEntity.ok().build();
+	}
+
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_ANONYMOUS')")
+	@GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserProfileResponses> searchAllByNickname(
+		@RequestParam @Valid @NotBlank
+		@Pattern(regexp = RegexHelper.NICKNAME_REGEX, message = "특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용합니다.")
+		String nickname,
+		@RequestParam(required = false, defaultValue = "10") @Valid @Range(min = 1, max = 30, message = "최소 {min} 자 이상, {max} 자 이하 여야 합니다")
+		int pageSize) {
+
+		return ResponseEntity.ok(userService.searchAllByNickname(new Nickname(nickname), pageSize));
 	}
 
 }

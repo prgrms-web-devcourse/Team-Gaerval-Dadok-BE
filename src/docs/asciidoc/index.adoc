@@ -233,6 +233,28 @@ include::{snippets}/user-controller-slice-test/user-profile/http-response.adoc[]
 
 include::{snippets}/user-controller-slice-test/user-profile/response-fields.adoc[]
 
+=== 유저 프로필 목록 검색
+
+==== Request
+
+include::{snippets}/user-controller-slice-test/search-all-by-nickname_success/http-request.adoc[]
+
+==== Request Header
+
+include::{snippets}/user-controller-slice-test/search-all-by-nickname_success/request-headers.adoc[]
+
+==== Request Parameter
+
+include::{snippets}/user-controller-slice-test/search-all-by-nickname_success/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/user-controller-slice-test/search-all-by-nickname_success/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/user-controller-slice-test/search-all-by-nickname_success/response-fields.adoc[]
+
 == Bookshelf - 책장(북카이브)
 
 === 책장 정보 조회 - 책장 Id

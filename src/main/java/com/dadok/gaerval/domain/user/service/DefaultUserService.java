@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponses;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -157,6 +159,13 @@ public class DefaultUserService implements UserService {
 			log.warn("닉네임 중복 예외. {} - {} ", e.getClass().getName(), e.getMessage());
 			throw new DuplicateNicknameException(e);
 		}
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public UserProfileResponses searchAllByNickname(Nickname nickname, int pageSize) {
+		return userRepository.findAllByNickname(nickname,
+			PageRequest.ofSize(pageSize == 0 ? 10 : pageSize));
 	}
 
 	@Transactional(readOnly = true)

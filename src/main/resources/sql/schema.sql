@@ -20,11 +20,11 @@ drop table if exists user_authorities cascade;
 
 drop table if exists authorities cascade;
 
+drop table if exists book_recent_searches cascade;
+
 drop table if exists users cascade;
 
 drop table if exists jobs cascade;
-
-
 
 create table if not exists authorities
 (
@@ -240,3 +240,14 @@ create table if not exists  user_authorities
         foreign key (authority) references authorities (name)
 );
 
+create table if not exists book_recent_searches
+(
+    id          bigint auto_increment
+        primary key,
+    created_at  datetime(6)  not null,
+    modified_at datetime(6)  null,
+    keyword     varchar(255) not null,
+    user_id     bigint       not null,
+    constraint FK4pehqqyf5xen2icq7qeyxchuv
+        foreign key (user_id) references users (id)
+);

@@ -7,6 +7,7 @@ import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponses;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.vo.Nickname;
 import com.dadok.gaerval.global.oauth.OAuth2Attribute;
@@ -32,5 +33,7 @@ public interface UserService {
 	boolean existsNickname(Nickname nickname);
 
 	void changeNickname(Long userId, Nickname nickname);
+
+	UserProfileResponses searchAllByNickname(Nickname nickname, int pageSize);
 
 }

@@ -2,6 +2,7 @@ package com.dadok.gaerval.testutil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -10,6 +11,7 @@ import com.dadok.gaerval.domain.job.dto.response.JobGroupResponse.JobNameRespons
 import com.dadok.gaerval.domain.job.dto.response.JobResponses;
 import com.dadok.gaerval.domain.job.entity.Job;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse.JobDetailResponse;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +39,8 @@ public class JobObjectProvider {
 				jobNameResponses.add(jobNameResponse);
 			}
 
-			JobGroupResponse jobGroupResponse = new JobGroupResponse(jobGroup.getGroupName(), jobGroup, jobNameResponses);
+			JobGroupResponse jobGroupResponse = new JobGroupResponse(jobGroup.getGroupName(), jobGroup,
+				jobNameResponses);
 
 			jobGroupResponses.add(jobGroupResponse);
 		}
@@ -73,6 +76,14 @@ public class JobObjectProvider {
 		ReflectionTestUtils.setField(frontendDeveloper, "id", 6L);
 
 		return frontendDeveloper;
+	}
+
+	public static JobDetailResponse randomJobDetailResponse() {
+
+		List<Job> jobs = findAll();
+
+		Job job = jobs.get(new Random().nextInt(jobs.size()));
+		return new JobDetailResponse(job.getJobGroup(), job.getJobName(), job.getSortOrder());
 	}
 
 }

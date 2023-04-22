@@ -1,10 +1,18 @@
 package com.dadok.gaerval.domain.user.repository;
 
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.TestConstructor;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.dadok.gaerval.domain.job.repository.JobRepository;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponses;
 import com.dadok.gaerval.domain.user.entity.Authority;
 import com.dadok.gaerval.domain.user.entity.Role;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -53,9 +61,23 @@ class UserRepositoryTest {
 		User kakaoUser = User.createByOAuth(oAuth2Attribute, UserAuthority.create(authority));
 		kakaoUser.changeNickname(new Nickname("change"));
 		userRepository.saveAndFlush(kakaoUser);
-
-
 		userRepository.existsByNickname(kakaoUser.getNickname());
+	}
+
+	@Sql(scripts = {"/sql/user/users_and_job.sql"}, executionPhase =
+		Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+	@Sql(scripts = "/sql/clean_up.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+	@DisplayName("findAllByNicknames - 다독이란 이름을 가진 유저를 10명 조회한다.")
+	@Test
+	void findAllByNicknames_query_success() {
+		String nameStr = "다독";
+		Nickname nickname = new Nickname(nameStr);
+
+		UserProfileResponses profileResponses = userRepository.findAllByNickname(nickname, PageRequest.ofSize(10));
+
+		List<UserProfileResponse> userProfileResponses = profileResponses.users();
+		assertThat(userProfileResponses).hasSize(10);
+		assertThat(userProfileResponses).allMatch(it -> it.nickname().contains(nameStr));
 	}
 
 }

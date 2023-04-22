@@ -36,4 +36,7 @@ alter table users auto_increment = 1;
 truncate table jobs;
 alter table jobs auto_increment = 1;
 
+truncate table book_recent_searches;
+alter table book_recent_searches auto_increment = 1;
+
 SET FOREIGN_KEY_CHECKS = 1;

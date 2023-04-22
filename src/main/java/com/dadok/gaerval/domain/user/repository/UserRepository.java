@@ -16,19 +16,18 @@ public interface UserRepository extends JpaRepository<User, Long>,
 
 	@Query(value = """
 				SELECT u FROM User u
-				left join fetch u.authorities ua
-				left join fetch ua.authority
+				LEFT JOIN FETCH u.authorities ua
+				LEFT JOIN FETCH ua.authority
 				WHERE u.email = :email
 		""")
 	Optional<User> findTopByEmailWithAuthorities(@Param("email") String email);
 
 	@Query(value = """
 		SELECT u FROM User u
-		left join fetch u.authorities ua
-		left join fetch ua.authority
+		LEFT JOIN FETCH u.authorities ua
+		LEFT JOIN FETCH ua.authority
 		WHERE u.id = :id""")
 	Optional<User> findByIdWithAuthorities(@Param("id") Long id);
-
 
 	User getByNickname(@Param("nickname") Nickname nickname);
 
