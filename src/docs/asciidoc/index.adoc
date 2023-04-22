@@ -233,7 +233,7 @@ include::{snippets}/user-controller-slice-test/user-profile/http-response.adoc[]
 
 include::{snippets}/user-controller-slice-test/user-profile/response-fields.adoc[]
 
-=== 유저 이름으로 유저 프로필 검색
+=== 유저 프로필 목록 검색
 
 ==== Request
 
