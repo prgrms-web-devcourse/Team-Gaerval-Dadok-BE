@@ -99,7 +99,7 @@ public class UserController {
 		@RequestParam @Valid @NotBlank
 		@Pattern(regexp = RegexHelper.NICKNAME_REGEX, message = "특수문자와 공백을 제외한 한글, 숫자, 영어 2~10글자만 허용합니다.")
 		String nickname,
-		@RequestParam(required = false, defaultValue = "10") @Valid @Range(min = 1, max = 30, message = "최소 {min}글자 이상, {max} 글자 이하 여야 합니다")
+		@RequestParam(required = false, defaultValue = "10") @Valid @Range(min = 1, max = 30, message = "최소 {min} 자 이상, {max} 자 이하 여야 합니다")
 		int pageSize) {
 
 		return ResponseEntity.ok(userService.searchAllByNickname(new Nickname(nickname), pageSize));

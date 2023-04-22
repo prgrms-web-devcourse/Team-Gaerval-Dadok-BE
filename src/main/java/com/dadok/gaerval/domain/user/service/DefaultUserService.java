@@ -164,7 +164,7 @@ public class DefaultUserService implements UserService {
 	@Transactional(readOnly = true)
 	@Override
 	public UserProfileResponses searchAllByNickname(Nickname nickname, int pageSize) {
-		return userRepository.findAllByNicknames(nickname,
+		return userRepository.findAllByNickname(nickname,
 			PageRequest.ofSize(pageSize == 0 ? 10 : pageSize));
 	}
 

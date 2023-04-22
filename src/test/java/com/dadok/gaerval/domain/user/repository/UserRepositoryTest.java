@@ -73,7 +73,7 @@ class UserRepositoryTest {
 		String nameStr = "다독";
 		Nickname nickname = new Nickname(nameStr);
 
-		UserProfileResponses profileResponses = userRepository.findAllByNicknames(nickname, PageRequest.ofSize(10));
+		UserProfileResponses profileResponses = userRepository.findAllByNickname(nickname, PageRequest.ofSize(10));
 
 		List<UserProfileResponse> userProfileResponses = profileResponses.users();
 		assertThat(userProfileResponses).hasSize(10);

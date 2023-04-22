@@ -68,7 +68,7 @@ public class UserSupportImpl implements UserSupport {
 	}
 
 	@Override
-	public UserProfileResponses findAllByNicknames(Nickname nickname, Pageable pageable) {
+	public UserProfileResponses findAllByNickname(Nickname nickname, Pageable pageable) {
 		List<UserProfileResponse> responses = query.select(Projections.constructor(UserProfileResponse.class,
 				user.id,
 				user.nickname.nickname,

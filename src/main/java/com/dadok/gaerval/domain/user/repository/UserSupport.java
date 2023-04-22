@@ -15,6 +15,6 @@ public interface UserSupport {
 
 	boolean existsByNickname(Nickname nickname);
 
-	UserProfileResponses findAllByNicknames(Nickname nickname, Pageable pageable);
+	UserProfileResponses findAllByNickname(Nickname nickname, Pageable pageable);
 
 }
