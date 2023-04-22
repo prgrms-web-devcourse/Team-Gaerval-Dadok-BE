@@ -9,6 +9,9 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,6 +30,8 @@ import com.dadok.gaerval.domain.user.dto.request.UserJobChangeRequest;
 import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserJobChangeResponse;
 import com.dadok.gaerval.domain.user.dto.response.UserProfileResponse;
+import com.dadok.gaerval.domain.user.dto.response.UserProfileResponses;
+import com.dadok.gaerval.domain.user.entity.Gender;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.exception.DuplicateNicknameException;
 import com.dadok.gaerval.domain.user.service.UserService;
@@ -739,7 +744,6 @@ class UserControllerSliceTest extends ControllerSliceTest {
 	@Test
 	void changeNickname_badNickname_fail() throws Exception {
 		//given
-
 		mockMvc.perform(patch("/api/users/profile/nickname")
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON)
@@ -747,6 +751,114 @@ class UserControllerSliceTest extends ControllerSliceTest {
 			.content("{\"nickname\":\" sㅊㅂㄷㅇ0ㅏ래 \"}")
 		).andExpect(status().isBadRequest());
 
+	}
+
+	@DisplayName("searchAllByNickname - 검색한 유저 닉네임을 포함한 유저 리스트를 반환한다 ")
+	@Test
+	void searchAllByNickname_success() throws Exception {
+		//given
+		String searchNickname = "다독";
+
+		List<UserProfileResponse> userProfileResponses = UserProfileResponses(10, searchNickname);
+
+		UserProfileResponses profileResponses = new UserProfileResponses(true, false, true, 10, false,
+			userProfileResponses);
+
+		given(userService.searchAllByNickname(new Nickname(searchNickname), 10))
+			.willReturn(profileResponses);
+
+		mockMvc.perform(get("/api/users/profile")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.queryParam("nickname", searchNickname)
+			).andExpect(status().isOk())
+			.andDo(this.restDocs.document(
+					requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					),
+					requestParameters(
+						parameterWithName("nickname").description("검색할 이름. ")
+							.attributes(constrainsAttribute(UserChangeProfileRequest.class, "nickname")),
+						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+					),
+
+					responseFields(
+						fieldWithPath("count").description("유저 데이터 수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("users[].userId").type(JsonFieldType.NUMBER).description("user Id"),
+						fieldWithPath("users[].nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("users[].profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
+						fieldWithPath("users[].gender").type(JsonFieldType.STRING).optional().description("성별 영어명 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.GENDER)
+						),
+						fieldWithPath("users[].job").type(JsonFieldType.OBJECT).description("직업"),
+						fieldWithPath("users[].job.jobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글명"),
+						fieldWithPath("users[].job.jobGroupName").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("users[].job.jobNameKoreanName").type(JsonFieldType.STRING).description("직업 한글명"),
+
+						fieldWithPath("users[].job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("users[].job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+
+					)
+				)
+			)
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(ACCESS_TOKEN_HEADER_NAME).description(ACCESS_TOKEN_HEADER_NAME_DESCRIPTION),
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestParameters(
+						parameterWithName("nickname").description("검색할 이름. ")
+							.attributes(constrainsAttribute(UserChangeProfileRequest.class, "nickname")),
+						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+					)
+					.responseFields(
+						fieldWithPath("count").description("유저 데이터 수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("users[].userId").type(JsonFieldType.NUMBER).description("user Id"),
+						fieldWithPath("users[].nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+						fieldWithPath("users[].profileImage").type(JsonFieldType.STRING).description("유저 프로필 url"),
+						fieldWithPath("users[].gender").type(JsonFieldType.STRING).optional().description("성별 영어명 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.GENDER)
+						),
+						fieldWithPath("users[].job").type(JsonFieldType.OBJECT).description("직업"),
+						fieldWithPath("users[].job.jobGroupKoreanName").type(JsonFieldType.STRING)
+							.description("직군 한글명"),
+						fieldWithPath("users[].job.jobGroupName").type(JsonFieldType.STRING).description("직군 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_GROUP)),
+
+						fieldWithPath("users[].job.jobNameKoreanName").type(JsonFieldType.STRING).description("직업 한글명"),
+
+						fieldWithPath("users[].job.jobName").type(JsonFieldType.STRING).description("직업 영어명 :  " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.JOB_NAME)),
+						fieldWithPath("users[].job.order").type(JsonFieldType.NUMBER).description("직업 정렬 순위")
+					)
+					.build()
+				)))
+
+		;
+	}
+
+	private List<UserProfileResponse> UserProfileResponses(int size, String name) {
+
+		return IntStream.range(0, size)
+			.mapToObj(it -> new UserProfileResponse(
+				(long)it,
+				name + it,
+				UserObjectProvider.PICTURE_URL + it,
+				Gender.MALE, JobObjectProvider.randomJobDetailResponse()))
+			.toList();
 	}
 
 }

@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import com.dadok.gaerval.domain.user.entity.User;
@@ -39,9 +38,9 @@ public class BookRecentSearch extends BaseTimeColumn {
 	private String keyword;
 
 	protected BookRecentSearch(User user, String keyword) {
+		CommonValidator.validateLengthGraterThen(keyword, 1, "검색어는 한글자 이상이어야 합니다.");
 		this.user = user;
 		this.keyword = keyword;
-		CommonValidator.validateLengthGraterThen(keyword, 1, "검색어는 한글자 이상이어야 합니다.");
 	}
 
 	public static BookRecentSearch create(User user, String keyword) {
