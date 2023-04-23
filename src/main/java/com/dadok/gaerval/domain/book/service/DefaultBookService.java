@@ -29,7 +29,7 @@ import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional(readOnly = true)
+@Transactional
 @Service
 @Slf4j
 @RequiredArgsConstructor

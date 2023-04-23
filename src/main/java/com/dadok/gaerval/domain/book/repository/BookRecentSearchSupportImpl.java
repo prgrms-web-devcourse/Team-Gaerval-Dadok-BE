@@ -3,10 +3,12 @@ package com.dadok.gaerval.domain.book.repository;
 import static com.dadok.gaerval.domain.book.entity.QBookRecentSearch.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
+import com.dadok.gaerval.domain.book.entity.BookRecentSearch;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -34,4 +36,27 @@ public class BookRecentSearchSupportImpl implements BookRecentSearchSupport {
 
 		return new BookRecentSearchResponses(bookRecentSearchResponseList);
 	}
+
+	@Override
+	public void updateRecentSearchKeyword(BookRecentSearch bookRecentSearchData) {
+		query.update(bookRecentSearch)
+			.where(bookRecentSearch.user.id.eq(bookRecentSearchData.getUser().getId())
+				.and(bookRecentSearch.keyword.eq(bookRecentSearchData.getKeyword())))
+			.set(bookRecentSearch.modifiedAt, LocalDateTime.now())
+			.execute();
+	}
+
+	@Override
+	public boolean existsByKeywordAndUserId(String keyword, Long userId) {
+		Integer fetchOne = query
+			.selectOne()
+			.from(bookRecentSearch)
+			.where(bookRecentSearch.user.id.eq(userId),
+				bookRecentSearch.keyword.eq(keyword)
+			)
+			.fetchFirst();
+
+		return fetchOne != null;
+	}
+
 }

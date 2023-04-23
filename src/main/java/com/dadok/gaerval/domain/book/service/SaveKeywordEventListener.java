@@ -2,9 +2,8 @@ package com.dadok.gaerval.domain.book.service;
 
 import java.util.Optional;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.dadok.gaerval.domain.book.entity.BookRecentSearch;
 import com.dadok.gaerval.domain.book.repository.BookRecentSearchRepository;
@@ -23,11 +22,19 @@ public class SaveKeywordEventListener {
 	private final UserService userService;
 	private final BookRecentSearchRepository bookRecentSearchRepository;
 
-	@TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+	@EventListener
 	@LogMethodInfo
 	public void handleSaveKeywordEvent(SaveKeywordEvent event) {
 		Optional<User> user = userService.findById(event.getUserId());
-		user.ifPresent(value -> bookRecentSearchRepository.save(BookRecentSearch.create(value, event.getKeyword())));
-		log.info("User[{}]-Keyword[{}] TransactionalEventListener done", event.getUserId(), event.getKeyword());
+		user.ifPresent(value -> {
+			BookRecentSearch bookRecentSearch = BookRecentSearch.create(value, event.getKeyword());
+			if(bookRecentSearchRepository.existsByKeywordAndUserId(event.getKeyword(), event.getUserId())) {
+				bookRecentSearchRepository.updateRecentSearchKeyword(bookRecentSearch);
+			}
+			else {
+				bookRecentSearchRepository.save(bookRecentSearch);
+			}
+		});
+		log.info("User[{}]-Keyword[{}] EventListener done", event.getUserId(), event.getKeyword());
 	}
 }

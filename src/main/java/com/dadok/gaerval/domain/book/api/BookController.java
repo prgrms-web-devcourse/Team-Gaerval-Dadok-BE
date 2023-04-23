@@ -68,7 +68,7 @@ public class BookController {
 	 * @return status : ok
 	 */
 	@GetMapping(value = "/recent-searches", produces = APPLICATION_JSON_VALUE)
-	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	@LogMethodInfo
 	public ResponseEntity<BookRecentSearchResponses> findRecentQuery(
 		@ModelAttribute @Valid BookRecentSearchRequest bookRecentSearchRequest,
