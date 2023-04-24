@@ -111,7 +111,39 @@ class BookCommentServiceSliceTest {
 		assertEquals(bookCommentUpdateRequest.comment(), updatedComment.getContents());
 	}
 
-	@DisplayName("deleteBookComment - 도서 리뷰를 삭하는데 성공한다.")
+
+	@DisplayName("updateBookComment - 북마크에서 해제 되었지만 존재하는 도서 리뷰를 수정하는데 성공한다.")
+	@Test
+	void update_NotBookMarked_BookComment() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		ReflectionTestUtils.setField(book, "id", 1L);
+
+		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
+		BookCommentUpdateRequest bookCommentUpdateRequest = BookCommentObjectProvider.createCommentUpdateRequest();
+
+		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
+		comment.changeComment(bookCommentCreateRequest.comment());
+		ReflectionTestUtils.setField(comment, "id", 1L);
+
+		given(bookCommentRepository.existsByBookIdAndUserId(1L, 1L)).willReturn(true);
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(false);
+		given(bookCommentRepository.updateBookComment(1L, 1L, bookCommentUpdateRequest)).willReturn(
+			BookCommentObjectProvider.createMockResponses().get(0)
+		);
+
+
+		// when
+		BookCommentResponse updatedComment = defaultBookCommentService.updateBookComment(book.getId(), user.getId(),
+			bookCommentUpdateRequest);
+
+		// then
+		assertEquals(bookCommentUpdateRequest.comment(), updatedComment.getContents());
+	}
+
+	@DisplayName("deleteBookComment - 도서 리뷰를 삭제하는데 성공한다.")
 	@Test
 	void deleteBookComment() {
 		// given
