@@ -26,6 +26,7 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
+import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.exception.NotMarkedBookException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -83,6 +84,50 @@ class BookCommentServiceSliceTest {
 		verify(bookCommentRepository).save(any());
 		assertEquals(comment.getId(), savedCommentId);
 	}
+
+	@DisplayName("createBookComment - 북마크가 없는 경우 도서 리뷰를 생성하는데 실패한다.")
+	@Test
+	void create_NotBookMarked_BookComment_Failure() {
+		// given
+		Long userId = 1L;
+		Long bookId = 1L;
+		User user = UserObjectProvider.createKakaoUser();
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
+
+		given(userService.getById(userId)).willReturn(user);
+		given(bookService.getById(bookId)).willReturn(book);
+		given(bookshelfService.existsByUserIdAndBookId(userId, bookId)).willReturn(false);
+
+		// when
+		Executable executable = () -> bookCommentService.createBookComment(bookId, userId, bookCommentCreateRequest);
+
+		// then
+		assertThrows(NotMarkedBookException.class, executable);
+	}
+
+	@DisplayName("createBookComment - 이미 도서 리뷰가 있는 경우 도서 리뷰를 생성하는데 실패한다.")
+	@Test
+	void create_AlreadyExistBookComment_Failure() {
+		// given
+		Long userId = 1L;
+		Long bookId = 1L;
+		User user = UserObjectProvider.createKakaoUser();
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
+
+		given(userService.getById(userId)).willReturn(user);
+		given(bookService.getById(bookId)).willReturn(book);
+		given(bookshelfService.existsByUserIdAndBookId(userId, bookId)).willReturn(true);
+		given(bookCommentRepository.existsByBookIdAndUserId(bookId, userId)).willReturn(true);
+
+		// when
+		Executable executable = () -> bookCommentService.createBookComment(bookId, userId, bookCommentCreateRequest);
+
+		// then
+		assertThrows(AlreadyContainBookCommentException.class, executable);
+	}
+
 
 	@DisplayName("updateBookComment - 도서 리뷰를 수정하는데 성공한다.")
 	@Test
