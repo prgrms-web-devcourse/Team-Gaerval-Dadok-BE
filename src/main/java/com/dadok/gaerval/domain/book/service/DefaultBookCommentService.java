@@ -43,7 +43,7 @@ public class DefaultBookCommentService implements BookCommentService {
 		User user = userService.getById(userId);
 		Book book = bookService.getById(bookId);
 
-		boolean existsComment = bookCommentRepository.existsByBookIdAndUserId(bookId, userId);
+		boolean existsComment = isExistComment(bookId, userId);
 		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
 
 		if (!existsBookmark) {
@@ -56,6 +56,7 @@ public class DefaultBookCommentService implements BookCommentService {
 			return bookCommentRepository.save(newBookComment).getId();
 		}
 	}
+
 
 	@Override
 	@Transactional(readOnly = true)
@@ -81,12 +82,9 @@ public class DefaultBookCommentService implements BookCommentService {
 	public BookCommentResponse updateBookComment(Long bookId, Long userId,
 		BookCommentUpdateRequest bookCommentUpdateRequest) {
 		boolean existsBookmark = bookshelfService.existsByUserIdAndBookId(userId, bookId);
-		boolean existsComment = bookCommentRepository.existsByBookIdAndUserId(bookId, userId);
+		boolean existsComment = isExistComment(bookId, userId);
 
-		if(existsComment) {
-			bookCommentRepository.updateBookComment(bookId, userId, bookCommentUpdateRequest);
-		}
-		else if (!existsBookmark) {
+		if (!existsComment && !existsBookmark) {
 			throw new NotMarkedBookException(ErrorCode.INVALID_COMMENT_NOT_BOOKMARK);
 		}
 
@@ -101,9 +99,13 @@ public class DefaultBookCommentService implements BookCommentService {
 		bookCommentRepository.delete(bookComment);
 	}
 
-	void checkCommentAuthor(BookComment bookComment, Long userId) {
+	private void checkCommentAuthor(BookComment bookComment, Long userId) {
 		if (!Objects.equals(bookComment.getUser().getId(), userId)) {
 			throw new NotMatchedCommentAuthorException();
 		}
+	}
+
+	private boolean isExistComment(Long bookId, Long userId) {
+		return bookCommentRepository.existsByBookIdAndUserId(bookId, userId);
 	}
 }
