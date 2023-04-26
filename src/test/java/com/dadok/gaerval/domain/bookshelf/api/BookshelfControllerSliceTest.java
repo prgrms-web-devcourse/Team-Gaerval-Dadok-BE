@@ -600,7 +600,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 		Long userId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, userId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, userId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
@@ -628,7 +628,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
-
+					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -659,13 +659,12 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							.attributes(
 								key("constraints").value("Must not be null")
 							)
-
 					)
 					.responseFields(
 						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
-
+						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -699,7 +698,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 		Long bookshelfId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, bookshelfId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, bookshelfId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
@@ -726,7 +725,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
-
+					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -763,7 +762,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
-
+						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),

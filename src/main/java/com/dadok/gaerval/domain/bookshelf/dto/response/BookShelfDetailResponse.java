@@ -7,6 +7,7 @@ public record BookShelfDetailResponse(
 	Long bookshelfId,
 	String bookshelfName,
 	boolean isPublic,
+	Long likeCount,
 	Long userId,
 	String username,
 	String userNickname,
@@ -14,11 +15,11 @@ public record BookShelfDetailResponse(
 	UserDetailResponse.JobDetailResponse job
 ) {
 
-	public BookShelfDetailResponse(Long bookshelfId, String bookshelfName, boolean isPublic, Long userId,
-		String username,
+	public BookShelfDetailResponse(Long bookshelfId, String bookshelfName, boolean isPublic,
+		Long likeCount, Long userId, String username,
 		String userNickname, String userProfileImage, JobGroup jobGroup, JobGroup.JobName jobName, int order) {
 
-		this(bookshelfId, bookshelfName, isPublic, userId, username, userNickname, userProfileImage,
+		this(bookshelfId, bookshelfName, isPublic, likeCount, userId, username, userNickname, userProfileImage,
 			new UserDetailResponse.JobDetailResponse(jobGroup, jobName, order)
 		);
 	}

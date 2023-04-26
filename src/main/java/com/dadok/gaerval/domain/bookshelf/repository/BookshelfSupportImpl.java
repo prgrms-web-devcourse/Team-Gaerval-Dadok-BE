@@ -3,6 +3,7 @@ package com.dadok.gaerval.domain.bookshelf.repository;
 import static com.dadok.gaerval.domain.book.entity.QBook.*;
 import static com.dadok.gaerval.domain.bookshelf.entity.QBookshelf.*;
 import static com.dadok.gaerval.domain.bookshelf.entity.QBookshelfItem.*;
+import static com.dadok.gaerval.domain.bookshelf.entity.QBookshelfLike.*;
 import static com.dadok.gaerval.domain.job.entity.QJob.*;
 import static com.dadok.gaerval.domain.user.entity.QUser.*;
 import static com.querydsl.core.group.GroupBy.list;
@@ -34,16 +35,18 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 					bookshelf.id.as("bookshelfId"),
 					bookshelf.name.as("bookshelfName"),
 					bookshelf.isPublic.as("isPublic"),
+					bookshelfLike.countDistinct().as("likeCount"),
+
 					user.id.as("userId"),
 					user.name.as("username"),
 					user.nickname.nickname.as("userNickname"),
 					user.profileImage.as("userProfileImage"),
 					job.jobGroup, job.jobName, job.sortOrder
-
 				)
 			)
 			.from(bookshelf)
 			.leftJoin(bookshelf.user, user)
+			.leftJoin(bookshelf.bookshelfLikes, bookshelfLike)
 			.leftJoin(user.job, job)
 			.where(bookshelf.user.id.eq(userId))
 			.fetchOne();
@@ -137,15 +140,17 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 					bookshelf.id.as("bookshelfId"),
 					bookshelf.name.as("bookshelfName"),
 					bookshelf.isPublic.as("isPublic"),
+					bookshelfLike.countDistinct().as("likeCount"),
+
 					user.id.as("userId"),
 					user.name.as("username"),
 					user.nickname.nickname.as("userNickname"),
 					user.profileImage.as("userProfileImage"),
 					job.jobGroup, job.jobName, job.sortOrder
-
 				)
 			)
 			.from(bookshelf)
+			.leftJoin(bookshelf.bookshelfLikes, bookshelfLike)
 			.leftJoin(bookshelf.user, user)
 			.leftJoin(user.job, job)
 			.where(bookshelf.id.eq(bookshelfId))
