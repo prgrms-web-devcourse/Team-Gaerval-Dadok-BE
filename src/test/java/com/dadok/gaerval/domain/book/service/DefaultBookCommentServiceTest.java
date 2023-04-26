@@ -21,10 +21,10 @@ import com.dadok.gaerval.integration_util.IntegrationTest;
 @Sql(scripts = {"/sql/book_comment/book_comment_data.sql"}, executionPhase =
 	Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/sql/clean_up.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-class BookCommentServiceTest extends IntegrationTest {
+class DefaultBookCommentServiceTest extends IntegrationTest {
 
 	@Autowired
-	private BookCommentService bookCommentService;
+	private DefaultBookCommentService bookCommentService;
 
 	private User user;
 

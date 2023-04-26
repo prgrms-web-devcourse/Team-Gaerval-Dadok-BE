@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,6 +26,8 @@ import com.dadok.gaerval.domain.book.dto.response.BookCommentResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookCommentResponses;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.entity.BookComment;
+import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
+import com.dadok.gaerval.domain.book.exception.NotMarkedBookException;
 import com.dadok.gaerval.domain.book.repository.BookCommentRepository;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.user.entity.User;
@@ -47,7 +50,7 @@ class BookCommentServiceSliceTest {
 	private BookService bookService;
 
 	@InjectMocks
-	private DefaultBookCommentService defaultBookCommentService;
+	private DefaultBookCommentService bookCommentService;
 
 	@Mock
 	private BookshelfService bookshelfService;
@@ -71,7 +74,7 @@ class BookCommentServiceSliceTest {
 			comment);
 
 		// when
-		Long savedCommentId = defaultBookCommentService.createBookComment(book.getId(), user.getId(),
+		Long savedCommentId = bookCommentService.createBookComment(book.getId(), user.getId(),
 			bookCommentCreateRequest);
 
 		// then
@@ -81,6 +84,50 @@ class BookCommentServiceSliceTest {
 		verify(bookCommentRepository).save(any());
 		assertEquals(comment.getId(), savedCommentId);
 	}
+
+	@DisplayName("createBookComment - 북마크가 없는 경우 도서 리뷰를 생성하는데 실패한다.")
+	@Test
+	void create_NotBookMarked_BookComment_Failure() {
+		// given
+		Long userId = 1L;
+		Long bookId = 1L;
+		User user = UserObjectProvider.createKakaoUser();
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
+
+		given(userService.getById(userId)).willReturn(user);
+		given(bookService.getById(bookId)).willReturn(book);
+		given(bookshelfService.existsByUserIdAndBookId(userId, bookId)).willReturn(false);
+
+		// when
+		Executable executable = () -> bookCommentService.createBookComment(bookId, userId, bookCommentCreateRequest);
+
+		// then
+		assertThrows(NotMarkedBookException.class, executable);
+	}
+
+	@DisplayName("createBookComment - 이미 도서 리뷰가 있는 경우 도서 리뷰를 생성하는데 실패한다.")
+	@Test
+	void create_AlreadyExistBookComment_Failure() {
+		// given
+		Long userId = 1L;
+		Long bookId = 1L;
+		User user = UserObjectProvider.createKakaoUser();
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
+
+		given(userService.getById(userId)).willReturn(user);
+		given(bookService.getById(bookId)).willReturn(book);
+		given(bookshelfService.existsByUserIdAndBookId(userId, bookId)).willReturn(true);
+		given(bookCommentRepository.existsByBookIdAndUserId(bookId, userId)).willReturn(true);
+
+		// when
+		Executable executable = () -> bookCommentService.createBookComment(bookId, userId, bookCommentCreateRequest);
+
+		// then
+		assertThrows(AlreadyContainBookCommentException.class, executable);
+	}
+
 
 	@DisplayName("updateBookComment - 도서 리뷰를 수정하는데 성공한다.")
 	@Test
@@ -98,20 +145,79 @@ class BookCommentServiceSliceTest {
 		comment.changeComment(bookCommentCreateRequest.comment());
 		ReflectionTestUtils.setField(comment, "id", 1L);
 
-		given(bookCommentRepository.updateBookComment(1L, 1L, bookCommentUpdateRequest)).willReturn(
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(true);
+		given(bookCommentService.updateBookComment(1L, 1L, bookCommentUpdateRequest)).willReturn(
 			BookCommentObjectProvider.createMockResponses().get(0)
 		);
-		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(true);
+
 
 		// when
-		BookCommentResponse updatedComment = defaultBookCommentService.updateBookComment(book.getId(), user.getId(),
+		BookCommentResponse updatedComment = bookCommentService.updateBookComment(book.getId(), user.getId(),
 			bookCommentUpdateRequest);
 
 		// then
 		assertEquals(bookCommentUpdateRequest.comment(), updatedComment.getContents());
 	}
 
-	@DisplayName("deleteBookComment - 도서 리뷰를 삭하는데 성공한다.")
+
+	@DisplayName("updateBookComment - 북마크에서 해제 되었지만 존재하는 도서 리뷰를 수정하는데 성공한다.")
+	@Test
+	void update_NotBookMarked_BookComment_Success() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		ReflectionTestUtils.setField(book, "id", 1L);
+
+		BookCommentCreateRequest bookCommentCreateRequest = BookCommentObjectProvider.createBookCommentCreateRequest();
+		BookCommentUpdateRequest bookCommentUpdateRequest = BookCommentObjectProvider.createCommentUpdateRequest();
+
+		BookComment comment = BookCommentObjectProvider.create(user, book, BookCommentObjectProvider.comment1);
+		comment.changeComment(bookCommentCreateRequest.comment());
+		ReflectionTestUtils.setField(comment, "id", 1L);
+
+		given(bookCommentRepository.existsByBookIdAndUserId(1L, 1L)).willReturn(true);
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(false);
+		given(bookCommentService.updateBookComment(1L, 1L, bookCommentUpdateRequest)).willReturn(
+			BookCommentObjectProvider.createMockResponses().get(0)
+		);
+
+
+		// when
+		BookCommentResponse updatedComment = bookCommentService.updateBookComment(book.getId(), user.getId(),
+			bookCommentUpdateRequest);
+
+		// then
+		assertEquals(bookCommentUpdateRequest.comment(), updatedComment.getContents());
+	}
+
+
+	@DisplayName("updateBookComment - 북마크도 없고 리뷰도 존재하지 않으면 수정하는데 실패한다.")
+	@Test
+	void update_NotBookMarked_BookComment_Failure() {
+		// given
+		User user = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(user, "id", 1L);
+		Book book = BookObjectProvider.createRequiredFieldBook();
+		ReflectionTestUtils.setField(book, "id", 1L);
+
+		BookCommentUpdateRequest bookCommentUpdateRequest = BookCommentObjectProvider.createCommentUpdateRequest();
+
+		given(bookCommentRepository.existsByBookIdAndUserId(1L, 1L)).willReturn(false);
+		given(bookshelfService.existsByUserIdAndBookId(1L, 1L)).willReturn(false);
+
+		// when
+		Executable executable = () -> {
+			bookCommentService.updateBookComment(1L, 1L, bookCommentUpdateRequest);
+			verify(bookCommentRepository).existsByBookIdAndUserId(1L, 1L);
+			verify(bookshelfService).existsByUserIdAndBookId(1L, 1L);
+		};
+
+		// then
+		assertThrows(NotMarkedBookException.class, executable);
+	}
+
+	@DisplayName("deleteBookComment - 도서 리뷰를 삭제하는데 성공한다.")
 	@Test
 	void deleteBookComment() {
 		// given
@@ -126,7 +232,7 @@ class BookCommentServiceSliceTest {
 		given(bookCommentRepository.findByBookId(1L, 1L)).willReturn(Optional.of(comment));
 
 		// when
-		defaultBookCommentService.deleteBookComment(book.getId(), user.getId(),
+		bookCommentService.deleteBookComment(book.getId(), user.getId(),
 			1L);
 
 		// then
@@ -147,7 +253,7 @@ class BookCommentServiceSliceTest {
 		given(bookCommentRepository.findById(1L)).willReturn(Optional.of(existingComment));
 
 		// when
-		BookComment comment = defaultBookCommentService.getById(existingComment.getId());
+		BookComment comment = bookCommentService.getById(existingComment.getId());
 
 		// then
 		verify(bookCommentRepository).findById(1L);
@@ -171,7 +277,7 @@ class BookCommentServiceSliceTest {
 		given(bookCommentRepository.findById(1L)).willReturn(Optional.of(existingComment));
 
 		// when
-		BookComment result = defaultBookCommentService.findById(1L).orElseThrow();
+		BookComment result = bookCommentService.findById(1L).orElseThrow();
 
 		// then
 		verify(bookCommentRepository).findById(1L);
@@ -187,7 +293,7 @@ class BookCommentServiceSliceTest {
 		given(bookCommentRepository.findById(bookCommentId)).willReturn(Optional.empty());
 
 		// when
-		Optional<BookComment> result = defaultBookCommentService.findById(bookCommentId);
+		Optional<BookComment> result = bookCommentService.findById(bookCommentId);
 
 		// then
 		verify(bookCommentRepository).findById(bookCommentId);
@@ -216,7 +322,7 @@ class BookCommentServiceSliceTest {
 			new BookCommentResponses(bookFindResponses));
 
 		// when
-		BookCommentResponses result = defaultBookCommentService.findBookCommentsBy(book.getId(), user.getId(),
+		BookCommentResponses result = bookCommentService.findBookCommentsBy(book.getId(), user.getId(),
 			bookCommentSearchRequest);
 
 		// then
