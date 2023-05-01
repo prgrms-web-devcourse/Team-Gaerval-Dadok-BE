@@ -31,13 +31,13 @@ public interface BookshelfService {
 
 	BookInShelfResponses findAllBooksInShelf(Long bookshelvesId, BooksInBookShelfFindRequest request);
 
-	BookShelfDetailResponse findBookShelfWithJob(Long userId);
+	BookShelfDetailResponse findBookShelfWithJob(Long ownerId, Long userId);
 
 	void updateJobIdByUserId(User user, Long jobId);
 
 	SuggestionBookshelvesResponses findSuggestionBookshelves();
 
-	BookShelfDetailResponse findBookShelfById(Long bookshelfId);
+	BookShelfDetailResponse findBookShelfById(Long bookshelfId, Long userId);
 
 	Optional<Long> insertIfNotPresent(Long userId, Long bookId);
 

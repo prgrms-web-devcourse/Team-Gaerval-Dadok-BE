@@ -18,7 +18,8 @@ public record UserDetailResponse(
 	JobDetailResponse job
 ) {
 
-	public UserDetailResponse(Long userId, String name, String nickname, String oauthNickname, String email, String profileImage,
+	public UserDetailResponse(Long userId, String name, String nickname, String oauthNickname, String email,
+		String profileImage,
 		Gender gender,
 		AuthProvider authProvider, JobGroup jobGroup, JobGroup.JobName jobName, int order) {
 		this(userId, name, nickname, oauthNickname, email, profileImage, gender, authProvider,
@@ -32,9 +33,9 @@ public record UserDetailResponse(
 		private JobGroup jobGroupName;
 		private String jobNameKoreanName;
 		private JobGroup.JobName jobName;
-		private int order;
+		private Integer order;
 
-		public JobDetailResponse(JobGroup jobGroup, JobGroup.JobName jobName, int order) {
+		public JobDetailResponse(JobGroup jobGroup, JobGroup.JobName jobName, Integer order) {
 			if (jobGroup != null && jobName != null) {
 				this.jobGroupKoreanName = jobGroup.getGroupName();
 				this.jobGroupName = jobGroup;

@@ -595,22 +595,24 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 
 	@DisplayName("findBookShelfWithUserJob - 유저와 책장과 직업을 같이 조회해온다.")
 	@Test
+	@WithMockCustomOAuth2LoginUser
 	void findBookShelfWithUserJob() throws Exception {
 		//given
 
-		Long userId = 1L;
+		Long ownerId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, userId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, true,
+			ownerId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfService.findBookShelfWithJob(userId))
+		given(bookshelfService.findBookShelfWithJob(eq(ownerId), any()))
 			.willReturn(bookShelfDetailResponse);
 		//when
 
 		mockMvc.perform(get("/api/bookshelves")
 				.contentType(MediaType.APPLICATION_JSON)
-				.param("userId", userId.toString())
+				.param("userId", ownerId.toString())
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
@@ -622,13 +624,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							key("constraints").value("Must not be null")
 						)
-
 				),
 				responseFields(
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+					fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -665,6 +667,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+						fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -688,21 +691,24 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				)))
 		;
 		//then
-		verify(bookshelfService).findBookShelfWithJob(userId);
+		verify(bookshelfService).findBookShelfWithJob(eq(ownerId), any());
 	}
 
 	@DisplayName("findBookshelfById - 책장 id로 유저와 책장과 직업을 같이 조회해온다.")
 	@Test
+	@WithMockCustomOAuth2LoginUser
 	void findBookshelfById() throws Exception {
 		//given
 
+		Long userId = 1L;
 		Long bookshelfId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, bookshelfId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, false,
+			bookshelfId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfService.findBookShelfById(bookshelfId))
+		given(bookshelfService.findBookShelfById(bookshelfId, userId))
 			.willReturn(bookShelfDetailResponse);
 		//when
 
@@ -719,13 +725,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							key("constraints").value("Must not be null")
 						)
-
 				),
 				responseFields(
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+					fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -763,6 +769,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+						fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -786,6 +793,6 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				)))
 		;
 		//then
-		verify(bookshelfService).findBookShelfById(bookshelfId);
+		verify(bookshelfService).findBookShelfById(bookshelfId, userId);
 	}
 }

@@ -28,6 +28,7 @@ import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJo
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.dadok.gaerval.global.config.security.CurrentUserPrincipal;
 import com.dadok.gaerval.global.config.security.UserPrincipal;
 
 import lombok.RequiredArgsConstructor;
@@ -167,18 +168,16 @@ public class BookshelfController {
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/bookshelves", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookShelfDetailResponse> findBookShelfWithUserJob(
-		@RequestParam @Valid @NotNull Long userId) {
-
-		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfWithJob(userId);
-
+		@RequestParam @Valid @NotNull Long userId, @CurrentUserPrincipal UserPrincipal userPrincipal) {
+		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfWithJob(userId, userPrincipal.getUserId());
 		return ResponseEntity.ok(bookShelf);
 	}
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/bookshelves/{bookshelfId}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookShelfDetailResponse> findBookshelfById(
-		@PathVariable Long bookshelfId) {
-		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfById(bookshelfId);
+		@PathVariable Long bookshelfId, @CurrentUserPrincipal UserPrincipal userPrincipal) {
+		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfById(bookshelfId, userPrincipal.getUserId());
 		return ResponseEntity.ok(bookShelf);
 	}
 

@@ -47,7 +47,7 @@ class BookshelfRepositoryTest {
 	@DisplayName("findByIdWithUserAndJob 쿼리 테스트")
 	@Test
 	void findByIdWithUserAndJob() {
-		bookshelfRepository.findByIdWithUserAndJob(100L);
+		bookshelfRepository.findByIdWithUserAndJob(100L, null);
 	}
 
 	@DisplayName("사용자의 책장 요약 조회")
@@ -92,6 +92,6 @@ class BookshelfRepositoryTest {
 	@DisplayName("findBookShelfById 쿼리 테스트")
 	@Test
 	void findBookShelfById() {
-		bookshelfRepository.findBookShelfById(100L);
+		bookshelfRepository.findBookShelfById(100L, null);
 	}
 }

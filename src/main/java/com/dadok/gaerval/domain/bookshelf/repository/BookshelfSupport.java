@@ -9,7 +9,7 @@ import com.dadok.gaerval.domain.job.entity.JobGroup;
 
 public interface BookshelfSupport {
 
-	Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long userId);
+	Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long ownerId, Long userId);
 
 	Optional<BookShelfSummaryResponse> findSummaryById(Long userId);
 
@@ -17,5 +17,5 @@ public interface BookshelfSupport {
 
 	List<BookShelfSummaryResponse> findAllSuggestions(int limit);
 
-	Optional<BookShelfDetailResponse> findBookShelfById(Long bookshelfId);
+	Optional<BookShelfDetailResponse> findBookShelfById(Long bookshelfId, Long userId);
 }

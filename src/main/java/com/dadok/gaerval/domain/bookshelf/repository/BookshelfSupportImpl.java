@@ -17,6 +17,7 @@ import java.util.Optional;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,28 +30,52 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 	private final JPAQueryFactory query;
 
 	@Override
-	public Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long userId) {
+	public Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long ownerId, Long userId) {
 
-		BookShelfDetailResponse bookShelfDetailResponse = query.select(constructor(BookShelfDetailResponse.class,
-					bookshelf.id.as("bookshelfId"),
-					bookshelf.name.as("bookshelfName"),
-					bookshelf.isPublic.as("isPublic"),
-					bookshelfLike.countDistinct().as("likeCount"),
+		Tuple tuple = query.select(
+				bookshelf.id,
+				bookshelf.name,
+				bookshelf.isPublic,
+				bookshelfLike.countDistinct(),
 
-					user.id.as("userId"),
-					user.name.as("username"),
-					user.nickname.nickname.as("userNickname"),
-					user.profileImage.as("userProfileImage"),
-					job.jobGroup, job.jobName, job.sortOrder
-				)
+				user.id,
+				user.name,
+				user.nickname.nickname,
+				user.profileImage,
+				job.jobGroup, job.jobName, job.sortOrder
 			)
 			.from(bookshelf)
 			.leftJoin(bookshelf.user, user)
 			.leftJoin(bookshelf.bookshelfLikes, bookshelfLike)
 			.leftJoin(user.job, job)
-			.where(bookshelf.user.id.eq(userId))
+			.where(bookshelf.user.id.eq(ownerId))
 			.fetchOne();
-		return Optional.ofNullable(bookShelfDetailResponse);
+
+		if (tuple == null) {
+			return Optional.empty();
+		}
+
+		boolean isLiked =
+			userId != null && query.selectOne()
+				.from(bookshelfLike)
+				.where(bookshelfLike.bookshelf.id.eq(tuple.get(bookshelf.id)),
+					bookshelfLike.user.id.eq(userId))
+				.fetchFirst() != null;
+
+		return Optional.of(new BookShelfDetailResponse(
+			tuple.get(bookshelf.id),
+			tuple.get(bookshelf.name),
+			Boolean.TRUE.equals(tuple.get(bookshelf.isPublic)),
+			tuple.get(bookshelfLike.countDistinct()),
+			isLiked,
+			tuple.get(user.id),
+			tuple.get(user.name),
+			tuple.get(user.nickname.nickname),
+			tuple.get(user.profileImage),
+			tuple.get(job.jobGroup),
+			tuple.get(job.jobName),
+			tuple.get(job.sortOrder)
+		));
 	}
 
 	@Override
@@ -134,29 +159,53 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 	}
 
 	@Override
-	public Optional<BookShelfDetailResponse> findBookShelfById(Long bookshelfId) {
+	public Optional<BookShelfDetailResponse> findBookShelfById(Long bookshelfId, Long userId) {
 
-		BookShelfDetailResponse bookShelfDetailResponse = query.select(constructor(BookShelfDetailResponse.class,
-					bookshelf.id.as("bookshelfId"),
-					bookshelf.name.as("bookshelfName"),
-					bookshelf.isPublic.as("isPublic"),
-					bookshelfLike.countDistinct().as("likeCount"),
+		Tuple tuple = query.select(
+				bookshelf.id,
+				bookshelf.name,
+				bookshelf.isPublic,
+				bookshelfLike.countDistinct(),
 
-					user.id.as("userId"),
-					user.name.as("username"),
-					user.nickname.nickname.as("userNickname"),
-					user.profileImage.as("userProfileImage"),
-					job.jobGroup, job.jobName, job.sortOrder
-				)
+				user.id,
+				user.name,
+				user.nickname.nickname,
+				user.profileImage,
+				job.jobGroup, job.jobName, job.sortOrder
 			)
 			.from(bookshelf)
-			.leftJoin(bookshelf.bookshelfLikes, bookshelfLike)
 			.leftJoin(bookshelf.user, user)
+			.leftJoin(bookshelf.bookshelfLikes, bookshelfLike)
 			.leftJoin(user.job, job)
 			.where(bookshelf.id.eq(bookshelfId))
 			.fetchOne();
 
-		return Optional.ofNullable(bookShelfDetailResponse);
+		if (tuple == null) {
+			return Optional.empty();
+		}
+
+		boolean isLiked =
+			userId != null && query.selectOne()
+				.from(bookshelfLike)
+				.where(bookshelfLike.bookshelf.id.eq(bookshelfId),
+					bookshelfLike.user.id.eq(userId))
+				.fetchFirst() != null;
+
+		return Optional.of(new BookShelfDetailResponse(
+			tuple.get(bookshelf.id),
+			tuple.get(bookshelf.name),
+			Boolean.TRUE.equals(tuple.get(bookshelf.isPublic)),
+			tuple.get(bookshelfLike.countDistinct()),
+			isLiked,
+			tuple.get(user.id),
+			tuple.get(user.name),
+			tuple.get(user.nickname.nickname),
+			tuple.get(user.profileImage),
+			tuple.get(job.jobGroup),
+			tuple.get(job.jobName),
+			tuple.get(job.sortOrder)
+		));
+
 	}
 
 	private Expression[] searchBookshelfIn(List<Long> bookshelfIds) {
