@@ -122,4 +122,20 @@ class BookshelfRepositoryTest {
 		assertThat(response.count()).isEqualTo(1);
 		assertThat(response.bookshelfResponses().get(0).likeCount()).isEqualTo(1);
 	}
+
+	@DisplayName("좋아요한 책장 empty list 조회 - findAllLikedByUserId 쿼리 테스트")
+	@Test
+	void findAllLikedByUserId_empty() {
+
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		userRepository.saveAndFlush(user);
+		user.changeJob(job);
+
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, null, null);
+
+		var response = bookshelfRepository.findAllLikedByUserId(request, user.getId());
+		assertThat(response.bookshelfResponses().size()).isEqualTo(0);
+	}
 }

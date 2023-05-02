@@ -188,14 +188,15 @@ public class BookshelfController {
 	 *     내가 좋아요한 책장 리스트 조회
 	 * </Pre>
 	 * @param userPrincipal
-	 * @return status : ok
+	 * @return status : ok, BookshelvesResponses
 	 */
 	@GetMapping("/bookshelves/liked")
 	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<BookshelvesResponses> findLikedBookshelves(
 		@AuthenticationPrincipal UserPrincipal userPrincipal,
 		@ModelAttribute @Valid LikedBookShelvesRequest request) {
-		BookshelvesResponses responses = bookshelfService.findLikedBookshelves(request, userPrincipal.getUserId());
+		BookshelvesResponses responses = bookshelfService.findLikedBookshelvesByUserId(request,
+			userPrincipal.getUserId());
 		return ResponseEntity.ok(responses);
 	}
 

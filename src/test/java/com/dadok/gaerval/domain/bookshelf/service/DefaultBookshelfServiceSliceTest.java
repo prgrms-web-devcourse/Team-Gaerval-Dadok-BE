@@ -24,9 +24,11 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -599,4 +601,32 @@ class DefaultBookshelfServiceSliceTest {
 		assertThat(result).isTrue();
 	}
 
+	@DisplayName("findLikedBookshelvesByUserId - user가 좋아요한 책장 list 조회")
+	@Test
+	void findLikedBookshelvesByUserId() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
+
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, null, null);
+
+		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+			, 5));
+		given(bookshelfRepository.findAllLikedByUserId(request, user.getId()))
+			.willReturn(new BookshelvesResponses(new SliceImpl<>(expectResponses, PageRequest.of(0, 50,
+				Sort.by(Sort.Direction.DESC, "id")), false)));
+
+		//when
+		var result = bookshelfService.findLikedBookshelvesByUserId(request, user.getId());
+
+		//then
+		assertThat(result)
+			.hasFieldOrPropertyWithValue("isFirst", true)
+			.hasFieldOrPropertyWithValue("isLast", true)
+			.hasFieldOrPropertyWithValue("count", 1)
+			.hasFieldOrPropertyWithValue("isEmpty", false);
+		assertThat(result.bookshelfResponses().get(0).likeCount()).isEqualTo(5);
+	}
 }

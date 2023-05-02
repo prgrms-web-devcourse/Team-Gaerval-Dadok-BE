@@ -47,5 +47,5 @@ public interface BookshelfService {
 
 	Bookshelf getByUserId(Long userId);
 
-	BookshelvesResponses findLikedBookshelves(LikedBookShelvesRequest request, Long userId);
+	BookshelvesResponses findLikedBookshelvesByUserId(LikedBookShelvesRequest request, Long userId);
 }

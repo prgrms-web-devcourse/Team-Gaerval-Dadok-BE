@@ -186,7 +186,7 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public BookshelvesResponses findLikedBookshelves(LikedBookShelvesRequest request, Long userId) {
+	public BookshelvesResponses findLikedBookshelvesByUserId(LikedBookShelvesRequest request, Long userId) {
 		return bookshelfRepository.findAllLikedByUserId(request, userId);
 	}
 
