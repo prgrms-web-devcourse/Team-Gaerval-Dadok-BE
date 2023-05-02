@@ -2,12 +2,16 @@ package com.dadok.gaerval.domain.bookshelf.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
+import com.dadok.gaerval.domain.bookshelf.entity.BookshelfLike;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.job.repository.JobRepository;
 import com.dadok.gaerval.domain.user.entity.Authority;
@@ -30,6 +34,8 @@ import lombok.RequiredArgsConstructor;
 class BookshelfRepositoryTest {
 
 	private final BookshelfRepository bookshelfRepository;
+
+	private final BookshelfLikeRepository bookshelfLikeRepository;
 
 	private final JobRepository jobRepository;
 
@@ -93,5 +99,27 @@ class BookshelfRepositoryTest {
 	@Test
 	void findBookShelfById() {
 		bookshelfRepository.findBookShelfById(100L, null);
+	}
+
+	@DisplayName("좋아요한 책장 요약 list 조회 - findAllLikedByUserId 쿼리 테스트")
+	@Test
+	void findAllLikedByUserId() {
+
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		User requestUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
+		userRepository.saveAllAndFlush(List.of(user, requestUser));
+
+		user.changeJob(job);
+		requestUser.changeJob(job);
+		Bookshelf bookshelf = bookshelfRepository.saveAndFlush(Bookshelf.create(user));
+		bookshelfLikeRepository.saveAndFlush(BookshelfLike.create(requestUser, bookshelf));
+
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, null, null);
+
+		var response = bookshelfRepository.findAllLikedByUserId(request, requestUser.getId());
+		assertThat(response.count()).isEqualTo(1);
+		assertThat(response.bookshelfResponses().get(0).likeCount()).isEqualTo(1);
 	}
 }

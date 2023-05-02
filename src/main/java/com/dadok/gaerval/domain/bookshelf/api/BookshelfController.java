@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.service.BookshelfService;
@@ -179,6 +181,22 @@ public class BookshelfController {
 		@PathVariable Long bookshelfId, @CurrentUserPrincipal UserPrincipal userPrincipal) {
 		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfById(bookshelfId, userPrincipal.getUserId());
 		return ResponseEntity.ok(bookShelf);
+	}
+
+	/***
+	 * <Pre>
+	 *     내가 좋아요한 책장 리스트 조회
+	 * </Pre>
+	 * @param userPrincipal
+	 * @return status : ok
+	 */
+	@GetMapping("/bookshelves/liked")
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+	public ResponseEntity<BookshelvesResponses> findLikedBookshelves(
+		@AuthenticationPrincipal UserPrincipal userPrincipal,
+		@ModelAttribute @Valid LikedBookShelvesRequest request) {
+		BookshelvesResponses responses = bookshelfService.findLikedBookshelves(request, userPrincipal.getUserId());
+		return ResponseEntity.ok(responses);
 	}
 
 }

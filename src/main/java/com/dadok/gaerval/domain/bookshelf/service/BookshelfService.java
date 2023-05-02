@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -44,4 +46,6 @@ public interface BookshelfService {
 	boolean existsByUserIdAndBookId(Long userId, Long bookId);
 
 	Bookshelf getByUserId(Long userId);
+
+	BookshelvesResponses findLikedBookshelves(LikedBookShelvesRequest request, Long userId);
 }
