@@ -487,7 +487,7 @@ include::{snippets}/bookshelf-like-controller-slice-test/create-like/request-hea
 
 ==== Response
 
-include::{snippets}/bookshelf-like-controller-test/create-like/http-response.adoc[]
+include::{snippets}/bookshelf-like-controller-slice-test/create-like/http-response.adoc[]
 
 === 책장 좋아요 취소
 
@@ -505,7 +505,7 @@ include::{snippets}/bookshelf-like-controller-slice-test/delete-like/request-hea
 
 ==== Response
 
-include::{snippets}/bookshelf-like-controller-test/delete-like/http-response.adoc[]
+include::{snippets}/bookshelf-like-controller-slice-test/delete-like/http-response.adoc[]
 
 == Book - 책
 
