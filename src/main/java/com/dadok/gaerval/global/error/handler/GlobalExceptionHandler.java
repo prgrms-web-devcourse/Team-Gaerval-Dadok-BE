@@ -31,6 +31,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.dadok.gaerval.domain.auth.exception.LogoutException;
 import com.dadok.gaerval.domain.auth.exception.RefreshTokenAuthenticationNotFoundException;
 import com.dadok.gaerval.domain.book.exception.AlreadyContainBookCommentException;
 import com.dadok.gaerval.domain.book.exception.BookApiNotAvailableException;
@@ -70,6 +71,16 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private final SlackService slackService;
+
+	@ExceptionHandler(LogoutException.class)
+	public ResponseEntity<ErrorResponse> handleLogoutException(
+		LogoutException e,
+		HttpServletRequest request
+	) {
+		ErrorCode errorCode = e.getErrorCode();
+
+		return of(errorCode, request.getRequestURI());
+	}
 
 	@ExceptionHandler(JwtAuthenticationException.class)
 	public ResponseEntity<ErrorResponse> handleJwtAuthenticationException(
