@@ -318,7 +318,7 @@ class DefaultBookshelfServiceSliceTest {
 		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		));
+			, 5));
 
 		given(bookshelfRepository.findSuggestionsByJobGroup(JobGroup.HR, 5L, 5))
 			.willReturn(expectResponses);
@@ -344,7 +344,7 @@ class DefaultBookshelfServiceSliceTest {
 		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		));
+			, 5));
 
 		given(bookshelfRepository.findAllSuggestions(5))
 			.willReturn(expectResponses);
@@ -365,8 +365,8 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		var summaryResponse = new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
-				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		);
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg")),
+			5);
 
 		given(bookshelfRepository.findSummaryById(user.getId()))
 			.willReturn(Optional.of(summaryResponse));

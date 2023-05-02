@@ -92,7 +92,9 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 					list(
 						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
 							book.id, book.title, book.imageUrl)
-					))));
+					),
+					bookshelf.bookshelfLikes.size()
+				)));
 
 		if (transform.isEmpty()) {
 			return Optional.empty();
@@ -128,7 +130,9 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 					list(
 						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
 							book.id, book.title, book.imageUrl)
-					))));
+					),
+					bookshelf.bookshelfLikes.size()
+				)));
 
 	}
 
@@ -145,6 +149,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 		return query.from(bookshelf)
 			.leftJoin(bookshelf.bookshelfItems, bookshelfItem)
 			.leftJoin(bookshelfItem.book, book)
+			.leftJoin(bookshelf.bookshelfLikes, bookshelfLike)
 			.where(
 				bookshelf.id.in(searchBookshelfIn(searchBookshelfIds))
 			)
@@ -155,7 +160,9 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 					list(
 						constructor(BookShelfSummaryResponse.BookSummaryResponse.class,
 							book.id, book.title, book.imageUrl)
-					))));
+					),
+					bookshelf.bookshelfLikes.size()
+				)));
 	}
 
 	@Override

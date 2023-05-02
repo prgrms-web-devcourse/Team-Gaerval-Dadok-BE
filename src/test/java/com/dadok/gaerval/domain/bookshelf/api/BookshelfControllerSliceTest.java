@@ -72,13 +72,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-			),
+				, 4),
 			new BookShelfSummaryResponse(13L, "규란님의 책장",
 				List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-			))
+				, 2))
 		);
 
 		given(bookshelfService.findSuggestionBookshelvesByJobGroup(any(), eq(jobGroup)))
@@ -114,6 +114,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("JobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
@@ -138,6 +139,8 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							.description("책장 이름"),
 						fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
 							.description("책장 ID"),
+						fieldWithPath("bookshelfResponses[].likeCount")
+							.type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
 							.description("책 ID"),
 						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
@@ -162,13 +165,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-				),
+					, 3),
 				new BookShelfSummaryResponse(13L, "규란님의 책장",
 					List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-				))
+					, 0))
 		);
 
 		given(bookshelfService.findSuggestionBookshelves())
@@ -194,6 +197,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
 						.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
@@ -210,6 +214,8 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
 						fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING)
 							.description("책장 이름"),
+						fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER)
+							.description("책장 좋아요 개수"),
 						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
 							.description("책 ID"),
 						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
@@ -324,7 +330,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		var responses = new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		);
+			, 5);
 
 		given(bookshelfService.findSummaryBookshelf(any()))
 			.willReturn(responses);
@@ -350,6 +356,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				responseFields(
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -365,6 +372,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					.responseFields(
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -385,7 +393,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 				new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 					"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		);
+			, 5);
 
 		given(bookshelfService.findSummaryBookshelf(5L))
 			.willReturn(responses);
@@ -411,6 +419,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				responseFields(
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -428,6 +437,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					.responseFields(
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
