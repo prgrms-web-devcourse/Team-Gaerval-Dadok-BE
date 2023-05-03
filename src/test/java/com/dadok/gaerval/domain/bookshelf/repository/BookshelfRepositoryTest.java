@@ -86,12 +86,49 @@ class BookshelfRepositoryTest {
 	@DisplayName("직군별 인기 책장 요약 list 조회 - findSuggestionsByJobGroup 쿼리테스트")
 	@Test
 	void findSuggestionsByJobGroup() {
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		User otherUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
+		userRepository.saveAllAndFlush(List.of(user, otherUser));
+
+		var bookshelf = bookshelfRepository.saveAndFlush(Bookshelf.create(user));
+		var bookshelf2 = bookshelfRepository.saveAndFlush(Bookshelf.create(otherUser));
+
+		bookshelf.changeJobId(job.getId());
+		bookshelf2.changeJobId(job.getId());
+
+		var res = bookshelfRepository.findSuggestionsByJobGroup(JobGroup.DEVELOPMENT, user.getId(), 2);
+		assertThat(res.size()).isEqualTo(1);
+	}
+
+	@DisplayName("직군별 인기 책장 요약 emtpy list 조회 - findSuggestionsByJobGroup 쿼리테스트")
+	@Test
+	void findSuggestionsByJobGroup_empty() {
 		bookshelfRepository.findSuggestionsByJobGroup(JobGroup.DEVELOPMENT, 10L, 1);
 	}
 
 	@DisplayName("인기 책장 요약 list 조회 - findAllSuggestions 쿼리테스트")
 	@Test
 	void findAllSuggestions() {
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		User otherUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
+		userRepository.saveAllAndFlush(List.of(user, otherUser));
+
+		user.changeJob(job);
+		otherUser.changeJob(job);
+		bookshelfRepository.saveAndFlush(Bookshelf.create(user));
+		bookshelfRepository.saveAndFlush(Bookshelf.create(otherUser));
+
+		var res = bookshelfRepository.findAllSuggestions(5);
+		assertThat(res.size()).isEqualTo(2);
+	}
+
+	@DisplayName("인기 책장 요약 empty list 조회 - findAllSuggestions 쿼리테스트")
+	@Test
+	void findAllSuggestions_empty() {
 		bookshelfRepository.findAllSuggestions(1);
 	}
 
