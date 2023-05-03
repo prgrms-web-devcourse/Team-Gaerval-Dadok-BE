@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
+import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponse;
+import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
@@ -46,6 +48,12 @@ public class BookObjectProvider {
 		List<SearchBookResponse> bookList = new ArrayList<>();
 		bookList.add(new SearchBookResponse(title, author, isbn, contents, url, imageUrl, apiProvider, publisher));
 		return new BookResponses(1,10, true, 1, 1, bookList);
+	}
+
+	public static BestSellerBookResponses mockBestSellerData()  {
+		List<BestSellerBookResponse> bookList = new ArrayList<>();
+		bookList.add(new BestSellerBookResponse(title, author, isbn, contents, url, imageUrl, apiProvider, publisher, 1));
+		return new BestSellerBookResponses(1,10, true, 1, 1, bookList);
 	}
 
 	public static BookCreateRequest createBookCreateRequest() {

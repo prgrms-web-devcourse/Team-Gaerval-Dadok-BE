@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.converter.BookMapper;
+import com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SortingPolicy;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
@@ -61,6 +63,11 @@ public class DefaultBookService implements BookService {
 		eventPublisher.publishEvent(new SaveKeywordEvent(userId, bookSearchRequest.query()));
 
 		return bookResponses;
+	}
+
+	@Override
+	public BestSellerBookResponses findAllBestSeller(BestSellerSearchRequest bestSellerSearchRequest) {
+		return externalBookApiOperations.searchBestSellers(bestSellerSearchRequest);
 	}
 
 	private Book createBook(BookCreateRequest bookCreateRequest) {

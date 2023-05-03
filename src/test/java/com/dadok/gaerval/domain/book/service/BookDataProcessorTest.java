@@ -8,12 +8,12 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.dadok.gaerval.domain.book.entity.Book;
+import com.dadok.gaerval.global.config.externalapi.BookApiProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 
 class BookDataProcessorTest {
@@ -31,7 +31,7 @@ class BookDataProcessorTest {
 		String imageUrl = BookObjectProvider.imageUrl;
 
 		// when
-		Book weirdBook = BookDataProcessor.process(title, authors, contents,isbn, url, imageUrl, publisher);
+		Book weirdBook = BookDataProcessor.process(title, authors, contents,isbn, url, imageUrl, publisher, BookApiProvider.KAKAO);
 
 		// then
 		assertEquals("책 제목 미상", weirdBook.getTitle());

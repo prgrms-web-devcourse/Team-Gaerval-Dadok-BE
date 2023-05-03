@@ -1,6 +1,7 @@
 package com.dadok.gaerval.domain.book.api;
 
 import static com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator.*;
+import static com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRange.*;
 import static com.dadok.gaerval.global.config.security.jwt.AuthService.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.BDDMockito.any;
@@ -31,6 +32,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.dadok.gaerval.controller.ControllerSliceTest;
 import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
+import com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookRecentSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
@@ -151,6 +153,103 @@ class BookControllerSliceTest extends ControllerSliceTest {
 
 		// then
 		verify(bookService).findAllByKeyword(bookSearchRequest, 1L);
+	}
+
+	@DisplayName("findBestSellers - 베스트셀러 목록을 반환한다.")
+	@Test
+	@WithMockCustomOAuth2LoginUser
+	void findBestSeller_success() throws Exception {
+		// given
+		BestSellerSearchRequest bestSellerSearchRequest = new BestSellerSearchRequest(1, 10, 0, WEEKLY);
+		given(bookService.findAllBestSeller(bestSellerSearchRequest)).willReturn(
+			BookObjectProvider.mockBestSellerData());
+
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+		params.add("page", bestSellerSearchRequest.page().toString());
+		params.add("pageSize", bestSellerSearchRequest.pageSize().toString());
+		params.add("categoryId", bestSellerSearchRequest.categoryId().toString());
+		params.add("bestSellerSearchRange", bestSellerSearchRequest.bestSellerSearchRange().getName());
+
+		// when
+		mockMvc.perform(get("/api/books/best-seller")
+				.contentType(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.accept(MediaType.APPLICATION_JSON)
+				.params(params)
+				.characterEncoding(StandardCharsets.UTF_8)
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				requestParameters(
+					parameterWithName("page").description("page (기본값 :1) ")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "page")
+						)
+					,
+					parameterWithName("pageSize").description("pageSize (기본값:10)")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "pageSize")
+						),
+					parameterWithName("categoryId").description("도서카테고리 (기본값:0)")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "categoryId")
+						),
+					parameterWithName("bestSellerSearchRange").description("검색범위 default : WEEKLY")
+						.optional()
+						.description("정렬 방식 : " +
+							generateLinkCode(DocUrl.BEST_SELLER_SEARCH_RANGE)
+						)
+				),
+				responseFields(
+					fieldWithPath("requestedPageNumber").type(JsonFieldType.NUMBER)
+						.description("요청한 페이지 값"),
+					fieldWithPath("requestedPageSize").type(JsonFieldType.NUMBER)
+						.description("요청한 페이지 사이즈"),
+					fieldWithPath("isLast").type(JsonFieldType.BOOLEAN)
+						.description("마지막 데이터 여부"),
+					fieldWithPath("pageableCount").type(JsonFieldType.NUMBER)
+						.description("조회 가능한 데이터 여부(중복 제외된 결과)"),
+					fieldWithPath("totalCount").type(JsonFieldType.NUMBER)
+						.description("전체 데이터 개수"),
+					fieldWithPath("bestSellerBookResponseList").type(JsonFieldType.ARRAY)
+						.optional()
+						.description("도서 검색 결과 리스트"),
+					fieldWithPath("bestSellerBookResponseList[].title").type(JsonFieldType.STRING)
+						.optional()
+						.description("책 제목"),
+					fieldWithPath("bestSellerBookResponseList[].author").type(JsonFieldType.STRING)
+						.optional()
+						.description("작가 목록(쉼표로 구분)"),
+					fieldWithPath("bestSellerBookResponseList[].isbn").type(JsonFieldType.STRING)
+						.optional()
+						.description("isbn(10자리, 13자리는 없는 상태로 오는 경우가 많음)"),
+					fieldWithPath("bestSellerBookResponseList[].contents").type(JsonFieldType.STRING)
+						.optional()
+						.description("책 소개(소개글이 중간에 잘려서 오므로 말 줄임표 등의 처리 필요)"),
+					fieldWithPath("bestSellerBookResponseList[].url").type(JsonFieldType.STRING)
+						.optional()
+						.description("책 소개 url"),
+					fieldWithPath("bestSellerBookResponseList[].imageUrl").type(JsonFieldType.STRING)
+						.optional()
+						.description("썸네일"),
+					fieldWithPath("bestSellerBookResponseList[].apiProvider").type(JsonFieldType.STRING)
+						.optional()
+						.description("도서 API 제공자"),
+					fieldWithPath("bestSellerBookResponseList[].publisher").type(JsonFieldType.STRING)
+						.optional()
+						.description("출판사"),
+					fieldWithPath("bestSellerBookResponseList[].bestRank").type(JsonFieldType.NUMBER)
+						.optional()
+						.description("베스트셀러순위")
+				)
+			));
+
+		// then
+		verify(bookService).findAllBestSeller(bestSellerSearchRequest);
 	}
 
 	@DisplayName("findRecentQuery - 유저의 최근 검색 결과를 반환한다.")

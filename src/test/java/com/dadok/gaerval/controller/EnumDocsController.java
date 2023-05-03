@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRange;
 import com.dadok.gaerval.domain.book_group.dto.request.BookGroupQueryRequest;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
@@ -34,6 +35,7 @@ public class EnumDocsController {
 			.jobName(toMap(JobGroup.JobName.values()))
 			.gender(toMap(Gender.values()))
 			.groupSearchOption(toMap(BookGroupQueryRequest.GroupSearchOption.values()))
+			.bestSellerSearchRange(toMap(BestSellerSearchRange.values()))
 			.build()
 		);
 	}

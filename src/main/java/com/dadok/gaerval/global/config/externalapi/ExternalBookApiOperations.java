@@ -1,6 +1,8 @@
 package com.dadok.gaerval.global.config.externalapi;
 
+import com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SearchTarget;
+import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
 
 public interface ExternalBookApiOperations {
@@ -8,4 +10,6 @@ public interface ExternalBookApiOperations {
 
 	BookResponses searchBooksWithTargetRestriction(String query, SearchTarget searchTarget, int page, int size,
 		String sort);
+
+	BestSellerBookResponses searchBestSellers(BestSellerSearchRequest bestSellerSearchRequest);
 }

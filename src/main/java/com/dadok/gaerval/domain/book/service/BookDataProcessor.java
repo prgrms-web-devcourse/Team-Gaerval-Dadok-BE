@@ -5,13 +5,15 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.dadok.gaerval.domain.book.entity.Book;
-import com.dadok.gaerval.global.config.security.AuthProvider;
+import com.dadok.gaerval.global.config.externalapi.BookApiProvider;
 
 public class BookDataProcessor {
 
 	public static Book process(String title, List<String> authors, String contents, String isbn, String url,
 		String imageUrl,
-		String publisher) {
+		String publisher,
+		BookApiProvider bookApiProvider
+	) {
 
 		if (StringUtils.isBlank(title)) {
 			title = "책 제목 미상";
@@ -36,7 +38,7 @@ public class BookDataProcessor {
 		}
 
 		return Book.create(title, authorsString, isbn,
-			contents, url, imageUrl, AuthProvider.KAKAO.getName(),
+			contents, url, imageUrl, bookApiProvider.getName(),
 			publisher);
 
 	}

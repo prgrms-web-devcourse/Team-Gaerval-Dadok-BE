@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookRecentSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookIdResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
@@ -57,6 +59,22 @@ public class BookController {
 	public ResponseEntity<BookResponses> findBooksByQuery(@ModelAttribute @Valid BookSearchRequest bookSearchRequest,
 		@CurrentUserPrincipal UserPrincipal userPrincipal) {
 		return ResponseEntity.ok().body(bookService.findAllByKeyword(bookSearchRequest, userPrincipal.getUserId()));
+	}
+
+
+	/**
+	 * <pre>
+	 *     베스트셀러 목록을 외부 API로부터 받아온다.
+	 * </pre>
+	 *
+	 * @param bestSellerSearchRequest 페이지 정보
+	 * @return status : ok
+	 */
+	@GetMapping(value = "/best-seller",produces = APPLICATION_JSON_VALUE)
+	@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER','ROLE_ANONYMOUS')")
+	@LogMethodInfo
+	public ResponseEntity<BestSellerBookResponses> findBestSellers(@ModelAttribute @Valid BestSellerSearchRequest bestSellerSearchRequest) {
+		return ResponseEntity.ok().body(bookService.findAllBestSeller(bestSellerSearchRequest));
 	}
 
 	/**

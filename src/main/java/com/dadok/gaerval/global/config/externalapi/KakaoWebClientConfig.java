@@ -1,5 +1,6 @@
 package com.dadok.gaerval.global.config.externalapi;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Configuration
 @RequiredArgsConstructor
-public class WebClientConfig {
+public class KakaoWebClientConfig implements VendorWebClient {
 
 	private final WebClientProperties webClientProperties;
 
@@ -26,7 +27,8 @@ public class WebClientConfig {
 	}
 
 	@Bean
-	public WebClient webClient(){
+	@Qualifier("kakaoWebClient")
+	public WebClient kakaoWebClient() {
 		return WebClient.builder()
 			.baseUrl(webClientProperties.getBaseUri())
 			.defaultHeader(HttpHeaders.AUTHORIZATION,
@@ -34,5 +36,8 @@ public class WebClientConfig {
 			.build();
 	}
 
-
+	@Override
+	public WebClient getWebClient() {
+		return kakaoWebClient();
+	}
 }
