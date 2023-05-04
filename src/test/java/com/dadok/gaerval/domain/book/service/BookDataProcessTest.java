@@ -11,12 +11,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import com.dadok.gaerval.domain.book.converter.BookMapper;
+import com.dadok.gaerval.domain.book.dto.response.OriginalBookData;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.global.config.externalapi.BookApiProvider;
 import com.dadok.gaerval.testutil.BookObjectProvider;
 
-class BookDataProcessorTest {
+@SpringBootTest
+class BookDataProcessTest {
+
+	@Autowired
+	private BookMapper bookMapper;
 
 	@DisplayName("일반적이지 않은 데이터의 전처리에 성공한다.")
 	@ParameterizedTest
@@ -31,7 +39,8 @@ class BookDataProcessorTest {
 		String imageUrl = BookObjectProvider.imageUrl;
 
 		// when
-		Book weirdBook = BookDataProcessor.process(title, authors, contents,isbn, url, imageUrl, publisher, BookApiProvider.KAKAO);
+		Book weirdBook = bookMapper.originalBookDataToEntity(
+			new OriginalBookData(title, authors, contents,isbn, url, imageUrl, publisher, BookApiProvider.KAKAO));
 
 		// then
 		assertEquals("책 제목 미상", weirdBook.getTitle());

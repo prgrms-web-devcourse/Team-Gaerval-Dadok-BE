@@ -11,5 +11,5 @@ public interface ExternalBookApiOperations {
 	BookResponses searchBooksWithTargetRestriction(String query, SearchTarget searchTarget, int page, int size,
 		String sort);
 
-	BestSellerBookResponses searchBestSellers(BestSellerSearchRequest bestSellerSearchRequest);
+	BestSellerBookResponses searchWeeklyBestSellers(BestSellerSearchRequest bestSellerSearchRequest);
 }

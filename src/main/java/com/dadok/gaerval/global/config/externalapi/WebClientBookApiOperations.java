@@ -15,11 +15,11 @@ import com.dadok.gaerval.domain.book.dto.request.SearchTarget;
 import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
+import com.dadok.gaerval.domain.book.dto.response.OriginalBookData;
 import com.dadok.gaerval.domain.book.dto.response.SearchBookResponse;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.exception.BookApiNotAvailableException;
 import com.dadok.gaerval.domain.book.exception.InvalidBookDataException;
-import com.dadok.gaerval.domain.book.service.BookDataProcessor;
 import com.dadok.gaerval.global.error.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -107,14 +107,14 @@ public class WebClientBookApiOperations implements ExternalBookApiOperations {
 				List<String> allAuthors = new ArrayList<>();
 				document.get("authors").forEach(authorNode -> allAuthors.add(authorNode.asText()));
 
-				Book processedBook = BookDataProcessor.process(document.get("title").asText(),
+				Book processedBook = bookMapper.originalBookDataToEntity(new OriginalBookData(document.get("title").asText(),
 					allAuthors,
 					document.get("contents").asText(),
 					document.get("isbn").asText(),
 					document.get("url").asText(),
 					document.get("thumbnail").asText(),
 					document.get("publisher").asText(),
-					BookApiProvider.KAKAO
+					BookApiProvider.KAKAO)
 				);
 
 				searchBookResponseList.add(bookMapper.entityToSearchBookResponse(processedBook));
@@ -129,7 +129,7 @@ public class WebClientBookApiOperations implements ExternalBookApiOperations {
 	}
 
 	@Override
-	public BestSellerBookResponses searchBestSellers(BestSellerSearchRequest bestSellerSearchRequest) {
+	public BestSellerBookResponses searchWeeklyBestSellers(BestSellerSearchRequest bestSellerSearchRequest) {
 		return processBestSellerSearchResult(aladinWebClientConfig.getWebClient().get()
 				.uri(uriBuilder -> uriBuilder
 					.path("ItemList.aspx")
@@ -168,14 +168,14 @@ public class WebClientBookApiOperations implements ExternalBookApiOperations {
 			totalCount.set(totalResults);
 
 			documents.ifPresent(docs -> docs.forEach(document -> {
-				Book processedBook = BookDataProcessor.process(document.get("title").asText(),
+				Book processedBook = bookMapper.originalBookDataToEntity(new OriginalBookData(document.get("title").asText(),
 					List.of(document.get("author").asText()),
 					document.get("description").asText(),
 					document.get("isbn").asText(),
 					document.get("link").asText(),
 					document.get("cover").asText(),
 					document.get("publisher").asText(),
-					BookApiProvider.ALADIN
+					BookApiProvider.ALADIN)
 				);
 
 				bestSellerBookResponseList.add(new BestSellerBookResponse(processedBook.getTitle(),

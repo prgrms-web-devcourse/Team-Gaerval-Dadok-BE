@@ -23,7 +23,7 @@ public class AladinWebClientConfig implements VendorWebClient {
 	@Qualifier("aladinWebClient")
 	public WebClient aladinWebClient() {
 		return WebClient.builder()
-			.baseUrl(webClientProperties.getBestSellerBaseUri())
+			.baseUrl(webClientProperties.getAladin().getBestSellerBaseUri())
 			.build();
 	}
 
@@ -34,7 +34,7 @@ public class AladinWebClientConfig implements VendorWebClient {
 
 	public MultiValueMap<String, String> defaultQueryParams() {
 		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-		queryParams.add("ttbkey", webClientProperties.getTtbKey());
+		queryParams.add("ttbkey", webClientProperties.getAladin().getTtbKey());
 		queryParams.add("SearchTarget", "Book");
 		queryParams.add("output", "js");
 		queryParams.add("Version", "20131101");

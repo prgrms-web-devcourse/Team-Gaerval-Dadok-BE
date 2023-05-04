@@ -67,7 +67,7 @@ public class DefaultBookService implements BookService {
 
 	@Override
 	public BestSellerBookResponses findAllBestSeller(BestSellerSearchRequest bestSellerSearchRequest) {
-		return externalBookApiOperations.searchBestSellers(bestSellerSearchRequest);
+		return externalBookApiOperations.searchWeeklyBestSellers(bestSellerSearchRequest);
 	}
 
 	private Book createBook(BookCreateRequest bookCreateRequest) {

@@ -30,9 +30,9 @@ public class KakaoWebClientConfig implements VendorWebClient {
 	@Qualifier("kakaoWebClient")
 	public WebClient kakaoWebClient() {
 		return WebClient.builder()
-			.baseUrl(webClientProperties.getBaseUri())
+			.baseUrl(webClientProperties.getKakao().getBaseUri())
 			.defaultHeader(HttpHeaders.AUTHORIZATION,
-				String.format("%s %s", webClientProperties.getScheme(), webClientProperties.getApiKey()))
+				String.format("%s %s", webClientProperties.getKakao().getScheme(), webClientProperties.getKakao().getApiKey()))
 			.build();
 	}
 
