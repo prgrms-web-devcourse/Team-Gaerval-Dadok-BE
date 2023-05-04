@@ -183,7 +183,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 		ErrorCode errorCode = e.getErrorCode();
 		logError(e, request.getRequestURI());
-		slackService.sendError(e, request.getRequestURI());
 
 		return of(errorCode, request.getRequestURI());
 	}
