@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books) {
+public record BookShelfSummaryResponse(
+	Long bookshelfId,
+	String bookshelfName,
+	List<BookSummaryResponse> books,
+	Integer likeCount
+) {
 
 	static final int BOOK_VIEW_LIMIT = 4;
 
-	public BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books) {
+	public BookShelfSummaryResponse(Long bookshelfId, String bookshelfName, List<BookSummaryResponse> books,
+		Integer likeCount) {
 		this.bookshelfId = bookshelfId;
 		this.bookshelfName = bookshelfName;
+		this.likeCount = likeCount;
 		if (books == null || books.get(0).bookId == null) {
 			this.books = new ArrayList<>();
 		} else {

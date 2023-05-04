@@ -24,9 +24,11 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItem;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfItemType;
@@ -318,7 +320,7 @@ class DefaultBookshelfServiceSliceTest {
 		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		));
+			, 5));
 
 		given(bookshelfRepository.findSuggestionsByJobGroup(JobGroup.HR, 5L, 5))
 			.willReturn(expectResponses);
@@ -344,7 +346,7 @@ class DefaultBookshelfServiceSliceTest {
 		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		));
+			, 5));
 
 		given(bookshelfRepository.findAllSuggestions(5))
 			.willReturn(expectResponses);
@@ -365,8 +367,8 @@ class DefaultBookshelfServiceSliceTest {
 		// Given
 		var summaryResponse = new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
-				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		);
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg")),
+			5);
 
 		given(bookshelfRepository.findSummaryById(user.getId()))
 			.willReturn(Optional.of(summaryResponse));
@@ -457,37 +459,40 @@ class DefaultBookshelfServiceSliceTest {
 			.hasFieldOrPropertyWithValue("isEmpty", false);
 	}
 
-	@DisplayName("findBookShelfWithJob - userId로 책장과 유저와 직업을 같이 조회해온다.")
+	@DisplayName("findBookShelfByUserId - userId로 책장과 유저와 직업을 같이 조회해온다.")
 	@Test
 	void findBookShelfWithJob() {
 		//given
-		Long userId = 1L;
+		Long ownerId = 1L;
+		Long userId = 2L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, userId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, false,
+			userId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfRepository.findByIdWithUserAndJob(userId))
+		given(bookshelfRepository.findBookShelfByOwnerId(ownerId, userId))
 			.willReturn(Optional.of(bookShelfDetailResponse));
 		//when
 
-		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfWithJob(userId);
+		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfByUserId(ownerId, userId);
 
 		//then
 		assertEquals(bookShelfWithJob, bookShelfDetailResponse);
 	}
 
-	@DisplayName("findBookShelfWithJob - userId로 책장과 유저와 직업을 조회했을 때 없다면 예외를 던진다.")
+	@DisplayName("findBookShelfByUserId - ownerId로 책장과 유저와 직업을 조회했을 때 없다면 예외를 던진다.")
 	@Test
 	void findBookShelfWithJob_throw() {
 		//given
+		Long ownerId = 1L;
 		Long userId = 1L;
 
-		given(bookshelfRepository.findByIdWithUserAndJob(userId))
+		given(bookshelfRepository.findBookShelfByOwnerId(ownerId, userId))
 			.willReturn(Optional.empty());
 		//when
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.findBookShelfWithJob(userId));
+			() -> bookshelfService.findBookShelfByUserId(ownerId, userId));
 	}
 
 	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없으므로 책장을 생성하고 변경에 성공한다. ")
@@ -542,16 +547,18 @@ class DefaultBookshelfServiceSliceTest {
 	void findBookShelfById() {
 		//given
 		Long userId = 1L;
+		Long bookshelfId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, userId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, false,
+			userId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfRepository.findBookShelfById(userId))
+		given(bookshelfRepository.findBookShelfById(bookshelfId, userId))
 			.willReturn(Optional.of(bookShelfDetailResponse));
 		//when
 
-		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfById(userId);
+		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfById(bookshelfId, userId);
 
 		//then
 		assertEquals(bookShelfWithJob, bookShelfDetailResponse);
@@ -562,12 +569,13 @@ class DefaultBookshelfServiceSliceTest {
 	void findBookShelfById_throw() {
 		//given
 		Long userId = 1L;
+		Long bookshelfId = 1L;
 
-		given(bookshelfRepository.findBookShelfById(userId))
+		given(bookshelfRepository.findBookShelfById(bookshelfId, userId))
 			.willReturn(Optional.empty());
 		//when
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.findBookShelfById(userId));
+			() -> bookshelfService.findBookShelfById(bookshelfId, userId));
 	}
 
 	@DisplayName("existsByUserIdAndBookId - 유저 ID와 책 ID로 존재 여부 확인에 성공한다. ")
@@ -593,4 +601,32 @@ class DefaultBookshelfServiceSliceTest {
 		assertThat(result).isTrue();
 	}
 
+	@DisplayName("findLikedBookshelvesByUserId - user가 좋아요한 책장 list 조회")
+	@Test
+	void findLikedBookshelvesByUserId() {
+		//given
+		User kakaoUser = UserObjectProvider.createKakaoUser();
+		ReflectionTestUtils.setField(kakaoUser, "id", 1L);
+
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, null, null);
+
+		var expectResponses = List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
+				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+			, 5));
+		given(bookshelfRepository.findAllLikedByUserId(request, user.getId()))
+			.willReturn(new BookshelvesResponses(new SliceImpl<>(expectResponses, PageRequest.of(0, 50,
+				Sort.by(Sort.Direction.DESC, "id")), false)));
+
+		//when
+		var result = bookshelfService.findLikedBookshelvesByUserId(request, user.getId());
+
+		//then
+		assertThat(result)
+			.hasFieldOrPropertyWithValue("isFirst", true)
+			.hasFieldOrPropertyWithValue("isLast", true)
+			.hasFieldOrPropertyWithValue("count", 1)
+			.hasFieldOrPropertyWithValue("isEmpty", false);
+		assertThat(result.bookshelfResponses().get(0).likeCount()).isEqualTo(5);
+	}
 }

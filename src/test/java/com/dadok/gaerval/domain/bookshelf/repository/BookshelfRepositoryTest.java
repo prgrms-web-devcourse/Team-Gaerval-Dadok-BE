@@ -2,12 +2,16 @@ package com.dadok.gaerval.domain.bookshelf.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
+import com.dadok.gaerval.domain.bookshelf.entity.BookshelfLike;
 import com.dadok.gaerval.domain.job.entity.JobGroup;
 import com.dadok.gaerval.domain.job.repository.JobRepository;
 import com.dadok.gaerval.domain.user.entity.Authority;
@@ -31,6 +35,8 @@ class BookshelfRepositoryTest {
 
 	private final BookshelfRepository bookshelfRepository;
 
+	private final BookshelfLikeRepository bookshelfLikeRepository;
+
 	private final JobRepository jobRepository;
 
 	private final AuthorityRepository authorityRepository;
@@ -44,10 +50,10 @@ class BookshelfRepositoryTest {
 		authority = authorityRepository.save(Authority.create(Role.USER));
 	}
 
-	@DisplayName("findByIdWithUserAndJob 쿼리 테스트")
+	@DisplayName("findBookShelfByOwnerId 쿼리 테스트")
 	@Test
 	void findByIdWithUserAndJob() {
-		bookshelfRepository.findByIdWithUserAndJob(100L);
+		bookshelfRepository.findBookShelfByOwnerId(100L, null);
 	}
 
 	@DisplayName("사용자의 책장 요약 조회")
@@ -80,18 +86,93 @@ class BookshelfRepositoryTest {
 	@DisplayName("직군별 인기 책장 요약 list 조회 - findSuggestionsByJobGroup 쿼리테스트")
 	@Test
 	void findSuggestionsByJobGroup() {
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		User otherUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
+		userRepository.saveAllAndFlush(List.of(user, otherUser));
+
+		var bookshelf = bookshelfRepository.saveAndFlush(Bookshelf.create(user));
+		var bookshelf2 = bookshelfRepository.saveAndFlush(Bookshelf.create(otherUser));
+
+		bookshelf.changeJobId(job.getId());
+		bookshelf2.changeJobId(job.getId());
+
+		var res = bookshelfRepository.findSuggestionsByJobGroup(JobGroup.DEVELOPMENT, user.getId(), 2);
+		assertThat(res.size()).isEqualTo(1);
+	}
+
+	@DisplayName("직군별 인기 책장 요약 emtpy list 조회 - findSuggestionsByJobGroup 쿼리테스트")
+	@Test
+	void findSuggestionsByJobGroup_empty() {
 		bookshelfRepository.findSuggestionsByJobGroup(JobGroup.DEVELOPMENT, 10L, 1);
 	}
 
 	@DisplayName("인기 책장 요약 list 조회 - findAllSuggestions 쿼리테스트")
 	@Test
 	void findAllSuggestions() {
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		User otherUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
+		userRepository.saveAllAndFlush(List.of(user, otherUser));
+
+		user.changeJob(job);
+		otherUser.changeJob(job);
+		bookshelfRepository.saveAndFlush(Bookshelf.create(user));
+		bookshelfRepository.saveAndFlush(Bookshelf.create(otherUser));
+
+		var res = bookshelfRepository.findAllSuggestions(5);
+		assertThat(res.size()).isEqualTo(2);
+	}
+
+	@DisplayName("인기 책장 요약 empty list 조회 - findAllSuggestions 쿼리테스트")
+	@Test
+	void findAllSuggestions_empty() {
 		bookshelfRepository.findAllSuggestions(1);
 	}
 
 	@DisplayName("findBookShelfById 쿼리 테스트")
 	@Test
 	void findBookShelfById() {
-		bookshelfRepository.findBookShelfById(100L);
+		bookshelfRepository.findBookShelfById(100L, null);
+	}
+
+	@DisplayName("좋아요한 책장 요약 list 조회 - findAllLikedByUserId 쿼리 테스트")
+	@Test
+	void findAllLikedByUserId() {
+
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		User requestUser = User.createByOAuth(UserObjectProvider.naverAttribute(), UserAuthority.create(authority));
+		userRepository.saveAllAndFlush(List.of(user, requestUser));
+
+		user.changeJob(job);
+		requestUser.changeJob(job);
+		Bookshelf bookshelf = bookshelfRepository.saveAndFlush(Bookshelf.create(user));
+		bookshelfLikeRepository.saveAndFlush(BookshelfLike.create(requestUser, bookshelf));
+
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, null, null);
+
+		var response = bookshelfRepository.findAllLikedByUserId(request, requestUser.getId());
+		assertThat(response.count()).isEqualTo(1);
+		assertThat(response.bookshelfResponses().get(0).likeCount()).isEqualTo(1);
+	}
+
+	@DisplayName("좋아요한 책장 empty list 조회 - findAllLikedByUserId 쿼리 테스트")
+	@Test
+	void findAllLikedByUserId_empty() {
+
+		var job = jobRepository.save(JobObjectProvider.backendJob());
+		Authority authority = authorityRepository.getReferenceById(Role.USER);
+		User user = User.createByOAuth(UserObjectProvider.kakaoAttribute(), UserAuthority.create(authority));
+		userRepository.saveAndFlush(user);
+		user.changeJob(job);
+
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, null, null);
+
+		var response = bookshelfRepository.findAllLikedByUserId(request, user.getId());
+		assertThat(response.bookshelfResponses().size()).isEqualTo(0);
 	}
 }
