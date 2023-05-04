@@ -459,7 +459,7 @@ class DefaultBookshelfServiceSliceTest {
 			.hasFieldOrPropertyWithValue("isEmpty", false);
 	}
 
-	@DisplayName("findBookShelfWithJob - userId로 책장과 유저와 직업을 같이 조회해온다.")
+	@DisplayName("findBookShelfByUserId - userId로 책장과 유저와 직업을 같이 조회해온다.")
 	@Test
 	void findBookShelfWithJob() {
 		//given
@@ -471,28 +471,28 @@ class DefaultBookshelfServiceSliceTest {
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfRepository.findByIdWithUserAndJob(ownerId, userId))
+		given(bookshelfRepository.findBookShelfByOwnerId(ownerId, userId))
 			.willReturn(Optional.of(bookShelfDetailResponse));
 		//when
 
-		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfWithJob(ownerId, userId);
+		BookShelfDetailResponse bookShelfWithJob = bookshelfService.findBookShelfByUserId(ownerId, userId);
 
 		//then
 		assertEquals(bookShelfWithJob, bookShelfDetailResponse);
 	}
 
-	@DisplayName("findBookShelfWithJob - ownerId로 책장과 유저와 직업을 조회했을 때 없다면 예외를 던진다.")
+	@DisplayName("findBookShelfByUserId - ownerId로 책장과 유저와 직업을 조회했을 때 없다면 예외를 던진다.")
 	@Test
 	void findBookShelfWithJob_throw() {
 		//given
 		Long ownerId = 1L;
 		Long userId = 1L;
 
-		given(bookshelfRepository.findByIdWithUserAndJob(ownerId, userId))
+		given(bookshelfRepository.findBookShelfByOwnerId(ownerId, userId))
 			.willReturn(Optional.empty());
 		//when
 		assertThrows(ResourceNotfoundException.class,
-			() -> bookshelfService.findBookShelfWithJob(ownerId, userId));
+			() -> bookshelfService.findBookShelfByUserId(ownerId, userId));
 	}
 
 	@DisplayName("updateJobIdByUserId - 책장을 찾을 수 없으므로 책장을 생성하고 변경에 성공한다. ")

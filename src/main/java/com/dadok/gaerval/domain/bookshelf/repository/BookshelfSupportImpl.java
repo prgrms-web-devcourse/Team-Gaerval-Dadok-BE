@@ -38,7 +38,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 	private final JPAQueryFactory query;
 
 	@Override
-	public Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long ownerId, Long userId) {
+	public Optional<BookShelfDetailResponse> findBookShelfByOwnerId(Long ownerId, Long userId) {
 
 		Tuple tuple = query.select(
 				bookshelf.id,

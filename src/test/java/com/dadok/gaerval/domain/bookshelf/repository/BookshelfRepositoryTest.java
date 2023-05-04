@@ -50,10 +50,10 @@ class BookshelfRepositoryTest {
 		authority = authorityRepository.save(Authority.create(Role.USER));
 	}
 
-	@DisplayName("findByIdWithUserAndJob 쿼리 테스트")
+	@DisplayName("findBookShelfByOwnerId 쿼리 테스트")
 	@Test
 	void findByIdWithUserAndJob() {
-		bookshelfRepository.findByIdWithUserAndJob(100L, null);
+		bookshelfRepository.findBookShelfByOwnerId(100L, null);
 	}
 
 	@DisplayName("사용자의 책장 요약 조회")

@@ -11,7 +11,7 @@ import com.dadok.gaerval.domain.job.entity.JobGroup;
 
 public interface BookshelfSupport {
 
-	Optional<BookShelfDetailResponse> findByIdWithUserAndJob(Long ownerId, Long userId);
+	Optional<BookShelfDetailResponse> findBookShelfByOwnerId(Long ownerId, Long userId);
 
 	Optional<BookShelfSummaryResponse> findSummaryById(Long userId);
 

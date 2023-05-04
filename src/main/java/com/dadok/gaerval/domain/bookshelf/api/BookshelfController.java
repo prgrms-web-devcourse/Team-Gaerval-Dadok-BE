@@ -169,9 +169,9 @@ public class BookshelfController {
 
 	@PreAuthorize(value = "hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping(value = "/bookshelves", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<BookShelfDetailResponse> findBookShelfWithUserJob(
+	public ResponseEntity<BookShelfDetailResponse> findBookShelfByUserId(
 		@RequestParam @Valid @NotNull Long userId, @CurrentUserPrincipal UserPrincipal userPrincipal) {
-		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfWithJob(userId, userPrincipal.getUserId());
+		BookShelfDetailResponse bookShelf = bookshelfService.findBookShelfByUserId(userId, userPrincipal.getUserId());
 		return ResponseEntity.ok(bookShelf);
 	}
 

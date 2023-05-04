@@ -605,7 +605,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		//then
 	}
 
-	@DisplayName("findBookShelfWithUserJob - 유저와 책장과 직업을 같이 조회해온다.")
+	@DisplayName("findBookShelfByUserId - 유저와 책장과 직업을 같이 조회해온다.")
 	@Test
 	@WithMockCustomOAuth2LoginUser
 	void findBookShelfWithUserJob() throws Exception {
@@ -618,7 +618,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfService.findBookShelfWithJob(eq(ownerId), any()))
+		given(bookshelfService.findBookShelfByUserId(eq(ownerId), any()))
 			.willReturn(bookShelfDetailResponse);
 		//when
 
@@ -703,7 +703,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				)))
 		;
 		//then
-		verify(bookshelfService).findBookShelfWithJob(eq(ownerId), any());
+		verify(bookshelfService).findBookShelfByUserId(eq(ownerId), any());
 	}
 
 	@DisplayName("findBookshelfById - 책장 id로 유저와 책장과 직업을 같이 조회해온다.")

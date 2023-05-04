@@ -133,8 +133,8 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public BookShelfDetailResponse findBookShelfWithJob(Long ownerId, Long userId) {
-		return bookshelfRepository.findByIdWithUserAndJob(ownerId, userId)
+	public BookShelfDetailResponse findBookShelfByUserId(Long ownerId, Long userId) {
+		return bookshelfRepository.findBookShelfByOwnerId(ownerId, userId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
