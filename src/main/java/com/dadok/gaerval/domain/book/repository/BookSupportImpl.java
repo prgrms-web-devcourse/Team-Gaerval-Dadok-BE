@@ -59,7 +59,6 @@ public class BookSupportImpl implements BookSupport {
 		Slice<SuggestionsBookFindResponse> books = QueryDslUtil.toSlice(bookFindResponses,
 			PageRequest.of(0, request.pageSize(),
 				Sort.by(direction, "bookshelfItem.book_id")));
-
 		return new SuggestionsBookFindResponses(books, request.jobGroup());
 	}
 

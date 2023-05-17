@@ -1,5 +1,7 @@
 package com.dadok.gaerval.domain.bookshelf.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +33,21 @@ public class DefaultBookshelfLikeService implements BookshelfLikeService {
 		if (bookshelfLikeRepository.existsLike(bookshelfId, userId)) {
 			throw new AlreadyExistsBookshelfLikeException(bookshelf.getId());
 		}
-		bookshelfLikeRepository.save(BookshelfLike.create(user, bookshelf));
+		try {
+			bookshelfLikeRepository.save(BookshelfLike.create(user, bookshelf));
+		} catch (DataIntegrityViolationException e) {
+			throw new AlreadyExistsBookshelfLikeException(bookshelf.getId());
+		}
 	}
 
 	@Override
 	public void deleteBookshelfLike(Long userId, Long bookshelfId) {
 		BookshelfLike bookshelfLike = bookshelfLikeRepository.findByUserIdAndBookshelfId(userId, bookshelfId)
 			.orElseThrow(() -> new ResourceNotfoundException(BookshelfLike.class));
-		bookshelfLikeRepository.deleteById(bookshelfLike.getId());
+		try {
+			bookshelfLikeRepository.deleteById(bookshelfLike.getId());
+		} catch (ObjectOptimisticLockingFailureException e) {
+			throw new ResourceNotfoundException(BookshelfLike.class);
+		}
 	}
 }

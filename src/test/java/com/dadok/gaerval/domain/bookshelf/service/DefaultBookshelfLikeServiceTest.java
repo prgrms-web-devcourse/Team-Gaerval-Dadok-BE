@@ -1,108 +1,68 @@
 package com.dadok.gaerval.domain.bookshelf.service;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
 
-import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.test.context.jdbc.Sql;
 
-import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
 import com.dadok.gaerval.domain.bookshelf.entity.BookshelfLike;
-import com.dadok.gaerval.domain.bookshelf.exception.AlreadyExistsBookshelfLikeException;
 import com.dadok.gaerval.domain.bookshelf.repository.BookshelfLikeRepository;
-import com.dadok.gaerval.domain.user.entity.User;
-import com.dadok.gaerval.domain.user.service.UserService;
-import com.dadok.gaerval.global.error.exception.ResourceNotfoundException;
-import com.dadok.gaerval.testutil.JobObjectProvider;
-import com.dadok.gaerval.testutil.UserObjectProvider;
+import com.dadok.gaerval.integration_util.IntegrationTest;
 
-@ExtendWith(MockitoExtension.class)
-class DefaultBookshelfLikeServiceTest {
+import lombok.extern.slf4j.Slf4j;
 
-	@InjectMocks
+@Tag("Integration Test")
+@Sql(scripts = {"/sql/bookshelf/bookshelf_data.sql"}, executionPhase =
+	Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql/clean_up.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Slf4j
+public class DefaultBookshelfLikeServiceTest extends IntegrationTest {
+
+	@Autowired
 	private DefaultBookshelfLikeService bookshelfLikeService;
 
-	@Mock
+	@Autowired
 	private BookshelfLikeRepository bookshelfLikeRepository;
 
-	@Mock
-	private BookshelfService bookshelfService;
+	private BookshelfLike bookshelfLike;
 
-	@Mock
-	private UserService userService;
-
-	private final User user = UserObjectProvider.createKakaoUser(JobObjectProvider.backendJob());
-	private final Bookshelf bookshelf = Bookshelf.create(UserObjectProvider.createNaverUser());
-
-	@Test
-	void createBookshelfLike_success() {
-		// Given
-		ReflectionTestUtils.setField(user, "id", 1L);
-		given(userService.getById(1L))
-			.willReturn(user);
-		given(bookshelfService.getById(2L))
-			.willReturn(bookshelf);
-		given(bookshelfLikeRepository.existsLike(2L, 1L))
-			.willReturn(Boolean.FALSE);
-
-		// When
-		assertDoesNotThrow(() -> {
-			bookshelfLikeService.createBookshelfLike(1L, 2L);
-		});
-
-		// Then
-		assertThat(bookshelf.getBookshelfLikes().size()).isEqualTo(1);
+	@BeforeEach
+	void setup() {
+		bookshelfLikeService.createBookshelfLike(1L, 1001L);
+		var res = bookshelfLikeRepository.findAll();
+		bookshelfLike = res.get(0);
 	}
 
 	@Test
-	void createBookshelfLike_alreadyExist_fail() {
-		// Given
-		ReflectionTestUtils.setField(user, "id", 1L);
-		given(userService.getById(1L))
-			.willReturn(user);
-		given(bookshelfService.getById(2L))
-			.willReturn(bookshelf);
-		given(bookshelfLikeRepository.existsLike(2L, 1L))
-			.willReturn(Boolean.TRUE);
+	@DisplayName("좋아요 삭제시 동시성 충돌 예외 방지 테스트")
+	void deleteBookshelfLike_optimisticLockingFail() throws InterruptedException {
+		int numberOfThreads = 10;
+		ExecutorService service = Executors.newFixedThreadPool(10);
+		CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
-		// When // Then
-		assertThrows(AlreadyExistsBookshelfLikeException.class, () -> {
-			bookshelfLikeService.createBookshelfLike(1L, 2L);
-		});
-	}
+		for (int i = 0; i < numberOfThreads; i++) {
+			service.execute(() -> {
+				try {
+					bookshelfLikeRepository.delete(bookshelfLike);
+				} catch (ObjectOptimisticLockingFailureException e) {
+					log.info("catch error :" + e.getMessage());
+				}
+				latch.countDown();
+			});
+		}
+		latch.await();
 
-	@Test
-	void deleteBookshelfLike_success() {
-		// Given
-		ReflectionTestUtils.setField(user, "id", 1L);
-		BookshelfLike bookshelfLike = BookshelfLike.create(user, bookshelf);
-
-		given(bookshelfLikeRepository.findByUserIdAndBookshelfId(1L, 2L))
-			.willReturn(Optional.of(bookshelfLike));
-
-		// When // Then
-		assertDoesNotThrow(() -> {
-			bookshelfLikeService.deleteBookshelfLike(1L, 2L);
-		});
-	}
-
-	@Test
-	void deleteBookshelfLike_notExist_fail() {
-		// Given
-		given(bookshelfLikeRepository.findByUserIdAndBookshelfId(1L, 2L))
-			.willReturn(Optional.empty());
-
-		// When // Then
-		assertThrows(ResourceNotfoundException.class, () -> {
-			bookshelfLikeService.deleteBookshelfLike(1L, 2L);
-		});
+		var find = bookshelfLikeRepository.findAll();
+		assertThat(find.size()).isEqualTo(0);
 	}
 
 }
