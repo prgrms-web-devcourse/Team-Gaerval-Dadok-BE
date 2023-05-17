@@ -25,13 +25,12 @@ public class SaveKeywordEventListener {
 	@EventListener
 	@LogMethodInfo
 	public void handleSaveKeywordEvent(SaveKeywordEvent event) {
-		Optional<User> user = userService.findById(event.getUserId()==null? 0L : event.getUserId());
+		Optional<User> user = userService.findById(event.getUserId() == null ? 0L : event.getUserId());
 		user.ifPresent(value -> {
 			BookRecentSearch bookRecentSearch = BookRecentSearch.create(value, event.getKeyword());
-			if(bookRecentSearchRepository.existsByKeywordAndUserId(event.getKeyword(), event.getUserId())) {
+			if (bookRecentSearchRepository.existsByKeywordAndUserId(event.getKeyword(), event.getUserId())) {
 				bookRecentSearchRepository.updateRecentSearchKeyword(bookRecentSearch);
-			}
-			else {
+			} else {
 				bookRecentSearchRepository.save(bookRecentSearch);
 			}
 		});

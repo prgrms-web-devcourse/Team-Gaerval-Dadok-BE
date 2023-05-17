@@ -369,6 +369,28 @@ include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-
 
 include::{snippets}/bookshelf-controller-slice-test/find-suggestion-bookshelves-by-job-group/response-fields.adoc[]
 
+=== 내가 좋아요한 책장 요약 리스트
+
+==== Request
+
+include::{snippets}/bookshelf-controller-slice-test/find-liked-bookshelves/http-response.adoc[]
+
+==== Request Param
+
+include::{snippets}/bookshelf-controller-slice-test/find-liked-bookshelves/request-parameters.adoc[]
+
+==== Request Header
+
+include::{snippets}/bookshelf-controller-slice-test/find-liked-bookshelves/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/bookshelf-controller-slice-test/find-liked-bookshelves/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/bookshelf-controller-slice-test/find-liked-bookshelves/response-fields.adoc[]
+
 === 책장 책 넣기
 
 ==== Request
@@ -465,7 +487,7 @@ include::{snippets}/bookshelf-like-controller-slice-test/create-like/request-hea
 
 ==== Response
 
-include::{snippets}/bookshelf-like-controller-test/create-like/http-response.adoc[]
+include::{snippets}/bookshelf-like-controller-slice-test/create-like/http-response.adoc[]
 
 === 책장 좋아요 취소
 
@@ -483,7 +505,7 @@ include::{snippets}/bookshelf-like-controller-slice-test/delete-like/request-hea
 
 ==== Response
 
-include::{snippets}/bookshelf-like-controller-test/delete-like/http-response.adoc[]
+include::{snippets}/bookshelf-like-controller-slice-test/delete-like/http-response.adoc[]
 
 == Book - 책
 
@@ -508,6 +530,29 @@ include::{snippets}/book-controller-slice-test/find-book_success/http-response.a
 ==== Response fields
 
 include::{snippets}/book-controller-slice-test/find-book_success/response-fields.adoc[]
+
+=== 베스트셀러 검색
+
+==== Request
+
+include::{snippets}/book-controller-slice-test/find-best-seller_success/http-request.adoc[]
+
+==== Request Param
+
+include::{snippets}/book-controller-slice-test/find-best-seller_success/request-parameters.adoc[]
+
+==== Request Header
+
+include::{snippets}/book-controller-slice-test/find-best-seller_success/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/book-controller-slice-test/find-best-seller_success/http-response.adoc[]
+
+==== Response fields
+
+include::{snippets}/book-controller-slice-test/find-best-seller_success/response-fields.adoc[]
+
 
 === 최근 책 검색어
 

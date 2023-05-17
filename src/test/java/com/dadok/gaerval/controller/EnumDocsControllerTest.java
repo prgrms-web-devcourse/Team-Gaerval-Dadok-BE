@@ -97,7 +97,12 @@ public class EnumDocsControllerTest extends ControllerSliceTest {
 					beneathPath("data.groupSearchOption").withSubsectionId("groupSearchOption"),
 					attributes(key("title").value("groupSearchOption")),
 					enumConvertFieldDescriptor(enumDocs.groupSearchOption())
-				)
+				),
+			customResponseFields(ENUM_SNIPPET_FILE,
+				beneathPath("data.bestSellerSearchRange").withSubsectionId("bestSellerSearchRange"),
+				attributes(key("title").value("bestSellerSearchRange")),
+				enumConvertFieldDescriptor(enumDocs.bestSellerSearchRange())
+			)
 			)
 		)
 		;

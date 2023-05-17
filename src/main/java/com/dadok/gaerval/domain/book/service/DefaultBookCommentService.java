@@ -57,7 +57,6 @@ public class DefaultBookCommentService implements BookCommentService {
 		}
 	}
 
-
 	@Override
 	@Transactional(readOnly = true)
 	public BookComment getById(Long bookCommentId) {

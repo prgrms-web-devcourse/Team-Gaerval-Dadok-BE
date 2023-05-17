@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -31,17 +33,19 @@ public interface BookshelfService {
 
 	BookInShelfResponses findAllBooksInShelf(Long bookshelvesId, BooksInBookShelfFindRequest request);
 
-	BookShelfDetailResponse findBookShelfWithJob(Long userId);
+	BookShelfDetailResponse findBookShelfByUserId(Long ownerId, Long userId);
 
 	void updateJobIdByUserId(User user, Long jobId);
 
 	SuggestionBookshelvesResponses findSuggestionBookshelves();
 
-	BookShelfDetailResponse findBookShelfById(Long bookshelfId);
+	BookShelfDetailResponse findBookShelfById(Long bookshelfId, Long userId);
 
 	Optional<Long> insertIfNotPresent(Long userId, Long bookId);
 
 	boolean existsByUserIdAndBookId(Long userId, Long bookId);
 
 	Bookshelf getByUserId(Long userId);
+
+	BookshelvesResponses findLikedBookshelvesByUserId(LikedBookShelvesRequest request, Long userId);
 }

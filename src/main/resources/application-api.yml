@@ -1,4 +1,8 @@
 search-api-provider:
-    api-key: ${KAKAO_CLIENT_ID}
-    scheme: ${KAKAO_SCHEME}
-    base-uri: ${KAKAO_BOOK_BASE_URI}
+    kakao:
+        api-key: ${KAKAO_CLIENT_ID}
+        scheme: ${KAKAO_SCHEME}
+        base-uri: ${KAKAO_BOOK_BASE_URI}
+    aladin:
+        ttb-key: ${TTB_KEY}
+        best-seller-base-uri : ${ALADIN_BOOK_BASE_URI}

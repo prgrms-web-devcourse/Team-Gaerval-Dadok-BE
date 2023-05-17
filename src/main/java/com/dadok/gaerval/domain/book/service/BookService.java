@@ -2,9 +2,11 @@ package com.dadok.gaerval.domain.book.service;
 
 import java.util.Optional;
 
+import com.dadok.gaerval.domain.book.dto.request.BestSellerSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookCreateRequest;
 import com.dadok.gaerval.domain.book.dto.request.BookSearchRequest;
 import com.dadok.gaerval.domain.book.dto.request.SuggestionsBookFindRequest;
+import com.dadok.gaerval.domain.book.dto.response.BestSellerBookResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookRecentSearchResponses;
 import com.dadok.gaerval.domain.book.dto.response.BookResponse;
 import com.dadok.gaerval.domain.book.dto.response.BookResponses;
@@ -15,6 +17,8 @@ import com.dadok.gaerval.domain.book.entity.Book;
 public interface BookService {
 
 	BookResponses findAllByKeyword(BookSearchRequest bookSearchRequest, Long userId);
+
+	BestSellerBookResponses findAllBestSeller(BestSellerSearchRequest bestSellerSearchRequest);
 
 	Long createBookAndReturnId(BookCreateRequest bookCreateRequest);
 

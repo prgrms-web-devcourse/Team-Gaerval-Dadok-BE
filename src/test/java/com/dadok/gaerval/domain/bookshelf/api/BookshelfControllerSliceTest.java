@@ -32,9 +32,11 @@ import com.dadok.gaerval.controller.document.utils.DocumentLinkGenerator;
 import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -72,13 +74,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-			),
+				, 4),
 			new BookShelfSummaryResponse(13L, "규란님의 책장",
 				List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 					new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 						"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-			))
+				, 2))
 		);
 
 		given(bookshelfService.findSuggestionBookshelvesByJobGroup(any(), eq(jobGroup)))
@@ -114,6 +116,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("JobGroupKoreanName").type(JsonFieldType.STRING).description("직군 한글 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
@@ -138,6 +141,8 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							.description("책장 이름"),
 						fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
 							.description("책장 ID"),
+						fieldWithPath("bookshelfResponses[].likeCount")
+							.type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
 							.description("책 ID"),
 						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
@@ -162,13 +167,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-				),
+					, 3),
 				new BookShelfSummaryResponse(13L, "규란님의 책장",
 					List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-				))
+					, 0))
 		);
 
 		given(bookshelfService.findSuggestionBookshelves())
@@ -194,6 +199,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
 						.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
 					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
@@ -210,6 +216,8 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 							.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
 						fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING)
 							.description("책장 이름"),
+						fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER)
+							.description("책장 좋아요 개수"),
 						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
 							.description("책 ID"),
 						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
@@ -324,7 +332,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		var responses = new BookShelfSummaryResponse(23L, "영지님의 책장",
 			List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터",
 				"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		);
+			, 5);
 
 		given(bookshelfService.findSummaryBookshelf(any()))
 			.willReturn(responses);
@@ -350,6 +358,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				responseFields(
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -365,6 +374,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					.responseFields(
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -385,7 +395,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
 				new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
 					"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
-		);
+			, 5);
 
 		given(bookshelfService.findSummaryBookshelf(5L))
 			.willReturn(responses);
@@ -411,6 +421,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				responseFields(
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 					fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 					fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 					fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -428,6 +439,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 					.responseFields(
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 ID"),
+						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
 						fieldWithPath("books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
 						fieldWithPath("books[].title").type(JsonFieldType.STRING).description("책 제목"),
 						fieldWithPath("books[].imageUrl").type(JsonFieldType.STRING)
@@ -593,24 +605,26 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 		//then
 	}
 
-	@DisplayName("findBookShelfWithUserJob - 유저와 책장과 직업을 같이 조회해온다.")
+	@DisplayName("findBookShelfByUserId - 유저와 책장과 직업을 같이 조회해온다.")
 	@Test
+	@WithMockCustomOAuth2LoginUser
 	void findBookShelfWithUserJob() throws Exception {
 		//given
 
-		Long userId = 1L;
+		Long ownerId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, userId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, true,
+			ownerId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfService.findBookShelfWithJob(userId))
+		given(bookshelfService.findBookShelfByUserId(eq(ownerId), any()))
 			.willReturn(bookShelfDetailResponse);
 		//when
 
 		mockMvc.perform(get("/api/bookshelves")
 				.contentType(MediaType.APPLICATION_JSON)
-				.param("userId", userId.toString())
+				.param("userId", ownerId.toString())
 			)
 			.andExpect(status().isOk())
 			.andDo(this.restDocs.document(
@@ -622,13 +636,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							key("constraints").value("Must not be null")
 						)
-
 				),
 				responseFields(
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+					fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -665,6 +679,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+						fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -688,21 +703,24 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				)))
 		;
 		//then
-		verify(bookshelfService).findBookShelfWithJob(userId);
+		verify(bookshelfService).findBookShelfByUserId(eq(ownerId), any());
 	}
 
 	@DisplayName("findBookshelfById - 책장 id로 유저와 책장과 직업을 같이 조회해온다.")
 	@Test
+	@WithMockCustomOAuth2LoginUser
 	void findBookshelfById() throws Exception {
 		//given
 
+		Long userId = 1L;
 		Long bookshelfId = 1L;
 
-		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, bookshelfId,
+		BookShelfDetailResponse bookShelfDetailResponse = new BookShelfDetailResponse(1L, "책장이름", true, 3L, false,
+			bookshelfId,
 			"username", "userNickname",
 			"http://dadok.com/images", JobGroup.DEVELOPMENT, JobGroup.JobName.BACKEND_DEVELOPER, 5);
 
-		given(bookshelfService.findBookShelfById(bookshelfId))
+		given(bookshelfService.findBookShelfById(bookshelfId, userId))
 			.willReturn(bookShelfDetailResponse);
 		//when
 
@@ -719,13 +737,13 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						.attributes(
 							key("constraints").value("Must not be null")
 						)
-
 				),
 				responseFields(
 					fieldWithPath("bookshelfId").type(JsonFieldType.NUMBER).description("책장 Id"),
 					fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 					fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 					fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+					fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 					fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 					fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 					fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -763,6 +781,7 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 						fieldWithPath("bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
 						fieldWithPath("isPublic").type(JsonFieldType.BOOLEAN).description("책장 공개 여부"),
 						fieldWithPath("likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+						fieldWithPath("isLiked").type(JsonFieldType.BOOLEAN).description("책장 좋아요 여부"),
 						fieldWithPath("userId").type(JsonFieldType.NUMBER).description("유저 Id"),
 						fieldWithPath("username").type(JsonFieldType.STRING).description("유저 이름"),
 						fieldWithPath("userNickname").type(JsonFieldType.STRING).description("유저 닉네임"),
@@ -786,6 +805,122 @@ class BookshelfControllerSliceTest extends ControllerSliceTest {
 				)))
 		;
 		//then
-		verify(bookshelfService).findBookShelfById(bookshelfId);
+		verify(bookshelfService).findBookShelfById(bookshelfId, userId);
+	}
+
+	@DisplayName("findLikedBookshelves - 내가 좋아요한 책장 리스트 조회 - 성공")
+	@Test
+	@WithMockCustomOAuth2LoginUser
+	void findLikedBookshelves() throws Exception {
+		// Given
+		LikedBookShelvesRequest request = new LikedBookShelvesRequest(10, 3L, null);
+
+		BookshelvesResponses responses = new BookshelvesResponses(
+			new SliceImpl<>(List.of(new BookShelfSummaryResponse(23L, "영지님의 책장",
+					List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+					, 3),
+				new BookShelfSummaryResponse(13L, "규란님의 책장",
+					List.of(new BookShelfSummaryResponse.BookSummaryResponse(1L, "해리포터1",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"),
+						new BookShelfSummaryResponse.BookSummaryResponse(2L, "해리포터2",
+							"https://www.producttalk.org/wp-content/uploads/2018/06/www.maxpixel.net-Ears-Zoo-Hippopotamus-Eye-Animal-World-Hippo-2878867.jpg"))
+					, 1)), PageRequest.of(0, 10,
+				Sort.by(Sort.Direction.DESC, "bookshelfLike.id")), false)
+		);
+
+		given(bookshelfService.findLikedBookshelvesByUserId(eq(request), any()))
+			.willReturn(responses);
+
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+		params.add("pageSize", request.pageSize().toString());
+		params.add("bookshelfLikeCursorId", request.bookshelfLikeCursorId().toString());
+		params.add("sortDirection", SortDirection.DESC.name());
+
+		// When // Then
+		mockMvc.perform(get("/api/bookshelves/liked")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.header(ACCESS_TOKEN_HEADER_NAME, MOCK_ACCESS_TOKEN)
+				.characterEncoding(StandardCharsets.UTF_8)
+				.params(params)
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andDo(this.restDocs.document(
+				requestHeaders(
+					headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+				),
+				requestParameters(
+					parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+						.attributes(
+							constrainsAttribute(BookshelvesResponses.class, "pageSize")
+						),
+					parameterWithName("bookshelfLikeCursorId").description(
+						"커서 bookshelfLike Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
+					parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+						.description("정렬 방식 : " +
+							DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
+						)
+				),
+				responseFields(
+					fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
+					fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+					fieldWithPath("bookshelfResponses").description("책장 list").type(JsonFieldType.ARRAY),
+					fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
+						.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
+					fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING).description("책장 이름"),
+					fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER).description("책장 좋아요 개수"),
+					fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER).description("책 ID"),
+					fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING).description("책 제목"),
+					fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
+						.description("책 이미지 url")
+				)
+			))
+			.andDo(MockMvcRestDocumentationWrapper.document("{class-name}/{method-name}",
+				ResourceDocumentation.resource(ResourceSnippetParameters.builder()
+					.requestHeaders(
+						headerWithName(HttpHeaders.CONTENT_TYPE).description(CONTENT_TYPE_JSON_DESCRIPTION)
+					)
+					.requestParameters(
+						parameterWithName("pageSize").description("요청 데이터 수. default : 10").optional()
+							.attributes(
+								constrainsAttribute(BookshelvesResponses.class, "pageSize")
+							),
+						parameterWithName("bookshelfLikeCursorId").description(
+							"커서 bookshelfLike Id. 커서id가 없고 DESC면 가장 최근 데이터.").optional(),
+						parameterWithName("sortDirection").description("정렬 순서. default : DESC").optional()
+							.description("정렬 방식 : " +
+								DocumentLinkGenerator.generateLinkCode(DocumentLinkGenerator.DocUrl.SORT_DIRECTION)
+							)
+					)
+					.responseFields(
+						fieldWithPath("count").description("책 갯수").type(JsonFieldType.NUMBER),
+						fieldWithPath("isEmpty").description("데이터가 없으면 empty = true").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isFirst").description("첫 번째 페이지 여부. ").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("isLast").description("마지막 페이지 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("hasNext").description("다음 데이터 존재 여부.").type(JsonFieldType.BOOLEAN),
+						fieldWithPath("bookshelfResponses").description("책장 list").type(JsonFieldType.ARRAY),
+						fieldWithPath("bookshelfResponses[].bookshelfId").type(JsonFieldType.NUMBER)
+							.description("책장 ID - (미로그인 사용자를 위한 api로 로그인 사용자 접근시 응답에 자신의 책장이 포함될 수 있습니다.)"),
+						fieldWithPath("bookshelfResponses[].bookshelfName").type(JsonFieldType.STRING)
+							.description("책장 이름"),
+						fieldWithPath("bookshelfResponses[].likeCount").type(JsonFieldType.NUMBER)
+							.description("책장 좋아요 개수"),
+						fieldWithPath("bookshelfResponses[].books[].bookId").type(JsonFieldType.NUMBER)
+							.description("책 ID"),
+						fieldWithPath("bookshelfResponses[].books[].title").type(JsonFieldType.STRING)
+							.description("책 제목"),
+						fieldWithPath("bookshelfResponses[].books[].imageUrl").type(JsonFieldType.STRING)
+							.description("책 이미지 url")
+					)
+					.build()
+				)))
+		;
 	}
 }

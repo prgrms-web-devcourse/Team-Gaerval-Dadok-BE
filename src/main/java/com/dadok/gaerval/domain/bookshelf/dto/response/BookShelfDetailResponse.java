@@ -6,8 +6,11 @@ import com.dadok.gaerval.domain.user.dto.response.UserDetailResponse;
 public record BookShelfDetailResponse(
 	Long bookshelfId,
 	String bookshelfName,
-	boolean isPublic,
+	Boolean isPublic,
+
 	Long likeCount,
+	Boolean isLiked,
+
 	Long userId,
 	String username,
 	String userNickname,
@@ -15,11 +18,11 @@ public record BookShelfDetailResponse(
 	UserDetailResponse.JobDetailResponse job
 ) {
 
-	public BookShelfDetailResponse(Long bookshelfId, String bookshelfName, boolean isPublic,
-		Long likeCount, Long userId, String username,
-		String userNickname, String userProfileImage, JobGroup jobGroup, JobGroup.JobName jobName, int order) {
+	public BookShelfDetailResponse(Long bookshelfId, String bookshelfName, Boolean isPublic,
+		Long likeCount, Boolean isLiked, Long userId, String username,
+		String userNickname, String userProfileImage, JobGroup jobGroup, JobGroup.JobName jobName, Integer order) {
 
-		this(bookshelfId, bookshelfName, isPublic, likeCount, userId, username, userNickname, userProfileImage,
+		this(bookshelfId, bookshelfName, isPublic, likeCount, isLiked, userId, username, userNickname, userProfileImage,
 			new UserDetailResponse.JobDetailResponse(jobGroup, jobName, order)
 		);
 	}

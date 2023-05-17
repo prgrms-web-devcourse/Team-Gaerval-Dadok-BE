@@ -13,9 +13,11 @@ import com.dadok.gaerval.domain.book.entity.Book;
 import com.dadok.gaerval.domain.book.service.BookService;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BooksInBookShelfFindRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.request.BookshelfItemCreateRequest;
+import com.dadok.gaerval.domain.bookshelf.dto.request.LikedBookShelvesRequest;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookInShelfResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfDetailResponse;
 import com.dadok.gaerval.domain.bookshelf.dto.response.BookShelfSummaryResponse;
+import com.dadok.gaerval.domain.bookshelf.dto.response.BookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesByJobGroupResponses;
 import com.dadok.gaerval.domain.bookshelf.dto.response.SuggestionBookshelvesResponses;
 import com.dadok.gaerval.domain.bookshelf.entity.Bookshelf;
@@ -131,8 +133,8 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public BookShelfDetailResponse findBookShelfWithJob(Long userId) {
-		return bookshelfRepository.findByIdWithUserAndJob(userId)
+	public BookShelfDetailResponse findBookShelfByUserId(Long ownerId, Long userId) {
+		return bookshelfRepository.findBookShelfByOwnerId(ownerId, userId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
@@ -153,8 +155,8 @@ public class DefaultBookshelfService implements BookshelfService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public BookShelfDetailResponse findBookShelfById(Long bookshelfId) {
-		return bookshelfRepository.findBookShelfById(bookshelfId)
+	public BookShelfDetailResponse findBookShelfById(Long bookshelfId, Long userId) {
+		return bookshelfRepository.findBookShelfById(bookshelfId, userId)
 			.orElseThrow(() -> new ResourceNotfoundException(Bookshelf.class));
 	}
 
@@ -180,6 +182,12 @@ public class DefaultBookshelfService implements BookshelfService {
 	public Bookshelf getByUserId(Long userId) {
 		return bookshelfRepository.findByUserId(userId)
 			.orElseThrow(EntityNotFoundException::new);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public BookshelvesResponses findLikedBookshelvesByUserId(LikedBookShelvesRequest request, Long userId) {
+		return bookshelfRepository.findAllLikedByUserId(request, userId);
 	}
 
 	private Bookshelf validationBookshelfUser(Long userId, Long bookshelfId) {
