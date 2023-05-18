@@ -290,14 +290,14 @@ class BookControllerSliceTest extends ControllerSliceTest {
 					fieldWithPath("count").type(JsonFieldType.NUMBER)
 						.description("검색어 목록 개수"),
 					fieldWithPath("isEmpty").type(JsonFieldType.BOOLEAN)
-						.description("검색어 목록이 비어있는지 여부"),
+						.description("검색어 목록이 비어 있는지 여부"),
 					fieldWithPath("bookRecentSearchResponses").type(JsonFieldType.ARRAY)
 						.optional()
 						.description("최근 검색어 목록"),
 					fieldWithPath("bookRecentSearchResponses[].keyword").type(JsonFieldType.STRING)
 						.optional()
 						.description("검색어"),
-					fieldWithPath("bookRecentSearchResponses[].createdAt").type(JsonFieldType.STRING)
+					fieldWithPath("bookRecentSearchResponses[].modifiedAt").type(JsonFieldType.STRING)
 						.optional()
 						.description("검색시각 (yyyy-MM-dd HH:mm:ss)")
 				)
