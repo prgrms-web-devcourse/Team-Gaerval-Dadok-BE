@@ -66,7 +66,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 	void findBook_success() throws Exception {
 		// given
 		String keyword = "용기";
-		BookSearchRequest bookSearchRequest = new BookSearchRequest(1, 10, keyword);
+		BookSearchRequest bookSearchRequest = new BookSearchRequest(1, 10, keyword, true);
 		given(bookService.findAllByKeyword(bookSearchRequest, 1L)).willReturn(
 			BookObjectProvider.mockBookData());
 
@@ -75,6 +75,7 @@ class BookControllerSliceTest extends ControllerSliceTest {
 		params.add("page", bookSearchRequest.page().toString());
 		params.add("pageSize", bookSearchRequest.pageSize().toString());
 		params.add("query", bookSearchRequest.query());
+		params.add("isStoreRecent", String.valueOf(bookSearchRequest.isStoreRecent()));
 
 		// when
 		mockMvc.perform(get("/api/books")
@@ -102,6 +103,10 @@ class BookControllerSliceTest extends ControllerSliceTest {
 					parameterWithName("query").description("검색어")
 						.attributes(
 							constrainsAttribute(BookSearchRequest.class, "query")
+						),
+					parameterWithName("isStoreRecent").description("최근 검색어 저장 여부")
+						.attributes(
+							constrainsAttribute(BookSearchRequest.class, "isStoreRecent")
 						)
 				),
 				responseFields(

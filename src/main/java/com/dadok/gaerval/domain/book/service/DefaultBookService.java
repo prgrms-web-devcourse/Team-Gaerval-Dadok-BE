@@ -60,7 +60,9 @@ public class DefaultBookService implements BookService {
 			bookSearchRequest.page(),
 			bookSearchRequest.pageSize(), SortingPolicy.ACCURACY.getName());
 
-		eventPublisher.publishEvent(new SaveKeywordEvent(userId, bookSearchRequest.query()));
+		if(Boolean.TRUE.equals(bookSearchRequest.isStoreRecent())) {
+			eventPublisher.publishEvent(new SaveKeywordEvent(userId, bookSearchRequest.query()));
+		}
 
 		return bookResponses;
 	}

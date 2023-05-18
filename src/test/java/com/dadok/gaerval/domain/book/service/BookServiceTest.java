@@ -216,7 +216,7 @@ class BookServiceTest {
 			.willReturn(bookResponses);
 
 		// when
-		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword), 1L);
+ 		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword, true), 1L);
 
 		// then
 		verify(externalBookApiOperations).searchBooks(keyword, 1, 10, SortingPolicy.ACCURACY.getName());
@@ -231,7 +231,7 @@ class BookServiceTest {
 	@ValueSource(strings = {"", " ", "!@#$", "키워드에@"})
 	void findAllByKeyword_WithInvalidKeyword_ReturnsEmptyList(String keyword) {
 		// when
-		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword), 1L);
+		BookResponses actualResponses = defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword, false), 1L);
 
 		// then
 		assertTrue(actualResponses.searchBookResponseList().isEmpty());
@@ -251,6 +251,6 @@ class BookServiceTest {
 
 		// when, then
 		assertThrows(BookApiNotAvailableException.class,
-			() -> defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword),1L));
+			() -> defaultBookService.findAllByKeyword(new BookSearchRequest(null, null, keyword, false),1L));
 	}
 }
