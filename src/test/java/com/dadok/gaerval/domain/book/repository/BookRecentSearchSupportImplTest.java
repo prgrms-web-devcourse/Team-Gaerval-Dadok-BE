@@ -1,23 +1,19 @@
 package com.dadok.gaerval.domain.book.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.entity.BookRecentSearch;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
 import com.dadok.gaerval.testutil.BookCommentObjectProvider;
-import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +27,7 @@ class BookRecentSearchSupportImplTest {
 
 	@DisplayName("findRecentSearches - 유저 id로 검색어 찾는 쿼리 테스트")
 	@Test
-	void existsByBookIdAndUserId() {
+	void findRecentSearches() {
 		bookRecentSearchRepository.findRecentSearches(BookCommentObjectProvider.userId,
 			10L);
 	}

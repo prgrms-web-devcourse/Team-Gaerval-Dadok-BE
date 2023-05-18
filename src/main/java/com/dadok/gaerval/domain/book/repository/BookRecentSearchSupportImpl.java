@@ -24,13 +24,13 @@ public class BookRecentSearchSupportImpl implements BookRecentSearchSupport {
 		List<BookRecentSearchResponse> bookRecentSearchResponseList = query.select(
 				Projections.constructor(BookRecentSearchResponse.class,
 					bookRecentSearch.keyword.as("keyword"),
-					bookRecentSearch.modifiedAt.as("modifiedAt")
+					bookRecentSearch.modifiedAt.coalesce(bookRecentSearch.createdAt).as("modifiedAt")
 				)
 			)
 			.from(bookRecentSearch)
 			.innerJoin(user).on(user.id.eq(bookRecentSearch.user.id))
 			.where(bookRecentSearch.user.id.eq(userId))
-			.orderBy(bookRecentSearch.modifiedAt.desc())
+			.orderBy(bookRecentSearch.modifiedAt.coalesce(bookRecentSearch.createdAt).desc())
 			.limit(limit)
 			.fetch();
 
