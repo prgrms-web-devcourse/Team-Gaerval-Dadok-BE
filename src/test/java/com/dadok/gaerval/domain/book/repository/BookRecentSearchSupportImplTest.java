@@ -1,6 +1,7 @@
 package com.dadok.gaerval.domain.book.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -47,5 +48,18 @@ class BookRecentSearchSupportImplTest {
 
 		// Then
 		assertTrue(user.isPresent());
+	}
+
+	@Test
+	@DisplayName("existsByKeywordAndUserId - 유저 id와 키워드로 검색어 존재 여부 확인 테스트")
+	void existsByKeywordAndUserIdTest() {
+		// Given
+		String keyword = "TestKeyword";
+		Long userId = 10L;
+
+		bookRecentSearchRepository.existsByKeywordAndUserId(keyword, userId);
+
+
+
 	}
 }
