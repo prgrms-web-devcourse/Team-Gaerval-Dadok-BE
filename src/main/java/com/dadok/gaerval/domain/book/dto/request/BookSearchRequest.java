@@ -10,11 +10,13 @@ public record BookSearchRequest(
 	@Range(min = 1, max = 50, message = "pageSize는 1에서 50사이 값입니다.")
 	Integer pageSize,
 	@NotBlank(message = "검색어는 빈 값일 수 없습니다.")
-	String query
+ 	String query,
+	Boolean isStoreRecent
 ) {
-	public BookSearchRequest(Integer page, Integer pageSize, String query) {
+	public BookSearchRequest(Integer page, Integer pageSize, String query, Boolean isStoreRecent) {
 		this.page = (page == null) ? 1 : page;
 		this.pageSize = (pageSize == null) ? 10 : pageSize;
 		this.query = query;
+		this.isStoreRecent = isStoreRecent != null && isStoreRecent;
 	}
 }

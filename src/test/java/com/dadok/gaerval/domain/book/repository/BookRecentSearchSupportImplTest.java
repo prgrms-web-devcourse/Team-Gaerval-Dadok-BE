@@ -2,21 +2,18 @@ package com.dadok.gaerval.domain.book.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dadok.gaerval.domain.book.entity.BookRecentSearch;
 import com.dadok.gaerval.domain.user.entity.User;
 import com.dadok.gaerval.domain.user.repository.UserRepository;
 import com.dadok.gaerval.repository.CustomDataJpaTest;
 import com.dadok.gaerval.testutil.BookCommentObjectProvider;
-import com.dadok.gaerval.testutil.UserObjectProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +27,7 @@ class BookRecentSearchSupportImplTest {
 
 	@DisplayName("findRecentSearches - 유저 id로 검색어 찾는 쿼리 테스트")
 	@Test
-	void existsByBookIdAndUserId() {
+	void findRecentSearches() {
 		bookRecentSearchRepository.findRecentSearches(BookCommentObjectProvider.userId,
 			10L);
 	}
@@ -47,5 +44,18 @@ class BookRecentSearchSupportImplTest {
 
 		// Then
 		assertTrue(user.isPresent());
+	}
+
+	@Test
+	@DisplayName("existsByKeywordAndUserId - 유저 id와 키워드로 검색어 존재 여부 확인 테스트")
+	void existsByKeywordAndUserIdTest() {
+		// Given
+		String keyword = "TestKeyword";
+		Long userId = 10L;
+
+		bookRecentSearchRepository.existsByKeywordAndUserId(keyword, userId);
+
+
+
 	}
 }
