@@ -165,7 +165,7 @@ jobs:
 #          key: ${{ secrets.PRIVATE_KEY }}
           source: "docker-compose.yml"
           script: |
-            cd app
+            cd /home/app
             sudo docker pull ${{ secrets.DOCKER_DEV_REPO }}
           
             
