@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /home/ec2-user/app/nginx:/etc/nginx/conf.d
+      - /home/app/nginx:/etc/nginx/conf.d
   blue-dev:
     container_name: dadok-dev-blue
     image: ${DOCKER_DEV_REPO}

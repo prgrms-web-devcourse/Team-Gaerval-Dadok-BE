@@ -32,7 +32,7 @@ echo
 # Blue 를 기준으로 현재 떠있는 컨테이너를 체크한다.
 RUNNING_BLUE_CONTAINER=$(docker ps | grep blue)
 
-DEFAULT_CONF="/home/ec2-user/app/nginx/default.conf"
+DEFAULT_CONF="/home/app/nginx/default.conf"
 BLUE_CONTAINER_NAME="dadok-dev-blue"
 GREEN_CONTAINER_NAME="dadok-dev-green"
 PORT=8080
