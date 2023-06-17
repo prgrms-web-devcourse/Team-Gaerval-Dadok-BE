@@ -19,6 +19,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           host: ${{ secrets.HOST_DEV }}
           key: ${{ secrets.PRIVATE_KEY }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          #          key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
             if ! [ -x "$(command -v docker)" ]; then
