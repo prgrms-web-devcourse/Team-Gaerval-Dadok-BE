@@ -153,7 +153,8 @@ jobs:
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.USERNAME }}
           port: 22
-          key: ${{ secrets.PRIVATE_KEY }}
+          password: ${{ secrets.HOST_PASSWORD }}
+#          key: ${{ secrets.PRIVATE_KEY }}
           source: "docker-compose.yml"
           script: |
             cd app
