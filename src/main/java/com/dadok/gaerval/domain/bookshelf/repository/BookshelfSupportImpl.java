@@ -161,6 +161,7 @@ public class BookshelfSupportImpl implements BookshelfSupport {
 			.where(
 				bookshelf.id.in(searchBookshelfIn(searchBookshelfIds))
 			)
+			.groupBy(bookshelf.id, bookshelf.name, book.id, book.title, book.imageUrl)
 			.transform(
 				groupBy(bookshelf.id).list(constructor(BookShelfSummaryResponse.class,
 					bookshelf.id,
