@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 if [ $(docker ps | grep -c "nginx-dev") -eq 0 ]; then
   echo "Starting nginx-dev..."
   docker-compose up -d nginx-dev
@@ -25,7 +26,6 @@ fi
 echo
 echo "start blue-green deploy!"
 echo
-
 
 
 
